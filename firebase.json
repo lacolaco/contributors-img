@@ -23,8 +23,5 @@
         "function": "createContributorsImage"
       }
     ]
-  },
-  "storage": {
-    "rules": "storage.rules"
   }
 }
