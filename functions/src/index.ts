@@ -26,8 +26,12 @@ async function createScreenshot() {
   return await browser.close().then(() => screenshot);
 }
 
-export const createContributorsImage = functions.https.onRequest(
-  (request, response) => {
+export const createContributorsImage = functions
+  .runWith({
+    timeoutSeconds: 5,
+    memory: '1GB',
+  })
+  .https.onRequest((request, response) => {
     createScreenshot()
       .then(image => {
         response.setHeader('Content-Type', 'image/png');
@@ -37,5 +41,4 @@ export const createContributorsImage = functions.https.onRequest(
         console.error(err);
         response.status(500).send(err);
       });
-  },
-);
+  });
