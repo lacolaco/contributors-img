@@ -18,12 +18,12 @@
     ],
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
-      },
-      {
         "source": "/contributors",
         "function": "createContributorsImage"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
       }
     ]
   }

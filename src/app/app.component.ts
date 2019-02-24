@@ -26,12 +26,8 @@ export class AppComponent {
     }
 
     this.contributors$ = this.http.get<Contributor[]>(
-      `https://api.github.com/repos/${repo}/contributors`,
-      {
-        params: {
-          per_page: '100',
-        },
-      },
+      `https://us-central1-contributors-img.cloudfunctions.net/getContributors`,
+      { params: { repo } },
     );
   }
 }
