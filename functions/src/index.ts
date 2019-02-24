@@ -15,7 +15,7 @@ async function createScreenshot(repository: string): Promise<Buffer> {
 
   const cacheFile = bucket.file(cacheId);
 
-  if (await cacheFile.exists()) {
+  if (await cacheFile.exists().then(data => data[0])) {
     return cacheFile.download().then(data => data[0]);
   }
 
