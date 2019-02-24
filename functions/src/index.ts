@@ -1,8 +1,12 @@
 import * as functions from 'firebase-functions';
 import * as puppeteer from 'puppeteer';
 
+const isDebug = process.env.NODE_ENV !== 'production';
+
 async function createScreenshot() {
-  const browser = await puppeteer.launch({});
+  const browser = await puppeteer.launch({
+    headless: isDebug ? false : true,
+  });
 
   const page = await browser.newPage();
 
