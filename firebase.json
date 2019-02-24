@@ -3,7 +3,8 @@
     "predeploy": [
       "npm --prefix \"$RESOURCE_DIR\" run lint",
       "npm --prefix \"$RESOURCE_DIR\" run build"
-    ]
+    ],
+    "source": "functions"
   },
   "hosting": {
     "public": "dist",
@@ -22,5 +23,8 @@
         "function": "createContributorsImage"
       }
     ]
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }

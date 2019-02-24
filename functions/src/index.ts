@@ -1,9 +1,24 @@
 import * as functions from 'firebase-functions';
+import * as firebase from 'firebase-admin';
 import * as puppeteer from 'puppeteer';
 
+firebase.initializeApp();
+const bucket = firebase.storage().bucket('image-cache');
 const isDebug = process.env.NODE_ENV !== 'production';
 
-async function createScreenshot() {
+function generateCacheId(repository: string) {
+  return `cache-${repository}`;
+}
+
+async function createScreenshot(repository: string): Promise<Buffer> {
+  const cacheId = generateCacheId(repository);
+
+  const cacheFile = bucket.file(cacheId);
+
+  if (await cacheFile.exists()) {
+    return cacheFile.download().then(data => data[0]);
+  }
+
   const browser = await puppeteer.launch(
     isDebug
       ? {}
@@ -15,14 +30,17 @@ async function createScreenshot() {
 
   const page = await browser.newPage();
 
-  await page.goto('https://github.com/angular/angular-ja/graphs/contributors');
+  await page.goto(`https://github.com/${repository}/graphs/contributors`);
 
   await page.waitForResponse(
-    'https://github.com/angular/angular-ja/graphs/contributors-data',
+    `https://github.com/${repository}/graphs/contributors-data`,
   );
   const screenshotTarget = await page.waitForSelector('#contributors');
 
   const screenshot = await screenshotTarget.screenshot({ type: 'png' });
+
+  await cacheFile.save(screenshot);
+
   return await browser.close().then(() => screenshot);
 }
 
@@ -32,7 +50,7 @@ export const createContributorsImage = functions
     memory: '1GB',
   })
   .https.onRequest((request, response) => {
-    createScreenshot()
+    createScreenshot('angular/angular-ja')
       .then(image => {
         response.setHeader('Content-Type', 'image/png');
         response.status(200).send(image);
