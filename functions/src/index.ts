@@ -10,18 +10,7 @@ function generateCacheId(repository: string) {
   return `image-cache--${repository.replace('/', '-')}`;
 }
 
-async function createScreenshot(repository: string): Promise<Buffer> {
-  const cacheId = generateCacheId(repository);
-
-  const cacheFile = bucket.file(cacheId);
-
-  console.log(11);
-  if (await cacheFile.exists().then(data => data[0])) {
-    console.log(12);
-    return cacheFile.download().then(data => data[0]);
-  }
-  console.log(22);
-
+async function renderContributorsImage(repository: string): Promise<Buffer> {
   const browser = await puppeteer.launch(
     isDebug
       ? {}
@@ -30,7 +19,6 @@ async function createScreenshot(repository: string): Promise<Buffer> {
           args: ['--no-sandbox'],
         },
   );
-
   const page = await browser.newPage();
 
   await page.goto(`https://github.com/${repository}/graphs/contributors`);
@@ -41,14 +29,27 @@ async function createScreenshot(repository: string): Promise<Buffer> {
   const screenshotTarget = await page.waitForSelector('#contributors');
 
   const screenshot = await screenshotTarget.screenshot({ type: 'png' });
-
-  console.log(33);
-
-  await cacheFile.save(screenshot, {});
-
-  console.log(44);
-
   return await browser.close().then(() => screenshot);
+}
+
+async function _createContributorsImage(repository: string): Promise<Buffer> {
+  const cacheId = generateCacheId(repository);
+  const cacheFile = bucket.file(cacheId);
+
+  console.log(`Look for a cache...`);
+  if (await cacheFile.exists().then(data => data[0])) {
+    console.log(`Return from the cache`);
+    return cacheFile.download().then(data => data[0]);
+  }
+
+  console.log(`Render an image`);
+  const image = await renderContributorsImage(repository);
+
+  console.log(`Save new cache`);
+  await cacheFile.save(image, {});
+
+  console.log(`Return rendered image`);
+  return image;
 }
 
 export const createContributorsImage = functions
@@ -57,13 +58,20 @@ export const createContributorsImage = functions
     memory: '1GB',
   })
   .https.onRequest((request, response) => {
-    createScreenshot('angular/angular-ja')
+    const repo = request.param('repo');
+
+    if (!repo || typeof repo !== 'string') {
+      response.status(400).send(`'repo' parameter is required.`);
+      return;
+    }
+
+    _createContributorsImage(repo)
       .then(image => {
         response.setHeader('Content-Type', 'image/png');
         response.status(200).send(image);
       })
       .catch(err => {
         console.error(err);
-        response.status(500).send(err);
+        response.status(500).send(err.toString());
       });
   });
