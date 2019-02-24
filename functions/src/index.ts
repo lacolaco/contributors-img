@@ -7,7 +7,7 @@ const bucket = firebase.storage().bucket();
 const isDebug = process.env.NODE_ENV !== 'production';
 
 function generateCacheId(repository: string) {
-  return `image-cache--${repository}`;
+  return `image-cache--${repository.replace('/', '-')}`;
 }
 
 async function createScreenshot(repository: string): Promise<Buffer> {
