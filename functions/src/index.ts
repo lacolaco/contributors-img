@@ -54,11 +54,11 @@ async function _createContributorsImage(repository: string): Promise<Buffer> {
 
 export const createContributorsImage = functions
   .runWith({
-    timeoutSeconds: 15,
+    timeoutSeconds: 30,
     memory: '1GB',
   })
   .https.onRequest((request, response) => {
-    const repo = request.param('repo');
+    const repo = request.query['repo'];
 
     if (!repo || typeof repo !== 'string') {
       response.status(400).send(`'repo' parameter is required.`);
