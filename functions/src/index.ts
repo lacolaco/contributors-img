@@ -15,9 +15,12 @@ async function createScreenshot(repository: string): Promise<Buffer> {
 
   const cacheFile = bucket.file(cacheId);
 
+  console.log(11);
   if (await cacheFile.exists().then(data => data[0])) {
+    console.log(12);
     return cacheFile.download().then(data => data[0]);
   }
+  console.log(22);
 
   const browser = await puppeteer.launch(
     isDebug
@@ -39,14 +42,18 @@ async function createScreenshot(repository: string): Promise<Buffer> {
 
   const screenshot = await screenshotTarget.screenshot({ type: 'png' });
 
+  console.log(33);
+
   await cacheFile.save(screenshot, {});
+
+  console.log(44);
 
   return await browser.close().then(() => screenshot);
 }
 
 export const createContributorsImage = functions
   .runWith({
-    timeoutSeconds: 12,
+    timeoutSeconds: 15,
     memory: '1GB',
   })
   .https.onRequest((request, response) => {
