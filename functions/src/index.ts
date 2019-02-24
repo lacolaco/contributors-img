@@ -3,11 +3,11 @@ import * as firebase from 'firebase-admin';
 import * as puppeteer from 'puppeteer';
 
 firebase.initializeApp();
-const bucket = firebase.storage().bucket('image-cache');
+const bucket = firebase.storage().bucket();
 const isDebug = process.env.NODE_ENV !== 'production';
 
 function generateCacheId(repository: string) {
-  return `cache-${repository}`;
+  return `image-cache--${repository}`;
 }
 
 async function createScreenshot(repository: string): Promise<Buffer> {
@@ -39,7 +39,7 @@ async function createScreenshot(repository: string): Promise<Buffer> {
 
   const screenshot = await screenshotTarget.screenshot({ type: 'png' });
 
-  await cacheFile.save(screenshot);
+  await cacheFile.save(screenshot, {});
 
   return await browser.close().then(() => screenshot);
 }
