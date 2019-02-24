@@ -28,7 +28,7 @@ async function createScreenshot() {
 
 export const createContributorsImage = functions
   .runWith({
-    timeoutSeconds: 5,
+    timeoutSeconds: 12,
     memory: '1GB',
   })
   .https.onRequest((request, response) => {
