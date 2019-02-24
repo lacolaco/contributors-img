@@ -21,11 +21,10 @@ async function renderContributorsImage(repository: string): Promise<Buffer> {
   );
   const page = await browser.newPage();
 
-  await page.goto(`https://github.com/${repository}/graphs/contributors`);
-
-  await page.waitForResponse(
-    `https://github.com/${repository}/graphs/contributors-data`,
+  await page.goto(
+    `https://contributors-img.firebaseapp.com?repo=${repository}`,
   );
+
   const screenshotTarget = await page.waitForSelector('#contributors');
 
   const screenshot = await screenshotTarget.screenshot({
