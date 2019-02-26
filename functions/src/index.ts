@@ -33,8 +33,7 @@ async function renderContributorsImage(repository: string): Promise<Buffer> {
   );
 
   const screenshotTarget = await page.waitForSelector('#contributors');
-
-  await page.waitFor(10000);
+  await page.waitForResponse(() => true);
 
   const screenshot = await screenshotTarget.screenshot({
     type: 'png',
