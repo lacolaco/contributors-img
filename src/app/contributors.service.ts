@@ -18,17 +18,25 @@ export class ContributorsService {
       imageSnippet: '',
     }));
 
-    const contributors = await this.http
-      .get<GitHubContributor[]>(`https://us-central1-contributors-img.cloudfunctions.net/getContributors`, {
-        params: { repo: repository },
-      })
-      .toPromise();
-    this.store.updateValue(state => ({
-      ...state,
-      items: contributors,
-      imageSnippet: this.getImageSnippet(repository),
-      itemsLoading: state.itemsLoading - 1,
-    }));
+    try {
+      const contributors = await this.http
+        .get<GitHubContributor[]>(`https://us-central1-contributors-img.cloudfunctions.net/getContributors`, {
+          params: { repo: repository },
+        })
+        .toPromise();
+      this.store.updateValue(state => ({
+        ...state,
+        items: contributors,
+        imageSnippet: this.getImageSnippet(repository),
+        itemsLoading: state.itemsLoading - 1,
+      }));
+    } catch (error) {
+      this.store.updateValue(state => ({
+        ...state,
+        itemsLoading: state.itemsLoading - 1,
+      }));
+      throw error;
+    }
   }
 
   private getImageSnippet(repository: string) {

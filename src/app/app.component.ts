@@ -27,7 +27,11 @@ export class AppComponent implements OnInit, OnDestroy {
       .selectValue(state => state.repository)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(repository => {
-        this.contributorsService.fetchContributors(repository);
+        try {
+          this.contributorsService.fetchContributors(repository);
+        } catch (err) {
+          // console.error(err);
+        }
       });
   }
 

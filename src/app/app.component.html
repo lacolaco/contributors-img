@@ -13,14 +13,19 @@
       <mat-spinner color="primary"></mat-spinner>
     </ng-container>
     <ng-template #showResult>
-      <div class="generatedResult" *ngIf="snapshot.list.length > 0">
-        <app-contributor-list id="contributors" [list]="snapshot.list"> </app-contributor-list>
+      <ng-container *ngIf="snapshot.list.length > 0; else showNoResult">
+        <div class="generatedResult">
+          <app-contributor-list id="contributors" [list]="snapshot.list"> </app-contributor-list>
 
-        <div class="imageUrlText">
-          <span>Copy & Paste in README.md</span>
-          <textarea readonly rows="6" style="padding: 8px;">{{ snapshot.imageSnippet }}</textarea>
+          <div class="imageUrlText">
+            <span>Copy & Paste in README.md</span>
+            <textarea readonly rows="6" style="padding: 8px;">{{ snapshot.imageSnippet }}</textarea>
+          </div>
         </div>
-      </div>
+      </ng-container>
+    </ng-template>
+    <ng-template #showNoResult>
+      <div>No Result. Is the repository name correct?</div>
     </ng-template>
   </ng-container>
 
