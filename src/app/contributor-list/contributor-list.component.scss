@@ -3,7 +3,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-  // width: calc(12 * 64px + 12 * 4px);
+  max-width: calc(12 * 64px + 12 * 4px);
   padding: 4px;
   margin-bottom: -4px;
   margin-right: -4px;
