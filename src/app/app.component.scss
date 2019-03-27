@@ -1,24 +1,39 @@
-.userList {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  width: calc(12 * 64px + 12 * 4px);
-  padding: 4px;
-  margin-bottom: -4px;
-  margin-right: -4px;
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
 
-  & > * {
-    margin-bottom: 4px;
-    margin-right: 4px;
+main {
+  height: 100%;
+  padding: 64px 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > :not(:last-child) {
+    margin-bottom: 32px;
   }
 }
 
-.userListItem {
-  background-size: contain;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: 1px solid #c0c0c0;
-  box-sizing: border-box;
+@import '~@angular/material/theming';
+
+.generatedResult {
+  @include mat-elevation(4);
+  padding: 8px;
+  border-radius: 8px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+
+  > :not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
+.imageUrlText {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }

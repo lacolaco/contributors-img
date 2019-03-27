@@ -1,0 +1,22 @@
+.controlPane {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > :not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
+.repositoryForm {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+
+  > :not(:last-child) {
+    margin-right: 32px;
+  }
+}

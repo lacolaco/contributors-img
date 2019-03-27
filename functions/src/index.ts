@@ -5,8 +5,10 @@ import * as Octokit from '@octokit/rest';
 import * as cors from 'cors';
 
 firebase.initializeApp();
-const octokit = new Octokit({
-  auth: '393ad1f410e7f6e6d78a19466812b6cea4d1ed52',
+const octokit = new Octokit();
+octokit.authenticate({
+  type: 'token',
+  token: '393ad1f410e7f6e6d78a19466812b6cea4d1ed52',
 });
 const withCors = cors({ origin: true });
 
@@ -27,10 +29,12 @@ async function renderContributorsImage(repository: string): Promise<Buffer> {
         },
   );
   const page = await browser.newPage();
+  await page.setViewport({
+    width: 1048,
+    height: 1048,
+  });
 
-  await page.goto(
-    `https://contributors-img.firebaseapp.com?repo=${repository}`,
-  );
+  await page.goto(`https://contributors-img.firebaseapp.com?repo=${repository}`);
 
   const screenshotTarget = await page.waitForSelector('#contributors');
   await page.waitForResponse(() => true);
@@ -86,33 +90,31 @@ export const createContributorsImage = functions
       });
   });
 
-export const getContributors = functions.https.onRequest(
-  (request, response) => {
-    withCors(request, response, () => {
-      const repoParam = request.query['repo'];
+export const getContributors = functions.https.onRequest((request, response) => {
+  withCors(request, response, () => {
+    const repoParam = request.query['repo'];
 
-      if (!repoParam || typeof repoParam !== 'string') {
-        response.status(400).send(`'repo' parameter is required.`);
-        return;
-      }
+    if (!repoParam || typeof repoParam !== 'string') {
+      response.status(400).send(`'repo' parameter is required.`);
+      return;
+    }
 
-      const [owner, repo] = repoParam.split('/');
+    const [owner, repo] = repoParam.split('/');
 
-      const options = octokit.repos.listContributors.endpoint.merge({
-        owner,
-        repo,
-        per_page: 100,
-      });
-      octokit
-        .paginate(options)
-        .then(contributors => {
-          response.setHeader('Content-Type', 'application/json');
-          response.status(200).send(contributors);
-        })
-        .catch(err => {
-          console.error(err);
-          response.status(500).send(err.toString());
-        });
+    const options = octokit.repos.listContributors.endpoint.merge({
+      owner,
+      repo,
+      per_page: 100,
     });
-  },
-);
+    octokit
+      .paginate(options)
+      .then(contributors => {
+        response.setHeader('Content-Type', 'application/json');
+        response.status(200).send(contributors);
+      })
+      .catch(err => {
+        console.error(err);
+        response.status(500).send(err.toString());
+      });
+  });
+});

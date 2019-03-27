@@ -1,8 +1,30 @@
-<div id="contributors" class="userList">
-  <ng-container *ngFor="let user of (contributors$ | async)">
-    <div
-      class="userListItem"
-      style.backgroundImage="url({{ user.avatar_url }})"
-    ></div>
+<main>
+  <app-header></app-header>
+  <app-form></app-form>
+
+  <ng-container
+    *ngIf="{
+      list: contributors$ | async,
+      imageSnippet: imageSnippet$ | async,
+      loading: contributorsLoading$ | async
+    } as snapshot"
+  >
+    <ng-container *ngIf="snapshot.loading; else showResult">
+      <mat-spinner color="primary"></mat-spinner>
+    </ng-container>
+    <ng-template #showResult>
+      <div class="generatedResult" *ngIf="snapshot.list.length > 0">
+        <app-contributor-list id="contributors" [list]="snapshot.list"> </app-contributor-list>
+
+        <div class="imageUrlText">
+          <span>Copy & Paste in README.md</span>
+          <textarea readonly rows="6" style="padding: 8px;">{{ snapshot.imageSnippet }}</textarea>
+        </div>
+      </div>
+    </ng-template>
   </ng-container>
-</div>
+
+  <div class="footer">
+    &copy; 2019 - Suguru Inatomi
+  </div>
+</main>

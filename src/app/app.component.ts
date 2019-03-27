@@ -1,33 +1,37 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-
-interface Contributor {
-  avatar_url: string;
-  contributions: number;
-  html_url: string;
-  id: number;
-  login: string;
-}
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { ContributorsService } from './contributors.service';
+import { GitHubContributor } from './core/models';
+import { ContributorsStore } from './state/contributors';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  contributors$: Observable<Contributor[]>;
+export class AppComponent implements OnInit, OnDestroy {
+  contributors$: Observable<GitHubContributor[]>;
+  contributorsLoading$: Observable<boolean>;
+  imageSnippet$: Observable<string>;
+  private onDestroy$ = new Subject();
 
-  constructor(private http: HttpClient) {
-    const repo = new URLSearchParams(window.location.search).get('repo');
+  constructor(private contributorsService: ContributorsService, private contributorsStore: ContributorsStore) {
+    this.contributors$ = this.contributorsStore.selectValue(state => state.items);
+    this.contributorsLoading$ = this.contributorsStore.selectValue(state => state.itemsLoading > 0);
+    this.imageSnippet$ = this.contributorsStore.selectValue(state => state.imageSnippet);
+  }
 
-    if (!repo) {
-      throw new Error('repo parameter is required.');
-    }
+  ngOnInit() {
+    this.contributorsStore
+      .selectValue(state => state.repository)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(repository => {
+        this.contributorsService.fetchContributors(repository);
+      });
+  }
 
-    this.contributors$ = this.http.get<Contributor[]>(
-      `https://us-central1-contributors-img.cloudfunctions.net/getContributors`,
-      { params: { repo } },
-    );
+  ngOnDestroy() {
+    this.onDestroy$.next();
   }
 }
