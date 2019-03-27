@@ -10,7 +10,7 @@
     "predeploy": [
       "npm run build:prod"
     ],
-    "public": "dist/puppeteer-screenshot-test",
+    "public": "dist/contributors-img",
     "ignore": [
       "firebase.json",
       "**/.*",

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "puppeteer-screenshot-test": {
+    "contributors-img": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/puppeteer-screenshot-test",
+            "outputPath": "dist/contributors-img",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -62,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "puppeteer-screenshot-test:build"
+            "browserTarget": "contributors-img:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "puppeteer-screenshot-test:build:production"
+              "browserTarget": "contributors-img:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "puppeteer-screenshot-test:build"
+            "browserTarget": "contributors-img:build"
           }
         },
         "test": {
@@ -107,7 +107,7 @@
         }
       }
     },
-    "puppeteer-screenshot-test-e2e": {
+    "contributors-img-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -116,11 +116,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "puppeteer-screenshot-test:serve"
+            "devServerTarget": "contributors-img:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "puppeteer-screenshot-test:serve:production"
+              "devServerTarget": "contributors-img:serve:production"
             }
           }
         },
@@ -136,5 +136,5 @@
       }
     }
   },
-  "defaultProject": "puppeteer-screenshot-test"
+  "defaultProject": "contributors-img"
 }
