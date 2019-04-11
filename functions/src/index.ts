@@ -5,10 +5,8 @@ import * as Octokit from '@octokit/rest';
 import * as cors from 'cors';
 
 firebase.initializeApp();
-const octokit = new Octokit();
-octokit.authenticate({
-  type: 'token',
-  token: '393ad1f410e7f6e6d78a19466812b6cea4d1ed52',
+const octokit = new Octokit({
+  auth: 'token 393ad1f410e7f6e6d78a19466812b6cea4d1ed52'
 });
 const withCors = cors({ origin: true });
 
