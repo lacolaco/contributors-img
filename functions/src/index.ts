@@ -6,7 +6,7 @@ import * as cors from 'cors';
 
 firebase.initializeApp();
 const octokit = new Octokit({
-  auth: 'token 393ad1f410e7f6e6d78a19466812b6cea4d1ed52'
+  auth: 'token 393ad1f410e7f6e6d78a19466812b6cea4d1ed52',
 });
 const withCors = cors({ origin: true });
 
@@ -41,9 +41,13 @@ async function renderContributorsImage(repository: string): Promise<Buffer> {
   });
 
   console.log(`renderContributorsImage--Wait for network`);
-  await page.waitForResponse(() => true, {
-    timeout: 0,
-  });
+  try {
+    await page.waitForResponse(() => true, {
+      timeout: 10,
+    });
+  } catch (err) {
+    console.warn(err);
+  }
 
   console.log(`renderContributorsImage--Wait for screenshot`);
   const screenshot = await screenshotTarget.screenshot({
