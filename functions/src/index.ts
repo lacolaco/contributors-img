@@ -75,7 +75,7 @@ async function _createContributorsImage(repository: string): Promise<Buffer> {
 
 export const createContributorsImage = functions
   .runWith({
-    timeoutSeconds: 30,
+    timeoutSeconds: 60,
     memory: '1GB',
   })
   .https.onRequest((request, response) => {
