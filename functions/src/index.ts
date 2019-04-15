@@ -34,8 +34,12 @@ async function renderContributorsImage(repository: string): Promise<Buffer> {
 
   await page.goto(`https://contributors-img.firebaseapp.com?repo=${repository}`);
 
-  const screenshotTarget = await page.waitForSelector('#contributors');
-  await page.waitForResponse(() => true);
+  const screenshotTarget = await page.waitForSelector('#contributors', {
+    timeout: 0,
+  });
+  await page.waitForResponse(() => true, {
+    timeout: 0,
+  });
 
   const screenshot = await screenshotTarget.screenshot({
     type: 'png',
