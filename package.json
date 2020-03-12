@@ -37,7 +37,7 @@
     "@angular/compiler-cli": "9.0.6",
     "@angular/language-service": "9.0.6",
     "@types/jasmine": "2.8.16",
-    "@types/jasminewd2": "2.0.6",
+    "@types/jasminewd2": "2.0.8",
     "@types/node": "12.12.29",
     "@types/puppeteer": "1.12.1",
     "codelyzer": "5.2.1",
