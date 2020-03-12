@@ -7,6 +7,7 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
+    "test:ci": "ng test --watch false --browsers ChromeHeadless",
     "format": "prettier --write 'src/**/*.{ts,scss,html}'",
     "lint": "ng lint && prettier --check 'src/**/*.{ts,scss,html}'",
     "e2e": "ng e2e"
@@ -41,6 +42,7 @@
     "@types/node": "~8.9.4",
     "@types/puppeteer": "^1.12.1",
     "codelyzer": "~4.5.0",
+    "firebase-tools": "^7.14.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.0.0",
