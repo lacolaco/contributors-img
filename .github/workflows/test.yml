@@ -1,9 +1,8 @@
-name: Deploy (only master)
+name: Test
 
 on:
-  push:
-    branches:
-      - master
+  push
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,8 +18,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - run: yarn install
-
-    - name: deploy
-      run: yarn firebase deploy --token $FIREBASE_TOKEN
+    - name: npm install, build, and test
+      run: |
+        yarn install
+        yarn build:prod
+        yarn lint
+        yarn test:ci
 
