@@ -14,10 +14,15 @@ jobs:
       with:
         node-version: 10.x
 
-    - name: npm install, build, and test
+    - name: Install dependencies
       run: |
         yarn install
+        npm --prefix functions ci
+
+    - name: Build, and test
+      run: |
         yarn build:prod
         yarn lint
         yarn test:ci
-
+        npm --prefix functions run build
+        npm --prefix functions run lint
