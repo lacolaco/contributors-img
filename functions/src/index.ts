@@ -1,16 +1,17 @@
 import * as functions from 'firebase-functions';
-import * as firebase from 'firebase-admin';
+import * as admin from 'firebase-admin';
 import * as puppeteer from 'puppeteer';
 import * as Octokit from '@octokit/rest';
 import * as cors from 'cors';
 
-firebase.initializeApp();
+admin.initializeApp();
+
 const octokit = new Octokit({
   auth: 'token 393ad1f410e7f6e6d78a19466812b6cea4d1ed52',
 });
 const withCors = cors({ origin: true });
 
-const bucket = firebase.storage().bucket();
+const bucket = admin.storage().bucket();
 const isDebug = process.env.NODE_ENV !== 'production';
 
 function generateCacheId(repository: string) {
