@@ -7,7 +7,7 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
-    "test:ci": "ng test --watch false",
+    "test:ci": "ng test --watch false --browsers ChromeHeadless",
     "format": "prettier --write 'src/**/*.{ts,scss,html}'",
     "lint": "ng lint && prettier --check 'src/**/*.{ts,scss,html}'",
     "e2e": "ng e2e"
