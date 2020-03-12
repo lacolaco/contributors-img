@@ -1,0 +1,30 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run tests with ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: npm install, build, and test
+      run: |
+        yarn install
+        yarn lint
+        yarn test:ci
+
+    - name: deploy
+      run: yarn firebase deploy --token $FIREBASE_TOKEN
+
