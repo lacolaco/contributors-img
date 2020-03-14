@@ -2,7 +2,6 @@ import { Repository } from '../model/repository';
 import { useBrowserPage } from './utils/use-browser-page';
 
 export async function generateContributorsImage(repository: Repository): Promise<Buffer> {
-  console.debug(`open browser page`);
   return await useBrowserPage(
     {
       viewport: {
