@@ -4,38 +4,28 @@
     "firebase": "../node_modules/.bin/firebase",
     "lint": "tslint --project tsconfig.json",
     "build": "tsc",
-    "build:watch": "tsc --watch --incremental",
-    "serve:functions": "npm run firebase serve --only functions",
-    "serve": "run-p 'build:watch' 'serve:functions'",
-    "shell": "npm run firebase functions:shell",
-    "start": "run-p 'build:watch' 'shell'",
+    "serve": "npm run build && npm run firebase serve --only functions",
+    "shell": "npm run build && npm run firebase functions:shell",
+    "start": "npm run shell",
     "deploy": "npm run firebase deploy --only functions",
-    "logs": "npm run firebase functions:log",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "logs": "npm run firebase functions:log"
   },
   "engines": {
     "node": "10"
   },
   "main": "lib/index.js",
   "dependencies": {
-    "@octokit/rest": "^16.43.1",
+    "@octokit/rest": "16.16.0",
     "cors": "2.8.5",
-    "express": "^4.17.1",
-    "firebase-admin": "^8.10.0",
+    "firebase-admin": "8.9.2",
     "firebase-functions": "3.3.0",
-    "puppeteer": "^2.1.1"
+    "puppeteer": "1.12.2"
   },
   "devDependencies": {
     "@types/cors": "2.8.6",
-    "@types/express": "^4.17.3",
-    "@types/jest": "^25.1.4",
-    "@types/puppeteer": "^2.0.1",
-    "jest": "^25.1.0",
-    "npm-run-all": "^4.1.5",
-    "ts-jest": "^25.2.1",
+    "@types/puppeteer": "1.12.1",
     "tslint": "6.1.0",
-    "typescript": "^3.8.3"
+    "typescript": "3.8.3"
   },
   "private": true
 }
