@@ -1,16 +1,13 @@
-import * as Octokit from '@octokit/rest';
 import * as cors from 'cors';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import * as puppeteer from 'puppeteer';
 import { Repository } from './model/repository';
 import { validateRepoParam } from './utils/validators';
+import { fetchContributors } from './service/fetch-contributors';
 
 admin.initializeApp();
 
-const octokit = new Octokit({
-  auth: 'token 393ad1f410e7f6e6d78a19466812b6cea4d1ed52',
-});
 const withCors = cors({ origin: true });
 
 const bucket = admin.storage().bucket();
@@ -111,7 +108,7 @@ export const createContributorsImage = functions
   });
 
 export const getContributors = functions.https.onRequest((request, response) => {
-  withCors(request, response, () => {
+  withCors(request, response, async () => {
     const repoParam = request.query['repo'];
 
     try {
@@ -124,20 +121,18 @@ export const getContributors = functions.https.onRequest((request, response) => 
     const repository = Repository.fromString(repoParam);
     console.log(`repository: ${repository.toString()}`);
 
-    const options = octokit.repos.listContributors.endpoint.merge({
-      owner: repository.owner,
-      repo: repository.repo,
-      per_page: 100,
-    });
-    octokit
-      .paginate(options)
-      .then(contributors => {
-        response.setHeader('Content-Type', 'application/json');
-        response.status(200).send(contributors);
-      })
-      .catch(err => {
-        console.error(err);
-        response.status(500).send(err.toString());
-      });
+    try {
+      console.log(`fetch contributors starting`);
+      const contributors = await fetchContributors(repository);
+      console.log(`fetch contributors finished`);
+
+      response
+        .header('Content-Type', 'application/json')
+        .status(200)
+        .send(contributors);
+    } catch (err) {
+      console.error(err);
+      response.status(500).send(err.toString());
+    }
   });
 });
