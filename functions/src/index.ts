@@ -1,9 +1,8 @@
 import * as firebase from 'firebase-admin';
-import { HttpsFunction } from 'firebase-functions';
 
-const app = firebase.initializeApp();
+firebase.initializeApp();
 
 import * as endpoints from './endpoints';
 
-export const getContributors: HttpsFunction = endpoints.getContributors(app);
-export const createContributorsImage: HttpsFunction = endpoints.createContributorsImage(app);
+export const getContributors = endpoints.getContributors;
+export const createContributorsImage = endpoints.createContributorsImage;
