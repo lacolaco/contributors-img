@@ -1,7 +1,7 @@
-type Firebase = typeof import('firebase-admin');
+type FirebaseApp = import('firebase-admin').app.App;
 
 type EndpointFunction = import('firebase-functions').HttpsFunction;
 
-export function createEndpoint(factory: (app: Firebase) => EndpointFunction) {
-  return (app: Firebase) => factory(app);
+export function createEndpoint(factory: (app: FirebaseApp) => EndpointFunction) {
+  return (app: FirebaseApp) => factory(app);
 }
