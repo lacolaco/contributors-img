@@ -1,5 +1,4 @@
 import * as puppeteer from 'puppeteer';
-import { environment } from '../../environment';
 
 export async function useBrowserPage<T>(
   options: { viewport: { width: number; height: number } },
@@ -7,7 +6,7 @@ export async function useBrowserPage<T>(
 ): Promise<T> {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox'],
-    headless: environment.production,
+    headless: true,
   });
 
   const page = await browser.newPage();
