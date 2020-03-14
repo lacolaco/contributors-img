@@ -36,11 +36,15 @@ export const createContributorsImage = functions
   });
 
 async function createImage(repository: Repository) {
+  console.debug('restore cache');
   const cache = await restoreImageCache(repository);
   if (cache) {
+    console.debug('cache is found');
     return cache;
   }
+  console.debug('generate image');
   const image = await generateContributorsImage(repository);
+  console.debug('save cache');
   await saveImageCache(repository, image);
   return image;
 }
