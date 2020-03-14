@@ -6,22 +6,14 @@ import { Repository } from './model/repository';
 import { validateRepoParam } from './utils/validators';
 import { fetchContributors } from './service/fetch-contributors';
 import { renderContributorsImage } from './service/render-image';
+import { ContributorsImageCacheForCloudStorage, ContributorsImageCacheForLocal } from './service/cache-storage';
 
 admin.initializeApp();
 
-const withCors = cors({ origin: true });
-
 const bucket = admin.storage().bucket();
 
-function generateCacheId(repository: Repository) {
-  return `image-cache--${repository.owner}--${repository.repo}`;
-}
-
 export const createContributorsImage = functions
-  .runWith({
-    timeoutSeconds: 60,
-    memory: '1GB',
-  })
+  .runWith({ timeoutSeconds: 60, memory: '1GB' })
   .https.onRequest(async (request, response) => {
     const repoParam = request.query['repo'];
 
@@ -35,35 +27,17 @@ export const createContributorsImage = functions
     const repository = Repository.fromString(repoParam);
     console.log(`repository: ${repository.toString()}`);
 
-    const cacheId = generateCacheId(repository);
-    const useCache = request.hostname !== 'localhost';
-
-    async function readFile(filename: string): Promise<Buffer | null> {
-      console.log(`readFile: ${filename}`);
-      const file = bucket.file(filename);
-      return await file.exists().then(([exists]) => {
-        if (exists) {
-          return file.download({}).then(([data]) => data);
-        }
-        return null;
-      });
-    }
-
-    async function writeFile(filename: string, file: Buffer): Promise<void> {
-      console.log(`writeFile: ${filename}`);
-      await bucket.file(filename).save(file, {
-        public: true,
-      });
-    }
+    const imageCache =
+      request.hostname !== 'localhost'
+        ? new ContributorsImageCacheForCloudStorage(bucket)
+        : new ContributorsImageCacheForLocal();
 
     const createImage = async () => {
-      if (useCache) {
-        console.debug('restore cache');
-        const cache = await readFile(cacheId);
-        if (cache) {
-          console.debug('cache is found');
-          return cache;
-        }
+      console.debug('restore cache');
+      const cache = await imageCache.restore(repository);
+      if (cache) {
+        console.debug('cache hit');
+        return cache;
       }
       console.log(`render image`);
       return renderContributorsImage(repoParam);
@@ -71,21 +45,20 @@ export const createContributorsImage = functions
 
     try {
       const image = await createImage();
-      if (useCache) {
-        console.debug('save cache');
-        await writeFile(cacheId, image);
-      }
       response
         .header('Content-Type', 'image/png')
         .header('Cache-Control', 'max-age=0, no-cache')
         .status(200)
         .send(image);
+      console.debug('save cache');
+      await imageCache.save(repository, image);
     } catch (error) {
       console.error(error);
       response.status(500).send(error);
     }
   });
 
+const withCors = cors({ origin: true });
 export const getContributors = functions.https.onRequest((request, response) => {
   withCors(request, response, async () => {
     const repoParam = request.query['repo'];
