@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "contributors-img"
+    "default": "contributors-img",
+    "dev": "contributors-img-dev"
   }
 }
