@@ -18,8 +18,8 @@ export const getContributors = functions.https.onRequest((request, response) => 
       response.status(400).send(error.toString());
       return;
     }
+
     const repository = Repository.fromString(repoParam);
-    console.log(`repository: ${repository.toString()}`);
 
     try {
       const contributors = await fetchContributors(repository);
