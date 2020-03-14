@@ -4,7 +4,8 @@ import * as firebase from 'firebase-admin';
 async function useBucket<T>(callback: (b: Bucket) => Promise<T>): Promise<T | null> {
   try {
     const bucket = firebase.storage().bucket();
-    return await callback(bucket);
+    await bucket.file('UNDEFINED').exists();
+    return callback(bucket);
   } catch {
     return null;
   }
