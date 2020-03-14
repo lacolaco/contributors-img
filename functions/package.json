@@ -1,21 +1,18 @@
 {
   "name": "functions",
   "scripts": {
-    "firebase": "../node_modules/.bin/firebase",
-    "lint": "tslint --project tsconfig.json",
     "build": "tsc",
-    "serve": "npm run build && npm run firebase serve --only functions",
-    "shell": "npm run build && npm run firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "npm run firebase deploy --only functions",
-    "logs": "npm run firebase functions:log"
+    "build:watch": "tsc --watch",
+    "lint": "tslint --project tsconfig.json",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "engines": {
     "node": "10"
   },
   "main": "lib/index.js",
   "dependencies": {
-    "@octokit/rest": "16.16.0",
+    "@octokit/rest": "^16.43.1",
     "cors": "2.8.5",
     "firebase-admin": "8.9.2",
     "firebase-functions": "3.3.0",
@@ -23,7 +20,10 @@
   },
   "devDependencies": {
     "@types/cors": "2.8.6",
+    "@types/jest": "^25.1.4",
     "@types/puppeteer": "1.12.1",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.1",
     "tslint": "6.1.0",
     "typescript": "3.8.3"
   },
