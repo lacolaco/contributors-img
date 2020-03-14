@@ -1,10 +1,11 @@
 import * as cors from 'cors';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import * as puppeteer from 'puppeteer';
+
 import { Repository } from './model/repository';
 import { validateRepoParam } from './utils/validators';
 import { fetchContributors } from './service/fetch-contributors';
+import { renderContributorsImage } from './service/render-image';
 
 admin.initializeApp();
 
@@ -14,28 +15,6 @@ const bucket = admin.storage().bucket();
 
 function generateCacheId(repository: Repository) {
   return `image-cache--${repository.owner}--${repository.repo}`;
-}
-
-async function renderContributorsImage(repository: string): Promise<Buffer> {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox'],
-  });
-  const page = await browser.newPage();
-  await page.setViewport({
-    width: 1048,
-    height: 1048,
-  });
-
-  console.log(`renderContributorsImage--Go to Page`);
-  await page.goto(`https://contributors-img.firebaseapp.com?repo=${repository}`, { waitUntil: 'networkidle0' });
-
-  console.log(`renderContributorsImage--Wait for selector`);
-  const screenshotTarget = await page.waitForSelector('#contributors', { timeout: 0 });
-
-  console.log(`renderContributorsImage--Wait for screenshot`);
-  const screenshot = await screenshotTarget.screenshot({ type: 'png', omitBackground: true });
-  return await browser.close().then(() => screenshot);
 }
 
 export const createContributorsImage = functions
