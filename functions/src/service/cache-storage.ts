@@ -3,16 +3,11 @@ import { Repository } from '../model/repository';
 // tslint:disable-next-line: no-implicit-dependencies
 type Bucket = import('@google-cloud/storage').Bucket;
 
-export interface ContributorsImageCache {
-  restore(repository: Repository): Promise<Buffer | null>;
-  save(repository: Repository, file: Buffer): Promise<void>;
-}
-
 function generateCacheId(repository: Repository) {
   return `image-cache--${repository.owner}--${repository.repo}`;
 }
 
-export class ContributorsImageCacheForCloudStorage implements ContributorsImageCache {
+export class ContributorsImageCache {
   constructor(private bucket: Bucket) {}
 
   async restore(repository: Repository): Promise<Buffer | null> {
@@ -34,15 +29,5 @@ export class ContributorsImageCacheForCloudStorage implements ContributorsImageC
     await this.bucket.file(filename).save(file, {
       public: true,
     });
-  }
-}
-
-export class ContributorsImageCacheForLocal implements ContributorsImageCache {
-  async restore(repository: Repository): Promise<Buffer | null> {
-    return null;
-  }
-
-  async save(repository: Repository, file: Buffer): Promise<void> {
-    return;
   }
 }

@@ -10,7 +10,11 @@
     "test:ci": "ng test --watch false --browsers ChromeHeadless",
     "format": "prettier --write 'src/**/*.{ts,scss,html}'",
     "lint": "ng lint && prettier --check 'src/**/*.{ts,scss,html}'",
-    "e2e": "ng e2e"
+    "firebase:serve": "GOOGLE_APPLICATION_CREDENTIALS=\"$(pwd)/.credentials/key.json\" firebase serve",
+    "functions:logs": "firebase functions:log",
+    "functions:build": "npm --prefix functions run build",
+    "functions:lint": "npm --prefix functions run lint",
+    "functions:test": "npm --prefix functions run test"
   },
   "private": true,
   "dependencies": {

@@ -6,7 +6,7 @@ import { Repository } from './model/repository';
 import { validateRepoParam } from './utils/validators';
 import { fetchContributors } from './service/fetch-contributors';
 import { renderContributorsImage } from './service/render-image';
-import { ContributorsImageCacheForCloudStorage, ContributorsImageCacheForLocal } from './service/cache-storage';
+import { ContributorsImageCache } from './service/cache-storage';
 
 admin.initializeApp();
 
@@ -27,10 +27,7 @@ export const createContributorsImage = functions
     const repository = Repository.fromString(repoParam);
     console.log(`repository: ${repository.toString()}`);
 
-    const imageCache =
-      request.hostname !== 'localhost'
-        ? new ContributorsImageCacheForCloudStorage(bucket)
-        : new ContributorsImageCacheForLocal();
+    const imageCache = new ContributorsImageCache(bucket);
 
     const createImage = async () => {
       console.debug('restore cache');
