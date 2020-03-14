@@ -10,9 +10,10 @@ async function useBucket<T>(callback: (b: Bucket) => Promise<T>): Promise<T | nu
   }
 }
 
-export async function readFile(fileName: string): Promise<Buffer | null> {
+export async function readFile(filename: string): Promise<Buffer | null> {
   return await useBucket(async bucket => {
-    const file = bucket.file(fileName);
+    console.log(`readFile: ${filename}`);
+    const file = bucket.file(filename);
 
     return await file.exists().then(([exists]) => {
       if (exists) {
@@ -25,6 +26,7 @@ export async function readFile(fileName: string): Promise<Buffer | null> {
 
 export async function writeFile(filename: string, file: Buffer): Promise<void> {
   await useBucket(async bucket => {
+    console.log(`writeFile: ${filename}`);
     await bucket.file(filename).save(file, {
       public: true,
     });
