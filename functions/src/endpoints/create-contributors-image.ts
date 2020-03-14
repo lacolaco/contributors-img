@@ -19,6 +19,7 @@ export const createContributorsImage = functions
       return;
     }
     const repository = Repository.fromString(repoParam);
+    console.log(`repository: ${repository.toString()}`);
 
     try {
       const image = await createImage(repository);
