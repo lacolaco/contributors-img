@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { GitHubContributor } from './core/models';
 import { ContributorsStore } from './state/contributors';
 
@@ -19,7 +20,7 @@ export class ContributorsService {
 
     try {
       const contributors = await this.http
-        .get<GitHubContributor[]>(`/api/contributors`, {
+        .get<GitHubContributor[]>(`https://us-central1-contributors-img.cloudfunctions.net/getContributors`, {
           params: { repo: repository },
         })
         .toPromise();
@@ -41,10 +42,10 @@ export class ContributorsService {
   private getImageSnippet(repository: string) {
     return `
 <a href="https://github.com/${repository}/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=${repository}" />
+  <img src="https://contributors-img.firebaseapp.com/image?repo=${repository}" />
 </a>
 
-Made with [contributors-img](https://contributors-img.web.app).
+Made with [contributors-img](https://contributors-img.firebaseapp.com).
 `.trim();
   }
 }

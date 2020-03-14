@@ -6,11 +6,10 @@
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
-    "target": "es2015",
-    "moduleResolution": "node",
-    "typeRoots": ["node_modules/@types"]
+    "target": "es2015"
   },
   "compileOnSave": true,
-  "include": ["src"],
-  "exclude": ["*.spec.ts"]
+  "include": [
+    "src"
+  ]
 }

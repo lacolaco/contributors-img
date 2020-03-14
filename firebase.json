@@ -22,10 +22,6 @@
         "function": "createContributorsImage"
       },
       {
-        "source": "/api/contributors",
-        "function": "getContributors"
-      },
-      {
         "source": "**",
         "destination": "/index.html"
       }
