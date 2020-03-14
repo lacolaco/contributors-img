@@ -24,6 +24,7 @@ export const createContributorsImage = functions
       const image = await createImage(repository);
       response
         .header('Content-Type', 'image/png')
+        .header('Cache-Control', 'max-age=0, no-cache')
         .status(200)
         .send(image);
     } catch (error) {
