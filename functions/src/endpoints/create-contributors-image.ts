@@ -28,6 +28,8 @@ export const createContributorsImage = functions
         .header('Cache-Control', 'max-age=0, no-cache')
         .status(200)
         .send(image);
+      console.debug('save cache');
+      await saveImageCache(repository, image);
     } catch (error) {
       console.error(error);
       response.status(500).send(error.toString());
@@ -44,7 +46,5 @@ async function createImage(repository: Repository) {
   }
   console.debug('generate image');
   const image = await generateContributorsImage(repository);
-  console.debug('save cache');
-  await saveImageCache(repository, image);
   return image;
 }
