@@ -1,8 +1,10 @@
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
-import * as puppeteer from 'puppeteer';
 import * as Octokit from '@octokit/rest';
 import * as cors from 'cors';
+import * as admin from 'firebase-admin';
+import * as functions from 'firebase-functions';
+import * as puppeteer from 'puppeteer';
+import { Repository } from './model/repository';
+import { validateRepoParam } from './utils/validators';
 
 admin.initializeApp();
 
@@ -13,8 +15,8 @@ const withCors = cors({ origin: true });
 
 const bucket = admin.storage().bucket();
 
-function generateCacheId(repository: string) {
-  return `image-cache--${repository.replace('/', '-')}`;
+function generateCacheId(repository: Repository) {
+  return `image-cache--${repository.owner}--${repository.repo}`;
 }
 
 async function renderContributorsImage(repository: string): Promise<Buffer> {
@@ -47,12 +49,17 @@ export const createContributorsImage = functions
   .https.onRequest(async (request, response) => {
     const repoParam = request.query['repo'];
 
-    if (!repoParam || typeof repoParam !== 'string') {
-      response.status(400).send(`'repo' parameter is required.`);
+    try {
+      validateRepoParam(repoParam);
+    } catch (error) {
+      console.error(error);
+      response.status(400).send(error.toString());
       return;
     }
+    const repository = Repository.fromString(repoParam);
+    console.log(`repository: ${repository.toString()}`);
 
-    const cacheId = generateCacheId(repoParam);
+    const cacheId = generateCacheId(repository);
     const useCache = request.hostname !== 'localhost';
 
     async function readFile(filename: string): Promise<Buffer | null> {
@@ -82,7 +89,7 @@ export const createContributorsImage = functions
           return cache;
         }
       }
-      console.log(`Render an image`);
+      console.log(`render image`);
       return renderContributorsImage(repoParam);
     };
 
@@ -107,16 +114,19 @@ export const getContributors = functions.https.onRequest((request, response) => 
   withCors(request, response, () => {
     const repoParam = request.query['repo'];
 
-    if (!repoParam || typeof repoParam !== 'string') {
-      response.status(400).send(`'repo' parameter is required.`);
+    try {
+      validateRepoParam(repoParam);
+    } catch (error) {
+      console.error(error);
+      response.status(400).send(error.toString());
       return;
     }
-
-    const [owner, repo] = repoParam.split('/');
+    const repository = Repository.fromString(repoParam);
+    console.log(`repository: ${repository.toString()}`);
 
     const options = octokit.repos.listContributors.endpoint.merge({
-      owner,
-      repo,
+      owner: repository.owner,
+      repo: repository.repo,
       per_page: 100,
     });
     octokit
