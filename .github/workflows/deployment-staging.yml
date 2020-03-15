@@ -1,0 +1,30 @@
+name: Deploy (staging)
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+
+    - name: Install dependencies
+      run: |
+        yarn install
+        npm --prefix functions ci
+
+    - name: Copy .env
+      run: npm --prefix functions run env:dev
+
+    - name: deploy
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      run: yarn firebase -P dev deploy --token $FIREBASE_TOKEN
+
