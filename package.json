@@ -46,7 +46,7 @@
     "@types/node": "12.12.29",
     "@types/puppeteer": "1.12.1",
     "codelyzer": "5.2.1",
-    "firebase-tools": "7.14.0",
+    "firebase-tools": "7.15.0",
     "jasmine-core": "2.99.1",
     "jasmine-spec-reporter": "4.2.1",
     "karma": "4.0.0",
