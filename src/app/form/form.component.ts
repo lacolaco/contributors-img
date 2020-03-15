@@ -24,7 +24,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.contributorsStore
-      .selectValue(state => state.repository)
+      .select(state => state.repository)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(repository => {
         this.form.patchValue({ repository });
@@ -33,7 +33,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
   generateImage() {
     const repository = this.form.value.repository;
-    this.contributorsStore.updateValue(state => ({
+    this.contributorsStore.update(state => ({
       ...state,
       repository,
     }));
