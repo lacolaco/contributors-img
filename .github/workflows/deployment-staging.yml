@@ -1,8 +1,9 @@
-name: Test
+name: Deploy (staging)
 
 on:
-  push
-
+  push:
+    branches:
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,12 +21,10 @@ jobs:
         npm --prefix functions ci
 
     - name: Copy .env
-      run: npm --prefix functions run env:local
+      run: npm --prefix functions run env:dev
 
-    - name: Build, and test
-      run: |
-        yarn build:prod
-        yarn lint
-        yarn test:ci
-        npm --prefix functions run build
-        npm --prefix functions run lint
+    - name: deploy
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      run: yarn firebase -P dev deploy --token $FIREBASE_TOKEN
+

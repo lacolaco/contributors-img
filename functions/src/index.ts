@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import * as cors from 'cors';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
@@ -13,6 +15,7 @@ admin.initializeApp();
 
 const bucket = admin.storage().bucket();
 const config = getApplicationConfig();
+console.debug('config', config);
 
 export const createContributorsImage = functions
   .runWith({ timeoutSeconds: 60, memory: '1GB' })

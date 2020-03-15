@@ -1,9 +1,9 @@
-name: Deploy (only master)
+name: Deploy (prod)
 
 on:
   push:
     branches:
-      - master
+      - production
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,7 +18,10 @@ jobs:
     - name: Install dependencies
       run: |
         yarn install
-        npm ci --prefix functions
+        npm --prefix functions ci
+
+    - name: Copy .env
+      run: npm --prefix functions run env:prod
 
     - name: deploy
       env:

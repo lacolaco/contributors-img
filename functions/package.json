@@ -5,7 +5,10 @@
     "build:watch": "tsc --watch",
     "lint": "tslint --project tsconfig.json",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "env:local": "cat ./environments/.env.local > .env",
+    "env:dev": "cat ./environments/.env.dev > .env",
+    "env:prod": "cat ./environments/.env.prod > .env"
   },
   "engines": {
     "node": "10"
@@ -14,6 +17,7 @@
   "dependencies": {
     "@octokit/rest": "^16.43.1",
     "cors": "2.8.5",
+    "dotenv": "^8.2.0",
     "firebase-admin": "8.9.2",
     "firebase-functions": "3.3.0",
     "puppeteer": "1.12.2"
