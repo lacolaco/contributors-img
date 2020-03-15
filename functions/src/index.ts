@@ -7,10 +7,12 @@ import { validateRepoParam } from './utils/validators';
 import { fetchContributors } from './service/fetch-contributors';
 import { renderContributorsImage } from './service/render-image';
 import { ContributorsImageCache } from './service/cache-storage';
+import { getApplicationConfig } from './service/app-config';
 
 admin.initializeApp();
 
 const bucket = admin.storage().bucket();
+const config = getApplicationConfig();
 
 export const createContributorsImage = functions
   .runWith({ timeoutSeconds: 60, memory: '1GB' })
@@ -25,9 +27,9 @@ export const createContributorsImage = functions
       return;
     }
     const repository = Repository.fromString(repoParam);
-    console.log(`repository: ${repository.toString()}`);
+    console.debug(`repository: ${repository.toString()}`);
 
-    const imageCache = new ContributorsImageCache(bucket);
+    const imageCache = new ContributorsImageCache(bucket, { useCache: config.useCache });
 
     const createImage = async () => {
       console.debug('restore cache');
@@ -36,8 +38,8 @@ export const createContributorsImage = functions
         console.debug('cache hit');
         return cache;
       }
-      console.log(`render image`);
-      return renderContributorsImage(repoParam);
+      console.debug(`render image`);
+      return renderContributorsImage(repository, { webappUrl: config.webappUrl, useHeadless: config.useHeadless });
     };
 
     try {
@@ -68,12 +70,12 @@ export const getContributors = functions.https.onRequest((request, response) => 
       return;
     }
     const repository = Repository.fromString(repoParam);
-    console.log(`repository: ${repository.toString()}`);
+    console.debug(`repository: ${repository.toString()}`);
 
     try {
-      console.log(`fetch contributors starting`);
+      console.debug(`fetch contributors starting`);
       const contributors = await fetchContributors(repository);
-      console.log(`fetch contributors finished`);
+      console.debug(`fetch contributors finished`);
 
       response
         .header('Content-Type', 'application/json')

@@ -20,7 +20,7 @@ export class ContributorsService {
 
     try {
       const contributors = await this.http
-        .get<GitHubContributor[]>(`https://us-central1-contributors-img.cloudfunctions.net/getContributors`, {
+        .get<GitHubContributor[]>(`/api/contributors`, {
           params: { repo: repository },
         })
         .toPromise();
@@ -42,10 +42,10 @@ export class ContributorsService {
   private getImageSnippet(repository: string) {
     return `
 <a href="https://github.com/${repository}/graphs/contributors">
-  <img src="https://contributors-img.firebaseapp.com/image?repo=${repository}" />
+  <img src="https://contributors-img.web.app/image?repo=${repository}" />
 </a>
 
-Made with [contributors-img](https://contributors-img.firebaseapp.com).
+Made with [contributors-img](https://contributors-img.web.app).
 `.trim();
   }
 }
