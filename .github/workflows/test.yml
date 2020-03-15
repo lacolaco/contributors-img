@@ -19,6 +19,9 @@ jobs:
         yarn install
         npm --prefix functions ci
 
+    - name: Copy .env
+      run: npm --prefix functions run env:local
+
     - name: Build, and test
       run: |
         yarn build:prod
