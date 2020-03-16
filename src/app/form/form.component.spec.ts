@@ -1,25 +1,36 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { Repository } from 'shared/model/repository';
+import { AppStore } from '../state/store';
 import { FormComponent } from './form.component';
 
 describe('FormComponent', () => {
-  let component: FormComponent;
-  let fixture: ComponentFixture<FormComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [FormComponent],
-      schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<FormComponent>;
+  let store: AppStore;
+  const createComponent = createComponentFactory({
+    component: FormComponent,
+    imports: [ReactiveFormsModule],
+    schemas: [NO_ERRORS_SCHEMA],
   });
 
+  beforeEach(() => {});
+
   it('should create', () => {
-    expect(component).toBeTruthy();
+    spectator = createComponent({});
+    store = spectator.inject(AppStore);
+
+    expect(spectator.component).toBeTruthy();
+  });
+
+  it('should set form value on store update', () => {
+    spectator = createComponent({});
+    store = spectator.inject(AppStore);
+    store.update(state => ({ ...state, repository: new Repository('foo', 'bar') }));
+    spectator.detectChanges();
+
+    expect(spectator.component.form.value).toEqual({
+      repository: 'foo/bar',
+    });
   });
 });

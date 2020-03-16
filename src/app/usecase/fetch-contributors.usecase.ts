@@ -1,55 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GitHubContributor } from '../core/models';
-import { ContributorsStore } from '../state/contributors';
+import { AppStore } from '../state/store';
+import { Repository } from 'shared/model/repository';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FetchContributorsUsecase {
-  constructor(private http: HttpClient, private store: ContributorsStore) {}
+  constructor(private http: HttpClient, private store: AppStore) {}
 
-  async fetchContributors(repository: string) {
-    this.store.update(state => ({
-      ...state,
-      contributors: {
-        items: [],
-        fetching: state.contributors.fetching + 1,
-      },
-      imageSnippet: '',
-    }));
+  async fetchContributors(repoName: string) {
+    this.store.startFetchingContributors(Repository.fromString(repoName));
 
     try {
       const contributors = await this.http
-        .get<GitHubContributor[]>(`/api/contributors`, { params: { repo: repository } })
+        .get<GitHubContributor[]>(`/api/contributors`, { params: { repo: repoName } })
         .toPromise();
-      this.store.update(state => ({
-        ...state,
-        contributors: {
-          items: contributors,
-          fetching: state.contributors.fetching - 1,
-        },
-        imageSnippet: this.getImageSnippet(repository),
-      }));
+      this.store.finishFetchingContributors(contributors);
     } catch (error) {
-      this.store.update(state => ({
-        ...state,
-        contributors: {
-          items: [],
-          fetching: state.contributors.fetching - 1,
-        },
-      }));
-      throw error;
+      console.error(error);
+      this.store.finishFetchingContributors([]);
     }
-  }
-
-  private getImageSnippet(repository: string) {
-    return `
-<a href="https://github.com/${repository}/graphs/contributors">
-  <img src="${location.origin}/image?repo=${repository}" />
-</a>
-
-Made with [contributors-img](${location.origin}).
-`.trim();
   }
 }

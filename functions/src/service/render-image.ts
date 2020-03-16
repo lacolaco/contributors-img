@@ -1,5 +1,5 @@
 import * as puppeteer from 'puppeteer';
-import { Repository } from '../model/repository';
+import { Repository } from '../../../shared/model/repository';
 
 export async function renderContributorsImage(
   repository: Repository,

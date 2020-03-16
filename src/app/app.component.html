@@ -1,7 +1,7 @@
-<ng-container *ngIf="state$ | async as state">
+<ng-container *rxSubscribe="state$; let state">
   <main>
     <app-header></app-header>
-    <app-form></app-form>
+    <app-form [repository]="state.repository" (valueChange)="selectRepository($event)"></app-form>
 
     <ng-container *ngIf="state.loading; else showResult">
       <mat-spinner color="primary"></mat-spinner>
@@ -11,10 +11,7 @@
         <div class="generatedResult">
           <app-contributor-list id="contributors" [list]="state.contributors"> </app-contributor-list>
 
-          <div class="imageUrlText">
-            <span>Copy & Paste in README.md</span>
-            <textarea readonly rows="6" style="padding: 8px;">{{ state.imageSnippet }}</textarea>
-          </div>
+          <app-image-snippet *ngIf="state.repository" [repository]="state.repository"></app-image-snippet>
         </div>
       </ng-container>
     </ng-template>

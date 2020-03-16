@@ -4,7 +4,7 @@ import * as cors from 'cors';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
-import { Repository } from './model/repository';
+import { Repository } from '../../shared/model/repository';
 import { validateRepoParam } from './utils/validators';
 import { fetchContributors } from './service/fetch-contributors';
 import { renderContributorsImage } from './service/render-image';
