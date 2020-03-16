@@ -6,19 +6,23 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserModule } from '@angular/platform-browser';
+import { RxSubscribeModule } from '@soundng/rx-subscribe';
+
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { FormComponent } from './form/form.component';
 import { ContributorListComponent } from './contributor-list/contributor-list.component';
+import { ImageSnippetComponent } from './view/component/image-snippet/image-snippet.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FormComponent, ContributorListComponent],
+  declarations: [AppComponent, HeaderComponent, FormComponent, ContributorListComponent, ImageSnippetComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    RxSubscribeModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,

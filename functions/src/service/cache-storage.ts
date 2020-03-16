@@ -1,4 +1,4 @@
-import { Repository } from '../model/repository';
+import { Repository } from '../../../shared/model/repository';
 
 // tslint:disable-next-line: no-implicit-dependencies
 type Bucket = import('@google-cloud/storage').Bucket;

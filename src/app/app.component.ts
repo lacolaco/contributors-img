@@ -1,41 +1,31 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { AppStore } from './state/store';
 import { FetchContributorsUsecase } from './usecase/fetch-contributors.usecase';
-import { GitHubContributor } from './core/models';
-import { ContributorsStore } from './state/contributors';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
-  contributors$: Observable<GitHubContributor[]>;
-  contributorsLoading$: Observable<boolean>;
-  imageSnippet$: Observable<string>;
-  private onDestroy$ = new Subject();
+export class AppComponent implements OnInit {
+  constructor(private usecase: FetchContributorsUsecase, private store: AppStore) {}
 
-  constructor(private contributorsService: FetchContributorsUsecase, private contributorsStore: ContributorsStore) {
-    this.contributors$ = this.contributorsStore.select(state => state.contributors.items);
-    this.contributorsLoading$ = this.contributorsStore.select(state => state.contributors.fetching > 0);
-    this.imageSnippet$ = this.contributorsStore.select(state => state.imageSnippet);
-  }
+  readonly state$ = this.store.select(state => ({
+    repository: state.repository,
+    contributors: state.contributors.items,
+    loading: state.contributors.fetching > 0,
+  }));
 
   ngOnInit() {
-    this.contributorsStore
-      .select(state => state.repository)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(repository => {
-        try {
-          this.contributorsService.fetchContributors(repository);
-        } catch (err) {
-          // console.error(err);
-        }
-      });
+    const repoFromUrl = new URLSearchParams(window.location.search).get('repo');
+    if (repoFromUrl && repoFromUrl.trim().length > 0) {
+      this.usecase.fetchContributors(repoFromUrl);
+    } else {
+      this.usecase.fetchContributors('angular/angular-ja');
+    }
   }
 
-  ngOnDestroy() {
-    this.onDestroy$.next();
+  selectRepository(repoName: string) {
+    this.usecase.fetchContributors(repoName);
   }
 }

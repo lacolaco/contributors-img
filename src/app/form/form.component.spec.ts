@@ -1,25 +1,33 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { Repository } from 'shared/model/repository';
 import { FormComponent } from './form.component';
 
 describe('FormComponent', () => {
-  let component: FormComponent;
-  let fixture: ComponentFixture<FormComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [FormComponent],
-      schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<FormComponent>;
+  const createComponent = createComponentFactory({
+    component: FormComponent,
+    imports: [ReactiveFormsModule],
+    schemas: [NO_ERRORS_SCHEMA],
   });
 
+  beforeEach(() => {});
+
   it('should create', () => {
-    expect(component).toBeTruthy();
+    spectator = createComponent({});
+
+    expect(spectator.component).toBeTruthy();
+  });
+
+  it('should set form value on input update', () => {
+    spectator = createComponent({});
+    spectator.setInput({
+      repository: new Repository('foo', 'bar'),
+    });
+
+    expect(spectator.component.form.value).toEqual({
+      repository: 'foo/bar',
+    });
   });
 });

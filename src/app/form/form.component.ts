@@ -1,45 +1,29 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { ContributorsStore } from '../state/contributors';
+import { Repository } from 'shared/model/repository';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormComponent implements OnInit, OnDestroy {
-  form: FormGroup;
-
-  private onDestroy$ = new Subject();
-
-  constructor(private contributorsStore: ContributorsStore) {
-    this.form = new FormGroup({
-      repository: new FormControl(this.contributorsStore.value.repository, {
-        validators: [Validators.required],
-      }),
-    });
+export class FormComponent {
+  @Input()
+  set repository(value: Repository | null) {
+    this.form.patchValue({ repository: value ? value.toString() : null });
   }
 
-  ngOnInit() {
-    this.contributorsStore
-      .select(state => state.repository)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(repository => {
-        this.form.patchValue({ repository });
-      });
-  }
+  @Output() valueChange = new EventEmitter<string>();
+
+  readonly form = new FormGroup({
+    repository: new FormControl(this.repository, {
+      validators: [Validators.required],
+    }),
+  });
 
   generateImage() {
-    const repository = this.form.value.repository;
-    this.contributorsStore.update(state => ({
-      ...state,
-      repository,
-    }));
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next();
+    const repoName = this.form.value.repository;
+    this.valueChange.emit(repoName);
   }
 }
