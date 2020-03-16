@@ -3,12 +3,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Repository } from '@api/shared/model/repository';
 
 @Component({
-  selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss'],
+  selector: 'app-repository-form',
+  templateUrl: './repository-form.component.html',
+  styleUrls: ['./repository-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormComponent {
+export class RepositoryFormComponent {
   @Input()
   set repository(value: Repository | null) {
     this.form.patchValue({ repository: value ? value.toString() : null });

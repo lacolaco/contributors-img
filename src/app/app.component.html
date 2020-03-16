@@ -1,7 +1,7 @@
 <ng-container *rxSubscribe="state$; let state">
   <main>
     <app-header></app-header>
-    <app-form [repository]="state.repository" (valueChange)="selectRepository($event)"></app-form>
+    <app-repository-form [repository]="state.repository" (valueChange)="selectRepository($event)"></app-repository-form>
 
     <ng-container *ngIf="state.loading; else showResult">
       <mat-spinner color="primary"></mat-spinner>

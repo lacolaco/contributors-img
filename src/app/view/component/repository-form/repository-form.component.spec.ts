@@ -2,12 +2,12 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { Repository } from '@api/shared/model/repository';
-import { FormComponent } from './form.component';
+import { RepositoryFormComponent } from './repository-form.component';
 
-describe('FormComponent', () => {
-  let spectator: Spectator<FormComponent>;
+describe('RepositoryFormComponent', () => {
+  let spectator: Spectator<RepositoryFormComponent>;
   const createComponent = createComponentFactory({
-    component: FormComponent,
+    component: RepositoryFormComponent,
     imports: [ReactiveFormsModule],
     schemas: [NO_ERRORS_SCHEMA],
   });

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { GitHubContributor } from '../core/models';
+import { GitHubContributor } from '../../../core/models';
 
 @Component({
   selector: 'app-contributor-list',
