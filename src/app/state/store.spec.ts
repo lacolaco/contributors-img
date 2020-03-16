@@ -1,5 +1,5 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { Repository } from 'shared/model/repository';
+import { Repository } from '@api/shared/model/repository';
 import { AppStore } from './store';
 
 describe('AppStore', () => {

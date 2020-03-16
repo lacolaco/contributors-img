@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GitHubContributor } from '../core/models';
 import { AppStore } from '../state/store';
-import { Repository } from 'shared/model/repository';
+import { Repository } from '@api/shared/model/repository';
 
 @Injectable({
   providedIn: 'root',

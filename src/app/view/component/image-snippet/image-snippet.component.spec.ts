@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { Repository } from 'shared/model/repository';
+import { Repository } from '@api/shared/model/repository';
 import { ImageSnippetComponent } from './image-snippet.component';
 
 describe('ImageSnippetComponent', () => {

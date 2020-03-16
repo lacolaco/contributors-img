@@ -3,13 +3,12 @@ require('dotenv').config();
 import * as cors from 'cors';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-
-import { Repository } from '../../shared/model/repository';
-import { validateRepoParam } from './utils/validators';
+import { Repository } from './shared/model/repository';
+import { getApplicationConfig } from './service/app-config';
+import { ContributorsImageCache } from './service/cache-storage';
 import { fetchContributors } from './service/fetch-contributors';
 import { renderContributorsImage } from './service/render-image';
-import { ContributorsImageCache } from './service/cache-storage';
-import { getApplicationConfig } from './service/app-config';
+import { validateRepoParam } from './utils/validators';
 
 admin.initializeApp();
 
