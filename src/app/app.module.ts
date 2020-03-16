@@ -14,9 +14,10 @@ import { HeaderComponent } from './header/header.component';
 import { FormComponent } from './form/form.component';
 import { ContributorListComponent } from './contributor-list/contributor-list.component';
 import { ImageSnippetComponent } from './view/component/image-snippet/image-snippet.component';
+import { FooterComponent } from './view/component/footer/footer.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FormComponent, ContributorListComponent, ImageSnippetComponent],
+  declarations: [AppComponent, HeaderComponent, FormComponent, ContributorListComponent, ImageSnippetComponent, FooterComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
