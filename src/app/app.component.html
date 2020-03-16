@@ -1,10 +1,10 @@
 <ng-container *rxSubscribe="state$; let state">
   <main>
     <app-header></app-header>
-    <app-form [repository]="state.repository" (valueChange)="selectRepository($event)"></app-form>
+    <app-repository-form [repository]="state.repository" (valueChange)="selectRepository($event)"></app-repository-form>
 
     <ng-container *ngIf="state.loading; else showResult">
-      <mat-spinner color="primary"></mat-spinner>
+      <img height="100" src="assets/images/loading.gif" />
     </ng-container>
     <ng-template #showResult>
       <ng-container *ngIf="state.contributors.length > 0; else showNoResult">
@@ -19,8 +19,6 @@
       <div>No Result. Is the repository name correct?</div>
     </ng-template>
 
-    <div class="footer">
-      &copy; 2019 - Suguru Inatomi
-    </div>
+    <app-footer></app-footer>
   </main>
 </ng-container>

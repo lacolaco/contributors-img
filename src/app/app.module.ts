@@ -4,19 +4,25 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserModule } from '@angular/platform-browser';
-import { RxSubscribeModule } from '@soundng/rx-subscribe';
-
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from './header/header.component';
-import { FormComponent } from './form/form.component';
-import { ContributorListComponent } from './contributor-list/contributor-list.component';
+import { RxSubscribeModule } from '@soundng/rx-subscribe';
+import { AppComponent } from './app.component';
+import { ContributorListComponent } from './view/component/contributor-list/contributor-list.component';
+import { FooterComponent } from './view/component/footer/footer.component';
+import { HeaderComponent } from './view/component/header/header.component';
 import { ImageSnippetComponent } from './view/component/image-snippet/image-snippet.component';
+import { RepositoryFormComponent } from './view/component/repository-form/repository-form.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FormComponent, ContributorListComponent, ImageSnippetComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    RepositoryFormComponent,
+    ContributorListComponent,
+    ImageSnippetComponent,
+    FooterComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -26,7 +32,6 @@ import { ImageSnippetComponent } from './view/component/image-snippet/image-snip
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
