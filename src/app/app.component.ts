@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FetchContributorsUsecase } from './usecase/fetch-contributors.usecase';
-import { GitHubContributor } from './core/models';
 import { ContributorsStore } from './state/contributors';
+import { FetchContributorsUsecase } from './usecase/fetch-contributors.usecase';
 
 @Component({
   selector: 'app-root',
@@ -11,16 +10,14 @@ import { ContributorsStore } from './state/contributors';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  contributors$: Observable<GitHubContributor[]>;
-  contributorsLoading$: Observable<boolean>;
-  imageSnippet$: Observable<string>;
-  private onDestroy$ = new Subject();
+  constructor(private contributorsService: FetchContributorsUsecase, private contributorsStore: ContributorsStore) {}
 
-  constructor(private contributorsService: FetchContributorsUsecase, private contributorsStore: ContributorsStore) {
-    this.contributors$ = this.contributorsStore.select(state => state.contributors.items);
-    this.contributorsLoading$ = this.contributorsStore.select(state => state.contributors.fetching > 0);
-    this.imageSnippet$ = this.contributorsStore.select(state => state.imageSnippet);
-  }
+  readonly state$ = this.contributorsStore.select(state => ({
+    contributors: state.contributors.items,
+    loading: state.contributors.fetching > 0,
+    imageSnippet: state.imageSnippet,
+  }));
+  private readonly onDestroy$ = new Subject();
 
   ngOnInit() {
     this.contributorsStore
