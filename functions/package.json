@@ -1,6 +1,7 @@
 {
   "name": "functions",
   "scripts": {
+    "prebuild": "rm -rf lib",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "lint": "tslint --project tsconfig.json",

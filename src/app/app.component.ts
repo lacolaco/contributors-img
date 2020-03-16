@@ -1,41 +1,34 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { ContributorsService } from './contributors.service';
-import { GitHubContributor } from './core/models';
-import { ContributorsStore } from './state/contributors';
+import { Component, OnInit } from '@angular/core';
+import { AppStore } from './state/store';
+import { FetchContributorsUsecase } from './usecase/fetch-contributors.usecase';
+import { scheduleChangeDetection } from './utils/rx/detect-changes';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
-  contributors$: Observable<GitHubContributor[]>;
-  contributorsLoading$: Observable<boolean>;
-  imageSnippet$: Observable<string>;
-  private onDestroy$ = new Subject();
+export class AppComponent implements OnInit {
+  constructor(private fetchContributorsUsecase: FetchContributorsUsecase, private store: AppStore) {}
 
-  constructor(private contributorsService: ContributorsService, private contributorsStore: ContributorsStore) {
-    this.contributors$ = this.contributorsStore.selectValue(state => state.items);
-    this.contributorsLoading$ = this.contributorsStore.selectValue(state => state.itemsLoading > 0);
-    this.imageSnippet$ = this.contributorsStore.selectValue(state => state.imageSnippet);
-  }
+  readonly state$ = this.store
+    .select(state => ({
+      repository: state.repository,
+      contributors: state.contributors.items,
+      loading: state.contributors.fetching > 0,
+    }))
+    .pipe(scheduleChangeDetection(this));
 
   ngOnInit() {
-    this.contributorsStore
-      .selectValue(state => state.repository)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(repository => {
-        try {
-          this.contributorsService.fetchContributors(repository);
-        } catch (err) {
-          // console.error(err);
-        }
-      });
+    const repoFromUrl = new URLSearchParams(window.location.search).get('repo');
+    if (repoFromUrl && repoFromUrl.trim().length > 0) {
+      this.fetchContributorsUsecase.execute(repoFromUrl);
+    } else {
+      this.fetchContributorsUsecase.execute('angular/angular-ja');
+    }
   }
 
-  ngOnDestroy() {
-    this.onDestroy$.next();
+  selectRepository(repoName: string) {
+    this.fetchContributorsUsecase.execute(repoName);
   }
 }
