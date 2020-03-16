@@ -9,7 +9,7 @@ import { AppStore } from '../state/store';
 export class FetchContributorsUsecase {
   constructor(private http: HttpClient, private store: AppStore) {}
 
-  async fetchContributors(repoName: string) {
+  async execute(repoName: string) {
     this.store.startFetchingContributors(Repository.fromString(repoName));
 
     try {
