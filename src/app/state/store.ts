@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Contributor, Repository } from '@api/shared/model';
 import { Store } from '@lacolaco/reactive-store';
-import { GitHubContributor } from '../core/models';
-import { Repository } from '@api/shared/model/repository';
 
 export interface State {
   repository: Repository | null;
   contributors: {
-    items: GitHubContributor[];
+    items: Contributor[];
     fetching: number;
   };
 }
@@ -37,7 +36,7 @@ export class AppStore extends Store<State> {
     }));
   }
 
-  finishFetchingContributors(items: GitHubContributor[]) {
+  finishFetchingContributors(items: Contributor[]) {
     this.update(state => ({
       ...state,
       contributors: {

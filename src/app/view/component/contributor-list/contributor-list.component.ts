@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { GitHubContributor } from '../../../core/models';
+import { Contributor } from '@api/shared/model';
 
 @Component({
   selector: 'app-contributor-list',
@@ -8,5 +8,5 @@ import { GitHubContributor } from '../../../core/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContributorListComponent {
-  @Input() list: GitHubContributor[] = [];
+  @Input() list: Contributor[] = [];
 }

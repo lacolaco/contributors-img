@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GitHubContributor } from '../core/models';
+import { Contributor, Repository } from '@api/shared/model';
 import { AppStore } from '../state/store';
-import { Repository } from '@api/shared/model/repository';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +14,7 @@ export class FetchContributorsUsecase {
 
     try {
       const contributors = await this.http
-        .get<GitHubContributor[]>(`/api/contributors`, { params: { repo: repoName } })
+        .get<Contributor[]>(`/api/contributors`, { params: { repo: repoName } })
         .toPromise();
       this.store.finishFetchingContributors(contributors);
     } catch (error) {

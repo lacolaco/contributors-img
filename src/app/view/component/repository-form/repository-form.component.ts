@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Repository } from '@api/shared/model/repository';
+import { Repository } from '@api/shared/model';
 
 @Component({
   selector: 'app-repository-form',
