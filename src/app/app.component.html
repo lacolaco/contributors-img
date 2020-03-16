@@ -4,7 +4,7 @@
     <app-repository-form [repository]="state.repository" (valueChange)="selectRepository($event)"></app-repository-form>
 
     <ng-container *ngIf="state.loading; else showResult">
-      <mat-spinner color="primary"></mat-spinner>
+      <img height="100" src="assets/images/loading.gif" />
     </ng-container>
     <ng-template #showResult>
       <ng-container *ngIf="state.contributors.length > 0; else showNoResult">

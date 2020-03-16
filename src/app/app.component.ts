@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppStore } from './state/store';
 import { FetchContributorsUsecase } from './usecase/fetch-contributors.usecase';
-import { requestChangeDetection } from './utils/rx/detect-changes';
+import { scheduleChangeDetection } from './utils/rx/detect-changes';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
       contributors: state.contributors.items,
       loading: state.contributors.fetching > 0,
     }))
-    .pipe(requestChangeDetection(this));
+    .pipe(scheduleChangeDetection(this));
 
   ngOnInit() {
     const repoFromUrl = new URLSearchParams(window.location.search).get('repo');

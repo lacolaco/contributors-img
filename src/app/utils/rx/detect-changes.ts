@@ -1,10 +1,8 @@
-import { ɵdetectChanges as detectChanges } from '@angular/core';
+import { ɵmarkDirty as markDirty } from '@angular/core';
 import { pipe } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-export const requestChangeDetection = <T>(component: {}) =>
+export const scheduleChangeDetection = <T>(component: {}) =>
   pipe(
-    tap<T>(() => {
-      requestAnimationFrame(() => detectChanges(component));
-    }),
+    tap<T>(() => markDirty(component)),
   );
