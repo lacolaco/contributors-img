@@ -13,6 +13,7 @@ import { FooterComponent } from './view/component/footer/footer.component';
 import { HeaderComponent } from './view/component/header/header.component';
 import { ImageSnippetComponent } from './view/component/image-snippet/image-snippet.component';
 import { RepositoryFormComponent } from './view/component/repository-form/repository-form.component';
+import { AvatarUrlPipe } from './view/pipe/avatar-url.pipe';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { RepositoryFormComponent } from './view/component/repository-form/reposi
     ContributorListComponent,
     ImageSnippetComponent,
     FooterComponent,
+    AvatarUrlPipe,
   ],
   imports: [
     BrowserModule,
