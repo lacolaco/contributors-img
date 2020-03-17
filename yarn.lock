@@ -4492,10 +4492,10 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-tools@7.15.0:
-  version "7.15.0"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-7.15.0.tgz#e1ffe03aef934e9dbbec6acaeaccad11fece282f"
-  integrity sha512-NQ9mkcDKy0dAbD5LRPNGqoYEPR3wUGhm92OZTnS9bimhBiruPnkbwSq4PvjfGVyM7FyzyqvTawGlcj2gzD7QLw==
+firebase-tools@7.15.1:
+  version "7.15.1"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-7.15.1.tgz#dd5bc8047db2f907656b7a8de4b4c50be013efe2"
+  integrity sha512-fYnUsncYToYH/1aqLmsIsTsj7+AGyeuNfa3ry0CPrUz6lOvV2h1e5OPLgAAxmmhQyaJ73pEIPI9qRTUK1ONhDA==
   dependencies:
     "@google-cloud/pubsub" "^1.1.5"
     "@types/js-yaml" "^3.12.2"
