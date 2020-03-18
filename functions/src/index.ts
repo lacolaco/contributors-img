@@ -9,7 +9,7 @@ import { fetchContributors } from './service/fetch-contributors';
 import { ContributorsImageCache } from './service/image-cache';
 import { ContributorsJsonCache } from './service/json-cache';
 import { renderContributorsImage } from './service/render-image';
-import { Repository } from './shared/model/repository';
+import { Contributor, Repository } from './shared/model';
 import { validateRepoParam } from './utils/validators';
 
 admin.initializeApp();
@@ -34,26 +34,30 @@ export const createContributorsImage = functions.runWith({ timeoutSeconds: 60, m
 
     const cache = new ContributorsImageCache(bucket, { useCache: config.useCache });
 
-    const prepare = async () => {
-      console.debug('restore cache');
-      const cached = await cache.restore(repository);
-      if (cached) {
-        console.debug('cache hit');
-        return cached;
-      }
-      console.debug(`render image`);
-      return renderContributorsImage(repository, { webappUrl: config.webappUrl, useHeadless: config.useHeadless });
-    };
-
-    try {
-      const image = await prepare();
+    const send = (image: Buffer) => {
       response
         .header('Content-Type', 'image/png')
         .header('Cache-Control', 'max-age=0, no-cache')
         .status(200)
         .send(image);
+    };
+
+    try {
+      console.debug('restore cache');
+      const cached = await cache.restore(repository);
+      if (cached) {
+        console.debug('cache hit');
+        send(cached);
+        return;
+      }
+      console.debug(`render image`);
+      const rendered = await renderContributorsImage(repository, {
+        webappUrl: config.webappUrl,
+        useHeadless: config.useHeadless,
+      });
+      send(rendered);
       console.debug('save cache');
-      await cache.save(repository, image);
+      await cache.save(repository, rendered);
     } catch (error) {
       console.error(error);
       response.status(500).send(error);
@@ -78,23 +82,25 @@ export const getContributors = functions.https.onRequest(
       console.debug(`repository: ${repository.toString()}`);
       const cache = new ContributorsJsonCache(bucket, { useCache: config.useCache });
 
-      const prepare = async () => {
+      const send = (data: Contributor[]) => {
+        response
+          .header('Content-Type', 'application/json')
+          .status(200)
+          .send(data);
+      };
+
+      try {
         console.debug('restore cache');
         const cached = await cache.restore(repository);
         if (cached) {
           console.debug('cache hit');
-          return cached;
+          send(cached);
+          return;
         }
         console.debug(`fetch data`);
-        return fetchContributors(repository);
-      };
 
-      try {
-        const contributors = await prepare();
-        response
-          .header('Content-Type', 'application/json')
-          .status(200)
-          .send(contributors);
+        const contributors = await fetchContributors(repository);
+        send(contributors);
         console.debug('save cache');
         await cache.save(repository, contributors);
       } catch (err) {
