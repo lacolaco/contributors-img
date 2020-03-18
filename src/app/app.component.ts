@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppStore } from './state/store';
 import { FetchContributorsUsecase } from './usecase/fetch-contributors.usecase';
-import { scheduleChangeDetection } from './utils/rx/detect-changes';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +10,11 @@ import { scheduleChangeDetection } from './utils/rx/detect-changes';
 export class AppComponent implements OnInit {
   constructor(private fetchContributorsUsecase: FetchContributorsUsecase, private store: AppStore) {}
 
-  readonly state$ = this.store
-    .select(state => ({
-      repository: state.repository,
-      contributors: state.contributors.items,
-      loading: state.contributors.fetching > 0,
-    }))
-    .pipe(scheduleChangeDetection(this));
+  readonly state$ = this.store.select(state => ({
+    repository: state.repository,
+    contributors: state.contributors.items,
+    loading: state.contributors.fetching > 0,
+  }));
 
   ngOnInit() {
     const repoFromUrl = new URLSearchParams(window.location.search).get('repo');
