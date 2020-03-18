@@ -37,7 +37,7 @@ export const createContributorsImage = functions.runWith({ timeoutSeconds: 60, m
     const send = (image: Buffer) => {
       response
         .header('Content-Type', 'image/png')
-        .header('Cache-Control', 'max-age=0, no-cache')
+        .header('Cache-Control', `max-age=${60 * 60}`)
         .status(200)
         .send(image);
     };
@@ -85,6 +85,7 @@ export const getContributors = functions.https.onRequest(
       const send = (data: Contributor[]) => {
         response
           .header('Content-Type', 'application/json')
+          .header('Cache-Control', `max-age=${60 * 60}`)
           .status(200)
           .send(data);
       };
