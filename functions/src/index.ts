@@ -11,12 +11,14 @@ import { ContributorsJsonCache } from './service/json-cache';
 import { renderContributorsImage } from './service/render-image';
 import { Contributor, Repository } from './shared/model';
 import { validateRepoParam } from './utils/validators';
+import { RepoInfoRepository } from './service/repo-info.repository';
 
 admin.initializeApp();
 
 const bucket = admin.storage().bucket();
 const config = getApplicationConfig();
 console.debug('config', config);
+const repoInfoRepository = new RepoInfoRepository(admin.firestore());
 
 export const createContributorsImage = functions.runWith({ timeoutSeconds: 60, memory: '1GB' }).https.onRequest(
   express().get('*', async (request, response) => {
@@ -80,6 +82,11 @@ export const getContributors = functions.https.onRequest(
       }
       const repository = Repository.fromString(repoParam);
       console.debug(`repository: ${repository.toString()}`);
+
+      await repoInfoRepository.set(repository, {
+        lastGeneratedAt: new Date(),
+      });
+
       const cache = new ContributorsJsonCache(bucket, { useCache: config.useCache });
 
       const send = (data: Contributor[]) => {
