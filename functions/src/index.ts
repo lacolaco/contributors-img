@@ -4,14 +4,14 @@ import * as compression from 'compression';
 import * as express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { createContributorsImageQuery } from './query/contributors-image.query';
+import { createContributorsQuery } from './query/contributors.query';
 import { getApplicationConfig } from './service/app-config';
-import { fetchContributors } from './service/fetch-contributors';
 import { ContributorsImageCache } from './service/image-cache';
 import { ContributorsJsonCache } from './service/json-cache';
-import { renderContributorsImage } from './service/render-image';
-import { Contributor, Repository } from './shared/model';
-import { validateRepoParam } from './utils/validators';
 import { RepoInfoRepository } from './service/repo-info.repository';
+import { Repository } from './shared/model';
+import { validateRepoParam } from './utils/validators';
 
 admin.initializeApp();
 
@@ -19,6 +19,11 @@ const bucket = admin.storage().bucket();
 const config = getApplicationConfig();
 console.debug('config', config);
 const repoInfoRepository = new RepoInfoRepository(admin.firestore());
+const contributorsJsonCache = new ContributorsJsonCache(bucket, { useCache: config.useCache });
+const contributorsImageCache = new ContributorsImageCache(bucket, { useCache: config.useCache });
+
+const contributorsQuery = createContributorsQuery(contributorsJsonCache);
+const contributorsImageQuery = createContributorsImageQuery(contributorsImageCache, config);
 
 export const createContributorsImage = functions.runWith({ timeoutSeconds: 60, memory: '1GB' }).https.onRequest(
   express().get('*', async (request, response) => {
@@ -34,32 +39,18 @@ export const createContributorsImage = functions.runWith({ timeoutSeconds: 60, m
     const repository = Repository.fromString(repoParam);
     console.debug(`repository: ${repository.toString()}`);
 
-    const cache = new ContributorsImageCache(bucket, { useCache: config.useCache });
+    await repoInfoRepository.set(repository, {
+      lastGeneratedAt: new Date(),
+    });
 
-    const send = (image: Buffer) => {
+    try {
+      const contributors = await contributorsQuery(repository);
+      const image = await contributorsImageQuery(repository, contributors);
       response
         .header('Content-Type', 'image/png')
         .header('Cache-Control', `max-age=${60 * 60}`)
         .status(200)
         .send(image);
-    };
-
-    try {
-      console.debug('restore cache');
-      const cached = await cache.restore(repository);
-      if (cached) {
-        console.debug('cache hit');
-        send(cached);
-        return;
-      }
-      console.debug(`render image`);
-      const rendered = await renderContributorsImage(repository, {
-        webappUrl: config.webappUrl,
-        useHeadless: config.useHeadless,
-      });
-      send(rendered);
-      console.debug('save cache');
-      await cache.save(repository, rendered);
     } catch (error) {
       console.error(error);
       response.status(500).send(error);
@@ -83,34 +74,13 @@ export const getContributors = functions.https.onRequest(
       const repository = Repository.fromString(repoParam);
       console.debug(`repository: ${repository.toString()}`);
 
-      await repoInfoRepository.set(repository, {
-        lastGeneratedAt: new Date(),
-      });
-
-      const cache = new ContributorsJsonCache(bucket, { useCache: config.useCache });
-
-      const send = (data: Contributor[]) => {
+      try {
+        const contributors = await contributorsQuery(repository);
         response
           .header('Content-Type', 'application/json')
           .header('Cache-Control', `max-age=${60 * 60}`)
           .status(200)
-          .send(data);
-      };
-
-      try {
-        console.debug('restore cache');
-        const cached = await cache.restore(repository);
-        if (cached) {
-          console.debug('cache hit');
-          send(cached);
-          return;
-        }
-        console.debug(`fetch data`);
-
-        const contributors = await fetchContributors(repository);
-        send(contributors);
-        console.debug('save cache');
-        await cache.save(repository, contributors);
+          .send(contributors);
       } catch (err) {
         console.error(err);
         response.status(500).send(err.toString());

@@ -1,0 +1,1 @@
+export const CONTRIBUTORS_DATA = '@@CONTRIBUTORS_DATA@@';

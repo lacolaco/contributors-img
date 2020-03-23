@@ -1,40 +1,13 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RxSubscribeModule } from '@soundng/rx-subscribe';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ContributorListComponent } from './view/component/contributor-list/contributor-list.component';
-import { FooterComponent } from './view/component/footer/footer.component';
-import { HeaderComponent } from './view/component/header/header.component';
-import { ImageSnippetComponent } from './view/component/image-snippet/image-snippet.component';
-import { RepositoryFormComponent } from './view/component/repository-form/repository-form.component';
-import { AvatarUrlPipe } from './view/pipe/avatar-url.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    RepositoryFormComponent,
-    ContributorListComponent,
-    ImageSnippetComponent,
-    FooterComponent,
-    AvatarUrlPipe,
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    RxSubscribeModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })
