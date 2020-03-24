@@ -1,15 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-repository-gallery',
   templateUrl: './repository-gallery.component.html',
   styleUrls: ['./repository-gallery.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RepositoryGalleryComponent implements OnInit {
-  constructor() {}
-
+export class RepositoryGalleryComponent {
   @Input()
-  repositories: any[];
-
-  ngOnInit(): void {}
+  repositories: { name: string }[];
 }

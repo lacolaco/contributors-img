@@ -25,7 +25,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   readonly state$ = combineLatest([
     this.store.valueChanges,
     this.firestore
-      .collection('repositories', q => q.limit(12).orderBy('lastGeneratedAt', 'desc'))
+      .collection<{ name: string }>('repositories', q => q.limit(12).orderBy('lastGeneratedAt', 'desc'))
       .valueChanges()
       .pipe(throttleTime(1000 * 10)),
     this.showImageSnippetSubject.asObservable(),
