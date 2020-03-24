@@ -1,24 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PreviewComponent } from './preview.component';
+import { PreviewModule } from './preview.module';
 
 describe('PreviewComponent', () => {
-  let component: PreviewComponent;
-  let fixture: ComponentFixture<PreviewComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [PreviewComponent],
-    }).compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PreviewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<PreviewComponent>;
+  const createComponent = createComponentFactory({
+    component: PreviewComponent,
+    imports: [PreviewModule],
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    spectator = createComponent({});
+
+    expect(spectator.component).toBeTruthy();
   });
 });

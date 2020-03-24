@@ -1,24 +1,22 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { SimpleRenderComponent } from './simple.component';
+import { CONTRIBUTORS_DATA } from '@api/shared/state/tokens';
+import { ContributorsListModule } from 'src/app/shared/contributors-list/contributors-list.module';
 
-describe('SimpleComponent', () => {
-  let component: SimpleRenderComponent;
-  let fixture: ComponentFixture<SimpleRenderComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [SimpleRenderComponent],
-    }).compileComponents();
-  }));
+describe('SimpleRenderComponent', () => {
+  let spectator: Spectator<SimpleRenderComponent>;
+  const createComponent = createComponentFactory({
+    component: SimpleRenderComponent,
+    imports: [ContributorsListModule],
+  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SimpleRenderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    (window as any)[CONTRIBUTORS_DATA] = [];
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    spectator = createComponent({});
+
+    expect(spectator.component).toBeTruthy();
   });
 });
