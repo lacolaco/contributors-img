@@ -9,6 +9,6 @@ export class AppComponent {
   constructor(private cdRef: ChangeDetectorRef) {}
 
   onRouteActivate() {
-    this.cdRef.detectChanges();
+    // this.cdRef.detectChanges();
   }
 }

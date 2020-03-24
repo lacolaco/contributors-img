@@ -1,0 +1,43 @@
+@import '~@angular/material/theming';
+
+:host {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heading {
+  margin-bottom: 0;
+}
+
+ul.gallery {
+  li {
+    list-style: none;
+
+    a {
+      text-decoration: none;
+      color: unset;
+    }
+  }
+
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-evenly;
+
+  > :not(:last-child) {
+    padding-bottom: 16px;
+  }
+}
+
+.card {
+  @include mat-elevation(2);
+  font-weight: bold;
+
+  &:hover {
+    @include mat-elevation(6);
+  }
+}

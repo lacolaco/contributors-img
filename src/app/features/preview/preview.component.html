@@ -9,15 +9,24 @@
     <ng-template #showResult>
       <ng-container *ngIf="state.contributors.length > 0; else showNoResult">
         <div class="generatedResult">
-          <app-contributor-list id="contributors" [list]="state.contributors"> </app-contributor-list>
+          <app-contributor-list [list]="state.contributors"> </app-contributor-list>
 
-          <app-image-snippet *ngIf="state.repository" [repository]="state.repository"></app-image-snippet>
+          <app-image-snippet
+            *ngIf="state.repository && state.showImageSnippet"
+            [repository]="state.repository"
+          ></app-image-snippet>
+
+          <button *ngIf="!state.showImageSnippet" mat-stroked-button color="primary" (click)="showImageSnippet()">
+            Get Image URL!
+          </button>
         </div>
       </ng-container>
     </ng-template>
     <ng-template #showNoResult>
       <div>No Result. Is the repository name correct?</div>
     </ng-template>
+
+    <app-repository-gallery [repositories]="state.repositories"></app-repository-gallery>
 
     <app-footer></app-footer>
   </main>
