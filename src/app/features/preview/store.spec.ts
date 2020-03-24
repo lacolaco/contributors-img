@@ -1,10 +1,10 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Repository } from '@api/shared/model';
-import { AppStore } from './store';
+import { PreviewStore } from './store';
 
 describe('AppStore', () => {
-  let spectator: SpectatorService<AppStore>;
-  const createService = createServiceFactory(AppStore);
+  let spectator: SpectatorService<PreviewStore>;
+  const createService = createServiceFactory(PreviewStore);
 
   beforeEach(() => (spectator = createService()));
 

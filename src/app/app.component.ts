@@ -1,31 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { AppStore } from './state/store';
-import { FetchContributorsUsecase } from './usecase/fetch-contributors.usecase';
+import { Component, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
-  constructor(private fetchContributorsUsecase: FetchContributorsUsecase, private store: AppStore) {}
+export class AppComponent {
+  constructor(private cdRef: ChangeDetectorRef) {}
 
-  readonly state$ = this.store.select(state => ({
-    repository: state.repository,
-    contributors: state.contributors.items,
-    loading: state.contributors.fetching > 0,
-  }));
-
-  ngOnInit() {
-    const repoFromUrl = new URLSearchParams(window.location.search).get('repo');
-    if (repoFromUrl && repoFromUrl.trim().length > 0) {
-      this.fetchContributorsUsecase.execute(repoFromUrl);
-    } else {
-      this.fetchContributorsUsecase.execute('angular/angular-ja');
-    }
-  }
-
-  selectRepository(repoName: string) {
-    this.fetchContributorsUsecase.execute(repoName);
+  onRouteActivate() {
+    this.cdRef.detectChanges();
   }
 }
