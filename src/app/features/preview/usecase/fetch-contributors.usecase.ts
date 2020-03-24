@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Contributor, Repository } from '@api/shared/model';
-import { AppStore } from '../state/store';
+import { PreviewStore } from '../store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FetchContributorsUsecase {
-  constructor(private http: HttpClient, private store: AppStore) {}
+  constructor(private http: HttpClient, private store: PreviewStore) {}
 
   async execute(repoName: string) {
     this.store.startFetchingContributors(Repository.fromString(repoName));

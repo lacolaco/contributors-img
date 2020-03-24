@@ -19,7 +19,7 @@ export const initialValue: State = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class AppStore extends Store<State> {
+export class PreviewStore extends Store<State> {
   constructor() {
     super({ initialValue });
   }
