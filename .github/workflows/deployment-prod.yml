@@ -23,8 +23,12 @@ jobs:
     - name: Copy .env
       run: npm --prefix functions run env:prod
 
+    - name: build
+      run: yarn build:prod
+
     - name: deploy
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      run: yarn firebase -P prod deploy --token $FIREBASE_TOKEN
       run: yarn firebase -P prod deploy --token $FIREBASE_TOKEN
 

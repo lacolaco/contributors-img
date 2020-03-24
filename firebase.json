@@ -7,9 +7,6 @@
     "source": "functions"
   },
   "hosting": {
-    "predeploy": [
-      "npm run build:prod"
-    ],
     "public": "dist/contributors-img",
     "ignore": [
       "firebase.json",
@@ -30,5 +27,9 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }
