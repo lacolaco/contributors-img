@@ -39,10 +39,6 @@ export const createContributorsImage = functions.runWith({ timeoutSeconds: 60, m
     const repository = Repository.fromString(repoParam);
     console.debug(`repository: ${repository.toString()}`);
 
-    await repoInfoRepository.set(repository, {
-      lastGeneratedAt: new Date(),
-    });
-
     try {
       const contributors = await contributorsQuery(repository);
       const image = await contributorsImageQuery(repository, contributors);
@@ -51,6 +47,10 @@ export const createContributorsImage = functions.runWith({ timeoutSeconds: 60, m
         .header('Cache-Control', `max-age=${60 * 60}`)
         .status(200)
         .send(image);
+
+      await repoInfoRepository.set(repository, {
+        lastGeneratedAt: new Date(),
+      });
     } catch (error) {
       console.error(error);
       response.status(500).send(error);

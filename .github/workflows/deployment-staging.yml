@@ -23,8 +23,19 @@ jobs:
     - name: Copy .env
       run: npm --prefix functions run env:dev
 
+    - name: build
+      run: yarn build:staging
+
     - name: deploy
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       run: yarn firebase -P dev deploy --token $FIREBASE_TOKEN
+
+    - name: pull-request-action
+      uses: vsoch/pull-request-action@1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH_PREFIX: "master"
+        PULL_REQUEST_BRANCH: "production"
+        PULL_REQUEST_TITLE: "release"
 

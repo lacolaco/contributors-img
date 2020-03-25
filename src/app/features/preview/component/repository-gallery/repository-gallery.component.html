@@ -1,0 +1,18 @@
+<div class="heading mat-subheading-2">Recently Generated</div>
+<ul class="gallery">
+  <ng-container *ngFor="let repo of repositories">
+    <li>
+      <mat-card class="card">
+        <div>{{ repo.name }}</div>
+        <mat-card-actions>
+          <a mat-button routerLink [queryParams]="{ repo: repo.name }">
+            Generate
+          </a>
+          <a mat-button href="https://github.com/{{ repo.name }}" target="_blank" rel="noopener">
+            <img height="32" src="assets/images/github-64px.png" />
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    </li>
+  </ng-container>
+</ul>
