@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { map, takeUntil, throttleTime } from 'rxjs/operators';
 import { PreviewStore } from './store';
@@ -14,6 +14,7 @@ import { FetchContributorsUsecase } from './usecase/fetch-contributors.usecase';
 export class PreviewComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private fetchContributors: FetchContributorsUsecase,
     private store: PreviewStore,
     private firestore: AngularFirestore,
@@ -45,7 +46,9 @@ export class PreviewComponent implements OnInit, OnDestroy {
         takeUntil(this.onDestroy$),
         map(q => q.get('repo')),
       )
-      .subscribe(repo => this.selectRepository(repo || 'angular/angular-ja'));
+      .subscribe(repo => {
+        this.fetchContributors.execute(repo || 'angular/angular-ja');
+      });
   }
 
   ngOnDestroy() {
@@ -54,7 +57,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
 
   selectRepository(repoName: string) {
     this.showImageSnippetSubject.next(false);
-    this.fetchContributors.execute(repoName);
+    this.router.navigate([], { queryParams: { repo: repoName } });
   }
 
   showImageSnippet() {
