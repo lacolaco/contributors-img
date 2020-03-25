@@ -30,5 +30,4 @@ jobs:
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       run: yarn firebase -P prod deploy --token $FIREBASE_TOKEN
-      run: yarn firebase -P prod deploy --token $FIREBASE_TOKEN
 
