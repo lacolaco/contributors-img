@@ -25,7 +25,7 @@ export class PreviewStore extends Store<State> {
   }
 
   startFetchingContributors(repository: Repository) {
-    this.update(state => ({
+    this.update((state) => ({
       ...state,
       repository,
       contributors: {
@@ -37,7 +37,7 @@ export class PreviewStore extends Store<State> {
   }
 
   finishFetchingContributors(items: Contributor[]) {
-    this.update(state => ({
+    this.update((state) => ({
       ...state,
       contributors: {
         ...state.contributors,

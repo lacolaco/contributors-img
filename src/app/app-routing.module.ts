@@ -11,7 +11,7 @@ export const routes: Routes = [
   },
   {
     path: 'preview',
-    loadChildren: () => import('./features/preview/preview.module').then(m => m.PreviewModule),
+    loadChildren: () => import('./features/preview/preview.module').then((m) => m.PreviewModule),
   },
   {
     path: 'render',
