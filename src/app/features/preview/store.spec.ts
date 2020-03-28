@@ -32,7 +32,7 @@ describe('AppStore', () => {
 
   describe('finishFetchingContributors()', () => {
     it('should update value', () => {
-      spectator.service.update(state => ({
+      spectator.service.update((state) => ({
         ...state,
         contributors: {
           items: [],

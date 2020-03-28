@@ -26,7 +26,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   readonly state$ = combineLatest([
     this.store.valueChanges,
     this.firestore
-      .collection<{ name: string }>('repositories', q => q.limit(12).orderBy('lastGeneratedAt', 'desc'))
+      .collection<{ name: string }>('repositories', (q) => q.limit(12).orderBy('lastGeneratedAt', 'desc'))
       .valueChanges()
       .pipe(throttleTime(1000 * 10)),
     this.showImageSnippetSubject.asObservable(),
@@ -44,9 +44,9 @@ export class PreviewComponent implements OnInit, OnDestroy {
     this.route.queryParamMap
       .pipe(
         takeUntil(this.onDestroy$),
-        map(q => q.get('repo')),
+        map((q) => q.get('repo')),
       )
-      .subscribe(repo => {
+      .subscribe((repo) => {
         this.fetchContributors.execute(repo || 'angular/angular-ja');
       });
   }

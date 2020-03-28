@@ -13,7 +13,7 @@ export class ContributorsJsonCache {
   }
 
   async restore(repository: Repository): Promise<Contributor[] | null> {
-    return this.storage.restore(this.generateCacheFileName(repository), {}).then(file => {
+    return this.storage.restore(this.generateCacheFileName(repository), {}).then((file) => {
       if (file === null) {
         return null;
       }

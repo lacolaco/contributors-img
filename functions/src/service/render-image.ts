@@ -27,7 +27,7 @@ export async function renderContributorsImage({
     height: 1048,
   });
 
-  page.on('error', error => {
+  page.on('error', (error) => {
     console.error(error);
   });
 

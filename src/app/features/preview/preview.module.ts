@@ -15,11 +15,11 @@ import { FooterComponent } from './component/footer/footer.component';
 import { HeaderComponent } from './component/header/header.component';
 import { ImageSnippetComponent } from './component/image-snippet/image-snippet.component';
 import { RepositoryFormComponent } from './component/repository-form/repository-form.component';
+import { RepositoryGalleryComponent } from './component/repository-gallery/repository-gallery.component';
 import { PreviewRoutingModule } from './preview-routing.module';
 import { PreviewComponent } from './preview.component';
 
 import 'firebase/firestore';
-import { RepositoryGalleryComponent } from './component/repository-gallery/repository-gallery.component';
 
 @NgModule({
   declarations: [
