@@ -24,7 +24,7 @@
     "@angular/common": "9.1.0",
     "@angular/compiler": "9.1.0",
     "@angular/core": "9.1.0",
-    "@angular/fire": "6.0.0-rc.1",
+    "@angular/fire": "6.0.0",
     "@angular/forms": "9.1.0",
     "@angular/material": "9.2.0",
     "@angular/platform-browser": "9.1.0",
