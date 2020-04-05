@@ -1633,11 +1633,6 @@
   dependencies:
     "@types/jasmine" "*"
 
-"@types/js-yaml@^3.12.2":
-  version "3.12.2"
-  resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-3.12.2.tgz#a35a1809c33a68200fb6403d1ad708363c56470a"
-  integrity sha512-0CFu/g4mDSNkodVwWijdlr8jH7RoplRWNgovjFLEZeT+QEbbZXjBmCe3HwaWheAlCbHwomTwzZoSedeOycABug==
-
 "@types/long@*", "@types/long@^4.0.0":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@types/long/-/long-4.0.1.tgz#459c65fa1867dafe6a8f322c4c51695663cc55e9"
@@ -4958,13 +4953,12 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-tools@7.16.1:
-  version "7.16.1"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-7.16.1.tgz#1c18250ae842d424e4487ab23695adf7abef675b"
-  integrity sha512-IK2LOfdTvPvSvChpgNiadO/KiKt3lbIDvwPsvuaPw1fgWuTNtSbTzrLb/pXcnRUfObI03qKuMhiAEB/28zYjfg==
+firebase-tools@7.16.2:
+  version "7.16.2"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-7.16.2.tgz#6f318de5d35346b48219e9f7da23ce4576eac16e"
+  integrity sha512-8jxJMdOtsiXeKGZx5nR3+uOdMAY8XqNZq28XOGPzD4r+6U6AAmbvyhj2500Jm6LtsXQhcKHPaWF4XICv+m3sKg==
   dependencies:
     "@google-cloud/pubsub" "^1.1.5"
-    "@types/js-yaml" "^3.12.2"
     JSONStream "^1.2.1"
     archiver "^3.0.0"
     body-parser "^1.19.0"
