@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { RxSubscribeModule } from '@soundng/rx-subscribe';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { environment } from '../../../environments/environment';
 import { ContributorsListModule } from '../../shared/contributors-list/contributors-list.module';
 import { FooterComponent } from './component/footer/footer.component';
@@ -36,7 +36,7 @@ import 'firebase/firestore';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     ReactiveFormsModule,
-    RxSubscribeModule,
+    ReactiveComponentModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
