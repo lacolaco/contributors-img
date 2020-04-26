@@ -27,5 +27,5 @@ jobs:
         yarn build:prod
         yarn lint
         yarn test:ci
-        npm --prefix functions run build
-        npm --prefix functions run lint
+        yarn --cwd functions run build
+        yarn --cwd functions run lint

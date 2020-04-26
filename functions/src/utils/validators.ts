@@ -1,5 +1,5 @@
-export function validateRepoParam(repoParam: string | null) {
-  if (!repoParam) {
+export function validateRepoParam(repoParam: unknown | null): asserts repoParam is string {
+  if (!repoParam || typeof repoParam !== 'string') {
     throw new Error(`'repo' parameter is required.`);
   }
   const [, repo] = repoParam.split('/');
