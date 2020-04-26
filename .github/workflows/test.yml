@@ -17,10 +17,10 @@ jobs:
     - name: Install dependencies
       run: |
         yarn install
-        npm --prefix functions ci
+        yarn install --cwd functions
 
     - name: Copy .env
-      run: npm --prefix functions run env:local
+      run: yarn run env:local --cwd functions
 
     - name: Build, and test
       run: |
