@@ -18,10 +18,10 @@ jobs:
     - name: Install dependencies
       run: |
         yarn install
-        yarn install --cwd functions
+        yarn --cwd functions install
 
     - name: Copy .env
-      run: yarn run env:dev --cwd functions 
+      run: yarn --cwd functions run env:dev
 
     - name: build
       run: yarn build:staging
