@@ -19,7 +19,7 @@
     "@octokit/rest": "16.43.1",
     "compression": "1.7.4",
     "dotenv": "8.2.0",
-    "firebase-admin": "8.11.0",
+    "firebase-admin": "8.12.1",
     "firebase-functions": "3.6.1",
     "puppeteer": "2.1.1"
   },
