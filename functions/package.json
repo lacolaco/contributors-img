@@ -1,6 +1,7 @@
 {
   "name": "functions",
   "scripts": {
+    "prebuild": "rm -rf lib",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "lint": "tslint --project tsconfig.json",
@@ -16,19 +17,20 @@
   "main": "lib/index.js",
   "dependencies": {
     "@octokit/rest": "16.43.1",
-    "cors": "2.8.5",
+    "compression": "1.7.4",
     "dotenv": "8.2.0",
-    "firebase-admin": "8.10.0",
-    "firebase-functions": "3.3.0",
+    "firebase-admin": "8.12.1",
+    "firebase-functions": "3.6.1",
     "puppeteer": "2.1.1"
   },
   "devDependencies": {
+    "@types/compression": "1.7.0",
     "@types/cors": "2.8.6",
-    "@types/jest": "25.1.4",
+    "@types/jest": "25.2.1",
     "@types/puppeteer": "2.0.1",
-    "jest": "25.1.0",
-    "ts-jest": "25.2.1",
-    "tslint": "6.1.0",
+    "jest": "26.0.1",
+    "ts-jest": "25.5.1",
+    "tslint": "6.1.2",
     "typescript": "3.8.3"
   },
   "private": true

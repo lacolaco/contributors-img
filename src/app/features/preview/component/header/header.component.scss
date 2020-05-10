@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  > :not(:last-child) {
+    margin-bottom: 8px;
+  }
+  .heading {
+    font-size: 3rem;
+    font-weight: 700;
+  }
+  .discription {
+    text-align: center;
+    line-height: 1.2rem;
+    font-size: 0.9rem;
+  }
+}

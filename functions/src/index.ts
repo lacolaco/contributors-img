@@ -1,25 +1,32 @@
 require('dotenv').config();
 
-import * as cors from 'cors';
+import * as compression from 'compression';
+import * as express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-
-import { Repository } from './model/repository';
-import { validateRepoParam } from './utils/validators';
-import { fetchContributors } from './service/fetch-contributors';
-import { renderContributorsImage } from './service/render-image';
-import { ContributorsImageCache } from './service/cache-storage';
+import { createContributorsImageQuery } from './query/contributors-image.query';
+import { createContributorsQuery } from './query/contributors.query';
 import { getApplicationConfig } from './service/app-config';
+import { ContributorsImageCache } from './service/image-cache';
+import { ContributorsJsonCache } from './service/json-cache';
+import { RepoInfoRepository } from './service/repo-info.repository';
+import { Repository } from './shared/model';
+import { validateRepoParam } from './utils/validators';
 
 admin.initializeApp();
 
 const bucket = admin.storage().bucket();
 const config = getApplicationConfig();
 console.debug('config', config);
+const repoInfoRepository = new RepoInfoRepository(admin.firestore());
+const contributorsJsonCache = new ContributorsJsonCache(bucket, { useCache: config.useCache });
+const contributorsImageCache = new ContributorsImageCache(bucket, { useCache: config.useCache });
 
-export const createContributorsImage = functions
-  .runWith({ timeoutSeconds: 60, memory: '1GB' })
-  .https.onRequest(async (request, response) => {
+const contributorsQuery = createContributorsQuery(contributorsJsonCache);
+const contributorsImageQuery = createContributorsImageQuery(contributorsImageCache, config);
+
+export const createContributorsImage = functions.runWith({ timeoutSeconds: 60, memory: '1GB' }).https.onRequest(
+  express().get('*', async (request, response) => {
     const repoParam = request.query['repo'];
 
     try {
@@ -32,61 +39,51 @@ export const createContributorsImage = functions
     const repository = Repository.fromString(repoParam);
     console.debug(`repository: ${repository.toString()}`);
 
-    const imageCache = new ContributorsImageCache(bucket, { useCache: config.useCache });
-
-    const createImage = async () => {
-      console.debug('restore cache');
-      const cache = await imageCache.restore(repository);
-      if (cache) {
-        console.debug('cache hit');
-        return cache;
-      }
-      console.debug(`render image`);
-      return renderContributorsImage(repository, { webappUrl: config.webappUrl, useHeadless: config.useHeadless });
-    };
-
     try {
-      const image = await createImage();
+      const contributors = await contributorsQuery(repository);
+      const image = await contributorsImageQuery(repository, contributors);
       response
         .header('Content-Type', 'image/png')
-        .header('Cache-Control', 'max-age=0, no-cache')
+        .header('Cache-Control', `max-age=${60 * 60}`)
         .status(200)
         .send(image);
-      console.debug('save cache');
-      await imageCache.save(repository, image);
+
+      await repoInfoRepository.set(repository, {
+        lastGeneratedAt: new Date(),
+      });
     } catch (error) {
       console.error(error);
       response.status(500).send(error);
     }
-  });
+  }),
+);
 
-const withCors = cors({ origin: true });
-export const getContributors = functions.https.onRequest((request, response) => {
-  withCors(request, response, async () => {
-    const repoParam = request.query['repo'];
+export const getContributors = functions.https.onRequest(
+  express()
+    .use(compression({}))
+    .get('*', async (request, response) => {
+      const repoParam = request.query['repo'];
 
-    try {
-      validateRepoParam(repoParam);
-    } catch (error) {
-      console.error(error);
-      response.status(400).send(error.toString());
-      return;
-    }
-    const repository = Repository.fromString(repoParam);
-    console.debug(`repository: ${repository.toString()}`);
+      try {
+        validateRepoParam(repoParam);
+      } catch (error) {
+        console.error(error);
+        response.status(400).send(error.toString());
+        return;
+      }
+      const repository = Repository.fromString(repoParam);
+      console.debug(`repository: ${repository.toString()}`);
 
-    try {
-      console.debug(`fetch contributors starting`);
-      const contributors = await fetchContributors(repository);
-      console.debug(`fetch contributors finished`);
-
-      response
-        .header('Content-Type', 'application/json')
-        .status(200)
-        .send(contributors);
-    } catch (err) {
-      console.error(err);
-      response.status(500).send(err.toString());
-    }
-  });
-});
+      try {
+        const contributors = await contributorsQuery(repository);
+        response
+          .header('Content-Type', 'application/json')
+          .header('Cache-Control', `max-age=${60 * 60}`)
+          .status(200)
+          .send(contributors);
+      } catch (err) {
+        console.error(err);
+        response.status(500).send(err.toString());
+      }
+    }),
+);

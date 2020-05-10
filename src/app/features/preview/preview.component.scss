@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+main {
+  height: 100%;
+  padding: 64px 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > :not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
+@import '~@angular/material/theming';
+
+.generatedResult {
+  @include mat-elevation(4);
+
+  min-width: 50vw;
+  padding: 8px;
+  border-radius: 8px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > :not(:last-child) {
+    margin-bottom: 16px;
+  }
+
+  transition: height 300ms;
+}
