@@ -1,0 +1,11 @@
+README.md
+.git
+.vscode
+.github
+.firebase
+node_modules
+*.log
+Dockerfile
+cloudbuild.yaml
+
+dist

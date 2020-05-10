@@ -1,0 +1,52 @@
+steps:
+  # Setup
+  # - name: node:12
+  #   entrypoint: yarn
+  #   args: ['install']
+  #   env:
+  #     - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+  # Build app
+  # - name: 'gcr.io/kaniko-project/executor:latest'
+  #   args:
+  #     - --dockerfile=container/build/Dockerfile
+  #     - --destination=gcr.io/$PROJECT_ID/build
+  #     - --cache=true
+  #     - --cache-ttl=24h
+  #   env:
+  #     - APP_ENV=staging
+  # - name: node:12
+  #   entrypoint: yarn
+  #   args: ['build:all:staging']
+  #   timeout: 1200s
+  # Build images
+  - name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+      - --dockerfile=container/server/Dockerfile
+      - --destination=gcr.io/$PROJECT_ID/server
+      - --cache=true
+      - --cache-ttl=24h
+    env:
+      - 'APP_ENV=staging'
+    timeout: 1800s
+  # Push the image to Container Registry
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   args: ['push', 'gcr.io/$PROJECT_ID/server']
+  # Deploy
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'app'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/server'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--memory'
+      - '1G'
+  # - name: gcr.io/$PROJECT_ID/server
+  #   args: ['yarn', 'run', 'firebase', 'deploy', '--project', '${PROJECT_ID}']
+# images:
+#   - 'gcr.io/$PROJECT_ID/server'
+timeout: 6000s

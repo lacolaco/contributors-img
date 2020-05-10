@@ -1,0 +1,13 @@
+README.md
+.git
+.credentials
+.vscode
+.github
+.firebase
+node_modules
+*.log
+
+/e2e
+/dist
+/tmp
+/tools
