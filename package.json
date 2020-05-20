@@ -30,7 +30,7 @@
     "@angular/platform-browser": "9.1.6",
     "@angular/platform-browser-dynamic": "9.1.6",
     "@angular/router": "9.1.6",
-    "@lacolaco/reactive-store": "3.1.3",
+    "@lacolaco/reactive-store": "4.0.0",
     "@ngrx/component": "github:ngrx/component-builds.git",
     "core-js": "3.6.5",
     "firebase": "7.14.3",
