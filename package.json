@@ -46,7 +46,7 @@
     "@angular/compiler-cli": "9.1.6",
     "@angular/language-service": "9.1.6",
     "@ngneat/spectator": "5.6.1",
-    "@types/jasmine": "3.5.10",
+    "@types/jasmine": "3.5.11",
     "@types/jasminewd2": "2.0.8",
     "@types/node": "12.12.38",
     "codelyzer": "5.2.2",
