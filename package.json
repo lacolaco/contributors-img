@@ -36,7 +36,7 @@
     "firebase": "7.14.3",
     "normalize.css": "8.0.1",
     "rxjs": "6.5.5",
-    "tslib": "1.13.0",
+    "tslib": "2.0.0",
     "zone.js": "0.10.3"
   },
   "devDependencies": {
