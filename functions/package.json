@@ -16,7 +16,7 @@
   },
   "main": "lib/index.js",
   "dependencies": {
-    "@octokit/rest": "16.43.1",
+    "@octokit/rest": "16.43.2",
     "compression": "1.7.4",
     "dotenv": "8.2.0",
     "firebase-admin": "8.12.1",
