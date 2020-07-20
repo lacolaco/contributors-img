@@ -11,9 +11,6 @@
     "env:dev": "cat ./environments/.env.dev > .env",
     "env:prod": "cat ./environments/.env.prod > .env"
   },
-  "engines": {
-    "node": "10"
-  },
   "main": "lib/index.js",
   "dependencies": {
     "@octokit/rest": "16.43.2",
