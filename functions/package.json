@@ -17,7 +17,7 @@
     "compression": "1.7.4",
     "dotenv": "8.2.0",
     "firebase-admin": "8.12.1",
-    "firebase-functions": "3.6.1",
+    "firebase-functions": "3.8.0",
     "puppeteer": "2.1.1"
   },
   "devDependencies": {
