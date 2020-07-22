@@ -48,7 +48,7 @@
     "@ngneat/spectator": "5.12.0",
     "@types/jasmine": "3.5.11",
     "@types/jasminewd2": "2.0.8",
-    "@types/node": "12.12.50",
+    "@types/node": "12.12.51",
     "codelyzer": "^6.0.0",
     "firebase-tools": "8.6.0",
     "fuzzy": "0.1.3",
