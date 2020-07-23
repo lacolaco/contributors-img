@@ -8,10 +8,9 @@ const octokit = new Octokit({
 
 export async function fetchContributors(repo: Repository): Promise<Contributor[]> {
   // Fetch all contributors with auto-pagination
-  const options = octokit.repos.listContributors.endpoint.merge({
+  return await octokit.paginate(octokit.repos.listContributors, {
     owner: repo.owner,
     repo: repo.repo,
     per_page: 100,
   });
-  return await octokit.paginate(options);
 }
