@@ -36,7 +36,7 @@
     "firebase": "7.16.1",
     "normalize.css": "8.0.1",
     "rxjs": "6.5.5",
-    "tslib": "^2.0.0",
+    "tslib": "2.0.0",
     "zone.js": "0.10.3"
   },
   "devDependencies": {
@@ -49,19 +49,19 @@
     "@types/jasmine": "3.5.11",
     "@types/jasminewd2": "2.0.8",
     "@types/node": "12.12.51",
-    "codelyzer": "^6.0.0",
+    "codelyzer": "6.0.0",
     "firebase-tools": "8.6.0",
-    "jasmine-core": "~3.5.0",
-    "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~5.0.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage-istanbul-reporter": "~3.0.2",
-    "karma-jasmine": "~3.3.0",
-    "karma-jasmine-html-reporter": "^1.5.0",
+    "jasmine-core": "3.5.0",
+    "jasmine-spec-reporter": "5.0.2",
+    "karma": "5.0.9",
+    "karma-chrome-launcher": "3.1.0",
+    "karma-coverage-istanbul-reporter": "3.0.3",
+    "karma-jasmine": "3.3.1",
+    "karma-jasmine-html-reporter": "1.5.4",
     "prettier": "2.0.5",
-    "protractor": "~7.0.0",
+    "protractor": "7.0.0",
     "ts-node": "8.10.1",
-    "tslint": "~6.1.0",
+    "tslint": "6.1.2",
     "typescript": "3.9.7"
   }
 }
