@@ -3111,7 +3111,7 @@ coa@^2.0.2:
     chalk "^2.4.1"
     q "^1.1.2"
 
-codelyzer@^6.0.0:
+codelyzer@6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/codelyzer/-/codelyzer-6.0.0.tgz#50c98581cc2890e0e9a9f93878dc317115d836ed"
   integrity sha512-edJIQCIcxD9DhVSyBEdJ38AbLikm515Wl91t5RDGNT88uA6uQdTm4phTWfn9JhzAI8kXNUcfYyAE90lJElpGtA==
@@ -6242,7 +6242,7 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jasmine-core@^3.5.0, jasmine-core@~3.5.0:
+jasmine-core@3.5.0, jasmine-core@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.5.0.tgz#132c23e645af96d85c8bca13c8758b18429fc1e4"
   integrity sha512-nCeAiw37MIMA9w9IXso7bRaLl+c/ef3wnxsoSAlYrzS+Ot0zTG6nU8G/cIfGkqpkjX2wNaIW9RFG0TwIFnG6bA==
@@ -6252,7 +6252,7 @@ jasmine-core@~2.8.0:
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.8.0.tgz#bcc979ae1f9fd05701e45e52e65d3a5d63f1a24e"
   integrity sha1-vMl5rh+f0FcB5F5S5l06XWPxok4=
 
-jasmine-spec-reporter@~5.0.0:
+jasmine-spec-reporter@5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/jasmine-spec-reporter/-/jasmine-spec-reporter-5.0.2.tgz#b61288ab074ad440dc2477c4d42840b0e74a6b95"
   integrity sha512-6gP1LbVgJ+d7PKksQBc2H0oDGNRQI3gKUsWlswKaQ2fif9X5gzhQcgM5+kiJGCQVurOG09jqNhk7payggyp5+g==
@@ -6483,14 +6483,14 @@ jws@^4.0.0:
     jwa "^2.0.0"
     safe-buffer "^5.0.1"
 
-karma-chrome-launcher@~3.1.0:
+karma-chrome-launcher@3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/karma-chrome-launcher/-/karma-chrome-launcher-3.1.0.tgz#805a586799a4d05f4e54f72a204979f3f3066738"
   integrity sha512-3dPs/n7vgz1rxxtynpzZTvb9y/GIaW8xjAwcIGttLbycqoFtI7yo1NGnQi6oFTherRE+GIhCAHZC4vEqWGhNvg==
   dependencies:
     which "^1.2.1"
 
-karma-coverage-istanbul-reporter@~3.0.2:
+karma-coverage-istanbul-reporter@3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/karma-coverage-istanbul-reporter/-/karma-coverage-istanbul-reporter-3.0.3.tgz#f3b5303553aadc8e681d40d360dfdc19bc7e9fe9"
   integrity sha512-wE4VFhG/QZv2Y4CdAYWDbMmcAHeS926ZIji4z+FkB2aF/EposRb6DP6G5ncT/wXhqUfAb/d7kZrNKPonbvsATw==
@@ -6501,12 +6501,12 @@ karma-coverage-istanbul-reporter@~3.0.2:
     istanbul-reports "^3.0.2"
     minimatch "^3.0.4"
 
-karma-jasmine-html-reporter@^1.5.0:
+karma-jasmine-html-reporter@1.5.4:
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-1.5.4.tgz#669f33d694d88fce1b0ccfda57111de716cb0192"
   integrity sha512-PtilRLno5O6wH3lDihRnz0Ba8oSn0YUJqKjjux1peoYGwo0AQqrWRbdWk/RLzcGlb+onTyXAnHl6M+Hu3UxG/Q==
 
-karma-jasmine@~3.3.0:
+karma-jasmine@3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/karma-jasmine/-/karma-jasmine-3.3.1.tgz#c01b1a2ec973e1531c1f6535e1d7d66b8e4275c2"
   integrity sha512-Nxh7eX9mOQMyK0VSsMxdod+bcqrR/ikrmEiWj5M6fwuQ7oI+YEF1FckaDsWfs6TIpULm9f0fTKMjF7XcrvWyqQ==
@@ -6520,7 +6520,7 @@ karma-source-map-support@1.4.0:
   dependencies:
     source-map-support "^0.5.5"
 
-karma@~5.0.0:
+karma@5.0.9:
   version "5.0.9"
   resolved "https://registry.yarnpkg.com/karma/-/karma-5.0.9.tgz#11a119b0c763a806fdc471b40c594a2240b5ca13"
   integrity sha512-dUA5z7Lo7G4FRSe1ZAXqOINEEWxmCjDBbfRBmU/wYlSMwxUQJP/tEEP90yJt3Uqo03s9rCgVnxtlfq+uDhxSPg==
@@ -8639,7 +8639,7 @@ protoduck@^5.0.1:
   dependencies:
     genfun "^5.0.0"
 
-protractor@~7.0.0:
+protractor@7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/protractor/-/protractor-7.0.0.tgz#c3e263608bd72e2c2dc802b11a772711a4792d03"
   integrity sha512-UqkFjivi4GcvUQYzqGYNe0mLzfn5jiLmO8w9nMhQoJRLhy2grJonpga2IWhI6yJO30LibWXJJtA4MOIZD2GgZw==
@@ -10491,7 +10491,7 @@ tslib@^1.10.0, tslib@^1.11.1, tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
   integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
 
-tslint@~6.1.0:
+tslint@6.1.2:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/tslint/-/tslint-6.1.2.tgz#2433c248512cc5a7b2ab88ad44a6b1b34c6911cf"
   integrity sha512-UyNrLdK3E0fQG/xWNqAFAC5ugtFyPO4JJR1KyyfQAyzR8W0fTRrC91A8Wej4BntFzcvETdCSDa/4PnNYJQLYiA==
