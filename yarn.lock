@@ -1070,10 +1070,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/analytics-types/-/analytics-types-0.3.1.tgz#3c5f5d71129c88295e17e914e34b391ffda1723c"
   integrity sha512-63vVJ5NIBh/JF8l9LuPrQYSzFimk7zYHySQB4Dk9rVdJ8kV/vGQoVTvRu1UW05sEc2Ug5PqtEChtTHU+9hvPcA==
 
-"@firebase/analytics@0.3.9":
-  version "0.3.9"
-  resolved "https://registry.yarnpkg.com/@firebase/analytics/-/analytics-0.3.9.tgz#5755ac0f15ccf1fc6c811c99c4ca778985cdc237"
-  integrity sha512-l4dNskm8uQ+UqO6Lw+fuyO1enZBXUV6xNMxeVABEnVrp3wOP90KKb/ZwYgleAxF1It52lorcTtkA1YFpv3iEIQ==
+"@firebase/analytics@0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@firebase/analytics/-/analytics-0.4.0.tgz#15dfee56619af18c262d4b7cb2f1d4e7c25194de"
+  integrity sha512-8DC2OBXGYxeeRxCh6eFnrrswNcKm2WsD8EeqGcl0F1P7J0bJ4Q+WpP3DvxofQZ/PtVHdAhzmfmt9r6Xa9mHnrQ==
   dependencies:
     "@firebase/analytics-types" "0.3.1"
     "@firebase/component" "0.1.16"
@@ -1266,10 +1266,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/storage-types/-/storage-types-0.3.13.tgz#cd43e939a2ab5742e109eb639a313673a48b5458"
   integrity sha512-pL7b8d5kMNCCL0w9hF7pr16POyKkb3imOW7w0qYrhBnbyJTdVxMWZhb0HxCFyQWC0w3EiIFFmxoz8NTFZDEFog==
 
-"@firebase/storage@0.3.39":
-  version "0.3.39"
-  resolved "https://registry.yarnpkg.com/@firebase/storage/-/storage-0.3.39.tgz#7e387d5948c53ae07bd48e28560c549bfcf2fb9d"
-  integrity sha512-uTE8kROU/NMas+0i2oK0U9LuAlDzt+Cis0ErmYPlbCvmFqpFdyu3TtlO5MYNoxGLaBjEyxb18NJZai9lNMXFlQ==
+"@firebase/storage@0.3.40":
+  version "0.3.40"
+  resolved "https://registry.yarnpkg.com/@firebase/storage/-/storage-0.3.40.tgz#4e6ea66d9c3ce489cd1a892940c57c3078853410"
+  integrity sha512-xTUvSSXh8tNSlch4V+kNbw736H0z/lbW3rHlx1kZVnT8V5M4bXE+TEcG4WpqvcWH3p+N6N1bUorkDbOFgBrztw==
   dependencies:
     "@firebase/component" "0.1.16"
     "@firebase/storage-types" "0.3.13"
@@ -1616,10 +1616,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.24.tgz#b0f86f58564fa02a28b68f8b55d4cdec42e3b9d6"
   integrity sha512-btt/oNOiDWcSuI721MdL8VQGnjsKjlTMdrKyTcLCKeQp/n4AAMFJ961wMbp+09y8WuGPClDEv07RIItdXKIXAA==
 
-"@types/node@12.12.51":
-  version "12.12.51"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.51.tgz#446a67af8c5ff98947d7cef296484c6ad47ddb16"
-  integrity sha512-6ILqt8iNThALrxDv2Q4LyYFQxULQz96HKNIFd4s9QRQaiHINYeUpLqeU/2IU7YMtvipG1fQVAy//vY8/fX1Y9w==
+"@types/node@12.12.52":
+  version "12.12.52"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.52.tgz#ed7a845116bf496a9937228cb9c2a0f74092aeb1"
+  integrity sha512-oNJSI5bzuAH4f4I5JatPf4jytM6vQPWMw8JDOH68mNMyOmSqBkctHBfsyaBU3Su+dhYd8E+tDtPJWUXsyO5Msg==
 
 "@types/node@^13.7.0":
   version "13.13.14"
@@ -4843,12 +4843,12 @@ firebase-tools@8.6.0:
     winston "^3.0.0"
     ws "^7.2.3"
 
-firebase@7.16.1:
-  version "7.16.1"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-7.16.1.tgz#a9f5803acba8ac937eb43f11a874a0901b015afc"
-  integrity sha512-mcvFh617lWPYnx6SmwgtwmliY8P3XBi8pm0LDY4a8WPD049goCMgmIEpKkX4R3gZ2noz2rVrxSUfodENPpttLg==
+firebase@7.17.0:
+  version "7.17.0"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-7.17.0.tgz#85dcd7c85d6dbcba7740dd5920a7f56bf8177e12"
+  integrity sha512-+y7c1pCj8xp98CIDhVjg0rKhGtsFskGB8hyhjsyp549Upwa0cropdK5emCFTmMIbvDjZmP8rTuuDXPBeREAaCg==
   dependencies:
-    "@firebase/analytics" "0.3.9"
+    "@firebase/analytics" "0.4.0"
     "@firebase/app" "0.6.8"
     "@firebase/app-types" "0.6.1"
     "@firebase/auth" "0.14.9"
@@ -4860,7 +4860,7 @@ firebase@7.16.1:
     "@firebase/performance" "0.3.9"
     "@firebase/polyfill" "0.3.36"
     "@firebase/remote-config" "0.1.25"
-    "@firebase/storage" "0.3.39"
+    "@firebase/storage" "0.3.40"
     "@firebase/util" "0.2.50"
 
 flat-arguments@^1.0.0:
@@ -6242,7 +6242,12 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jasmine-core@3.5.0, jasmine-core@^3.5.0:
+jasmine-core@3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.6.0.tgz#491f3bb23941799c353ceb7a45b38a950ebc5a20"
+  integrity sha512-8uQYa7zJN8hq9z+g8z1bqCfdC8eoDAeVnM5sfqs7KHv9/ifoJ500m018fpFc7RDaO6SWCLCXwo/wPSNcdYTgcw==
+
+jasmine-core@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.5.0.tgz#132c23e645af96d85c8bca13c8758b18429fc1e4"
   integrity sha512-nCeAiw37MIMA9w9IXso7bRaLl+c/ef3wnxsoSAlYrzS+Ot0zTG6nU8G/cIfGkqpkjX2wNaIW9RFG0TwIFnG6bA==
