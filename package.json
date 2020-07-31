@@ -35,7 +35,7 @@
     "core-js": "3.6.5",
     "firebase": "7.17.1",
     "normalize.css": "8.0.1",
-    "rxjs": "6.5.5",
+    "rxjs": "6.6.2",
     "tslib": "2.0.0",
     "zone.js": "0.10.3"
   },
