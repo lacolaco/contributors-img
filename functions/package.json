@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/compression": "1.7.0",
     "@types/cors": "2.8.7",
-    "@types/jest": "26.0.8",
+    "@types/jest": "26.0.9",
     "@types/puppeteer": "3.0.1",
     "jest": "26.2.2",
     "ts-jest": "26.1.4",
