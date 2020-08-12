@@ -2248,10 +2248,10 @@ firebase-admin@9.0.0:
     "@google-cloud/firestore" "^4.0.0"
     "@google-cloud/storage" "^5.0.0"
 
-firebase-functions@3.9.0:
-  version "3.9.0"
-  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.9.0.tgz#b010c0d48cb78e80bf454b6b4ac065bfd5ccb029"
-  integrity sha512-PHwEvm/c0CNWFxfilmhyZBu5pZlQ2EJk/W4G2yKUm2yHGuh2ZZcga0s4Tj52vllX2eE+NkAsDsJpGdnjljA6+Q==
+firebase-functions@3.9.1:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.9.1.tgz#4b66e9909a72da6ed2e84804a2049edd5e6ea362"
+  integrity sha512-LnQQ5EJp8RaSvNZSOz/Ulp9ZQbKUXme/8sa5bLAmcKMc1o/cLu6IMB4GmWJXoi/4O5IFqSrWI9vNqb14LpfSIQ==
   dependencies:
     "@types/express" "4.17.3"
     cors "^2.8.5"
