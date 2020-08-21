@@ -33,7 +33,7 @@
     "@lacolaco/reactive-store": "4.0.0",
     "@ngrx/component": "github:ngrx/component-builds.git",
     "core-js": "3.6.5",
-    "firebase": "7.18.0",
+    "firebase": "7.19.0",
     "normalize.css": "8.0.1",
     "rxjs": "6.6.2",
     "tslib": "2.0.1",
