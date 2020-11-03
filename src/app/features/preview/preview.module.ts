@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
+import { AngularFirePerformanceModule } from '@angular/fire/performance';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -19,8 +21,6 @@ import { RepositoryGalleryComponent } from './component/repository-gallery/repos
 import { PreviewRoutingModule } from './preview-routing.module';
 import { PreviewComponent } from './preview.component';
 
-import 'firebase/firestore';
-
 @NgModule({
   declarations: [
     PreviewComponent,
@@ -35,6 +35,8 @@ import 'firebase/firestore';
     PreviewRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    AngularFireAnalyticsModule,
+    AngularFirePerformanceModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
     MatFormFieldModule,
