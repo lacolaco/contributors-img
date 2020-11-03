@@ -1620,7 +1620,7 @@
     jquery "3.5.0"
     replace-in-file "^4.1.3"
 
-"@ngrx/component@^10.0.1":
+"@ngrx/component@10.0.1":
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/@ngrx/component/-/component-10.0.1.tgz#4965e151c342e37959123664f7518e8014e6ff28"
   integrity sha512-IhaAH4SEWtNBTaZARRMOE+21UkqVDwnf/qcOsGWrRxYSlXu92j60HBuqsEEFa8CEYRB9aRsHpQMLlRcOntrkFQ==
@@ -5149,7 +5149,7 @@ firebase-tools@8.7.0:
     winston "^3.0.0"
     ws "^7.2.3"
 
-firebase@^8.0.0:
+firebase@8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-8.0.0.tgz#786b3126d97b44073b1d48d01f78770963e03179"
   integrity sha512-0JMwNGg5CeoYBJ27QuDYJe1pYdJ+lspKbK1Pr+aNtYBfJfZTNy265rRroQsSOTGbXiT6cUqObVPeGwnbi8wZHw==
