@@ -32,7 +32,7 @@ jobs:
       run: yarn firebase -P dev deploy --token $FIREBASE_TOKEN
 
     - name: pull-request-action
-      uses: vsoch/pull-request-action@1.0.2
+      uses: vsoch/pull-request-action@1.0.12
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH_PREFIX: "master"
