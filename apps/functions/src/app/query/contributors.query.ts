@@ -1,4 +1,4 @@
-import { Repository, Contributor } from '../shared/model';
+import { Repository, Contributor } from '@lib/core';
 import { ContributorsJsonCache } from '../service/json-cache';
 import { fetchContributors } from '../service/fetch-contributors';
 

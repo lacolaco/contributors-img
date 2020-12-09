@@ -1,5 +1,4 @@
-import { Repository } from '../shared/model/repository';
-import { Contributor } from '../shared/model';
+import { Repository, Contributor } from '@lib/core';
 import { Bucket, CacheStorage } from './utils/cache-storage';
 
 export class ContributorsJsonCache {

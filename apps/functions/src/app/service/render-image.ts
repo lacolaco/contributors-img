@@ -1,6 +1,5 @@
+import { Contributor, CONTRIBUTORS_DATA } from '@lib/core';
 import * as puppeteer from 'puppeteer';
-import { Contributor } from '../shared/model';
-import { CONTRIBUTORS_DATA } from '../shared/state/tokens';
 
 export async function renderContributorsImage({
   contributors,

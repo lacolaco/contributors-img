@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Contributor } from '@api/shared/model';
+import { Contributor } from '@lib/core';
 
 @Component({
   selector: 'app-contributor-list',

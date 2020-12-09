@@ -1,4 +1,4 @@
-import { CONTRIBUTORS_DATA } from '@api/shared/state/tokens';
+import { CONTRIBUTORS_DATA } from '@lib/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ContributorsListModule } from '../../../shared/contributors-list/contributors-list.module';
 import { SimpleRenderComponent } from './simple.component';

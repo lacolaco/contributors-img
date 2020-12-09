@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Repository } from '@lib/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { Repository } from '@api/shared/model/repository';
 import { RepositoryFormComponent } from './repository-form.component';
 
 describe('RepositoryFormComponent', () => {

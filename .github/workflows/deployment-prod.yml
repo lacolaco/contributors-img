@@ -15,16 +15,8 @@ jobs:
       with:
         node-version: 12.x
 
-    - name: Install dependencies
-      run: |
-        yarn install
-        yarn --cwd functions install
-
-    - name: Copy .env
-      run: yarn --cwd functions run env:prod
-
-    - name: build
-      run: yarn build:prod
+    - run: yarn install
+    - run: yarn build:all:prod
 
     - name: deploy
       env:

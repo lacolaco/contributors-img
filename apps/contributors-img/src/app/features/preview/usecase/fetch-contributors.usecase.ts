@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Contributor, Repository } from '@api/shared/model';
+import { Contributor, Repository } from '@lib/core';
 import { PreviewStore } from '../store';
 
 @Injectable({

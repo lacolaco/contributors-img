@@ -1,6 +1,6 @@
+import { Contributor, Repository } from '@lib/core';
 import { ContributorsImageCache } from '../service/image-cache';
 import { renderContributorsImage } from '../service/render-image';
-import { Contributor, Repository } from '../shared/model';
 
 export function createContributorsImageQuery(
   imageCache: ContributorsImageCache,

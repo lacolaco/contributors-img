@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Contributor } from '@api/shared/model';
-import { CONTRIBUTORS_DATA } from '@api/shared/state/tokens';
+import { Contributor, CONTRIBUTORS_DATA } from '@lib/core';
 
 @Component({
   selector: 'app-simple',
