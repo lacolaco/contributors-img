@@ -2334,7 +2334,7 @@
     "@typescript-eslint/experimental-utils" "^4.3.0"
     confusing-browser-globals "^1.0.9"
 
-"@nrwl/express@^10.4.4":
+"@nrwl/express@10.4.4":
   version "10.4.4"
   resolved "https://registry.yarnpkg.com/@nrwl/express/-/express-10.4.4.tgz#22337396cba997d022e398f2a640b827f6948690"
   integrity sha512-tCD1hD3pUGZClBWH0lgWqZTT87QB959QRJ/wfnPwP2pc6qfViURYEMXEsO9JsQ6YfzGHC4p/9j+LjtfKaHrSbA==

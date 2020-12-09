@@ -72,7 +72,7 @@
     "@ngneat/spectator": "5.13.0",
     "@nrwl/angular": "10.4.4",
     "@nrwl/eslint-plugin-nx": "10.4.4",
-    "@nrwl/express": "^10.4.4",
+    "@nrwl/express": "10.4.4",
     "@nrwl/jest": "10.4.4",
     "@nrwl/node": "10.4.4",
     "@nrwl/workspace": "10.4.4",
