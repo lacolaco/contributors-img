@@ -18,7 +18,7 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "paths": {
-      "@api/shared/*": ["./apps/functions/src/app/shared/*"]
+      "@lib/core": ["./libs/core/src/index.ts"]
     },
     "rootDir": "."
   },

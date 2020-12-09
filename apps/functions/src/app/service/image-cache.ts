@@ -1,4 +1,4 @@
-import { Repository } from '../shared/model/repository';
+import { Repository } from '@lib/core';
 import { Bucket, CacheStorage } from './utils/cache-storage';
 
 export class ContributorsImageCache {

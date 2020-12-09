@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Contributor, Repository } from '@api/shared/model';
+import { Contributor, Repository } from '@lib/core';
 import { Store } from '@lacolaco/reactive-store';
 
 export interface State {

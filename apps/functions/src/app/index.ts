@@ -8,7 +8,7 @@ import { getApplicationConfig } from './service/app-config';
 import { ContributorsImageCache } from './service/image-cache';
 import { ContributorsJsonCache } from './service/json-cache';
 import { RepoInfoRepository } from './service/repo-info.repository';
-import { Repository } from './shared/model';
+import { Repository } from '@lib/core';
 import { validateRepoParam } from './utils/validators';
 
 admin.initializeApp();

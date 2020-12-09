@@ -1,4 +1,4 @@
-import { Repository, RepoInfo } from '../shared/model';
+import { Repository, RepoInfo } from '@lib/core';
 
 export class RepoInfoRepository {
   constructor(private firestore: FirebaseFirestore.Firestore) {}

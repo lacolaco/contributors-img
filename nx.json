@@ -13,10 +13,13 @@
   },
   "projects": {
     "contributors-img": {
-      "tags": []
+      "tags": ["app"]
     },
     "functions": {
-      "tags": []
+      "tags": ["app"]
+    },
+    "core": {
+      "tags": ["lib"]
     }
   }
 }
