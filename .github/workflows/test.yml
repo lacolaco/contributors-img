@@ -13,19 +13,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-
-    - name: Install dependencies
-      run: |
-        yarn install
-        yarn --cwd functions install
-
-    - name: Copy .env
-      run: yarn --cwd functions run env:local
-
-    - name: Build, and test
-      run: |
-        yarn build:prod
-        yarn lint
-        yarn test:ci
-        yarn --cwd functions run build
-        yarn --cwd functions run lint
+    - run: yarn install
+    - run: yarn lint
+    - run: yarn test:all 
+      env:
+        CI: true
+    - run: yarn build:all:prod

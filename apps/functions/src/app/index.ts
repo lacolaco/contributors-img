@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 import * as compression from 'compression';
 import * as express from 'express';
 import * as admin from 'firebase-admin';
