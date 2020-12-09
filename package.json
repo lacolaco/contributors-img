@@ -2,20 +2,37 @@
   "name": "contributors-img",
   "version": "1.0.0",
   "scripts": {
-    "ng": "ng",
+    "ng": "nx",
     "start": "ng serve",
     "build": "ng build",
     "build:staging": "ng build -c=staging",
     "build:prod": "ng build -c=production",
     "test": "ng test",
     "test:ci": "ng test --watch false --browsers ChromeHeadless",
-    "format": "prettier --write '**/*.{ts,scss,html}'",
-    "lint": "ng lint && prettier --check '**/*.{ts,scss,html}'",
+    "format": "nx format:write",
+    "lint": "nx workspace-lint && ng lint",
     "firebase:serve": "firebase serve",
     "functions:logs": "firebase functions:log",
     "functions:build": "npm --prefix functions run build",
     "functions:lint": "npm --prefix functions run lint",
-    "functions:test": "npm --prefix functions run test"
+    "functions:test": "npm --prefix functions run test",
+    "nx": "nx",
+    "affected:apps": "nx affected:apps",
+    "affected:libs": "nx affected:libs",
+    "affected:build": "nx affected:build",
+    "affected:e2e": "nx affected:e2e",
+    "affected:test": "nx affected:test",
+    "affected:lint": "nx affected:lint",
+    "affected:dep-graph": "nx affected:dep-graph",
+    "affected": "nx affected",
+    "format:write": "nx format:write",
+    "format:check": "nx format:check",
+    "update": "ng update @nrwl/workspace",
+    "update:check": "ng update",
+    "dep-graph": "nx dep-graph",
+    "workspace-schematic": "nx workspace-schematic",
+    "help": "nx help",
+    "postinstall": "node ./decorate-angular-cli.js"
   },
   "private": true,
   "dependencies": {
@@ -32,12 +49,14 @@
     "@angular/router": "10.2.1",
     "@lacolaco/reactive-store": "4.0.0",
     "@ngrx/component": "10.0.1",
+    "@nrwl/workspace": "^10.4.4",
     "core-js": "3.6.5",
     "firebase": "8.0.0",
     "normalize.css": "8.0.1",
     "rxjs": "6.6.2",
     "tslib": "2.0.1",
-    "zone.js": "0.10.3"
+    "zone.js": "0.10.3",
+    "@nrwl/angular": "10.4.4"
   },
   "devDependencies": {
     "@angular-devkit/architect": "0.1000.3",
@@ -62,6 +81,7 @@
     "protractor": "7.0.0",
     "ts-node": "8.10.1",
     "tslint": "6.1.3",
-    "typescript": "3.9.7"
+    "typescript": "3.9.7",
+    "@nrwl/workspace": "10.4.4"
   }
 }

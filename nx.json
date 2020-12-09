@@ -1,0 +1,19 @@
+{
+  "npmScope": "contributors-img",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": "*",
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    ".eslintrc.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "contributors-img": {
+      "tags": []
+    }
+  }
+}
