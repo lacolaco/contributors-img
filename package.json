@@ -83,7 +83,7 @@
     "@types/jasminewd2": "2.0.8",
     "@types/jest": "26.0.18",
     "@types/node": "12.12.54",
-    "@types/puppeteer": "3.0.1",
+    "@types/puppeteer": "3.0.5",
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "4.3.0",
     "codelyzer": "6.0.0",
