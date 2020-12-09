@@ -1,7 +1,7 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { SimpleRenderComponent } from './simple.component';
 import { CONTRIBUTORS_DATA } from '@api/shared/state/tokens';
-import { ContributorsListModule } from 'src/app/shared/contributors-list/contributors-list.module';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ContributorsListModule } from '../../../shared/contributors-list/contributors-list.module';
+import { SimpleRenderComponent } from './simple.component';
 
 describe('SimpleRenderComponent', () => {
   let spectator: Spectator<SimpleRenderComponent>;
