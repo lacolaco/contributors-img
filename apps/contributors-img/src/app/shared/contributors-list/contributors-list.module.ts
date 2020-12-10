@@ -6,6 +6,6 @@ import { ContributorListComponent } from './component/contributor-list/contribut
 @NgModule({
   declarations: [AvatarUrlPipe, ContributorListComponent],
   imports: [CommonModule],
-  exports: [ContributorListComponent],
+  exports: [AvatarUrlPipe, ContributorListComponent],
 })
 export class ContributorsListModule {}

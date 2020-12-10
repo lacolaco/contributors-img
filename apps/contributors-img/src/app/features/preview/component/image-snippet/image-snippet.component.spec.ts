@@ -1,12 +1,12 @@
 import { Repository } from '@lib/core';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ImageSnippetComponent } from './image-snippet.component';
 
 describe('ImageSnippetComponent', () => {
   let spectator: Spectator<ImageSnippetComponent>;
   const createComponent = createComponentFactory(ImageSnippetComponent);
 
-  it('should create', () => {
+  test('should create', () => {
     spectator = createComponent({
       props: { repository: new Repository('foo', 'bar') },
     });
@@ -14,7 +14,7 @@ describe('ImageSnippetComponent', () => {
     expect(spectator.component).toBeTruthy();
   });
 
-  it('should generate image snippet', () => {
+  test('should generate image snippet', () => {
     spectator = createComponent({
       props: { repository: new Repository('foo', 'bar') },
     });
