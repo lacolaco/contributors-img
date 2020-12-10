@@ -77,7 +77,7 @@
     "@nrwl/node": "10.4.4",
     "@nrwl/workspace": "10.4.4",
     "@types/compression": "1.7.0",
-    "@types/cors": "2.8.8",
+    "@types/cors": "2.8.9",
     "@types/express": "4.17.9",
     "@types/jest": "26.0.18",
     "@types/node": "12.19.8",
