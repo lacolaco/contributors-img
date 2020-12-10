@@ -58,7 +58,7 @@
     "firebase-admin": "9.1.1",
     "firebase-functions": "3.13.0",
     "normalize.css": "8.0.1",
-    "puppeteer": "5.2.1",
+    "puppeteer": "5.5.0",
     "rxjs": "6.6.2",
     "tslib": "2.0.1",
     "zone.js": "0.10.3"
@@ -83,7 +83,7 @@
     "@types/jasminewd2": "2.0.8",
     "@types/jest": "26.0.18",
     "@types/node": "12.19.8",
-    "@types/puppeteer": "3.0.5",
+    "@types/puppeteer": "5.4.2",
     "@typescript-eslint/eslint-plugin": "4.9.1",
     "@typescript-eslint/parser": "4.9.1",
     "codelyzer": "6.0.1",
