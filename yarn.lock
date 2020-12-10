@@ -6996,10 +6996,10 @@ firebase-functions@3.9.1:
     express "^4.17.1"
     lodash "^4.17.14"
 
-firebase-tools@8.18.0:
-  version "8.18.0"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-8.18.0.tgz#bd4229921901c9083df5ec685b14cd8bdddd09f7"
-  integrity sha512-8u6LJ1jlFimy4N965n3/V64GO/oPgObHXgLMXFbxEVkaIdggPFSz6HWo34vMG+QHNoJ9yqcLyRnbUjmlM7FGGg==
+firebase-tools@8.18.1:
+  version "8.18.1"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-8.18.1.tgz#39895f71f9c170f0c15849cb7424e9db9498b588"
+  integrity sha512-bkuzaA7Iak/+ylnuCJ9DEzZa+VGGIyMilAbgzzeiLMGvQQ49IXW6e66rmtz7GDaaau7STuiCiCsANpk0EY2TDQ==
   dependencies:
     "@google-cloud/pubsub" "^1.7.0"
     JSONStream "^1.2.1"
