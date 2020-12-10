@@ -105,27 +105,18 @@
             "browserTarget": "contributors-img:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "apps/contributors-img/src/test.ts",
-            "polyfills": "apps/contributors-img/src/polyfills.ts",
-            "tsConfig": "apps/contributors-img/tsconfig.spec.json",
-            "karmaConfig": "apps/contributors-img/karma.conf.js",
-            "styles": [
-              "./node_modules/normalize.css/normalize.css",
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "apps/contributors-img/src/styles.scss"
-            ],
-            "scripts": [],
-            "assets": ["apps/contributors-img/src/favicon.ico", "apps/contributors-img/src/assets"]
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/contributors-img/tsconfig.app.json", "apps/contributors-img/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/contributors-img/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
@@ -249,6 +240,6 @@
   },
   "defaultProject": "contributors-img",
   "cli": {
-    "defaultCollection": "@nrwl/express"
+    "defaultCollection": "@nrwl/angular"
   }
 }
