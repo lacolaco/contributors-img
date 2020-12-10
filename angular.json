@@ -1,11 +1,11 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "projects",
+  "newProjectRoot": "",
   "projects": {
     "contributors-img": {
-      "root": "",
-      "sourceRoot": "src",
+      "root": "apps/contributors-img",
+      "sourceRoot": "apps/contributors-img/src",
       "projectType": "application",
       "prefix": "app",
       "schematics": {
@@ -18,19 +18,16 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "outputPath": "dist/contributors-img",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "outputPath": "dist/apps/contributors-img",
+            "index": "apps/contributors-img/src/index.html",
+            "main": "apps/contributors-img/src/main.ts",
+            "polyfills": "apps/contributors-img/src/polyfills.ts",
+            "tsConfig": "apps/contributors-img/tsconfig.app.json",
+            "assets": ["apps/contributors-img/src/favicon.ico", "apps/contributors-img/src/assets"],
             "styles": [
               "./node_modules/normalize.css/normalize.css",
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
+              "apps/contributors-img/src/styles.scss"
             ],
             "scripts": []
           },
@@ -38,8 +35,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "apps/contributors-img/src/environments/environment.ts",
+                  "with": "apps/contributors-img/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -65,8 +62,8 @@
             "staging": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.staging.ts"
+                  "replace": "apps/contributors-img/src/environments/environment.ts",
+                  "with": "apps/contributors-img/src/environments/environment.staging.ts"
                 }
               ],
               "optimization": true,
@@ -111,54 +108,147 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "main": "apps/contributors-img/src/test.ts",
+            "polyfills": "apps/contributors-img/src/polyfills.ts",
+            "tsConfig": "apps/contributors-img/tsconfig.spec.json",
+            "karmaConfig": "apps/contributors-img/karma.conf.js",
             "styles": [
               "./node_modules/normalize.css/normalize.css",
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
+              "apps/contributors-img/src/styles.scss"
             ],
             "scripts": [],
-            "assets": ["src/favicon.ico", "src/assets"]
+            "assets": ["apps/contributors-img/src/favicon.ico", "apps/contributors-img/src/assets"]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+            "tsConfig": ["apps/contributors-img/tsconfig.app.json", "apps/contributors-img/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**"]
           }
         }
       }
     },
-    "contributors-img-e2e": {
-      "root": "e2e/",
+    "functions": {
+      "root": "apps/functions",
+      "sourceRoot": "apps/functions/src",
       "projectType": "application",
-      "prefix": "",
+      "prefix": "functions",
+      "schematics": {},
       "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+        "build-node": {
+          "builder": "@nrwl/node:build",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "contributors-img:serve"
+            "outputPath": "dist/apps/functions",
+            "main": "apps/functions/src/main.ts",
+            "tsConfig": "apps/functions/tsconfig.app.json",
+            "assets": ["apps/functions/src/package.json"]
           },
           "configurations": {
+            "staging": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/functions/src/environments/environment.ts",
+                  "with": "apps/functions/src/environments/environment.staging.ts"
+                }
+              ]
+            },
             "production": {
-              "devServerTarget": "contributors-img:serve:production"
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/functions/src/environments/environment.ts",
+                  "with": "apps/functions/src/environments/environment.prod.ts"
+                }
+              ]
             }
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+        "build": {
+          "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "command": "nx run functions:build-node"
+          },
+          "configurations": {
+            "staging": {
+              "command": "nx run functions:build-node -c staging"
+            },
+            "production": {
+              "command": "nx run functions:build-node -c production"
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "functions:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/functions/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/functions/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "deploy-functions": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "firebase deploy --only functions"
+          }
+        },
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "nx run functions:build"
+              },
+              {
+                "command": "nx run functions:deploy-functions"
+              }
+            ],
+            "parallel": false
+          }
+        }
+      }
+    },
+    "core": {
+      "root": "libs/core",
+      "sourceRoot": "libs/core/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/core/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/core/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
     }
   },
-  "defaultProject": "contributors-img"
+  "defaultProject": "contributors-img",
+  "cli": {
+    "defaultCollection": "@nrwl/express"
+  }
 }
