@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ContributorListComponent } from './contributor-list.component';
+import { AvatarUrlPipe } from '../../pipe/avatar-url.pipe';
 
 describe('ContributorListComponent', () => {
   let component: ContributorListComponent;
@@ -8,7 +9,7 @@ describe('ContributorListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ContributorListComponent],
+      declarations: [ContributorListComponent, AvatarUrlPipe],
     }).compileComponents();
   }));
 

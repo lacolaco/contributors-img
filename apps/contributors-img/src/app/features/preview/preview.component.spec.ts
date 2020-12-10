@@ -1,16 +1,18 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { PreviewComponent } from './preview.component';
-import { PreviewModule } from './preview.module';
 
 xdescribe('PreviewComponent', () => {
   let spectator: Spectator<PreviewComponent>;
   const createComponent = createComponentFactory({
     component: PreviewComponent,
-    imports: [PreviewModule, RouterTestingModule],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [RouterTestingModule, ReactiveComponentModule],
   });
 
-  it('should create', () => {
+  test('should create', () => {
     spectator = createComponent({});
 
     expect(spectator.component).toBeTruthy();
