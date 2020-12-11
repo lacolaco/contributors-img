@@ -12,14 +12,14 @@
     "nx.json": "*"
   },
   "projects": {
-    "contributors-img": {
-      "tags": ["app"]
-    },
     "functions": {
       "tags": ["app"]
     },
     "core": {
       "tags": ["lib"]
+    },
+    "webapp": {
+      "tags": ["app"]
     }
   }
 }

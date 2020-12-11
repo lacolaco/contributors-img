@@ -4,7 +4,7 @@
     "runtime": "nodejs12"
   },
   "hosting": {
-    "public": "dist/apps/contributors-img",
+    "public": "dist/apps/webapp",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
