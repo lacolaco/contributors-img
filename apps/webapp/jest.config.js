@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'contributors-img',
+  displayName: 'webapp',
   preset: '../../jest.preset.js',
   coverageDirectory: '../../coverage/apps/products',
   snapshotSerializers: [
