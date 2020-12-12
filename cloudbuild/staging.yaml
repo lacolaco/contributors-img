@@ -3,8 +3,8 @@ steps:
   - name: node:12
     entrypoint: yarn
     args: ['install']
-  #   env:
-  #     - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    env:
+      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
   # Build app
   - name: node:12
     entrypoint: yarn
@@ -19,7 +19,10 @@ steps:
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: ['run', 'deploy', 'api-staging', '--image', 'gcr.io/contributors-img/api:staging', '--region', 'us-west1', '--platform', 'managed', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'api-staging', '--image', 'gcr.io/contributors-img/api:staging', '--region', 'us-west1', '--platform', 'managed', '--allow-unauthenticated', '--memory', '1Gi']
+  # Deploy (firebase)
+  - name: gcr.io/contributors-img/firebase
+    args: ['deploy', '--project=contributors-img', '--only=hosting:staging']
 images:
   - gcr.io/contributors-img/api:staging
 timeout: 6000s
