@@ -1,0 +1,25 @@
+steps:
+  # Setup
+  - name: node:12
+    entrypoint: yarn
+    args: ['install']
+  #   env:
+  #     - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+  # Build app
+  - name: node:12
+    entrypoint: yarn
+    args: ['build:all:staging']
+    timeout: 1200s
+  # Build images
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/contributors-img/api:staging', 'dist/apps/api']
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/contributors-img/api:staging']
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: ['run', 'deploy', 'api-staging', '--image', 'gcr.io/contributors-img/api:staging', '--region', 'us-west1', '--platform', 'managed', '--no-allow-unauthenticated']
+images:
+  - gcr.io/contributors-img/api:staging
+timeout: 6000s
