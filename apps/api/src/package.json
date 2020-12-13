@@ -6,6 +6,7 @@
   "dependencies": {
     "@google-cloud/firestore": "4.8.0",
     "@google-cloud/storage": "5.7.0",
+    "@google-cloud/trace-agent": "5.1.1",
     "@octokit/rest": "18.0.3",
     "compression": "1.7.4",
     "core-js": "3.8.1",
