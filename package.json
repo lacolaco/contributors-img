@@ -9,7 +9,7 @@
     "build:functions": "nx build functions",
     "build:all": "nx run-many --target build --all --parallel",
     "build:all:staging": "yarn build:all -c=staging",
-    "build:all:prod": "yarn build:all -c=production",
+    "build:all:production": "yarn build:all -c=production",
     "test": "nx test",
     "test:all": "nx run-many --target test --all",
     "format": "nx format:write",
