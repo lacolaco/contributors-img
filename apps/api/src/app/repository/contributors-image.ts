@@ -1,4 +1,5 @@
 import { Repository } from '@lib/core';
+import { Readable } from 'stream';
 import { injectable } from 'tsyringe';
 import { CacheStorage } from '../service/cache-storage';
 import { ContributorsImageRenderer } from '../service/contributors-image-renderer';
@@ -17,9 +18,9 @@ export class ContributorsImageRepository {
     private readonly renderer: ContributorsImageRenderer,
   ) {}
 
-  async getImage(repository: Repository): Promise<Buffer> {
+  async getImageFileStream(repository: Repository): Promise<Readable> {
     const cacheKey = createCacheKey(repository);
-    const cached = await runWithTracing('restoreFromCache', () => this.cacheStorage.restore(cacheKey));
+    const cached = await runWithTracing('restoreFromCache', () => this.cacheStorage.restoreFileStream(cacheKey));
     if (cached) {
       return cached;
     }
@@ -30,7 +31,7 @@ export class ContributorsImageRepository {
 
     const image = await runWithTracing('renderImage', () => this.renderer.render(contributors));
 
-    await runWithTracing('saveCache', () => this.cacheStorage.save(cacheKey, image));
-    return image;
+    await runWithTracing('saveCache', () => this.cacheStorage.saveFile(cacheKey, image));
+    return Readable.from(image);
   }
 }

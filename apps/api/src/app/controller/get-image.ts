@@ -15,11 +15,9 @@ export class GetImageController implements Controller {
       return;
     }
     try {
-      const image = await runWithTracing('getImage', () => this.imageQuery.getImage(repoName));
-      res
-        .header('Content-Type', 'image/png')
-        .header('Cache-Control', `max-age=${60 * 60}`)
-        .send(image);
+      const fileStream = await runWithTracing('getImage', () => this.imageQuery.getImage(repoName));
+      res.header('Content-Type', 'image/png').header('Cache-Control', `max-age=${60 * 60}`);
+      fileStream.pipe(res);
     } catch (err) {
       console.error(err);
       res.status(500).send(err.toString());
