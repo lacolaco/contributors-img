@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
 import { ContributorsQuery } from '../query/contributors';
 import { Controller } from '../utils/types';
+import { runWithTracing } from '../utils/tracing';
 
 @injectable()
 export class GetContributorsController implements Controller {
@@ -15,7 +16,9 @@ export class GetContributorsController implements Controller {
       return;
     }
     try {
-      const contributors = await this.contributorsQuery.getContributors(repoName);
+      const contributors = await runWithTracing('getContributors', () =>
+        this.contributorsQuery.getContributors(repoName),
+      );
       res.header('Cache-Control', `max-age=${60 * 60}`).json(contributors);
     } catch (err) {
       console.error(err);

@@ -2,7 +2,7 @@ export function assertRepositoryName(repoName: string | unknown): repoName is st
   if (typeof repoName !== 'string') {
     return false;
   }
-  if (!/^[\w\-_]+\/[\w\-_]+$/.test(repoName)) {
+  if (!/^[\w\-._]+\/[\w\-._]+$/.test(repoName)) {
     return false;
   }
   return true;

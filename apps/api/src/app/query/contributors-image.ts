@@ -3,6 +3,7 @@ import { injectable } from 'tsyringe';
 import { ContributorsRepository } from '../repository/contributors';
 import { ContributorsImageRepository } from '../repository/contributors-image';
 import { UsageRepository } from '../repository/usage';
+import { runWithTracing } from '../utils/tracing';
 
 @injectable()
 export class ContributorsImageQuery {
@@ -15,9 +16,14 @@ export class ContributorsImageQuery {
   async getImage(repoName: string): Promise<Buffer> {
     const repository = Repository.fromString(repoName);
 
-    const contributors = await this.contributorsRepository.getAllContributors(repository);
-    const image = await this.contributorsImageRepository.getImage(repository, contributors);
-    this.usageRepository.saveRepositoryUsage(repository, new Date());
+    const contributors = await runWithTracing('getAllContributors', () =>
+      this.contributorsRepository.getAllContributors(repository),
+    );
+    const image = await runWithTracing('getImage', () =>
+      this.contributorsImageRepository.getImage(repository, contributors),
+    );
+    runWithTracing('saveRepositoryUsage', () => this.usageRepository.saveRepositoryUsage(repository, new Date()));
+
     return image;
   }
 }
