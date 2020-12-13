@@ -8,7 +8,7 @@ export function startServer(config: { port: string | number }) {
   const app = express();
   app.use(compression({}));
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  app.use(morgan('combined') as any); // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/50076
+  app.use(morgan('combined', { immediate: true }) as any); // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/50076
   app.use(routes());
 
   const server = app.listen(config.port, () => {
