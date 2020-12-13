@@ -12,9 +12,6 @@
     "nx.json": "*"
   },
   "projects": {
-    "functions": {
-      "tags": ["app"]
-    },
     "core": {
       "tags": ["lib"]
     },

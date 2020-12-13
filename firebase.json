@@ -1,8 +1,4 @@
 {
-  "functions": {
-    "source": "dist/apps/functions",
-    "runtime": "nodejs12"
-  },
   "hosting": [
     {
       "target": "production",
