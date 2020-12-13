@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
 import { Controller } from '../utils/types';
 import { ContributorsImageQuery } from '../query/contributors-image';
+import { runWithTracing } from '../utils/tracing';
 
 @injectable()
 export class GetImageController implements Controller {
@@ -14,7 +15,7 @@ export class GetImageController implements Controller {
       return;
     }
     try {
-      const image = await this.imageQuery.getImage(repoName);
+      const image = await runWithTracing('getImage', () => this.imageQuery.getImage(repoName));
       res
         .header('Content-Type', 'image/png')
         .header('Cache-Control', `max-age=${60 * 60}`)

@@ -2,6 +2,7 @@ import { Contributor, Repository } from '@lib/core';
 import { injectable } from 'tsyringe';
 import { CacheStorage } from '../service/cache-storage';
 import { ContributorsImageRenderer } from '../service/contributors-image-renderer';
+import { runWithTracing } from '../utils/tracing';
 
 function createCacheKey(repository: Repository) {
   return `image-cache/${repository.owner}--${repository.repo}`;
@@ -13,12 +14,13 @@ export class ContributorsImageRepository {
 
   async getImage(repository: Repository, contributors: Contributor[]): Promise<Buffer> {
     const cacheKey = createCacheKey(repository);
-    const cached = await this.cacheStorage.restore(cacheKey);
+    const cached = await runWithTracing('restoreFromCache', () => this.cacheStorage.restore(cacheKey));
     if (cached) {
       return cached;
     }
-    const image = await this.renderer.render(contributors);
-    await this.cacheStorage.save(cacheKey, image);
+    const image = await runWithTracing('renderImage', () => this.renderer.render(contributors));
+
+    await runWithTracing('saveCache', () => this.cacheStorage.save(cacheKey, image));
     return image;
   }
 }
