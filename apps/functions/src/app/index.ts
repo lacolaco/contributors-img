@@ -13,7 +13,8 @@ import { validateRepoParam } from './utils/validators';
 
 admin.initializeApp();
 
-const bucket = admin.storage().bucket();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const bucket = admin.storage().bucket() as any;
 const config = getApplicationConfig();
 console.debug('config', config);
 const repoInfoRepository = new RepoInfoRepository(admin.firestore());
