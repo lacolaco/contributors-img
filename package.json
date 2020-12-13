@@ -52,7 +52,7 @@
     "compression": "1.7.4",
     "core-js": "3.8.1",
     "express": "4.17.1",
-    "firebase": "8.1.2",
+    "firebase": "8.2.0",
     "morgan": "1.10.0",
     "normalize.css": "8.0.1",
     "puppeteer": "5.5.0",
