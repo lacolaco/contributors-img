@@ -10,12 +10,10 @@ export class CacheStorage {
       return null;
     }
     const file = this.bucket.file(filename);
-    return await file.exists().then(([exists]) => {
-      if (!exists) {
-        return null;
-      }
-      return file.download({ ...options }).then(([data]) => data);
-    });
+    return file
+      .download({ ...options })
+      .then(([data]) => data)
+      .catch(() => null);
   }
 
   async restoreJSON<T>(filename: string): Promise<T | null> {
