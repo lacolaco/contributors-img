@@ -20,6 +20,7 @@ export class ContributorsImageRenderer {
 
     await page.evaluateOnNewDocument(
       (token, json) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any)[token] = JSON.parse(json);
       },
       CONTRIBUTORS_DATA,

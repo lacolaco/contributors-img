@@ -16,12 +16,8 @@ export class ContributorsImageQuery {
   async getImage(repoName: string): Promise<Buffer> {
     const repository = Repository.fromString(repoName);
 
-    const contributors = await runWithTracing('getAllContributors', () =>
-      this.contributorsRepository.getAllContributors(repository),
-    );
-    const image = await runWithTracing('getImage', () =>
-      this.contributorsImageRepository.getImage(repository, contributors),
-    );
+    const image = await runWithTracing('getImage', () => this.contributorsImageRepository.getImage(repository));
+
     runWithTracing('saveRepositoryUsage', () => this.usageRepository.saveRepositoryUsage(repository, new Date()));
 
     return image;
