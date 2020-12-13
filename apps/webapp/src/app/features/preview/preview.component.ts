@@ -5,6 +5,7 @@ import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { map, takeUntil, throttleTime } from 'rxjs/operators';
 import { PreviewStore } from './store';
 import { FetchContributorsUsecase } from './usecase/fetch-contributors.usecase';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-preview',
@@ -26,7 +27,9 @@ export class PreviewComponent implements OnInit, OnDestroy {
   readonly state$ = combineLatest([
     this.store.valueChanges,
     this.firestore
-      .collection<{ name: string }>('repositories', (q) => q.limit(12).orderBy('lastGeneratedAt', 'desc'))
+      .collection<{ name: string }>(`${environment.firestoreRootCollectionName}/usage/repositories`, (q) =>
+        q.limit(12).orderBy('timestamp', 'desc'),
+      )
       .valueChanges()
       .pipe(throttleTime(1000 * 10)),
     this.showImageSnippetSubject.asObservable(),

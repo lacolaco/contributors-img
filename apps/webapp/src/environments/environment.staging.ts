@@ -2,5 +2,6 @@ import { firebaseConfig } from './firebase-config';
 
 export const environment = {
   production: true,
-  firebaseConfig: firebaseConfig.dev,
+  firebaseConfig: firebaseConfig.prod,
+  firestoreRootCollectionName: 'staging',
 };
