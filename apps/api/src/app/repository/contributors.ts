@@ -1,7 +1,7 @@
 import { Contributor, Repository } from '@lib/core';
-import { Octokit } from '@octokit/rest';
 import { injectable } from 'tsyringe';
 import { CacheStorage } from '../service/cache-storage';
+import { GitHubClient } from '../service/github-client';
 import { runWithTracing } from '../utils/tracing';
 
 function createCacheKey(repository: Repository) {
@@ -10,7 +10,7 @@ function createCacheKey(repository: Repository) {
 
 @injectable()
 export class ContributorsRepository {
-  constructor(private readonly octokit: Octokit, private readonly cacheStorage: CacheStorage) {}
+  constructor(private readonly githubClient: GitHubClient, private readonly cacheStorage: CacheStorage) {}
 
   async getAllContributors(repository: Repository): Promise<Contributor[]> {
     const cacheKey = createCacheKey(repository);
@@ -22,11 +22,7 @@ export class ContributorsRepository {
     }
 
     const contributors = await runWithTracing('fetchContributors', () =>
-      this.octokit.paginate(this.octokit.repos.listContributors, {
-        owner: repository.owner,
-        repo: repository.repo,
-        per_page: 100,
-      }),
+      this.githubClient.getAllContributors(repository),
     );
 
     await runWithTracing('saveCache', () => this.cacheStorage.saveJSON(cacheKey, contributors));
