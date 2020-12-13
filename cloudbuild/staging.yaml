@@ -1,10 +1,20 @@
 steps:
   # Setup
+  - name: gcr.io/$PROJECT_ID/restore_cache
+    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )', '--key_fallback=yarn-']
   - name: node:12
     entrypoint: yarn
-    args: ['install']
+    args: ['install', '--frozen-lockfile']
     env:
       - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+  - name: 'gcr.io/$PROJECT_ID/save_cache'
+    args:
+      [
+        '--bucket=gs://$_BUILD_CACHE_BUCKET',
+        '--key=yarn-$( checksum yarn.lock )',
+        '--path=node_modules',
+        '--no-clobber',
+      ]
   # Build app
   - name: node:12
     entrypoint: yarn
@@ -12,17 +22,31 @@ steps:
     timeout: 1200s
   # Build images
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/contributors-img/api:staging', 'dist/apps/api']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/api:staging', 'dist/apps/api']
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/contributors-img/api:staging']
+    args: ['push', 'gcr.io/$PROJECT_ID/api:staging']
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: ['run', 'deploy', 'api-staging', '--image', 'gcr.io/contributors-img/api:staging', '--region', 'us-west1', '--platform', 'managed', '--allow-unauthenticated', '--memory', '1Gi']
+    args:
+      [
+        'run',
+        'deploy',
+        'api-staging',
+        '--image',
+        'gcr.io/$PROJECT_ID/api:staging',
+        '--region',
+        'us-west1',
+        '--platform',
+        'managed',
+        '--allow-unauthenticated',
+        '--memory',
+        '1Gi',
+      ]
   # Deploy (firebase)
-  - name: gcr.io/contributors-img/firebase
-    args: ['deploy', '--project=contributors-img', '--only=hosting:staging']
-images:
-  - gcr.io/contributors-img/api:staging
+  - name: gcr.io/$PROJECT_ID/firebase
+    args: ['deploy', '--project=$PROJECT_ID', '--only=hosting:staging']
+substitutions:
+  _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
 timeout: 6000s
