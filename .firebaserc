@@ -1,9 +1,4 @@
 {
-  "projects": {
-    "default": "contributors-img",
-    "prod": "contributors-img",
-    "staging": "contributors-img-dev"
-  },
   "targets": {
     "contributors-img": {
       "hosting": {
