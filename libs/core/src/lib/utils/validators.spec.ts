@@ -2,24 +2,24 @@ import { assertRepositoryName } from './validators';
 
 describe('validators', () => {
   describe('validateRepoParam', () => {
-    it('should accept owner/repo string', () => {
-      expect(() => assertRepositoryName('foo/bar')).not.toThrow();
+    test('should accept owner/repo string', () => {
+      expect(assertRepositoryName('foo/bar')).toBe(true);
     });
 
-    it('should reject empty string', () => {
-      expect(() => assertRepositoryName('')).toThrow();
+    test('should reject empty string', () => {
+      expect(assertRepositoryName('')).toBe(false);
     });
 
-    it('should reject null', () => {
-      expect(() => assertRepositoryName(null)).toThrow();
+    test('should reject null', () => {
+      expect(assertRepositoryName(null)).toBe(false);
     });
 
-    it('should reject non repository string', () => {
-      expect(() => assertRepositoryName('foo')).toThrow();
+    test('should reject non repository string', () => {
+      expect(assertRepositoryName('foo')).toBe(false);
     });
 
-    it('should reject non repository string', () => {
-      expect(() => assertRepositoryName('foo/')).toThrow();
+    test('should reject non repository string', () => {
+      expect(assertRepositoryName('foo/')).toBe(false);
     });
   });
 });
