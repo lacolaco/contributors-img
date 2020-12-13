@@ -11,7 +11,7 @@ export class CacheStorage {
       return null;
     }
     const file = this.bucket.file(filename);
-    return file.exists().then((exists) => {
+    return file.exists().then(([exists]) => {
       if (!exists) {
         return null;
       }
