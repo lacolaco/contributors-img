@@ -19,7 +19,10 @@ steps:
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: ['run', 'deploy', 'api-production', '--image', 'gcr.io/contributors-img/api:production', '--region', 'us-west1', '--platform', 'managed', '--allow-unauthenticated', '--memory', '1Gi']
+    args: ['run', 'deploy', 'api-production', '--image', 'gcr.io/contributors-img/api:production', '--region', 'us-west1', '--platform', 'managed', '--allow-unauthenticated', '--memory', '2Gi']
+  # Deploy (firebase)
+  - name: gcr.io/contributors-img/firebase
+    args: ['deploy', '--project=contributors-img', '--only=hosting:production,firestore']
 images:
   - gcr.io/contributors-img/api:production
 timeout: 6000s
