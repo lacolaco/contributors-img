@@ -1,4 +1,6 @@
 steps:
+  - name: gcr.io/$PROJECT_ID/restore_cache
+    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )', '--key_fallback=yarn-']
   # Setup
   - name: node:12
     entrypoint: yarn
@@ -17,12 +19,14 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/contributors-img/api:production']
   # Deploy container image to Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     entrypoint: gcloud
     args: ['run', 'deploy', 'api-production', '--image', 'gcr.io/contributors-img/api:production', '--region', 'us-west1', '--platform', 'managed', '--allow-unauthenticated', '--memory', '2Gi']
   # Deploy (firebase)
   - name: gcr.io/contributors-img/firebase
     args: ['deploy', '--project=contributors-img', '--only=hosting:production,firestore']
+substitutions:
+  _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
 images:
   - gcr.io/contributors-img/api:production
 timeout: 6000s
