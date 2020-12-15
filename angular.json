@@ -213,45 +213,35 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/renderer/browser",
-            "index": "apps/renderer/src/index.html",
-            "main": "apps/renderer/src/main.ts",
-            "polyfills": "apps/renderer/src/polyfills.ts",
-            "tsConfig": "apps/renderer/tsconfig.app.json",
-            "aot": true,
-            "assets": ["apps/renderer/src/favicon.ico", "apps/renderer/src/assets"],
-            "styles": ["apps/renderer/src/styles.scss"],
-            "scripts": []
+            "outputPath": "dist/apps/renderer/server",
+            "main": "apps/renderer/src/main.server.ts",
+            "tsConfig": "apps/renderer/tsconfig.server.json",
+            "externalDependencies": ["domino"]
           },
           "configurations": {
             "production": {
+              "outputHashing": "media",
               "fileReplacements": [
                 {
                   "replace": "apps/renderer/src/environments/environment.ts",
                   "with": "apps/renderer/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
               "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
+              "optimization": true
+            },
+            "staging": {
+              "outputHashing": "media",
+              "fileReplacements": [
                 {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "replace": "apps/renderer/src/environments/environment.ts",
+                  "with": "apps/renderer/src/environments/environment.staging.ts"
                 }
-              ]
+              ],
+              "sourceMap": false,
+              "optimization": true
             }
           }
         },
@@ -291,27 +281,27 @@
             "jestConfig": "apps/renderer/jest.config.js",
             "passWithNoTests": true
           }
-        },
-        "server": {
-          "builder": "@angular-devkit/build-angular:server",
+        }
+      }
+    },
+    "renderer-ui": {
+      "projectType": "library",
+      "root": "libs/renderer-ui",
+      "sourceRoot": "libs/renderer-ui/src",
+      "prefix": "renderer",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "outputPath": "dist/apps/renderer/server",
-            "main": "apps/renderer/src/main.server.ts",
-            "tsConfig": "apps/renderer/tsconfig.server.json",
-            "externalDependencies": ["domino"]
-          },
-          "configurations": {
-            "production": {
-              "outputHashing": "media",
-              "fileReplacements": [
-                {
-                  "replace": "apps/renderer/src/environments/environment.ts",
-                  "with": "apps/renderer/src/environments/environment.prod.ts"
-                }
-              ],
-              "sourceMap": false,
-              "optimization": true
-            }
+            "lintFilePatterns": ["libs/renderer-ui/src/**/*.ts", "libs/renderer-ui/src/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/renderer-ui"],
+          "options": {
+            "jestConfig": "libs/renderer-ui/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
@@ -328,7 +318,8 @@
       "strict": true
     },
     "@nrwl/angular:library": {
-      "unitTestRunner": "jest"
+      "unitTestRunner": "jest",
+      "strict": true
     },
     "@nrwl/angular:component": {
       "style": "scss"

@@ -1,17 +1,15 @@
-import { CONTRIBUTORS_DATA } from '@lib/core';
+import { ContributorsListModule } from '@lib/renderer-ui';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ContributorsListModule } from '../../../shared/contributors-list/contributors-list.module';
-import { SimpleRenderComponent } from './simple.component';
+import { SimpleRendererComponent } from './simple.component';
 
 describe('SimpleRenderComponent', () => {
-  let spectator: Spectator<SimpleRenderComponent>;
+  let spectator: Spectator<SimpleRendererComponent>;
   const createComponent = createComponentFactory({
-    component: SimpleRenderComponent,
+    component: SimpleRendererComponent,
     imports: [ContributorsListModule],
   });
 
   beforeEach(() => {
-    (window as any)[CONTRIBUTORS_DATA] = [];
   });
 
   it('should create', () => {

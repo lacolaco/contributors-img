@@ -19,10 +19,14 @@
       "tags": ["app"]
     },
     "api": {
-      "tags": ["app"]
+      "tags": ["app"],
+      "implicitDependencies": ["renderer"]
     },
     "renderer": {
       "tags": ["app"]
+    },
+    "renderer-ui": {
+      "tags": ["lib"]
     }
   }
 }

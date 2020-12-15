@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { Contributor } from '@lib/core';
+import { CONTRIBUTORS_DATA } from './tokens';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'renderer';
+  constructor(@Inject(CONTRIBUTORS_DATA) public readonly contributors: Contributor[]) {
+    if (!this.contributors) {
+      throw new Error('No Embedded Contributors Data');
+    }
+  }
 }

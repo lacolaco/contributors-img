@@ -9,7 +9,7 @@
     <ng-template #showResult>
       <ng-container *ngIf="state.contributors.length > 0; else showNoResult">
         <div class="generatedResult">
-          <app-contributor-list [list]="state.contributors"> </app-contributor-list>
+          <renderer-contributor-list [list]="state.contributors"> </renderer-contributor-list>
 
           <app-image-snippet
             *ngIf="state.repository && state.showImageSnippet"
