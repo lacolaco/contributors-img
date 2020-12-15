@@ -2171,10 +2171,10 @@
     replace-in-file "^4.1.3"
     tslib "^2.0.0"
 
-"@ngrx/component@10.1.0":
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/component/-/component-10.1.0.tgz#cf04077f0d597fec976c0c031c802229d2ae5d4a"
-  integrity sha512-Ie5U9FjVKjfpRms6fJ2/73ke5b1SMT4qWmULJ4ew2rJSjxkENRxDQO9maY6gul+1bT4OE+9WHs0FvULU1Yr9dA==
+"@ngrx/component@10.1.1":
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/component/-/component-10.1.1.tgz#68ce3129cd630d3cf5811b592fcd85bf68553991"
+  integrity sha512-+QZPIcDW6fh7hRZjbT1d5JZUVluSxUcgfqOPCqgvS+HUn+dLbtGrx6rwV4BXlKEGVaXYNdLC0h/dNNQ+qlWZ/w==
   dependencies:
     tslib "^2.0.0"
 
