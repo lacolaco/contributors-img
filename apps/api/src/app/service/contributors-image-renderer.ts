@@ -33,4 +33,24 @@ export class ContributorsImageRenderer {
 
     return await browser.close().then(() => screenshot);
   }
+
+  async render2(html: string): Promise<Buffer> {
+    const browser = await puppeteer.launch({
+      headless: environment.useHeadless,
+      args: ['--no-sandbox'],
+    });
+
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1048, height: 1048 });
+
+    page.on('error', (error) => {
+      console.error(error);
+    });
+
+    await page.setContent(html, { waitUntil: 'networkidle0' });
+    // const screenshotTarget = await page.waitForSelector('#renderTarget', { timeout: 0 });
+    const screenshot = await page.screenshot({ type: 'png', omitBackground: true });
+
+    return await browser.close().then(() => screenshot);
+  }
 }

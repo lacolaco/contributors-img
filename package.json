@@ -28,7 +28,8 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
-    "workspace-generator": "nx workspace-generator"
+    "workspace-generator": "nx workspace-generator",
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -42,12 +43,14 @@
     "@angular/material": "11.0.2",
     "@angular/platform-browser": "11.0.4",
     "@angular/platform-browser-dynamic": "11.0.4",
+    "@angular/platform-server": "11.0.4",
     "@angular/router": "11.0.4",
     "@google-cloud/firestore": "4.8.0",
     "@google-cloud/storage": "5.7.0",
     "@google-cloud/trace-agent": "5.1.1",
     "@lacolaco/reactive-store": "4.0.0",
     "@ngrx/component": "10.1.0",
+    "@nguniversal/express-engine": "^11.0.1",
     "@octokit/rest": "18.0.3",
     "compression": "1.7.4",
     "core-js": "3.8.1",

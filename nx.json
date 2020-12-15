@@ -20,6 +20,9 @@
     },
     "api": {
       "tags": ["app"]
+    },
+    "renderer": {
+      "tags": ["app"]
     }
   }
 }

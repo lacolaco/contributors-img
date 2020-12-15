@@ -259,6 +259,15 @@
   dependencies:
     tslib "^2.0.0"
 
+"@angular/platform-server@11.0.4":
+  version "11.0.4"
+  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-11.0.4.tgz#f1ec8511b2ee127a87146584336cb537321a8e25"
+  integrity sha512-5oFP5cnPV+mXHRxzcDtniA7P6R/jC5DYPUTFBQMJceF9Kim/oJsp5mbI06Eelwjxq11FZBTn8Zk6AtIvsRl5gw==
+  dependencies:
+    domino "^2.1.2"
+    tslib "^2.0.0"
+    xhr2 "^0.2.0"
+
 "@angular/router@11.0.4":
   version "11.0.4"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-11.0.4.tgz#324507346c508649135f56e5f2b57c60e0ba7b16"
@@ -2186,6 +2195,21 @@
     "@angular-devkit/core" "11.0.4"
     enhanced-resolve "5.3.1"
     webpack-sources "2.0.1"
+
+"@nguniversal/common@11.0.1":
+  version "11.0.1"
+  resolved "https://registry.yarnpkg.com/@nguniversal/common/-/common-11.0.1.tgz#61e5c1d4207b1bfa80dd038a7f0974c53cbebcaa"
+  integrity sha512-tfKlirW/NVyvLfw4X81lpfSesr/za+OBeBs4ZQOLe0VH9wU2MES849Agy6539Tbo+U1KsY0pNrukWqSEgUJ9fQ==
+  dependencies:
+    tslib "^2.0.0"
+
+"@nguniversal/express-engine@^11.0.1":
+  version "11.0.1"
+  resolved "https://registry.yarnpkg.com/@nguniversal/express-engine/-/express-engine-11.0.1.tgz#ab31e3ec1f264d759d7043f8224ff7d00d080697"
+  integrity sha512-foctmYXdu/hcmx4ivbg9Zy46f02PGMMdtXnmVGdopwjRkLtA6/QdavBGlkJRS3zvYHyPdmIOANlQGjfFtFOmgQ==
+  dependencies:
+    "@nguniversal/common" "11.0.1"
+    tslib "^2.0.0"
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
@@ -5938,6 +5962,11 @@ domexception@^2.0.1:
   integrity sha512-yxJ2mFy/sibVQlu5qHjOkf9J3K6zgmCxgJ94u2EdvDOV09H+32LtRswEcUsmUWN72pVLOEnTSRaIVVzVQgS0dg==
   dependencies:
     webidl-conversions "^5.0.0"
+
+domino@^2.1.2:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/domino/-/domino-2.1.6.tgz#fe4ace4310526e5e7b9d12c7de01b7f485a57ffe"
+  integrity sha512-3VdM/SXBZX2omc9JF9nOPCtDaYQ67BGp5CoLpIQlO2KCAPETs8TcDHacF26jXadGbvUteZzRTeos2fhID5+ucQ==
 
 domutils@^1.7.0:
   version "1.7.0"
@@ -14690,6 +14719,11 @@ xdg-basedir@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-4.0.0.tgz#4bc8d9984403696225ef83a1573cbbcb4e79db13"
   integrity sha512-PSNhEJDejZYV7h50BohL09Er9VaIefr2LMAf3OEmpCkjOi34eYyQYAXUTjEQtZJTKcF0E2UKTh+osDLsgNim9Q==
+
+xhr2@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/xhr2/-/xhr2-0.2.0.tgz#eddeff782f3b7551061b8d75645085269396e521"
+  integrity sha512-BDtiD0i2iKPK/S8OAZfpk6tyzEDnKKSjxWHcMBVmh+LuqJ8A32qXTyOx+TVOg2dKvq6zGBq2sgKPkEeRs1qTRA==
 
 xml-name-validator@^3.0.0:
   version "3.0.0"

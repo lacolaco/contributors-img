@@ -205,10 +205,133 @@
           "outputs": ["coverage/apps/api"]
         }
       }
+    },
+    "renderer": {
+      "projectType": "application",
+      "root": "apps/renderer",
+      "sourceRoot": "apps/renderer/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/renderer/browser",
+            "index": "apps/renderer/src/index.html",
+            "main": "apps/renderer/src/main.ts",
+            "polyfills": "apps/renderer/src/polyfills.ts",
+            "tsConfig": "apps/renderer/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/renderer/src/favicon.ico", "apps/renderer/src/assets"],
+            "styles": ["apps/renderer/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/renderer/src/environments/environment.ts",
+                  "with": "apps/renderer/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "renderer:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "renderer:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "renderer:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/renderer/tsconfig.app.json",
+              "apps/renderer/tsconfig.spec.json",
+              "apps/renderer/tsconfig.editor.json",
+              "apps/renderer/tsconfig.server.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/renderer/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/renderer"],
+          "options": {
+            "jestConfig": "apps/renderer/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/apps/renderer/server",
+            "main": "apps/renderer/src/main.server.ts",
+            "tsConfig": "apps/renderer/tsconfig.server.json",
+            "externalDependencies": ["domino"]
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "apps/renderer/src/environments/environment.ts",
+                  "with": "apps/renderer/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
+        }
+      }
     }
   },
   "defaultProject": "webapp",
   "cli": {
     "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "none",
+      "strict": true
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
   }
 }
