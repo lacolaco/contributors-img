@@ -6875,10 +6875,10 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-tools@8.19.0:
-  version "8.19.0"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-8.19.0.tgz#027e65c36d03e3f040aef805346b7530dffd170f"
-  integrity sha512-dbpxehdvL7P230BuuWDKZqkYBy9XHS1P7i7Df0gF7e+4MJVKEHJSo8rHaX7ZAuYEHgqOmTm/CwcYOcjN44qnxA==
+firebase-tools@8.20.0:
+  version "8.20.0"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-8.20.0.tgz#0c7b69a611f584c44ca4cbf9e3003b18ebfd17be"
+  integrity sha512-FovOHkPEvdT31EqxDzjJkaJIYLrc+0GZwQ3ixT1WI3yF3o4TG8MCVo+QidmcNqyX0XZnI3/5sF3dpxXQ/HzaVw==
   dependencies:
     "@google-cloud/pubsub" "^1.7.0"
     JSONStream "^1.2.1"
