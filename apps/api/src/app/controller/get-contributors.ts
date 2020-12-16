@@ -20,7 +20,7 @@ export class GetContributorsController implements Controller {
       const contributors = await runWithTracing('getContributors', () =>
         this.contributorsQuery.getContributors(repoName),
       );
-      res.header('Cache-Control', `max-age=${60 * 60}`).json(contributors);
+      res.header('cache-control', `public, max-age=${60 * 60}`).json(contributors);
     } catch (err) {
       console.error(err);
       res.status(500).send(err.toString());

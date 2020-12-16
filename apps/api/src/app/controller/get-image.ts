@@ -17,7 +17,9 @@ export class GetImageController implements Controller {
     addTracingLabels({ 'app:repoName': repoName });
     try {
       const fileStream = await runWithTracing('getImage', () => this.imageQuery.getImage(repoName));
-      res.header('Content-Type', 'image/png').header('Cache-Control', `max-age=${60 * 60 * 12}`);
+      res
+        .header('Content-Type', 'image/png')
+        .header('cache-control', `public, max-age=${60 * 60 * 6}`);
       fileStream.pipe(res);
     } catch (err) {
       console.error(err);
