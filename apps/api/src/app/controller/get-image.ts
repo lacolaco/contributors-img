@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
 import { Controller } from '../utils/types';
 import { ContributorsImageQuery } from '../query/contributors-image';
-import { runWithTracing } from '../utils/tracing';
+import { addTracingLabels, runWithTracing } from '../utils/tracing';
 
 @injectable()
 export class GetImageController implements Controller {
@@ -14,6 +14,7 @@ export class GetImageController implements Controller {
       res.status(400).send(`"${repoName}" is not a valid repository name`);
       return;
     }
+    addTracingLabels({ 'app:repoName': repoName });
     try {
       const fileStream = await runWithTracing('getImage', () => this.imageQuery.getImage(repoName));
       res.header('Content-Type', 'image/png').header('Cache-Control', `max-age=${60 * 60 * 12}`);

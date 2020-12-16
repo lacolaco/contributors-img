@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
 import { ContributorsQuery } from '../query/contributors';
 import { Controller } from '../utils/types';
-import { runWithTracing } from '../utils/tracing';
+import { addTracingLabels, runWithTracing } from '../utils/tracing';
 
 @injectable()
 export class GetContributorsController implements Controller {
@@ -15,6 +15,7 @@ export class GetContributorsController implements Controller {
       res.status(400).send(`"${repoName}" is not a valid repository name`);
       return;
     }
+    addTracingLabels({ 'app:repoName': repoName });
     try {
       const contributors = await runWithTracing('getContributors', () =>
         this.contributorsQuery.getContributors(repoName),
