@@ -20,8 +20,15 @@ steps:
     args: ['push', 'gcr.io/contributors-img/api:production']
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
-    entrypoint: gcloud
-    args: ['run', 'deploy', 'api-production', '--image', 'gcr.io/contributors-img/api:production', '--region', 'us-west1', '--platform', 'managed', '--allow-unauthenticated', '--memory', '2Gi']
+    entrypoint: 'bash'
+    args: ['-c', 'gcloud secrets versions access latest --secret=GITHUB_AUTH_TOKEN > GITHUB_AUTH_TOKEN.txt']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    entrypoint: bash
+    args:
+      [
+        '-c',
+        'gcloud run deploy api-production --image gcr.io/$PROJECT_ID/api:production --region us-west1 --platform managed --allow-unauthenticated --memory 2Gi --update-env-vars GITHUB_AUTH_TOKEN="$(cat GITHUB_AUTH_TOKEN.txt)"',
+      ]
   # Deploy (firebase)
   - name: gcr.io/contributors-img/firebase
     args: ['deploy', '--project=contributors-img', '--only=hosting:production,firestore']

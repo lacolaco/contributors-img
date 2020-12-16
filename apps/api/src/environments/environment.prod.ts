@@ -5,4 +5,5 @@ export const environment: Environment = {
   useHeadless: true,
   cacheStorageBucketName: 'contributors-img.appspot.com',
   firestoreRootCollectionName: 'production',
+  githubAuthToken: process.env.GITHUB_AUTH_TOKEN ?? null,
 };

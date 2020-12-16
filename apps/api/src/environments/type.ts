@@ -3,4 +3,5 @@ export type Environment = {
   useHeadless: boolean;
   cacheStorageBucketName: string | null;
   firestoreRootCollectionName: string | null;
+  githubAuthToken: string | null;
 };

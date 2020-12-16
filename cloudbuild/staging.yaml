@@ -21,33 +21,21 @@ steps:
     args: ['push', 'gcr.io/$PROJECT_ID/api:staging']
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
-    entrypoint: gcloud
+    entrypoint: 'bash'
+    args: ['-c', 'gcloud secrets versions access latest --secret=GITHUB_AUTH_TOKEN > GITHUB_AUTH_TOKEN.txt']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    entrypoint: bash
     args:
       [
-        'run',
-        'deploy',
-        'api-staging',
-        '--image',
-        'gcr.io/$PROJECT_ID/api:staging',
-        '--region',
-        'us-west1',
-        '--platform',
-        'managed',
-        '--allow-unauthenticated',
-        '--memory',
-        '1Gi',
+        '-c',
+        'gcloud run deploy api-staging --image gcr.io/$PROJECT_ID/api:staging --region us-west1 --platform managed --allow-unauthenticated --memory 1Gi --update-env-vars GITHUB_AUTH_TOKEN="$(cat GITHUB_AUTH_TOKEN.txt)"',
       ]
   # Deploy (firebase)
   - name: gcr.io/$PROJECT_ID/firebase
     args: ['deploy', '--project=$PROJECT_ID', '--only=hosting:staging']
   # Save cache
   - name: 'gcr.io/$PROJECT_ID/save_cache'
-    args:
-      [
-        '--bucket=gs://$_BUILD_CACHE_BUCKET',
-        '--key=yarn-$( checksum yarn.lock )',
-        '--path=node_modules',
-      ]
+    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )', '--path=node_modules']
 substitutions:
   _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
 timeout: 6000s

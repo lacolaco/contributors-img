@@ -5,4 +5,5 @@ export const environment: Environment = {
   useHeadless: false,
   cacheStorageBucketName: null,
   firestoreRootCollectionName: 'staging',
+  githubAuthToken: process.env.GITHUB_AUTH_TOKEN ?? null,
 };
