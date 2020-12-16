@@ -1,14 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ContributorsListModule } from '../../../../shared/contributors-list/contributors-list.module';
+import { ContributorsListModule } from '@lib/renderer-ui';
 import { RepositoryGalleryComponent } from './repository-gallery.component';
 
 describe('RepositoryGalleryComponent', () => {
   let component: RepositoryGalleryComponent;
   let fixture: ComponentFixture<RepositoryGalleryComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RepositoryGalleryComponent],
       imports: [RouterTestingModule, MatCardModule, ContributorsListModule],

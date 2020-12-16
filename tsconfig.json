@@ -18,7 +18,8 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "paths": {
-      "@lib/core": ["./libs/core/src/index.ts"]
+      "@lib/core": ["./libs/core/src/index.ts"],
+      "@lib/renderer-ui": ["libs/renderer-ui/src/index.ts"]
     },
     "rootDir": "."
   },

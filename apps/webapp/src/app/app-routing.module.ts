@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SimpleRenderComponent } from './features/render/simple/simple.component';
-import { RenderModule } from './features/render/render.module';
+import { PreviewModule } from './features/preview/preview.module';
 
 export const routes: Routes = [
   {
@@ -9,23 +8,10 @@ export const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'preview',
   },
-  {
-    path: 'preview',
-    loadChildren: () => import('./features/preview/preview.module').then((m) => m.PreviewModule),
-  },
-  {
-    path: 'render',
-    children: [
-      {
-        path: 'simple',
-        component: SimpleRenderComponent,
-      },
-    ],
-  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }), RenderModule],
+  imports: [RouterModule.forRoot(routes), PreviewModule],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

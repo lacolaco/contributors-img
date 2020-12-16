@@ -16,7 +16,7 @@ export class GetImageController implements Controller {
     }
     try {
       const fileStream = await runWithTracing('getImage', () => this.imageQuery.getImage(repoName));
-      res.header('Content-Type', 'image/png').header('Cache-Control', `max-age=${60 * 60}`);
+      res.header('Content-Type', 'image/png').header('Cache-Control', `max-age=${60 * 60 * 12}`);
       fileStream.pipe(res);
     } catch (err) {
       console.error(err);

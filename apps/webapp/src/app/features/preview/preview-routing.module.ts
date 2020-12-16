@@ -4,8 +4,7 @@ import { PreviewComponent } from './preview.component';
 
 const routes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
+    path: 'preview',
     component: PreviewComponent,
   },
 ];
