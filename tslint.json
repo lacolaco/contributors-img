@@ -1,6 +1,6 @@
 {
   "extends": "tslint:recommended",
-  "rulesDirectory": ["codelyzer", "node_modules/@nrwl/workspace/src/tslint"],
+  "rulesDirectory": ["node_modules/codelyzer", "node_modules/@nrwl/workspace/src/tslint"],
   "rules": {
     "align": {
       "options": ["parameters", "statements"]

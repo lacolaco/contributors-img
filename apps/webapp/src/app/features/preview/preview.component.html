@@ -1,4 +1,4 @@
-<ng-container *ngIf="state$ | ngrxPush as state">
+<ng-container *ngIf="state$ | async as state">
   <main>
     <app-header></app-header>
     <app-repository-form [repository]="state.repository" (valueChange)="selectRepository($event)"></app-repository-form>
@@ -9,7 +9,7 @@
     <ng-template #showResult>
       <ng-container *ngIf="state.contributors.length > 0; else showNoResult">
         <div class="generatedResult">
-          <app-contributor-list [list]="state.contributors"> </app-contributor-list>
+          <renderer-contributor-list [list]="state.contributors"> </renderer-contributor-list>
 
           <app-image-snippet
             *ngIf="state.repository && state.showImageSnippet"

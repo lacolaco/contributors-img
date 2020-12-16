@@ -12,8 +12,6 @@ describe('RepositoryFormComponent', () => {
     schemas: [NO_ERRORS_SCHEMA],
   });
 
-  beforeEach(() => {});
-
   it('should create', () => {
     spectator = createComponent({});
 
