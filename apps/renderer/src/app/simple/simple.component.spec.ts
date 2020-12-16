@@ -9,9 +9,6 @@ describe('SimpleRenderComponent', () => {
     imports: [ContributorsListModule],
   });
 
-  beforeEach(() => {
-  });
-
   it('should create', () => {
     spectator = createComponent({});
 
