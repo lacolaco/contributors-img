@@ -144,7 +144,7 @@
   dependencies:
     "@typescript-eslint/experimental-utils" "4.3.0"
 
-"@angular-eslint/schematics@^0.8.0-beta.5":
+"@angular-eslint/schematics@0.8.0-beta.5":
   version "0.8.0-beta.5"
   resolved "https://registry.yarnpkg.com/@angular-eslint/schematics/-/schematics-0.8.0-beta.5.tgz#97f77b3a6f135ae5dec20f87e094af1b0a6c9c47"
   integrity sha512-4OxBm+RgP/2B0UM6tDEqkaC7EtM+xhKBWJ/zMli1CKoHOqmHsu0XJqqmTPCBDbh2vcFLQcXP8ymtT6kzl+bqdA==
@@ -6507,7 +6507,7 @@ eslint-visitor-keys@^2.0.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-2.0.0.tgz#21fdc8fbcd9c795cc0321f0563702095751511a8"
   integrity sha512-QudtT6av5WXels9WjIM7qz1XD1cWGvX4gGXvp/zBn9nXG02D0utdU3Em2m/QjTnrsk6bBjmCygl3rmj118msQQ==
 
-eslint@^7.6.0:
+eslint@7.15.0:
   version "7.15.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.15.0.tgz#eb155fb8ed0865fcf5d903f76be2e5b6cd7e0bc7"
   integrity sha512-Vr64xFDT8w30wFll643e7cGrIkPEU50yIiI36OdSIDoSGguIeaLzBo0vpGvzo9RECUqq7htURfwEtKqwytkqzA==
