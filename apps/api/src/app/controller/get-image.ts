@@ -14,7 +14,7 @@ export class GetImageController implements Controller {
       res.status(400).send(`"${repoName}" is not a valid repository name`);
       return;
     }
-    addTracingLabels({ 'app:repoName': repoName });
+    addTracingLabels({ 'app/repoName': repoName });
     try {
       const fileStream = await runWithTracing('getImage', () => this.imageQuery.getImage(repoName));
       res
