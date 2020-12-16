@@ -1,6 +1,6 @@
 {
   "extends": "tslint:recommended",
-  "rulesDirectory": ["codelyzer", "node_modules/@nrwl/workspace/src/tslint", "node_modules/codelyzer"],
+  "rulesDirectory": ["node_modules/codelyzer", "node_modules/@nrwl/workspace/src/tslint"],
   "rules": {
     "align": {
       "options": ["parameters", "statements"]
@@ -98,12 +98,6 @@
           }
         ]
       }
-    ],
-    "directive-selector": false,
-    "component-selector": false,
-    "no-conflicting-lifecycle": true,
-    "no-output-native": true,
-    "template-banana-in-box": true,
-    "template-no-negated-async": true
+    ]
   }
 }
