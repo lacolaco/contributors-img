@@ -1,4 +1,4 @@
-<ng-container *ngIf="state$ | ngrxPush as state">
+<ng-container *ngIf="state$ | async as state">
   <main>
     <app-header></app-header>
     <app-repository-form [repository]="state.repository" (valueChange)="selectRepository($event)"></app-repository-form>

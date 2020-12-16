@@ -11,7 +11,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ContributorsListModule } from '@lib/renderer-ui';
-import { ReactiveComponentModule } from '@ngrx/component';
 import { environment } from '../../../environments/environment';
 import { FooterComponent } from './component/footer/footer.component';
 import { HeaderComponent } from './component/header/header.component';
@@ -38,7 +37,6 @@ import { PreviewComponent } from './preview.component';
     AngularFireAnalyticsModule,
     AngularFirePerformanceModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,

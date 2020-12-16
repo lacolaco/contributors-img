@@ -49,7 +49,6 @@
     "@google-cloud/storage": "5.7.0",
     "@google-cloud/trace-agent": "5.1.1",
     "@lacolaco/reactive-store": "4.0.0",
-    "@ngrx/component": "10.1.0",
     "@nguniversal/express-engine": "^11.0.1",
     "@octokit/rest": "18.0.3",
     "compression": "1.7.4",
