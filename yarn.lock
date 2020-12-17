@@ -130,7 +130,7 @@
   resolved "https://registry.yarnpkg.com/@angular-eslint/builder/-/builder-0.8.0-beta.6.tgz#035ffcea427991b988446438f6a0480e49766388"
   integrity sha512-Dc6UrI140rqSrbkPP928JbYRlSl9PNdEIuIF/Uh982MR20WvwiCXcBJc4xVHv0Oy/s0n9OQSvhfW0eUNaw2qWQ==
 
-"@angular-eslint/eslint-plugin-template@0.8.0-beta.6":
+"@angular-eslint/eslint-plugin-template@0.8.0-beta.6", "@angular-eslint/eslint-plugin-template@^0.8.0-beta.6":
   version "0.8.0-beta.6"
   resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin-template/-/eslint-plugin-template-0.8.0-beta.6.tgz#1a0925525681fd48470a3858a485acfc6e81c2c8"
   integrity sha512-iC9YJSqeokMlFFLP0ZyWalzhVU++2bBdY9vfwrTaNC4JNLszAOOlkFRtPXZZQZpJ/3PM0FlVhD4OSZL36Gw6Iw==
@@ -138,34 +138,20 @@
     "@typescript-eslint/experimental-utils" "4.3.0"
     aria-query "^4.2.2"
 
-"@angular-eslint/eslint-plugin-template@^0.8.0-beta.5":
-  version "0.8.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin-template/-/eslint-plugin-template-0.8.0-beta.5.tgz#a884a6044ce88e40dd4239b7a1b0be98ef8e1143"
-  integrity sha512-0sn+w2VVFSHS3zXMcYCkUjveuMQXO2Y4Gf8lq0YnmTcscynsLB3Nqj74hyQ+znE9LEciawt8fXtqY74oFpbQkA==
-  dependencies:
-    "@typescript-eslint/experimental-utils" "4.3.0"
-
-"@angular-eslint/eslint-plugin@0.8.0-beta.6":
+"@angular-eslint/eslint-plugin@0.8.0-beta.6", "@angular-eslint/eslint-plugin@^0.8.0-beta.6":
   version "0.8.0-beta.6"
   resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin/-/eslint-plugin-0.8.0-beta.6.tgz#42dd7cc9bede7289d91488a52bab6e40c71d8742"
   integrity sha512-yXyNSTUA0Nosh1ZI/iJerbwqeakhI495P5O1luxE9Fw7Vcdmb+JdmE++6Ipq2oO7rEyv2rHpci84tqNTE3wr2g==
   dependencies:
     "@typescript-eslint/experimental-utils" "4.3.0"
 
-"@angular-eslint/eslint-plugin@^0.8.0-beta.5":
-  version "0.8.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin/-/eslint-plugin-0.8.0-beta.5.tgz#c9617fcf74fdd7f840ac336b23af6731fb1f47bb"
-  integrity sha512-S7fLcMNRasgUKyKO0o51OsQxddGh8FRCrxZ2CeyUF8f/Kk3Yh06cMgvoD2hYqmrk65oO2M6OdP2P9+1VXxX1gw==
+"@angular-eslint/schematics@0.8.0-beta.6":
+  version "0.8.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/schematics/-/schematics-0.8.0-beta.6.tgz#8ac98e0cb1a786f7a13be537a6e227ac9272f3aa"
+  integrity sha512-LKQLQryq3oE/mIZNBqfXjtPEPmAr0+C55cd27tvfkMbDk0mfIfORWG7aSI5oLJYycV/30dqH6w31ClA1+BoEjA==
   dependencies:
-    "@typescript-eslint/experimental-utils" "4.3.0"
-
-"@angular-eslint/schematics@0.8.0-beta.5":
-  version "0.8.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/schematics/-/schematics-0.8.0-beta.5.tgz#97f77b3a6f135ae5dec20f87e094af1b0a6c9c47"
-  integrity sha512-4OxBm+RgP/2B0UM6tDEqkaC7EtM+xhKBWJ/zMli1CKoHOqmHsu0XJqqmTPCBDbh2vcFLQcXP8ymtT6kzl+bqdA==
-  dependencies:
-    "@angular-eslint/eslint-plugin" "^0.8.0-beta.5"
-    "@angular-eslint/eslint-plugin-template" "^0.8.0-beta.5"
+    "@angular-eslint/eslint-plugin" "^0.8.0-beta.6"
+    "@angular-eslint/eslint-plugin-template" "^0.8.0-beta.6"
     strip-json-comments "3.1.1"
     tslint-to-eslint-config "2.0.1"
 
