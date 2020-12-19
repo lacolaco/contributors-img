@@ -9,4 +9,9 @@ import { Contributor } from '@lib/core';
 })
 export class ContributorListComponent {
   @Input() list: Contributor[] = [];
+
+  trackByFn(index: number) {
+    // list is immutable and injected once
+    return index;
+  }
 }
