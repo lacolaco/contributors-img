@@ -31,7 +31,7 @@ export class ContributorsImageRepository {
 
     const image = await runWithTracing('renderImage', () => this.renderer.render(contributors));
 
-    await runWithTracing('saveCache', () => this.cacheStorage.saveFile(cacheKey, image));
+    runWithTracing('saveCache', () => this.cacheStorage.saveFile(cacheKey, image));
     return Readable.from(image);
   }
 }

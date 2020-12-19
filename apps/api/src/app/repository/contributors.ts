@@ -25,7 +25,7 @@ export class ContributorsRepository {
       this.githubClient.getAllContributors(repository),
     );
 
-    await runWithTracing('saveCache', () => this.cacheStorage.saveJSON(cacheKey, contributors));
+    runWithTracing('saveCache', () => this.cacheStorage.saveJSON(cacheKey, contributors));
     return contributors;
   }
 }
