@@ -16,10 +16,14 @@ export class GetImageController implements Controller {
     }
     addTracingLabels({ 'app/repoName': repoName });
     try {
-      const fileStream = await runWithTracing('getImage', () => this.imageQuery.getImage(repoName));
+      const acceptWebp = req.accepts('webp') !== false;
+      const { fileStream, contentType } = await runWithTracing('getImage', () =>
+        this.imageQuery.getImage(repoName, { acceptWebp }),
+      );
       res
-        .header('Content-Type', 'image/png')
-        .header('cache-control', `public, max-age=${60 * 60 * 6}`);
+        .header('Content-Type', contentType)
+        .header('Vary', `Accept`)
+        .header('Cache-Control', `public, max-age=${60 * 60 * 6}`);
       fileStream.pipe(res);
     } catch (err) {
       console.error(err);
