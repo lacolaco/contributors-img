@@ -45,7 +45,7 @@
     "@angular/platform-browser-dynamic": "11.0.4",
     "@angular/platform-server": "11.0.4",
     "@angular/router": "11.0.4",
-    "@google-cloud/firestore": "4.8.0",
+    "@google-cloud/firestore": "4.8.1",
     "@google-cloud/storage": "5.7.0",
     "@google-cloud/trace-agent": "5.1.1",
     "@lacolaco/reactive-store": "4.0.0",
