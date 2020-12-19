@@ -1,12 +1,12 @@
 import { Repository } from '@lib/core';
 import { Readable } from 'stream';
-import * as sharp from 'sharp';
 import { injectable } from 'tsyringe';
 import { CacheStorage } from '../service/cache-storage';
 import { ContributorsImageRenderer } from '../service/contributors-image-renderer';
 import { runWithTracing } from '../utils/tracing';
 import { SupportedImageType } from '../utils/types';
 import { ContributorsRepository } from './contributors';
+import { convertToWebp } from '../utils/image';
 
 function createCacheKey(repository: Repository, ext: string) {
   return `image-cache/${repository.owner}--${repository.repo}.${ext}`;
@@ -54,7 +54,7 @@ export class ContributorsImageRepository {
     );
 
     const pngImage = await runWithTracing('renderImage', () => this.renderer.render(contributors));
-    const webpImage = await runWithTracing('imageToWebp', () => sharp(pngImage).webp({}).toBuffer());
+    const webpImage = await runWithTracing('imageToWebp', () => convertToWebp(pngImage));
 
     runWithTracing('saveCache', async () => {
       const pngKey = createCacheKey(repository, 'png');
