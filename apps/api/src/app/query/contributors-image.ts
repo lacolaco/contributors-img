@@ -4,6 +4,7 @@ import { injectable } from 'tsyringe';
 import { ContributorsImageRepository } from '../repository/contributors-image';
 import { UsageRepository } from '../repository/usage';
 import { runWithTracing } from '../utils/tracing';
+import { SupportedImageType } from '../utils/types';
 
 @injectable()
 export class ContributorsImageQuery {
@@ -12,15 +13,18 @@ export class ContributorsImageQuery {
     private readonly usageRepository: UsageRepository,
   ) {}
 
-  async getImage(repoName: string): Promise<Readable> {
+  async getImage(
+    repoName: string,
+    options: { acceptWebp: boolean },
+  ): Promise<{ fileStream: Readable; contentType: SupportedImageType }> {
     const repository = Repository.fromString(repoName);
 
-    const imageStream = await runWithTracing('getImageFileStream', () =>
-      this.contributorsImageRepository.getImageFileStream(repository),
+    const { fileStream, contentType } = await runWithTracing('getImageFileStream', () =>
+      this.contributorsImageRepository.getImageFileStream(repository, options),
     );
 
     runWithTracing('saveRepositoryUsage', () => this.usageRepository.saveRepositoryUsage(repository, new Date()));
 
-    return imageStream;
+    return { fileStream, contentType };
   }
 }

@@ -27,7 +27,7 @@ steps:
     args:
       [
         '-c',
-        'gcloud run deploy api-production --image gcr.io/$PROJECT_ID/api:production --region us-west1 --platform managed --allow-unauthenticated --memory 2Gi --update-env-vars GITHUB_AUTH_TOKEN="$(cat GITHUB_AUTH_TOKEN.txt)"',
+        'gcloud run deploy api-production --image gcr.io/$PROJECT_ID/api:production --region asia-northeast1 --platform managed --allow-unauthenticated --memory 2Gi --update-env-vars GITHUB_AUTH_TOKEN="$(cat GITHUB_AUTH_TOKEN.txt)"',
       ]
   # Deploy (firebase)
   - name: gcr.io/contributors-img/firebase
