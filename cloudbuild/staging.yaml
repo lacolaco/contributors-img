@@ -26,10 +26,14 @@ steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     entrypoint: bash
     args:
-      [
-        '-c',
-        'gcloud run deploy api-staging --image gcr.io/$PROJECT_ID/api:staging --region asia-northeast1 --platform managed --allow-unauthenticated --memory 1Gi --update-env-vars GITHUB_AUTH_TOKEN="$(cat GITHUB_AUTH_TOKEN.txt)"',
-      ]
+      - '-c'
+      - |-
+        gcloud run deploy api-staging \
+          --image gcr.io/$PROJECT_ID/api:staging \
+          --region us-central1 --platform managed --allow-unauthenticated \
+          --memory 1Gi \
+          --set-env-vars GITHUB_AUTH_TOKEN="$(cat GITHUB_AUTH_TOKEN.txt)" \
+          --set-env-vars CACHE_STORAGE_BUCKET="$_APP_CACHE_BUCKET"
   # Deploy (firebase)
   - name: gcr.io/$PROJECT_ID/firebase
     args: ['deploy', '--project=$PROJECT_ID', '--only=hosting:staging']
@@ -38,4 +42,5 @@ steps:
     args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )', '--path=node_modules']
 substitutions:
   _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
+  _APP_CACHE_BUCKET: cache.storage.stg.contrib.rocks
 timeout: 6000s

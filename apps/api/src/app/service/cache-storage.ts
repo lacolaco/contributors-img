@@ -34,9 +34,7 @@ export class CacheStorage {
     if (this.bucket == null) {
       return;
     }
-    await this.bucket.file(filename).save(file, {
-      public: true,
-    });
+    await this.bucket.file(filename).save(file, {});
   }
 
   async saveJSON(filename: string, json: unknown): Promise<void> {
@@ -44,7 +42,6 @@ export class CacheStorage {
       return;
     }
     await this.bucket.file(filename).save(JSON.stringify(json), {
-      public: true,
       contentType: 'application/json',
     });
   }

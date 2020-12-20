@@ -25,15 +25,18 @@ steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     entrypoint: bash
     args:
-      [
-        '-c',
-        'gcloud run deploy api-production --image gcr.io/$PROJECT_ID/api:production --region asia-northeast1 --platform managed --allow-unauthenticated --memory 2Gi --update-env-vars GITHUB_AUTH_TOKEN="$(cat GITHUB_AUTH_TOKEN.txt)"',
-      ]
+      - '-c'
+      - |-
+        gcloud run deploy api-production \
+          --image gcr.io/$PROJECT_ID/api:production \
+          --region us-central1 --platform managed --allow-unauthenticated \
+          --memory 2Gi \
+          --set-env-vars GITHUB_AUTH_TOKEN="$(cat GITHUB_AUTH_TOKEN.txt)" \
+          --set-env-vars CACHE_STORAGE_BUCKET="$_APP_CACHE_BUCKET"
   # Deploy (firebase)
   - name: gcr.io/contributors-img/firebase
     args: ['deploy', '--project=contributors-img', '--only=hosting:production,firestore']
 substitutions:
   _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
-images:
-  - gcr.io/contributors-img/api:production
+  _APP_CACHE_BUCKET: cache.storage.contrib.rocks
 timeout: 6000s
