@@ -9,14 +9,14 @@
           "source": "/api/**",
           "run": {
             "serviceId": "api-production",
-            "region": "asia-northeast1"
+            "region": "us-central1"
           }
         },
         {
           "source": "/image",
           "run": {
             "serviceId": "api-production",
-            "region": "asia-northeast1"
+            "region": "us-central1"
           }
         },
         {
@@ -34,14 +34,14 @@
           "source": "/api/**",
           "run": {
             "serviceId": "api-staging",
-            "region": "asia-northeast1"
+            "region": "us-central1"
           }
         },
         {
           "source": "/image",
           "run": {
             "serviceId": "api-staging",
-            "region": "asia-northeast1"
+            "region": "us-central1"
           }
         },
         {

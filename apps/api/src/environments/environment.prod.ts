@@ -3,7 +3,7 @@ import { Environment } from './type';
 export const environment: Environment = {
   production: true,
   useHeadless: true,
-  cacheStorageBucketName: 'contributors-img.appspot.com',
+  cacheStorageBucketName: process.env.CACHE_STORAGE_BUCKET ?? null,
   firestoreRootCollectionName: 'production',
   githubAuthToken: process.env.GITHUB_AUTH_TOKEN ?? null,
 };
