@@ -138,7 +138,14 @@
     "@typescript-eslint/experimental-utils" "4.3.0"
     aria-query "^4.2.2"
 
-"@angular-eslint/eslint-plugin@0.8.0-beta.6", "@angular-eslint/eslint-plugin@^0.8.0-beta.6":
+"@angular-eslint/eslint-plugin@0.8.0-beta.7":
+  version "0.8.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin/-/eslint-plugin-0.8.0-beta.7.tgz#fcdb33e2fc83e0448c09c6f00d0a6e9021936b10"
+  integrity sha512-MsOzL+7O6bzNA18MZoPKc2SZCD5oavQQEnBeHNGERvZuqrj2Omf/9xjFzoRmAlvGqYUmsF8x6qTdSjLmE5IDVQ==
+  dependencies:
+    "@typescript-eslint/experimental-utils" "4.3.0"
+
+"@angular-eslint/eslint-plugin@^0.8.0-beta.6":
   version "0.8.0-beta.6"
   resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin/-/eslint-plugin-0.8.0-beta.6.tgz#42dd7cc9bede7289d91488a52bab6e40c71d8742"
   integrity sha512-yXyNSTUA0Nosh1ZI/iJerbwqeakhI495P5O1luxE9Fw7Vcdmb+JdmE++6Ipq2oO7rEyv2rHpci84tqNTE3wr2g==
