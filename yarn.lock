@@ -130,7 +130,16 @@
   resolved "https://registry.yarnpkg.com/@angular-eslint/builder/-/builder-0.8.0-beta.7.tgz#858565aa97d4a2dcd09dee8fd18fd82562aed36b"
   integrity sha512-aRTaa6a3R0est5PSLzkK2qlEiXOiDGFt65MSTMGElb0mKR4hdKF6d+rFdNqSgK/6kAJXF8/fp2Os8BETowE7JQ==
 
-"@angular-eslint/eslint-plugin-template@0.8.0-beta.6", "@angular-eslint/eslint-plugin-template@^0.8.0-beta.6":
+"@angular-eslint/eslint-plugin-template@0.8.0-beta.7":
+  version "0.8.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin-template/-/eslint-plugin-template-0.8.0-beta.7.tgz#c5210deed2f4936076f119ae274df48ef9723a7e"
+  integrity sha512-NaypVRYR+AjC/LXuBEZSHv6EpyjIVu2+YpMI2CPWuPDjmBi/x+g+jZXkqD/QtT6voKGtlII77QfuZMbGgfNhiQ==
+  dependencies:
+    "@typescript-eslint/experimental-utils" "4.3.0"
+    aria-query "^4.2.2"
+    axobject-query "^2.2.0"
+
+"@angular-eslint/eslint-plugin-template@^0.8.0-beta.6":
   version "0.8.0-beta.6"
   resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin-template/-/eslint-plugin-template-0.8.0-beta.6.tgz#1a0925525681fd48470a3858a485acfc6e81c2c8"
   integrity sha512-iC9YJSqeokMlFFLP0ZyWalzhVU++2bBdY9vfwrTaNC4JNLszAOOlkFRtPXZZQZpJ/3PM0FlVhD4OSZL36Gw6Iw==
@@ -4077,6 +4086,11 @@ axobject-query@2.0.2:
   integrity sha512-MCeek8ZH7hKyO1rWUbKNQBbl4l2eY0ntk7OGi+q0RlafrCnfPxC06WZA+uebCfmYp4mNU9jRBP1AhGyf8+W3ww==
   dependencies:
     ast-types-flow "0.0.7"
+
+axobject-query@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-2.2.0.tgz#943d47e10c0b704aa42275e20edf3722648989be"
+  integrity sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==
 
 babel-code-frame@^6.22.0:
   version "6.26.0"
