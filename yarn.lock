@@ -130,16 +130,7 @@
   resolved "https://registry.yarnpkg.com/@angular-eslint/builder/-/builder-1.0.0.tgz#8014e71fd81137ce764c350301f0eea0562a4475"
   integrity sha512-KAWeL6s2F7EHZlcsxCV+ZkQCziGv18RS6oTODJzrFcpKe3rYCcbdy7sbg1w0cISyTIh1MjJ6rcB4J/wtGSltTg==
 
-"@angular-eslint/eslint-plugin-template@0.8.0-beta.7":
-  version "0.8.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin-template/-/eslint-plugin-template-0.8.0-beta.7.tgz#c5210deed2f4936076f119ae274df48ef9723a7e"
-  integrity sha512-NaypVRYR+AjC/LXuBEZSHv6EpyjIVu2+YpMI2CPWuPDjmBi/x+g+jZXkqD/QtT6voKGtlII77QfuZMbGgfNhiQ==
-  dependencies:
-    "@typescript-eslint/experimental-utils" "4.3.0"
-    aria-query "^4.2.2"
-    axobject-query "^2.2.0"
-
-"@angular-eslint/eslint-plugin-template@^1.0.0":
+"@angular-eslint/eslint-plugin-template@1.0.0", "@angular-eslint/eslint-plugin-template@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin-template/-/eslint-plugin-template-1.0.0.tgz#a969070b4df0628aed8e30164fb86a8002c0385c"
   integrity sha512-+LrAypsGUaW98aoDb/ITWWDKYHYp6UcJraJU7/bih7AQOJyDs6AnpbMPLscTcxkcCP2ylmJ31pEzYz4ItNKRTQ==
