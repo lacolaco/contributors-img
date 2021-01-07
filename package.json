@@ -84,7 +84,7 @@
     "@types/compression": "1.7.0",
     "@types/cors": "2.8.9",
     "@types/express": "4.17.9",
-    "@types/jest": "26.0.19",
+    "@types/jest": "26.0.20",
     "@types/morgan": "1.9.2",
     "@types/node": "12.19.12",
     "@types/puppeteer": "5.4.2",
