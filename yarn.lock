@@ -7230,10 +7230,10 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-tools@9.1.2:
-  version "9.1.2"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-9.1.2.tgz#55e61006a98aff9b23029c9f9d4671dbaa31d447"
-  integrity sha512-YUiqMuQ+nbdCNpahSO0eyKxxVfT0nDdijkUEUplTGArkDwqdOKPIxVqHj1edq7GEPXTRWlk7zibnbOnCCHaedw==
+firebase-tools@9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-9.2.0.tgz#17704a59a8fcdd7aba010d89ee957460d60ad8ea"
+  integrity sha512-6sTPPxz9Im9jW7dKpmBMQHJJM38OUNiqs2mxSL3yfwScer4B4XUO2yvcFLjgE338lHnK80lWmH+ORrjADCV4Pg==
   dependencies:
     "@google-cloud/pubsub" "^2.7.0"
     JSONStream "^1.2.1"
