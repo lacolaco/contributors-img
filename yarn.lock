@@ -139,15 +139,6 @@
     aria-query "^4.2.2"
     axobject-query "^2.2.0"
 
-"@angular-eslint/eslint-plugin-template@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin-template/-/eslint-plugin-template-1.0.0.tgz#a969070b4df0628aed8e30164fb86a8002c0385c"
-  integrity sha512-+LrAypsGUaW98aoDb/ITWWDKYHYp6UcJraJU7/bih7AQOJyDs6AnpbMPLscTcxkcCP2ylmJ31pEzYz4ItNKRTQ==
-  dependencies:
-    "@typescript-eslint/experimental-utils" "4.3.0"
-    aria-query "^4.2.2"
-    axobject-query "^2.2.0"
-
 "@angular-eslint/eslint-plugin@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin/-/eslint-plugin-1.1.0.tgz#ddc149bcbc9c87ac123d2f3da7f0957e81d6d629"
@@ -155,20 +146,13 @@
   dependencies:
     "@typescript-eslint/experimental-utils" "4.3.0"
 
-"@angular-eslint/eslint-plugin@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin/-/eslint-plugin-1.0.0.tgz#741a98c351ee02edb7d7f70473da699ee2eafa09"
-  integrity sha512-oar+5WhqFMVrK8ywTAJAnnisIQyG6I2STHHwVURx4rPyzjk3pZN10c3KgJuOF5FExfO2bewwr8FBy1CEZsh90w==
+"@angular-eslint/schematics@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/schematics/-/schematics-1.1.0.tgz#df353d12056e14796f55dc07d864afca06d2990e"
+  integrity sha512-LuAM0Wcan0l+Ol/CNMHJIAz/H8Y3kreO7ZS/jpMV3JnYo8ThvnD6av/MulI6OvMG5pxToEjCyFDyG/JJzh57Og==
   dependencies:
-    "@typescript-eslint/experimental-utils" "4.3.0"
-
-"@angular-eslint/schematics@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/schematics/-/schematics-1.0.0.tgz#53e4c77eb196f2da27bb6d61e8e6caa11ea2e4a2"
-  integrity sha512-5xdUjLrSi6Jis3Cd7Z7/+/Q5K2mKNMDD9fU7pjIEPZhxXNl0wrOMGLdoYvvWq69f8x5y9wlPCnWCSZK+kW0NFQ==
-  dependencies:
-    "@angular-eslint/eslint-plugin" "^1.0.0"
-    "@angular-eslint/eslint-plugin-template" "^1.0.0"
+    "@angular-eslint/eslint-plugin" "1.1.0"
+    "@angular-eslint/eslint-plugin-template" "1.1.0"
     strip-json-comments "3.1.1"
     tslint-to-eslint-config "2.0.1"
 
