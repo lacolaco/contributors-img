@@ -82,7 +82,7 @@
     "@nrwl/node": "11.2.12",
     "@nrwl/workspace": "11.2.12",
     "@types/compression": "1.7.0",
-    "@types/cors": "2.8.9",
+    "@types/cors": "2.8.10",
     "@types/express": "4.17.11",
     "@types/jest": "26.0.20",
     "@types/morgan": "1.9.2",
