@@ -9162,10 +9162,10 @@ jest-pnp-resolver@^1.2.2:
   resolved "https://registry.yarnpkg.com/jest-pnp-resolver/-/jest-pnp-resolver-1.2.2.tgz#b704ac0ae028a89108a4d040b3f919dfddc8e33c"
   integrity sha512-olV41bKSMm8BdnuMsewT4jqlZ8+3TCARAXjZGT9jcoSnrfUnRCqnMoF9XEeoWjbzObpqF9dRhHQj0Xb9QdF6/w==
 
-jest-preset-angular@8.3.2:
-  version "8.3.2"
-  resolved "https://registry.yarnpkg.com/jest-preset-angular/-/jest-preset-angular-8.3.2.tgz#170e0a4635dcd4b2ad02a1a805268b15da5b5543"
-  integrity sha512-mdETK9E5tkCJPnPzB7NLXDB7CULbUEwcrA7eKU7WdR0u7ZIJqP0pvQxK5Cc70KBsOEaiwJK6LSGJm7aeqjSYYA==
+jest-preset-angular@8.4.0:
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/jest-preset-angular/-/jest-preset-angular-8.4.0.tgz#476b8a29a4e3a28145b3a53bbe318252da8644f0"
+  integrity sha512-lngQRVVMy2qdzhSzUVTkKFsWC+Z2uMFlJf8J5ZeapNZFsRYW2tjlVqdm+sJOTnVmMVnN7CtDqvRDwlyFTIYD+A==
   dependencies:
     pretty-format "26.x"
     ts-jest "26.x"
