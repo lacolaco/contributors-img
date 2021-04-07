@@ -9,7 +9,7 @@
     "@google-cloud/trace-agent": "5.1.1",
     "@octokit/rest": "18.0.3",
     "compression": "1.7.4",
-    "core-js": "3.8.2",
+    "core-js": "3.10.1",
     "domino": "2.1.6",
     "express": "4.17.1",
     "morgan": "1.10.0",
