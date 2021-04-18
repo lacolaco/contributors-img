@@ -145,12 +145,12 @@
     ora "5.3.0"
     rxjs "6.6.3"
 
-"@angular-eslint/builder@^3.0.0":
+"@angular-eslint/builder@3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@angular-eslint/builder/-/builder-3.0.0.tgz#ad0543eaae28b02e6a75e338814d14f088dec04e"
   integrity sha512-Ry7xCfTAPoWS2yd+lWtIywoQZOR4FS4sN6lXmigNdmsya1Ixk0aZw3s8kJ4JLpUe64ANQv5bdPwEd7++4cqkaA==
 
-"@angular-eslint/eslint-plugin-template@3.0.0", "@angular-eslint/eslint-plugin-template@^3.0.0":
+"@angular-eslint/eslint-plugin-template@3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin-template/-/eslint-plugin-template-3.0.0.tgz#bf7611dbbec507ce54d3a06976c5e1be9bb2f818"
   integrity sha512-W5vrsSp4aVEB8++F3bIa6aov+IoTIb9T/8I0lPketUlk7Kb5z39cmu2hQgSDEgYOArdL+OiFA9cvbtC9xcANmw==
@@ -159,7 +159,7 @@
     aria-query "^4.2.2"
     axobject-query "^2.2.0"
 
-"@angular-eslint/eslint-plugin@3.0.0", "@angular-eslint/eslint-plugin@^3.0.0":
+"@angular-eslint/eslint-plugin@3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin/-/eslint-plugin-3.0.0.tgz#71a0d316543bebefb966bf3ff9e9a3621baab3fb"
   integrity sha512-1No8hRoewkJ6TG/zLi9bCZIvC7v2gyXX55nf0oAZQLHRdSkRWPEmeJJLtjCwZKjBicFXiClQ71bgtzY5V2ZHdg==
@@ -176,7 +176,7 @@
     strip-json-comments "3.1.1"
     tslint-to-eslint-config "2.2.0"
 
-"@angular-eslint/template-parser@^3.0.0":
+"@angular-eslint/template-parser@3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@angular-eslint/template-parser/-/template-parser-3.0.0.tgz#a056c68b9e24b61e40c4623c72556d88a6d00ea8"
   integrity sha512-7G4t01CyBEKSgDu0ptvwu1GDuyg8r0zUrEoaXreWlrLGZ3eT9b9th0P/kVZ8MTeU37vr2TIEH4/j72+0cTxHkQ==
