@@ -59,7 +59,7 @@
     "normalize.css": "8.0.1",
     "puppeteer": "5.5.0",
     "rxjs": "6.6.7",
-    "sharp": "0.27.0",
+    "sharp": "0.28.1",
     "tslib": "2.2.0",
     "tsyringe": "4.4.0",
     "zone.js": "0.10.3"
@@ -88,7 +88,7 @@
     "@types/morgan": "1.9.2",
     "@types/node": "12.20.10",
     "@types/puppeteer": "5.4.3",
-    "@types/sharp": "0.27.1",
+    "@types/sharp": "0.28.0",
     "@typescript-eslint/eslint-plugin": "4.22.0",
     "@typescript-eslint/parser": "4.22.0",
     "codelyzer": "6.0.1",
