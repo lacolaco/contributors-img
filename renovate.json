@@ -1,14 +1,14 @@
 {
-  "extends": ["config:base"],
+  "extends": [
+    "config:base",
+    "github>lacolaco/renovate-config:automerge-types",
+    "github>lacolaco/renovate-config:ng-update"
+  ],
   "packageRules": [
     {
       "depTypeList": ["devDependencies"],
       "updateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
-    },
-    {
-      "sourceUrlPrefixes": ["https://github.com/angular/"],
-      "enabled": false
     }
   ]
 }
