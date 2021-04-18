@@ -61,7 +61,7 @@
     "rxjs": "6.6.7",
     "sharp": "0.28.1",
     "tslib": "2.2.0",
-    "tsyringe": "4.4.0",
+    "tsyringe": "4.5.0",
     "zone.js": "0.10.3"
   },
   "devDependencies": {
