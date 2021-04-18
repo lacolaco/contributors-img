@@ -8,7 +8,10 @@
       "files": [
         "*.ts"
       ],
-      "extends": ["plugin:@nrwl/nx/angular", "plugin:@angular-eslint/template/process-inline-templates"],
+      "extends": [
+        "plugin:@nrwl/nx/angular",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
       "parserOptions": {
         "project": [
           "apps/webapp/tsconfig.app.json",
@@ -50,9 +53,10 @@
       "files": [
         "*.html"
       ],
-      "extends": ["plugin:@angular-eslint/template/recommended"],
-      "rules": {
-      }
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
     }
   ]
 }
