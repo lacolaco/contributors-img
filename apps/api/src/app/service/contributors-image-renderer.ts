@@ -31,8 +31,14 @@ export class ContributorsImageRenderer {
 
     await page.setContent(html, { waitUntil: 'networkidle0' });
     const screenshotTarget = await page.waitForSelector('#renderTarget', { timeout: 0 });
+    if (!screenshotTarget) {
+      throw new Error('screenshot target element is not found.');
+    }
     const screenshot = await screenshotTarget.screenshot({ type: 'png', omitBackground: true });
+    if (!screenshot) {
+      throw new Error('screenshot failed.');
+    }
 
-    return await browser.close().then(() => screenshot);
+    return await browser.close().then(() => (typeof screenshot === 'string' ? Buffer.from(screenshot) : screenshot));
   }
 }
