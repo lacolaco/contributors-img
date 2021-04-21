@@ -8,6 +8,10 @@ export const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'preview',
   },
+  {
+    path: 'preview2',
+    loadChildren: () => import('./features/preview2/preview2.module').then((m) => m.Preview2Module),
+  },
 ];
 
 @NgModule({

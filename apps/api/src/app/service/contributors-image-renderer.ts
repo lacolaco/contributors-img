@@ -2,6 +2,7 @@ import { Contributor } from '@lib/core';
 import * as puppeteer from 'puppeteer';
 import { injectable } from 'tsyringe';
 import { environment } from '../../environments/environment';
+import { createSvgInstance } from '../utils/svg-builder';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let rendererApp: any;
@@ -40,5 +41,10 @@ export class ContributorsImageRenderer {
     }
 
     return await browser.close().then(() => (typeof screenshot === 'string' ? Buffer.from(screenshot) : screenshot));
+  }
+
+  async renderSvg(contributors: Contributor[]) {
+    const svg = createSvgInstance();
+    return svg.svg();
   }
 }
