@@ -12,4 +12,3 @@ SVG.registerWindow(DOM.window, DOM.window.document);
 export function createSvgInstance() {
   return SVG.SVG();
 }
-

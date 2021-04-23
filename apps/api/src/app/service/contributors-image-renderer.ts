@@ -44,31 +44,36 @@ export class ContributorsImageRenderer {
   }
 
   async renderSvg(contributors: Contributor[]) {
-    const avatarCircleSize = 64;
-    const avatarCircleGap = 4;
+    const avatarSize = 64;
+    const avatarGap = 4;
     const columnCount = 12;
     const rowCount = Math.ceil(contributors.length / columnCount);
 
-    const svg = createSvgInstance();
-    svg.size(
-      (avatarCircleSize + avatarCircleGap) * (columnCount - 1) + avatarCircleSize,
-      (avatarCircleSize + avatarCircleGap) * (rowCount - 1) + avatarCircleSize,
+    const container = createSvgInstance();
+    container.size(
+      (avatarSize + avatarGap) * (columnCount - 1) + avatarSize,
+      (avatarSize + avatarGap) * (rowCount - 1) + avatarSize,
     );
 
     for (const [i, { avatar_url, html_url, login }] of contributors.entries()) {
-      const x = (i % columnCount) * (avatarCircleSize + avatarCircleGap);
-      const y = Math.floor(i / columnCount) * (avatarCircleSize + avatarCircleGap);
-      const image = svg.image(avatar_url).size(avatarCircleSize, avatarCircleSize);
-      const pattern = svg.pattern(avatarCircleSize, avatarCircleSize).move(x, y).add(image);
-      svg
-        .circle(avatarCircleSize)
-        .fill(pattern)
-        .stroke('#c0c0c0')
-        .add(svg.element('title').words(login))
+      const x = (i % columnCount) * (avatarSize + avatarGap);
+      const y = Math.floor(i / columnCount) * (avatarSize + avatarGap);
+
+      const avatarCircle = container
+        .circle(avatarSize)
+        .stroke({
+          color: '#c0c0c0',
+          width: 1,
+        })
+        .fill(container.pattern(avatarSize, avatarSize).add(container.image(avatar_url).size(avatarSize, avatarSize)))
         .linkTo((link) => link.to(html_url).target('_blank'))
-        .move(x, y);
+        .add(container.element('title').words(login));
+
+      const inner = container.nested();
+      inner.add(avatarCircle);
+      inner.move(x, y);
     }
 
-    return svg.svg();
+    return container.svg();
   }
 }
