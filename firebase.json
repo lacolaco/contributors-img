@@ -20,6 +20,13 @@
           }
         },
         {
+          "source": "/image2",
+          "run": {
+            "serviceId": "api-production",
+            "region": "us-central1"
+          }
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }
@@ -39,6 +46,13 @@
         },
         {
           "source": "/image",
+          "run": {
+            "serviceId": "api-staging",
+            "region": "us-central1"
+          }
+        },
+        {
+          "source": "/image2",
           "run": {
             "serviceId": "api-staging",
             "region": "us-central1"
