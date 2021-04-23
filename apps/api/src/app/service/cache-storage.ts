@@ -30,11 +30,11 @@ export class CacheStorage {
       .catch(() => null);
   }
 
-  async saveFile(filename: string, file: Buffer | string): Promise<void> {
+  async saveFile(filename: string, file: Buffer | string, contentType: string): Promise<void> {
     if (this.bucket == null) {
       return;
     }
-    await this.bucket.file(filename).save(file, {});
+    await this.bucket.file(filename).save(file, { contentType });
   }
 
   async saveJSON(filename: string, json: unknown): Promise<void> {

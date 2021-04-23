@@ -59,7 +59,10 @@ export class ContributorsImageRepository {
     runWithTracing('saveCache', async () => {
       const pngKey = createCacheKey(repository, 'png');
       const webpKey = createCacheKey(repository, 'webp');
-      await Promise.all([this.cacheStorage.saveFile(pngKey, pngImage), this.cacheStorage.saveFile(webpKey, webpImage)]);
+      await Promise.all([
+        this.cacheStorage.saveFile(pngKey, pngImage, 'image/png'),
+        this.cacheStorage.saveFile(webpKey, webpImage, 'image/webp'),
+      ]);
     });
 
     if (options.acceptWebp) {
@@ -73,5 +76,36 @@ export class ContributorsImageRepository {
         contentType: 'image/png',
       };
     }
+  }
+
+  async getImageFileStream2(
+    repository: Repository,
+  ): Promise<{ fileStream: Readable; contentType: SupportedImageType }> {
+    const cacheKey = createCacheKey(repository, 'svg');
+    const cached = await runWithTracing('restoreFromCache', async () => {
+      return this.cacheStorage
+        .restoreFileStream(cacheKey)
+        .then((fileStream) => (fileStream ? { fileStream, contentType: 'image/svg+xml' as SupportedImageType } : null));
+    });
+    if (cached) {
+      return cached;
+    }
+
+    const contributors = await runWithTracing('getAllContributors', () =>
+      this.contributorsRepository.getAllContributors(repository),
+    );
+
+    const svgImage = await runWithTracing('renderImage', async () =>
+      this.renderer.renderSimpleAvatarTable(contributors),
+    );
+
+    runWithTracing('saveCache', async () => {
+      await Promise.all([this.cacheStorage.saveFile(cacheKey, svgImage, 'image/svg+xml')]);
+    });
+
+    return {
+      fileStream: Readable.from(svgImage),
+      contentType: 'image/svg+xml',
+    };
   }
 }

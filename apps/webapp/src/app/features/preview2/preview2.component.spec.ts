@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Preview2Component } from './preview2.component';
@@ -8,6 +9,7 @@ describe('Preview2Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       declarations: [Preview2Component],
     }).compileComponents();
   });

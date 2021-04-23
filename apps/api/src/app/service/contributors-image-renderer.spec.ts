@@ -7,7 +7,7 @@ describe('ContributorsImageRenderer', () => {
 
   describe('.renderSvg()', () => {
     it('should return SVG string', async () => {
-      expect(typeof service.renderSvg([]) === 'string');
+      expect(typeof service.renderSimpleAvatarTable([]) === 'string');
     });
 
     it('should render contributors avatar', async () => {
@@ -21,7 +21,7 @@ describe('ContributorsImageRenderer', () => {
         },
       ];
 
-      const svg = await service.renderSvg(contributors);
+      const svg = await service.renderSimpleAvatarTable(contributors);
       expect(svg).toContain('lacolaco.png');
     });
   });

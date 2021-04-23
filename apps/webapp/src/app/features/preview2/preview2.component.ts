@@ -16,7 +16,7 @@ export class Preview2Component implements OnInit {
 
   ngOnInit(): void {
     this.httpClient
-      .get('/api/svg?repo=lacolaco/shiritori', { responseType: 'text' })
+      .get('/image2?repo=lacolaco/shiritori', { responseType: 'text' })
       .toPromise()
       .then((resp) => {
         this.svg$.next(this.sanitizer.bypassSecurityTrustHtml(resp));

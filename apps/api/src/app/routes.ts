@@ -12,8 +12,8 @@ export default (): Router => {
   const getImage2 = container.resolve(GetImage2Controller);
 
   router.get('/api/contributors', (req, res) => getContributors.onRequest(req, res));
-  router.get('/api/svg', (req, res) => getImage2.onRequest(req, res));
   router.get('/image', (req, res) => getImage.onRequest(req, res));
+  router.get('/image2', (req, res) => getImage2.onRequest(req, res));
 
   return router;
 };
