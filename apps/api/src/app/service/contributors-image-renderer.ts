@@ -2,6 +2,7 @@ import { Contributor } from '@lib/core';
 import * as puppeteer from 'puppeteer';
 import { injectable } from 'tsyringe';
 import { environment } from '../../environments/environment';
+import { createContributorAvatarImage, createSvgInstance } from '../utils/svg-builder';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let rendererApp: any;
@@ -40,5 +41,28 @@ export class ContributorsImageRenderer {
     }
 
     return await browser.close().then(() => (typeof screenshot === 'string' ? Buffer.from(screenshot) : screenshot));
+  }
+
+  renderSimpleAvatarTable(contributors: Contributor[]): string {
+    const avatarSize = 64;
+    const gap = 4;
+    const columnCount = 12;
+    const rowCount = Math.ceil(contributors.length / columnCount);
+
+    const container = createSvgInstance();
+    container.size(
+      (avatarSize + gap) * (columnCount - 1) + avatarSize,
+      (avatarSize + gap) * (rowCount - 1) + avatarSize,
+    );
+
+    for (const [i, contributor] of contributors.entries()) {
+      const x = (i % columnCount) * (avatarSize + gap);
+      const y = Math.floor(i / columnCount) * (avatarSize + gap);
+
+      const inner = container.nested().move(x, y);
+      createContributorAvatarImage(inner, contributor, avatarSize);
+    }
+
+    return container.svg();
   }
 }
