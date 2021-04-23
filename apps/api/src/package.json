@@ -15,6 +15,7 @@
     "express": "4.17.1",
     "jsdom": "16.5.3",
     "morgan": "1.10.0",
+    "node-fetch": "2.6.1",
     "puppeteer": "9.0.0",
     "sharp": "0.28.1",
     "tsyringe": "4.5.0"

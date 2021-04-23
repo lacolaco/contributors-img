@@ -43,10 +43,10 @@ export class ContributorsImageRenderer {
     return await browser.close().then(() => (typeof screenshot === 'string' ? Buffer.from(screenshot) : screenshot));
   }
 
-  renderSimpleAvatarTable(contributors: Contributor[]): string {
+  async renderSimpleAvatarTable(contributors: Contributor[]): Promise<string> {
     const avatarSize = 64;
     const gap = 4;
-    const columnCount = 12;
+    const columnCount = Math.min(12, contributors.length);
     const rowCount = Math.ceil(contributors.length / columnCount);
 
     const container = createSvgInstance();
@@ -55,13 +55,15 @@ export class ContributorsImageRenderer {
       (avatarSize + gap) * (rowCount - 1) + avatarSize,
     );
 
-    for (const [i, contributor] of contributors.entries()) {
-      const x = (i % columnCount) * (avatarSize + gap);
-      const y = Math.floor(i / columnCount) * (avatarSize + gap);
+    await Promise.all(
+      Array.from(contributors.entries()).map(([i, contributor]) => {
+        const x = (i % columnCount) * (avatarSize + gap);
+        const y = Math.floor(i / columnCount) * (avatarSize + gap);
 
-      const inner = container.nested().move(x, y);
-      createContributorAvatarImage(inner, contributor, avatarSize);
-    }
+        const inner = container.nested().move(x, y);
+        return createContributorAvatarImage(inner, contributor, avatarSize);
+      }),
+    );
 
     return container.svg();
   }
