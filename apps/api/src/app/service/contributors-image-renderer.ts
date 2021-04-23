@@ -44,7 +44,31 @@ export class ContributorsImageRenderer {
   }
 
   async renderSvg(contributors: Contributor[]) {
+    const avatarCircleSize = 64;
+    const avatarCircleGap = 4;
+    const columnCount = 12;
+    const rowCount = Math.ceil(contributors.length / columnCount);
+
     const svg = createSvgInstance();
+    svg.size(
+      (avatarCircleSize + avatarCircleGap) * (columnCount - 1) + avatarCircleSize,
+      (avatarCircleSize + avatarCircleGap) * (rowCount - 1) + avatarCircleSize,
+    );
+
+    for (const [i, { avatar_url, html_url, login }] of contributors.entries()) {
+      const x = (i % columnCount) * (avatarCircleSize + avatarCircleGap);
+      const y = Math.floor(i / columnCount) * (avatarCircleSize + avatarCircleGap);
+      const image = svg.image(avatar_url).size(avatarCircleSize, avatarCircleSize);
+      const pattern = svg.pattern(avatarCircleSize, avatarCircleSize).move(x, y).add(image);
+      svg
+        .circle(avatarCircleSize)
+        .fill(pattern)
+        .stroke('#c0c0c0')
+        .add(svg.element('title').words(login))
+        .linkTo((link) => link.to(html_url).target('_blank'))
+        .move(x, y);
+    }
+
     return svg.svg();
   }
 }
