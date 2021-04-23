@@ -3,7 +3,12 @@ steps:
   - name: gcr.io/$PROJECT_ID/restore_cache
     args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )', '--key_fallback=yarn-']
   - name: gcr.io/$PROJECT_ID/restore_cache
-    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}v1', '--key_fallback=${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}']
+    args:
+      [
+        '--bucket=gs://$_BUILD_CACHE_BUCKET',
+        '--key=${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}v1',
+        '--key_fallback=${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}',
+      ]
   # Setup
   - name: node:12
     entrypoint: yarn
@@ -42,9 +47,17 @@ steps:
     args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )', '--path=node_modules']
   - name: node:12
     entrypoint: bash
-    args: ['yarn cache dir > /workspace/yarn_cache_dir']
+    args:
+      - '-c'
+      - |-
+        yarn cache dir > /workspace/yarn_cache_dir
   - name: 'gcr.io/$PROJECT_ID/save_cache'
-    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}v1', '--path=$(cat /workspace/yarn_cache_dir)']
+    args:
+      [
+        '--bucket=gs://$_BUILD_CACHE_BUCKET',
+        '--key=${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}v1',
+        '--path=$(cat /workspace/yarn_cache_dir)',
+      ]
 substitutions:
   _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
   _APP_CACHE_BUCKET: cache.storage.stg.contrib.rocks
