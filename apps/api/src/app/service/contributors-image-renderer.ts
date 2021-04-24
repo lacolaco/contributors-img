@@ -50,10 +50,9 @@ export class ContributorsImageRenderer {
     const rowCount = Math.ceil(contributors.length / columnCount);
 
     const container = createSvgInstance();
-    container.size(
-      (avatarSize + gap) * (columnCount - 1) + avatarSize,
-      (avatarSize + gap) * (rowCount - 1) + avatarSize,
-    );
+    container
+      .size((avatarSize + gap) * (columnCount - 1) + avatarSize, (avatarSize + gap) * (rowCount - 1) + avatarSize)
+      .css('padding', '4px');
 
     await Promise.all(
       Array.from(contributors.entries()).map(([i, contributor]) => {
