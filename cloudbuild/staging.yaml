@@ -1,7 +1,7 @@
 steps:
   # Restore cache
   - name: gcr.io/$PROJECT_ID/restore_cache
-    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )@1', '--key_fallback=yarn-']
+    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )@1']
   - name: gcr.io/$PROJECT_ID/restore_cache
     args:
       [
