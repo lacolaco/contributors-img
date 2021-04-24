@@ -13,8 +13,6 @@ steps:
   - name: node:12
     entrypoint: yarn
     args: ['install', '--frozen-lockfile']
-    env:
-      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
       - YARN_CACHE_FOLDER=${_YARN_CACHE_DIR}
   # Build app
   - name: node:12
