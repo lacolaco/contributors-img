@@ -16,7 +16,7 @@ export class GetImage2Controller implements Controller {
     }
     addTracingLabels({ 'app/repoName': repoName });
     try {
-      const { fileStream, contentType } = await runWithTracing('getImage2', () => this.imageQuery.getImage2(repoName));
+      const { fileStream, contentType } = await runWithTracing('getImage', () => this.imageQuery.getImage2(repoName));
       res
         .header('Content-Type', contentType)
         .header('Vary', `Accept`)
