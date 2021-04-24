@@ -1,13 +1,21 @@
 steps:
   # Restore cache
   - name: gcr.io/$PROJECT_ID/restore_cache
-    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )', '--key_fallback=yarn-']
+    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )@1']
+  - name: gcr.io/$PROJECT_ID/restore_cache
+    args:
+      [
+        '--bucket=gs://$_BUILD_CACHE_BUCKET',
+        '--key=${_BUILD_CACHE_KEY_YARN_GLOBAL}@1',
+        '--key_fallback=${_BUILD_CACHE_KEY_YARN_GLOBAL}',
+      ]
   # Setup
   - name: node:12
     entrypoint: yarn
     args: ['install', '--frozen-lockfile']
     env:
       - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+      - YARN_CACHE_FOLDER=${_YARN_CACHE_DIR}
   # Build app
   - name: node:12
     entrypoint: yarn
@@ -37,10 +45,25 @@ steps:
     args: ['deploy', '--project=$PROJECT_ID', '--only=hosting:staging']
   # Save cache
   - name: 'gcr.io/$PROJECT_ID/save_cache'
-    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )', '--path=node_modules']
+    args:
+      [
+        '--bucket=gs://$_BUILD_CACHE_BUCKET',
+        '--no-clobber',
+        '--key=yarn-$( checksum yarn.lock )@1',
+        '--path=node_modules',
+      ]
+  - name: 'gcr.io/$PROJECT_ID/save_cache'
+    args:
+      [
+        '--bucket=gs://$_BUILD_CACHE_BUCKET' ,
+        '--key=${_BUILD_CACHE_KEY_YARN_GLOBAL}@1' ,
+        '--path=${_YARN_CACHE_DIR}'
+      ]
 substitutions:
+  _YARN_CACHE_DIR: .yarn-cache
   _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
   _APP_CACHE_BUCKET: cache.storage.stg.contrib.rocks
+  _BUILD_CACHE_KEY_YARN_GLOBAL: yarn-global-cache
 availableSecrets:
   secretManager:
     - versionName: projects/$PROJECT_ID/secrets/GITHUB_AUTH_TOKEN/versions/latest

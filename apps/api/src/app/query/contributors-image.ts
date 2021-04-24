@@ -27,4 +27,16 @@ export class ContributorsImageQuery {
 
     return { fileStream, contentType };
   }
+
+  async getImage2(repoName: string): Promise<{ fileStream: Readable; contentType: SupportedImageType }> {
+    const repository = Repository.fromString(repoName);
+
+    const { fileStream, contentType } = await runWithTracing('getImageFileStream', () =>
+      this.contributorsImageRepository.getImageFileStream2(repository),
+    );
+
+    runWithTracing('saveRepositoryUsage', () => this.usageRepository.saveRepositoryUsage(repository, new Date()));
+
+    return { fileStream, contentType };
+  }
 }

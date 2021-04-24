@@ -2,5 +2,13 @@
   "/api": {
     "target": "http://localhost:3333",
     "secure": false
+  },
+  "/image": {
+    "target": "http://localhost:3333",
+    "secure": false
+  },
+  "/image2": {
+    "target": "http://localhost:3333",
+    "secure": false
   }
 }
