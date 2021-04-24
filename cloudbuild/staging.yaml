@@ -15,6 +15,7 @@ steps:
     args: ['install', '--frozen-lockfile']
     env:
       - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+      - YARN_CACHE_FOLDER=${_YARN_CACHE_DIR}
   # Build app
   - name: node:12
     entrypoint: yarn
@@ -51,9 +52,6 @@ steps:
         '--key=yarn-$( checksum yarn.lock )@1',
         '--path=node_modules',
       ]
-  - name: node:12
-    entrypoint: bash
-    args: ['-c', 'yarn cache dir > yarn_cache_dir.txt']
   - name: 'gcr.io/$PROJECT_ID/save_cache'
     entrypoint: bash
     args:
@@ -62,8 +60,9 @@ steps:
         save_cache \
         --bucket=gs://$_BUILD_CACHE_BUCKET \
         --key=${_BUILD_CACHE_KEY_YARN_GLOBAL}@1 \
-        --path=$(cat yarn_cache_dir.txt)
+        --path=${_YARN_CACHE_DIRƒ}
 substitutions:
+  _YARN_CACHE_DIR: .yarn-cache
   _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
   _APP_CACHE_BUCKET: cache.storage.stg.contrib.rocks
   _BUILD_CACHE_KEY_YARN_GLOBAL: yarn-global-cache
