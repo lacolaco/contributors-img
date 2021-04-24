@@ -55,11 +55,14 @@ steps:
     entrypoint: bash
     args: ['-c', 'yarn cache dir > yarn_cache_dir.txt']
   - name: 'gcr.io/$PROJECT_ID/save_cache'
+    entrypoint: bash
     args:
       [
+        '-c',
+        'save_cache',
         '--bucket=gs://$_BUILD_CACHE_BUCKET',
-        '--key="${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}v1"',
-        '--path="$(cat yarn_cache_dir.txt)"',
+        '--key=${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}v1',
+        '--path=$(cat yarn_cache_dir.txt)',
       ]
 substitutions:
   _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
