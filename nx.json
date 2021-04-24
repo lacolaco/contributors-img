@@ -11,6 +11,13 @@
     ".eslintrc.json": "*",
     "nx.json": "*"
   },
+  "tasksRunnerOptions": {
+    "default": {
+      "options": {
+        "cacheableOperations": ["build", "test", "lint"]
+      }
+    }
+  },
   "projects": {
     "core": {
       "tags": ["lib"]
