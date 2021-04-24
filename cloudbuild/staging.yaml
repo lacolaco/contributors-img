@@ -7,7 +7,7 @@ steps:
       [
         '--bucket=gs://$_BUILD_CACHE_BUCKET',
         '--key=${_BUILD_CACHE_KEY_YARN_GLOBAL}@1',
-        '--key_fallback=${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}',
+        '--key_fallback=${_BUILD_CACHE_KEY_YARN_GLOBAL}',
       ]
   # Setup
   - name: node:12
@@ -53,14 +53,12 @@ steps:
         '--path=node_modules',
       ]
   - name: 'gcr.io/$PROJECT_ID/save_cache'
-    entrypoint: bash
     args:
-      - '-c'
-      - |-
-        save_cache \
-        --bucket=gs://$_BUILD_CACHE_BUCKET \
-        --key=${_BUILD_CACHE_KEY_YARN_GLOBAL}@1 \
-        --path=${_YARN_CACHE_DIRƒ}
+      [
+        '--bucket=gs://$_BUILD_CACHE_BUCKET' ,
+        '--key=${_BUILD_CACHE_KEY_YARN_GLOBAL}@1' ,
+        '--path=${_YARN_CACHE_DIR}'
+      ]
 substitutions:
   _YARN_CACHE_DIR: .yarn-cache
   _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
