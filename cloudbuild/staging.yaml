@@ -1,13 +1,13 @@
 steps:
   # Restore cache
   - name: gcr.io/$PROJECT_ID/restore_cache
-    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )', '--key_fallback=yarn-']
+    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )@1', '--key_fallback=yarn-']
   - name: gcr.io/$PROJECT_ID/restore_cache
     args:
       [
         '--bucket=gs://$_BUILD_CACHE_BUCKET',
-        '--key="${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}v1"',
-        '--key_fallback="${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}"',
+        '--key=${_BUILD_CACHE_KEY_YARN_GLOBAL}@1',
+        '--key_fallback=${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}',
       ]
   # Setup
   - name: node:12
@@ -48,7 +48,7 @@ steps:
       [
         '--bucket=gs://$_BUILD_CACHE_BUCKET',
         '--no-clobber',
-        '--key=yarn-$( checksum yarn.lock )',
+        '--key=yarn-$( checksum yarn.lock )@1',
         '--path=node_modules',
       ]
   - name: node:12
@@ -61,12 +61,12 @@ steps:
       - |-
         save_cache \
         --bucket=gs://$_BUILD_CACHE_BUCKET \
-        --key=${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}v1 \
+        --key=${_BUILD_CACHE_KEY_YARN_GLOBAL}@1 \
         --path=$(cat yarn_cache_dir.txt)
 substitutions:
   _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
   _APP_CACHE_BUCKET: cache.storage.stg.contrib.rocks
-  _BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL: yarn-cache-
+  _BUILD_CACHE_KEY_YARN_GLOBAL: yarn-global-cache
 availableSecrets:
   secretManager:
     - versionName: projects/$PROJECT_ID/secrets/GITHUB_AUTH_TOKEN/versions/latest
