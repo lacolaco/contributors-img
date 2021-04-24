@@ -44,19 +44,16 @@ steps:
     args: ['deploy', '--project=$PROJECT_ID', '--only=hosting:staging']
   # Save cache
   - name: 'gcr.io/$PROJECT_ID/save_cache'
-    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )', '--path=node_modules']
+    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--no-clobber', '--key=yarn-$( checksum yarn.lock )', '--path=node_modules']
   - name: node:12
     entrypoint: bash
-    args:
-      - '-c'
-      - |-
-        yarn cache dir > /workspace/yarn_cache_dir
+    args: ['-c', 'yarn cache dir > yarn_cache_dir.txt']
   - name: 'gcr.io/$PROJECT_ID/save_cache'
     args:
       [
         '--bucket=gs://$_BUILD_CACHE_BUCKET',
         '--key=${_BUILD_CACHE_KEY_PREFIX_YARN_GLOBAL}v1',
-        '--path=$(cat /workspace/yarn_cache_dir)',
+        '--path=$(cat yarn_cache_dir.txt)',
       ]
 substitutions:
   _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
