@@ -11,7 +11,7 @@ steps:
   # Setup
   - name: node:12
     entrypoint: yarn
-    args: ['install']
+    args: ['install', '--frozen-lockfile']
     env:
       - YARN_CACHE_FOLDER=${_YARN_CACHE_DIR}
   # Build app
