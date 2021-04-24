@@ -20,20 +20,14 @@ steps:
     entrypoint: yarn
     args: ['build:all:staging']
     timeout: 1200s
-  # Build images
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/api:staging', 'dist/apps/api']
-  # Push the container image to Container Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/api:staging']
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     entrypoint: bash
     args:
       - '-c'
       - |-
-        gcloud run deploy api-staging \
-          --image gcr.io/$PROJECT_ID/api:staging \
+        gcloud beta run deploy api-staging \
+          --source dist/apps/api \
           --region us-central1 --platform managed --allow-unauthenticated \
           --memory 1Gi \
           --set-env-vars GITHUB_AUTH_TOKEN="$$GITHUB_AUTH_TOKEN" \
