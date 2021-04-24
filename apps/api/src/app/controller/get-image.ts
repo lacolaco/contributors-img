@@ -1,9 +1,9 @@
 import { assertRepositoryName } from '@lib/core';
 import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
-import { Controller } from '../utils/types';
 import { ContributorsImageQuery } from '../query/contributors-image';
 import { addTracingLabels, runWithTracing } from '../utils/tracing';
+import { Controller } from '../utils/types';
 
 @injectable()
 export class GetImageController implements Controller {
@@ -16,10 +16,7 @@ export class GetImageController implements Controller {
     }
     addTracingLabels({ 'app/repoName': repoName });
     try {
-      const acceptWebp = req.accepts('webp') !== false;
-      const { fileStream, contentType } = await runWithTracing('getImage', () =>
-        this.imageQuery.getImage(repoName, { acceptWebp }),
-      );
+      const { fileStream, contentType } = await runWithTracing('getImage', () => this.imageQuery.getImage(repoName));
       res
         .header('Content-Type', contentType)
         .header('Vary', `Accept`)

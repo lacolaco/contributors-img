@@ -1,9 +1,4 @@
-import * as sharp from 'sharp';
 import fetch from 'node-fetch';
-
-export function convertToWebp(image: Buffer): Promise<Buffer> {
-  return sharp(image).webp({}).toBuffer();
-}
 
 export async function createDataURIFromURL(imageUrl: string): Promise<string> {
   try {

@@ -1,9 +1,9 @@
 import { Contributor } from '@lib/core';
 import { container } from 'tsyringe';
-import { ContributorsImageRenderer } from './contributors-image-renderer';
+import { ContributorsImageSvgRenderer } from './contributors-image-renderer';
 
 describe('ContributorsImageRenderer', () => {
-  const service = container.resolve(ContributorsImageRenderer);
+  const service = container.resolve(ContributorsImageSvgRenderer);
 
   describe('.renderSvg()', () => {
     it('should return SVG string', async () => {
