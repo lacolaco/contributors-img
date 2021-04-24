@@ -86,7 +86,7 @@
     "@types/cors": "2.8.10",
     "@types/express": "4.17.11",
     "@types/jest": "26.0.22",
-    "@types/jsdom": "^16.2.10",
+    "@types/jsdom": "16.2.10",
     "@types/morgan": "1.9.2",
     "@types/node": "12.20.10",
     "@types/node-fetch": "2.5.10",
