@@ -1,46 +1,46 @@
 steps:
-  - name: gcr.io/$PROJECT_ID/restore_cache
-    args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )@1']
-  - name: gcr.io/$PROJECT_ID/restore_cache
-    args:
-      [
-        '--bucket=gs://$_BUILD_CACHE_BUCKET',
-        '--key=${_BUILD_CACHE_KEY_YARN_GLOBAL}@1',
-        '--key_fallback=${_BUILD_CACHE_KEY_YARN_GLOBAL}',
-      ]
-  # Setup
-  - name: node:12
-    entrypoint: yarn
-    args: ['install', '--frozen-lockfile']
-    env:
-      - YARN_CACHE_FOLDER=${_YARN_CACHE_DIR}
-  # Build app
-  - name: node:12
-    entrypoint: yarn
-    args: ['build:all:production']
-    timeout: 1200s
-  # Deploy container image to Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
-    entrypoint: bash
-    args:
-      - '-c'
-      - |-
-        gcloud beta run deploy api-production \
-          --source dist/apps/api \
-          --region us-central1 --platform managed --allow-unauthenticated \
-          --memory 2Gi \
-          --set-env-vars GITHUB_AUTH_TOKEN="$$GITHUB_AUTH_TOKEN" \
-          --set-env-vars CACHE_STORAGE_BUCKET="$_APP_CACHE_BUCKET"
-    secretEnv: ['GITHUB_AUTH_TOKEN']
-  # Deploy (firebase)
-  - name: gcr.io/contributors-img/firebase
-    args: ['deploy', '--project=contributors-img', '--only=hosting:production,firestore']
-substitutions:
-  _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
-  _APP_CACHE_BUCKET: cache.storage.contrib.rocks
-  _BUILD_CACHE_KEY_YARN_GLOBAL: yarn-global-cache
-availableSecrets:
-  secretManager:
-    - versionName: projects/$PROJECT_ID/secrets/GITHUB_AUTH_TOKEN/versions/latest
-      env: 'GITHUB_AUTH_TOKEN'
-timeout: 6000s
+#   - name: gcr.io/$PROJECT_ID/restore_cache
+#     args: ['--bucket=gs://$_BUILD_CACHE_BUCKET', '--key=yarn-$( checksum yarn.lock )@1']
+#   - name: gcr.io/$PROJECT_ID/restore_cache
+#     args:
+#       [
+#         '--bucket=gs://$_BUILD_CACHE_BUCKET',
+#         '--key=${_BUILD_CACHE_KEY_YARN_GLOBAL}@1',
+#         '--key_fallback=${_BUILD_CACHE_KEY_YARN_GLOBAL}',
+#       ]
+#   # Setup
+#   - name: node:12
+#     entrypoint: yarn
+#     args: ['install', '--frozen-lockfile']
+#     env:
+#       - YARN_CACHE_FOLDER=${_YARN_CACHE_DIR}
+#   # Build app
+#   - name: node:12
+#     entrypoint: yarn
+#     args: ['build:all:production']
+#     timeout: 1200s
+#   # Deploy container image to Cloud Run
+#   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+#     entrypoint: bash
+#     args:
+#       - '-c'
+#       - |-
+#         gcloud beta run deploy api-production \
+#           --source dist/apps/api \
+#           --region us-central1 --platform managed --allow-unauthenticated \
+#           --memory 2Gi \
+#           --set-env-vars GITHUB_AUTH_TOKEN="$$GITHUB_AUTH_TOKEN" \
+#           --set-env-vars CACHE_STORAGE_BUCKET="$_APP_CACHE_BUCKET"
+#     secretEnv: ['GITHUB_AUTH_TOKEN']
+#   # Deploy (firebase)
+#   - name: gcr.io/contributors-img/firebase
+#     args: ['deploy', '--project=contributors-img', '--only=hosting:production,firestore']
+# substitutions:
+#   _BUILD_CACHE_BUCKET: contributors-img_cloudbuild-cache
+#   _APP_CACHE_BUCKET: cache.storage.contrib.rocks
+#   _BUILD_CACHE_KEY_YARN_GLOBAL: yarn-global-cache
+# availableSecrets:
+#   secretManager:
+#     - versionName: projects/$PROJECT_ID/secrets/GITHUB_AUTH_TOKEN/versions/latest
+#       env: 'GITHUB_AUTH_TOKEN'
+# timeout: 6000s
