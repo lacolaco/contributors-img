@@ -1888,14 +1888,15 @@
     retry-request "^4.1.1"
     teeny-request "^7.0.0"
 
-"@google-cloud/firestore@4.8.1":
-  version "4.8.1"
-  resolved "https://registry.yarnpkg.com/@google-cloud/firestore/-/firestore-4.8.1.tgz#bcba4d45d4d53dd4eaed5b19300ae238e65a3106"
-  integrity sha512-x/8ixlYqQuH9DoluhBj/uj3MqwoQN1lSCT2v+ieOXuh2L+8eoA7H+FF7f+UJ/D6hzo0MMWJd6q7QaBkpzp203Q==
+"@google-cloud/firestore@4.10.0":
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/firestore/-/firestore-4.10.0.tgz#cd4a973cda348d3069a2be94484026e8e458483e"
+  integrity sha512-nSak4fCBwTtPL2gqJXAoI/gMGK9mtSXIHBoy5+n+g6dtFaYNBYHq3bxdyXYeBDFns53CEBrZQiVQLkJz//t/BQ==
   dependencies:
     fast-deep-equal "^3.1.1"
     functional-red-black-tree "^1.0.1"
     google-gax "^2.9.2"
+    protobufjs "^6.8.6"
 
 "@google-cloud/paginator@^3.0.0":
   version "3.0.5"
