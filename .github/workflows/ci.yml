@@ -11,9 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: nodenv/actions/node-version
+        id: nodenv
       - uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: '${{ steps.nodenv.outputs.node-version }}'
       - uses: actions/cache@v2
         with:
           path: ${YARN_CACHE_FOLDER}
