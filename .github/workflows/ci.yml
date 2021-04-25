@@ -1,6 +1,9 @@
 name: 'CI'
 
-on: [push]
+on: 
+  push:
+    branches-ignore:
+      - 'production'
 
 env:
   YARN_CACHE_FOLDER: .cache/yarn
