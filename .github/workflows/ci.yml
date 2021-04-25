@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: nodenv/actions-node-version
+      - uses: nodenv/actions-node-version@v2
         id: nodenv
       - uses: actions/setup-node@v2
         with:
