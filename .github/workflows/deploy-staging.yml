@@ -39,18 +39,16 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{ env.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
-      - name: Install Firebase CLI
-        run: curl -sL firebase.tools | bash
-      - uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install --frozen-lockfile
       - run: yarn build:all:staging
       - name: Deploy API to Cloud Run
@@ -62,4 +60,4 @@ jobs:
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
           --set-env-vars CACHE_STORAGE_BUCKET="${APP_CACHE_BUCKET}"
       - name: Deploy webapp to Firebase
-        run: firebase deploy --project=${GCP_PROJECT_ID} --only=hosting:staging
+        run: yarn firebase deploy --project=${GCP_PROJECT_ID} --only=hosting:staging
