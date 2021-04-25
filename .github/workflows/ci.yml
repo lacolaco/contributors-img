@@ -1,0 +1,77 @@
+name: 'CI'
+
+on: [push]
+
+env:
+  YARN_CACHE_FOLDER: .cache/yarn
+
+jobs:
+  install-deps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: nodenv/actions-node-version@v2
+        id: nodenv
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '${{ steps.nodenv.outputs.node-version }}'
+      - uses: actions/cache@v2
+        with:
+          path: ${YARN_CACHE_FOLDER}
+          key: ${{ runner.os }}-yarn-global
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install --frozen-lockfile
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [install-deps]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: nodenv/actions-node-version@v2
+        id: nodenv
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '${{ steps.nodenv.outputs.node-version }}'
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install --frozen-lockfile
+      - run: yarn build:all:production
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [install-deps]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: nodenv/actions-node-version@v2
+        id: nodenv
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '${{ steps.nodenv.outputs.node-version }}'
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install --frozen-lockfile
+      - run: yarn test:all
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: [install-deps]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: nodenv/actions-node-version@v2
+        id: nodenv
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '${{ steps.nodenv.outputs.node-version }}'
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint

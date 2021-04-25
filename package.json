@@ -29,7 +29,8 @@
     "help": "nx help",
     "postinstall": "ngcc --properties es2015 browser module main && node decorate-angular-cli.js",
     "workspace-generator": "nx workspace-generator",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "firebase": "firebase"
   },
   "private": true,
   "dependencies": {
@@ -92,7 +93,7 @@
     "@typescript-eslint/parser": "4.16.1",
     "dotenv": "8.2.0",
     "eslint": "7.25.0",
-    "eslint-config-prettier": "8.2.0",
+    "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsdoc": "32.3.1",
     "eslint-plugin-prefer-arrow": "1.2.3",
