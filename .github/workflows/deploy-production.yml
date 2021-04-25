@@ -7,7 +7,6 @@ on:
 
 env:
   YARN_CACHE_FOLDER: .cache/yarn
-  NODE_VERSION: 12
   GCP_PROJECT_ID: contributors-img
   CLOUD_RUN_SERVICE_NAME: api-production
   CLOUD_RUN_REGION: us-central1
@@ -18,9 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: nodenv/actions-node-version@v2
+        id: nodenv
       - uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: '${{ steps.nodenv.outputs.node-version }}'
       - uses: actions/cache@v2
         with:
           path: ${YARN_CACHE_FOLDER}
@@ -36,9 +37,11 @@ jobs:
     needs: [install-deps]
     steps:
       - uses: actions/checkout@v2
+      - uses: nodenv/actions-node-version@v2
+        id: nodenv
       - uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: '${{ steps.nodenv.outputs.node-version }}'
       - uses: actions/cache@v2
         with:
           path: node_modules
