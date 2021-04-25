@@ -53,8 +53,7 @@ jobs:
       - run: yarn build:all:staging
       - name: Deploy API to Cloud Run
         run: |
-          gcloud beta run deploy ${CLOUD_RUN_SERVICE_NAME} \
-          --quiet \
+          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME} \
           --source dist/apps/api \
           --region ${CLOUD_RUN_REGION} --platform managed --allow-unauthenticated \
           --memory 1Gi \
