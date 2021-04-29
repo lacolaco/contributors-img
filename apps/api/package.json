@@ -10,7 +10,7 @@
     "@octokit/rest": "18.5.3",
     "@svgdotjs/svg.js": "3.0.16",
     "compression": "1.7.4",
-    "core-js": "3.11.0",
+    "core-js": "3.11.1",
     "express": "4.17.1",
     "jsdom": "16.5.3",
     "morgan": "1.10.0",
