@@ -11,7 +11,7 @@
     "@svgdotjs/svg.js": "3.0.16",
     "abort-controller": "3.0.0",
     "compression": "1.7.4",
-    "core-js": "3.11.1",
+    "core-js": "3.11.2",
     "express": "4.17.1",
     "jsdom": "16.5.3",
     "morgan": "1.10.0",
