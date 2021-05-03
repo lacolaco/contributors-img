@@ -36,13 +36,22 @@ export class PreviewStore extends Store<State> {
     }));
   }
 
-  finishFetchingImage(data: string) {
+  finishFetchingImage() {
+    this.update((state) => ({
+      ...state,
+      image: {
+        ...state.image,
+        fetching: state.image.fetching - 1,
+      },
+    }));
+  }
+
+  setImageData(data: string) {
     this.update((state) => ({
       ...state,
       image: {
         ...state.image,
         data,
-        fetching: state.image.fetching - 1,
       },
     }));
   }

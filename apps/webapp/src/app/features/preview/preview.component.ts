@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Repository } from '@lib/core';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { finalize, map, switchMap, takeUntil } from 'rxjs/operators';
 import { ContributorsImageApi } from '../../shared/api/contributors-image';
 import { PreviewStore } from './preview.store';
 
@@ -38,11 +38,11 @@ export class PreviewComponent implements OnInit, OnDestroy {
         map((q) => Repository.fromString(q.get('repo') ?? 'angular/angular-ja')),
         switchMap((repository) => {
           this.store.startFetchingImage(repository);
-          return this.api.getByRepository(repository);
+          return this.api.getByRepository(repository).pipe(finalize(() => this.store.finishFetchingImage()));
         }),
       )
       .subscribe((imageSvg) => {
-        this.store.finishFetchingImage(imageSvg);
+        this.store.setImageData(imageSvg);
       });
   }
 

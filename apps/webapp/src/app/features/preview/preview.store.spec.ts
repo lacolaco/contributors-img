@@ -40,9 +40,8 @@ describe('AppStore', () => {
         },
       }));
 
-      spectator.service.finishFetchingImage('test');
+      spectator.service.finishFetchingImage();
 
-      expect(spectator.service.value.image.data).toEqual('test');
       expect(spectator.service.value.image.fetching).toEqual(0);
     });
   });
