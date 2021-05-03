@@ -5,8 +5,7 @@
     "target": "es2017",
     "module": "commonjs",
     "types": ["jest", "node"],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "experimentalDecorators": true
   },
   "include": ["**/*.spec.ts", "**/*.d.ts"]
 }
