@@ -10,17 +10,16 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ContributorsListModule } from '@lib/renderer-ui';
 import { environment } from '../../../environments/environment';
+import { SvgViewModule } from '../../shared/svg-view/svg-view.component';
 import { FooterComponent } from './component/footer/footer.component';
 import { HeaderComponent } from './component/header/header.component';
 import { ImageSnippetComponent } from './component/image-snippet/image-snippet.component';
 import { RepositoryFormComponent } from './component/repository-form/repository-form.component';
 import { RepositoryGalleryComponent } from './component/repository-gallery/repository-gallery.component';
+import { RecentUsageComponent } from './container/recent-usage/recent-usage.component';
 import { PreviewRoutingModule } from './preview-routing.module';
 import { PreviewComponent } from './preview.component';
-import { RecentUsageComponent } from './container/recent-usage/recent-usage.component';
-import { SvgViewModule } from '../../shared/svg-view/svg-view.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +44,6 @@ import { SvgViewModule } from '../../shared/svg-view/svg-view.component';
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
-    ContributorsListModule,
     SvgViewModule,
   ],
 })

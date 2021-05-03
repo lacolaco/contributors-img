@@ -199,29 +199,6 @@
           "outputs": ["coverage/apps/api"]
         }
       }
-    },
-
-    "renderer-ui": {
-      "projectType": "library",
-      "root": "libs/renderer-ui",
-      "sourceRoot": "libs/renderer-ui/src",
-      "prefix": "renderer",
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/renderer-ui/src/**/*.ts", "libs/renderer-ui/src/**/*.html"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/renderer-ui"],
-          "options": {
-            "jestConfig": "libs/renderer-ui/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
     }
   },
   "defaultProject": "webapp",
@@ -239,7 +216,8 @@
       "strict": true
     },
     "@nrwl/angular:component": {
-      "style": "scss"
+      "style": "scss",
+      "changeDetection": "OnPush"
     }
   }
 }
