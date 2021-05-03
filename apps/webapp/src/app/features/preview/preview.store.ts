@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { state } from '@angular/animations';
 import { Store } from '@lacolaco/reactive-store';
 import { Repository } from '@lib/core';
 
@@ -8,6 +8,7 @@ export interface State {
     data: string | null;
     fetching: number;
   };
+  showImageSnippet: boolean;
 }
 
 export const initialValue: State = {
@@ -16,9 +17,9 @@ export const initialValue: State = {
     data: null,
     fetching: 0,
   },
+  showImageSnippet: false,
 };
 
-@Injectable({ providedIn: 'root' })
 export class PreviewStore extends Store<State> {
   constructor() {
     super({ initialValue });
@@ -53,6 +54,20 @@ export class PreviewStore extends Store<State> {
         ...state.image,
         data,
       },
+    }));
+  }
+
+  showImageSnippet() {
+    this.update((state) => ({
+      ...state,
+      showImageSnippet: true,
+    }));
+  }
+
+  closeImageSnippet() {
+    this.update((state) => ({
+      ...state,
+      showImageSnippet: false,
     }));
   }
 }

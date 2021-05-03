@@ -1,38 +1,36 @@
 import { Repository } from '@lib/core';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { PreviewStore } from './preview.store';
 
-describe('AppStore', () => {
-  let spectator: SpectatorService<PreviewStore>;
-  const createService = createServiceFactory(PreviewStore);
+describe('PreviewStore', () => {
+  let store: PreviewStore;
 
-  beforeEach(() => (spectator = createService()));
+  beforeEach(() => (store = new PreviewStore()));
 
   it('should be created', () => {
-    expect(spectator.service).toBeTruthy();
+    expect(store).toBeTruthy();
   });
 
   it('should has initial value', () => {
-    expect(spectator.service.value).toBeDefined();
-    expect(spectator.service.value.repository).toBeNull();
-    expect(spectator.service.value.image.data).toEqual(null);
-    expect(spectator.service.value.image.fetching).toEqual(0);
+    expect(store.value).toBeDefined();
+    expect(store.value.repository).toBeNull();
+    expect(store.value.image.data).toEqual(null);
+    expect(store.value.image.fetching).toEqual(0);
   });
 
   describe('startFetchingContributors()', () => {
     it('should update value', () => {
       const repo = new Repository('foo', 'bar');
-      spectator.service.startFetchingImage(repo);
+      store.startFetchingImage(repo);
 
-      expect(spectator.service.value.repository).toBe(repo);
-      expect(spectator.service.value.image.data).toEqual(null);
-      expect(spectator.service.value.image.fetching).toEqual(1);
+      expect(store.value.repository).toBe(repo);
+      expect(store.value.image.data).toEqual(null);
+      expect(store.value.image.fetching).toEqual(1);
     });
   });
 
   describe('finishFetchingContributors()', () => {
     it('should update value', () => {
-      spectator.service.update((state) => ({
+      store.update((state) => ({
         ...state,
         image: {
           data: null,
@@ -40,9 +38,9 @@ describe('AppStore', () => {
         },
       }));
 
-      spectator.service.finishFetchingImage();
+      store.finishFetchingImage();
 
-      expect(spectator.service.value.image.fetching).toEqual(0);
+      expect(store.value.image.fetching).toEqual(0);
     });
   });
 });
