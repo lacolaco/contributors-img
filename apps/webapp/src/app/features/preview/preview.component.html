@@ -7,14 +7,12 @@
       <img height="100" src="assets/images/loading.gif" />
     </ng-container>
     <ng-template #showResult>
-      <ng-container *ngIf="state.contributors.length > 0; else showNoResult">
+      <ng-container *ngIf="state.imageSvg; else showNoResult">
         <div class="generatedResult">
-          <renderer-contributor-list [list]="state.contributors"> </renderer-contributor-list>
+          <app-svg-view [content]="state.imageSvg"></app-svg-view>
 
-          <app-image-snippet
-            *ngIf="state.repository && state.showImageSnippet"
-            [repository]="state.repository"
-          ></app-image-snippet>
+          <app-image-snippet *ngIf="state.repository && state.showImageSnippet" [repository]="state.repository">
+          </app-image-snippet>
 
           <button *ngIf="!state.showImageSnippet" mat-stroked-button color="primary" (click)="showImageSnippet()">
             Get Image URL!

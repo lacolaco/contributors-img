@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Contributor, Repository } from '@lib/core';
 import { Store } from '@lacolaco/reactive-store';
+import { Repository } from '@lib/core';
 
 export interface State {
   repository: Repository | null;
-  contributors: {
-    items: Contributor[];
+  image: {
+    data: string | null;
     fetching: number;
   };
 }
 
 export const initialValue: State = {
   repository: null,
-  contributors: {
-    items: [],
+  image: {
+    data: null,
     fetching: 0,
   },
 };
@@ -24,25 +24,25 @@ export class PreviewStore extends Store<State> {
     super({ initialValue });
   }
 
-  startFetchingContributors(repository: Repository) {
+  startFetchingImage(repository: Repository) {
     this.update((state) => ({
       ...state,
       repository,
-      contributors: {
-        ...state.contributors,
-        items: [],
-        fetching: state.contributors.fetching + 1,
+      image: {
+        ...state.image,
+        data: null,
+        fetching: state.image.fetching + 1,
       },
     }));
   }
 
-  finishFetchingContributors(items: Contributor[]) {
+  finishFetchingImage(data: string) {
     this.update((state) => ({
       ...state,
-      contributors: {
-        ...state.contributors,
-        items,
-        fetching: state.contributors.fetching - 1,
+      image: {
+        ...state.image,
+        data,
+        fetching: state.image.fetching - 1,
       },
     }));
   }

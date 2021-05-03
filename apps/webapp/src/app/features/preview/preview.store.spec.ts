@@ -15,18 +15,18 @@ describe('AppStore', () => {
   it('should has initial value', () => {
     expect(spectator.service.value).toBeDefined();
     expect(spectator.service.value.repository).toBeNull();
-    expect(spectator.service.value.contributors.items).toEqual([]);
-    expect(spectator.service.value.contributors.fetching).toEqual(0);
+    expect(spectator.service.value.image.data).toEqual(null);
+    expect(spectator.service.value.image.fetching).toEqual(0);
   });
 
   describe('startFetchingContributors()', () => {
     it('should update value', () => {
       const repo = new Repository('foo', 'bar');
-      spectator.service.startFetchingContributors(repo);
+      spectator.service.startFetchingImage(repo);
 
       expect(spectator.service.value.repository).toBe(repo);
-      expect(spectator.service.value.contributors.items).toEqual([]);
-      expect(spectator.service.value.contributors.fetching).toEqual(1);
+      expect(spectator.service.value.image.data).toEqual(null);
+      expect(spectator.service.value.image.fetching).toEqual(1);
     });
   });
 
@@ -34,18 +34,16 @@ describe('AppStore', () => {
     it('should update value', () => {
       spectator.service.update((state) => ({
         ...state,
-        contributors: {
-          items: [],
+        image: {
+          data: null,
           fetching: 1,
         },
       }));
 
-      spectator.service.finishFetchingContributors([
-        { id: 1, login: 'foo', avatar_url: '', html_url: '', contributions: 1 },
-      ]);
+      spectator.service.finishFetchingImage('test');
 
-      expect(spectator.service.value.contributors.items.length).toEqual(1);
-      expect(spectator.service.value.contributors.fetching).toEqual(0);
+      expect(spectator.service.value.image.data).toEqual('test');
+      expect(spectator.service.value.image.fetching).toEqual(0);
     });
   });
 });

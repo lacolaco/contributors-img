@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Repository } from '@lib/core';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { ContributorsImageApi } from '../../shared/api/contributors-image';
 import { PreviewStore } from './preview.store';
-import { FetchContributorsUsecase } from './usecase/fetch-contributors.usecase';
 
 @Component({
   selector: 'app-preview',
@@ -14,7 +15,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private fetchContributors: FetchContributorsUsecase,
+    private readonly api: ContributorsImageApi,
     private store: PreviewStore,
   ) {}
 
@@ -24,8 +25,8 @@ export class PreviewComponent implements OnInit, OnDestroy {
   readonly state$ = combineLatest([this.store.valueChanges, this.showImageSnippetSubject.asObservable()]).pipe(
     map(([state, showImageSnippet]) => ({
       repository: state.repository,
-      contributors: state.contributors.items,
-      loading: state.contributors.fetching > 0,
+      imageSvg: state.image.data,
+      loading: state.image.fetching > 0,
       showImageSnippet,
     })),
   );
@@ -34,10 +35,14 @@ export class PreviewComponent implements OnInit, OnDestroy {
     this.route.queryParamMap
       .pipe(
         takeUntil(this.onDestroy$),
-        map((q) => q.get('repo')),
+        map((q) => Repository.fromString(q.get('repo') ?? 'angular/angular-ja')),
+        switchMap((repository) => {
+          this.store.startFetchingImage(repository);
+          return this.api.getByRepository(repository);
+        }),
       )
-      .subscribe((repo) => {
-        this.fetchContributors.execute(repo || 'angular/angular-ja');
+      .subscribe((imageSvg) => {
+        this.store.finishFetchingImage(imageSvg);
       });
   }
 

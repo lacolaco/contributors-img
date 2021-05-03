@@ -20,6 +20,7 @@ import { RepositoryGalleryComponent } from './component/repository-gallery/repos
 import { PreviewRoutingModule } from './preview-routing.module';
 import { PreviewComponent } from './preview.component';
 import { RecentUsageComponent } from './container/recent-usage/recent-usage.component';
+import { SvgViewModule } from '../../shared/svg-view/svg-view.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { RecentUsageComponent } from './container/recent-usage/recent-usage.comp
     MatCardModule,
     MatDialogModule,
     ContributorsListModule,
+    SvgViewModule,
   ],
 })
 export class PreviewModule {}
