@@ -27,9 +27,6 @@
     },
     "api": {
       "tags": ["app"]
-    },
-    "renderer-ui": {
-      "tags": ["lib"]
     }
   }
 }

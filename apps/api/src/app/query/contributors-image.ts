@@ -12,14 +12,19 @@ export class ContributorsImageQuery {
     private readonly usageRepository: UsageRepository,
   ) {}
 
-  async getImage(repoName: string): Promise<{ fileStream: Readable; contentType: string }> {
+  async getImage(
+    repoName: string,
+    { preview = false }: { preview: boolean },
+  ): Promise<{ fileStream: Readable; contentType: string }> {
     const repository = Repository.fromString(repoName);
 
     const { fileStream, contentType } = await runWithTracing('getImageFileStream', () =>
       this.contributorsImageRepository.getImageFileStream(repository),
     );
 
-    runWithTracing('saveRepositoryUsage', () => this.usageRepository.saveRepositoryUsage(repository, new Date()));
+    if (!preview) {
+      runWithTracing('saveRepositoryUsage', () => this.usageRepository.saveRepositoryUsage(repository, new Date()));
+    }
 
     return { fileStream, contentType };
   }
