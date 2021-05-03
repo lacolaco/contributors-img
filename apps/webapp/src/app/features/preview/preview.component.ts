@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { map, takeUntil, throttleTime } from 'rxjs/operators';
-import { PreviewStore } from './store';
+import { map, takeUntil } from 'rxjs/operators';
+import { PreviewStore } from './preview.store';
 import { FetchContributorsUsecase } from './usecase/fetch-contributors.usecase';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-preview',
@@ -18,27 +16,16 @@ export class PreviewComponent implements OnInit, OnDestroy {
     private router: Router,
     private fetchContributors: FetchContributorsUsecase,
     private store: PreviewStore,
-    private firestore: AngularFirestore,
   ) {}
 
   private readonly showImageSnippetSubject = new BehaviorSubject<boolean>(false);
   private readonly onDestroy$ = new Subject();
 
-  readonly state$ = combineLatest([
-    this.store.valueChanges,
-    this.firestore
-      .collection<{ name: string }>(`${environment.firestoreRootCollectionName}/usage/repositories`, (q) =>
-        q.limit(12).orderBy('timestamp', 'desc'),
-      )
-      .valueChanges()
-      .pipe(throttleTime(1000 * 10)),
-    this.showImageSnippetSubject.asObservable(),
-  ]).pipe(
-    map(([state, repositories, showImageSnippet]) => ({
+  readonly state$ = combineLatest([this.store.valueChanges, this.showImageSnippetSubject.asObservable()]).pipe(
+    map(([state, showImageSnippet]) => ({
       repository: state.repository,
       contributors: state.contributors.items,
       loading: state.contributors.fetching > 0,
-      repositories,
       showImageSnippet,
     })),
   );

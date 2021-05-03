@@ -1,6 +1,6 @@
 import { Repository } from '@lib/core';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { PreviewStore } from './store';
+import { PreviewStore } from './preview.store';
 
 describe('AppStore', () => {
   let spectator: SpectatorService<PreviewStore>;

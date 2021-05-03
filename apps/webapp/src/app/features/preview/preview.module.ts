@@ -19,6 +19,7 @@ import { RepositoryFormComponent } from './component/repository-form/repository-
 import { RepositoryGalleryComponent } from './component/repository-gallery/repository-gallery.component';
 import { PreviewRoutingModule } from './preview-routing.module';
 import { PreviewComponent } from './preview.component';
+import { RecentUsageComponent } from './container/recent-usage/recent-usage.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { PreviewComponent } from './preview.component';
     RepositoryFormComponent,
     ImageSnippetComponent,
     RepositoryGalleryComponent,
+    RecentUsageComponent,
   ],
   imports: [
     CommonModule,

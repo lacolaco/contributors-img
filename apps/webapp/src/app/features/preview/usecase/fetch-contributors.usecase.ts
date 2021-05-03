@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Contributor, Repository } from '@lib/core';
-import { PreviewStore } from '../store';
+import { PreviewStore } from '../preview.store';
 
 @Injectable({
   providedIn: 'root',
