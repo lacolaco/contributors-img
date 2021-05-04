@@ -4,6 +4,17 @@
       "target": "production",
       "public": "dist/apps/webapp",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "headers": [
+        {
+          "regex": ".+\\.[0-9a-f]{8,}\\.(css|js)$",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public,max-age=31536000,immutable"
+            }
+          ]
+        }
+      ],
       "rewrites": [
         {
           "source": "/api/**",
@@ -14,13 +25,6 @@
         },
         {
           "source": "/image",
-          "run": {
-            "serviceId": "api-production",
-            "region": "us-central1"
-          }
-        },
-        {
-          "source": "/image2",
           "run": {
             "serviceId": "api-production",
             "region": "us-central1"
@@ -36,6 +40,17 @@
       "target": "staging",
       "public": "dist/apps/webapp",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "headers": [
+        {
+          "regex": ".+\\.[0-9a-f]{8,}\\.(css|js)$",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public,max-age=31536000,immutable"
+            }
+          ]
+        }
+      ],
       "rewrites": [
         {
           "source": "/api/**",
@@ -46,13 +61,6 @@
         },
         {
           "source": "/image",
-          "run": {
-            "serviceId": "api-staging",
-            "region": "us-central1"
-          }
-        },
-        {
-          "source": "/image2",
           "run": {
             "serviceId": "api-staging",
             "region": "us-central1"
