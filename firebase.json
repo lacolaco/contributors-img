@@ -42,7 +42,7 @@
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "headers": [
         {
-          "regex": ".+\\.[0-9a-f]{8,}+\\.(css|js)$",
+          "regex": ".+\\.[0-9a-f]{8,}\\.(css|js)$",
           "headers": [
             {
               "key": "Cache-Control",
