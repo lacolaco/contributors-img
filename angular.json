@@ -51,13 +51,7 @@
               "apps/webapp/src/styles.scss"
             ],
             "scripts": [],
-            "optimization": true,
-            "outputHashing": "all",
-            "sourceMap": false,
-            "namedChunks": false,
-            "extractLicenses": true,
-            "vendorChunk": false,
-            "buildOptimizer": true
+            "outputHashing": "all"
           },
           "configurations": {
             "production": {
@@ -112,17 +106,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "proxyConfig": "apps/webapp/proxy.conf.json"
+            "proxyConfig": "apps/webapp/proxy.conf.json",
+            "browserTarget": "webapp:build:development"
           },
           "configurations": {
             "production": {
               "browserTarget": "webapp:build:production"
-            },
-            "development": {
-              "browserTarget": "webapp:build:development"
             }
-          },
-          "defaultConfiguration": "development"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -208,29 +199,6 @@
           "outputs": ["coverage/apps/api"]
         }
       }
-    },
-
-    "renderer-ui": {
-      "projectType": "library",
-      "root": "libs/renderer-ui",
-      "sourceRoot": "libs/renderer-ui/src",
-      "prefix": "renderer",
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/renderer-ui/src/**/*.ts", "libs/renderer-ui/src/**/*.html"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/renderer-ui"],
-          "options": {
-            "jestConfig": "libs/renderer-ui/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
     }
   },
   "defaultProject": "webapp",
@@ -248,7 +216,8 @@
       "strict": true
     },
     "@nrwl/angular:component": {
-      "style": "scss"
+      "style": "scss",
+      "changeDetection": "OnPush"
     }
   }
 }

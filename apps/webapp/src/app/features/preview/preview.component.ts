@@ -1,56 +1,47 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { map, takeUntil, throttleTime } from 'rxjs/operators';
-import { PreviewStore } from './store';
-import { FetchContributorsUsecase } from './usecase/fetch-contributors.usecase';
-import { environment } from '../../../environments/environment';
+import { Repository } from '@lib/core';
+import { Subject } from 'rxjs';
+import { finalize, map, switchMap, takeUntil } from 'rxjs/operators';
+import { ContributorsImageApi } from '../../shared/api/contributors-image';
+import { PreviewStore } from './preview.store';
 
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],
+  providers: [PreviewStore],
 })
 export class PreviewComponent implements OnInit, OnDestroy {
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private fetchContributors: FetchContributorsUsecase,
-    private store: PreviewStore,
-    private firestore: AngularFirestore,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly api: ContributorsImageApi,
+    private readonly store: PreviewStore,
   ) {}
 
-  private readonly showImageSnippetSubject = new BehaviorSubject<boolean>(false);
-  private readonly onDestroy$ = new Subject();
+  private readonly onDestroy$ = new Subject<void>();
 
-  readonly state$ = combineLatest([
-    this.store.valueChanges,
-    this.firestore
-      .collection<{ name: string }>(`${environment.firestoreRootCollectionName}/usage/repositories`, (q) =>
-        q.limit(12).orderBy('timestamp', 'desc'),
-      )
-      .valueChanges()
-      .pipe(throttleTime(1000 * 10)),
-    this.showImageSnippetSubject.asObservable(),
-  ]).pipe(
-    map(([state, repositories, showImageSnippet]) => ({
-      repository: state.repository,
-      contributors: state.contributors.items,
-      loading: state.contributors.fetching > 0,
-      repositories,
-      showImageSnippet,
-    })),
-  );
+  readonly state$ = this.store.select((state) => ({
+    repository: state.repository,
+    imageSvg: state.image.data,
+    loading: state.image.fetching > 0,
+    showImageSnippet: state.showImageSnippet,
+  }));
 
   ngOnInit() {
     this.route.queryParamMap
       .pipe(
         takeUntil(this.onDestroy$),
-        map((q) => q.get('repo')),
+        map((q) => Repository.fromString(q.get('repo') ?? 'angular/angular-ja')),
+        switchMap((repository) => {
+          this.store.startFetchingImage(repository);
+          this.store.closeImageSnippet();
+          return this.api.getByRepository(repository).pipe(finalize(() => this.store.finishFetchingImage()));
+        }),
       )
-      .subscribe((repo) => {
-        this.fetchContributors.execute(repo || 'angular/angular-ja');
+      .subscribe((imageSvg) => {
+        this.store.setImageData(imageSvg);
       });
   }
 
@@ -59,11 +50,10 @@ export class PreviewComponent implements OnInit, OnDestroy {
   }
 
   selectRepository(repoName: string) {
-    this.showImageSnippetSubject.next(false);
     this.router.navigate([], { queryParams: { repo: repoName } });
   }
 
   showImageSnippet() {
-    this.showImageSnippetSubject.next(true);
+    this.store.showImageSnippet();
   }
 }

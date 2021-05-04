@@ -9,14 +9,17 @@ import { Controller } from '../utils/types';
 export class GetImageController implements Controller {
   constructor(private readonly imageQuery: ContributorsImageQuery) {}
   async onRequest(req: Request, res: Response) {
-    const repoName = req.query.repo;
+    const repoName = req.query['repo'];
     if (!assertRepositoryName(repoName)) {
       res.status(400).send(`"${repoName}" is not a valid repository name`);
       return;
     }
+    const preview = !!req.query['preview'];
     addTracingLabels({ 'app/repoName': repoName });
     try {
-      const { fileStream, contentType } = await runWithTracing('getImage', () => this.imageQuery.getImage(repoName));
+      const { fileStream, contentType } = await runWithTracing('getImage', () =>
+        this.imageQuery.getImage(repoName, { preview }),
+      );
       res
         .header('Content-Type', contentType)
         .header('Vary', `Accept`)
