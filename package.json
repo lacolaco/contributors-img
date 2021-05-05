@@ -88,7 +88,7 @@
     "@types/jest": "26.0.23",
     "@types/jsdom": "16.2.10",
     "@types/morgan": "1.9.2",
-    "@types/node": "12.20.11",
+    "@types/node": "12.20.12",
     "@types/node-fetch": "2.5.10",
     "@typescript-eslint/eslint-plugin": "4.22.1",
     "@typescript-eslint/parser": "4.22.1",
