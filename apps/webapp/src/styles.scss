@@ -1,10 +1,10 @@
+@use '~@angular/material' as mat;
+
 /* You can add global styles to this file, and also import other style files */
 body {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
 }
-
-@use '~@angular/material' as mat;
 
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
