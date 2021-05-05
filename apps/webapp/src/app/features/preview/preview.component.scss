@@ -17,10 +17,10 @@ main {
   }
 }
 
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
 .generatedResult {
-  @include mat-elevation(4);
+  @include mat.elevation(4);
 
   min-width: 50vw;
   padding: 8px;
