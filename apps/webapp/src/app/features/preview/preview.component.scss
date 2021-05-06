@@ -1,3 +1,5 @@
+@use '~@angular/material' as mat;
+
 :host {
   display: block;
   height: 100%;
@@ -17,10 +19,8 @@ main {
   }
 }
 
-@import '~@angular/material/theming';
-
 .generatedResult {
-  @include mat-elevation(4);
+  @include mat.elevation(4);
 
   min-width: 50vw;
   padding: 8px;

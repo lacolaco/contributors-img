@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
 :host {
   display: flex;
@@ -34,10 +34,10 @@ ul.gallery {
 }
 
 .card {
-  @include mat-elevation(2);
+  @include mat.elevation(2);
   font-weight: bold;
 
   &:hover {
-    @include mat-elevation(6);
+    @include mat.elevation(6);
   }
 }
