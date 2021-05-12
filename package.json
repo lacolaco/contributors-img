@@ -60,7 +60,7 @@
     "morgan": "1.10.0",
     "node-fetch": "2.6.1",
     "normalize.css": "8.0.1",
-    "rxjs": "6.6.7",
+    "rxjs": "7.0.1",
     "tslib": "2.2.0",
     "tsyringe": "4.5.0",
     "zone.js": "0.11.4"
