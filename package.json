@@ -39,7 +39,7 @@
     "@angular/common": "12.0.0-rc.2",
     "@angular/compiler": "12.0.0-rc.2",
     "@angular/core": "12.0.0-rc.2",
-    "@angular/fire": "6.1.4",
+    "@angular/fire": "6.1.5",
     "@angular/forms": "12.0.0-rc.2",
     "@angular/material": "12.0.0-rc.2",
     "@angular/platform-browser": "12.0.0-rc.2",
