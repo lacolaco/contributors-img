@@ -96,7 +96,7 @@
     "eslint": "7.26.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "2.23.3",
-    "eslint-plugin-jsdoc": "33.3.0",
+    "eslint-plugin-jsdoc": "34.8.2",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "firebase-tools": "9.11.0",
     "jest": "26.6.3",
