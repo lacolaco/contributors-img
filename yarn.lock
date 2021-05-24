@@ -2373,10 +2373,10 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.2.tgz#8f03a22a04de437254e8ce8cc84ba39689288752"
   integrity sha512-HyYEUDeIj5rRQU2Hk5HTB2uHsbRQpF70nvMhVzi+VJR0X+xNEhjPui4/kBf3VeH/wqD28PT4sVOm8qqLjBrSZg==
 
-"@es-joy/jsdoccomment@^0.4.4":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@es-joy/jsdoccomment/-/jsdoccomment-0.4.4.tgz#8a25154156edbfc29e310943ebb17ee29122c9df"
-  integrity sha512-ua4qDt9dQb4qt5OI38eCZcQZYE5Bq3P0GzgvDARdT8Lt0mAUpxKTPy8JGGqEvF77tG1irKDZ3WreeezEa3P43w==
+"@es-joy/jsdoccomment@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@es-joy/jsdoccomment/-/jsdoccomment-0.7.2.tgz#5c0802982b28e7dcd381fbb1f52e6fd088525a31"
+  integrity sha512-i5p0VgxeCXbf5aPLPY9s9Fz6K5BkzYdbRCisw/vEY/FXAxUJ8SiAifPwkFUm0CJrmZ8tFBGW8bUtM7wiE4KTIA==
   dependencies:
     comment-parser "^1.1.5"
     esquery "^1.4.0"
@@ -7503,12 +7503,12 @@ eslint-plugin-import@2.23.3:
     resolve "^1.20.0"
     tsconfig-paths "^3.9.0"
 
-eslint-plugin-jsdoc@33.3.0:
-  version "33.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-33.3.0.tgz#a287db838d2cac4b36b76d99213901be6a31e9f5"
-  integrity sha512-wt6I9X8JoOyUtnsafM7AWBEfLCD3BI1wR5/vTu0hti4CoZc37bB4ZX9A7DsWKbEC/xROAAcBV2VAT638w9VKyQ==
+eslint-plugin-jsdoc@35.0.0:
+  version "35.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-35.0.0.tgz#12634f12d1882a4f77b49aba2c4a17a7bc88cfcd"
+  integrity sha512-n92EO6g84qzjF4Lyvg+hDouMQTRHCKvW0hRobGRza0aqbG9fmmlS4p1x8cvPPAc0P87TmahMZnrP0F7hPOcAoQ==
   dependencies:
-    "@es-joy/jsdoccomment" "^0.4.4"
+    "@es-joy/jsdoccomment" "^0.7.2"
     comment-parser "1.1.5"
     debug "^4.3.1"
     esquery "^1.4.0"
