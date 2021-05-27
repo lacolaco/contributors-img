@@ -53,7 +53,7 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
       - run: yarn install --frozen-lockfile
-      - run: yarn build:all:production --skip-nx-cache
+      - run: yarn build:all:production
       - name: Deploy API to Cloud Run
         run: |
           gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME} \
