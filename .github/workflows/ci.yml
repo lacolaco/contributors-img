@@ -5,9 +5,6 @@ on:
     branches-ignore:
       - 'production'
 
-env:
-  YARN_CACHE_FOLDER: .cache/yarn
-
 jobs:
   install-deps:
     runs-on: ubuntu-latest
@@ -18,10 +15,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '${{ steps.nodenv.outputs.node-version }}'
-      - uses: actions/cache@v2
-        with:
-          path: ${YARN_CACHE_FOLDER}
-          key: ${{ runner.os }}-yarn-global
+          cache: yarn
       - uses: actions/cache@v2
         with:
           path: node_modules
@@ -38,6 +32,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '${{ steps.nodenv.outputs.node-version }}'
+          cache: yarn
       - uses: actions/cache@v2
         with:
           path: node_modules
@@ -55,6 +50,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '${{ steps.nodenv.outputs.node-version }}'
+          cache: yarn
       - uses: actions/cache@v2
         with:
           path: node_modules
@@ -72,6 +68,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '${{ steps.nodenv.outputs.node-version }}'
+          cache: yarn
       - uses: actions/cache@v2
         with:
           path: node_modules
