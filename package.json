@@ -55,7 +55,7 @@
     "compression": "1.7.4",
     "core-js": "3.15.2",
     "express": "4.17.1",
-    "firebase": "8.6.8",
+    "firebase": "8.7.0",
     "jsdom": "16.6.0",
     "morgan": "1.10.0",
     "node-fetch": "2.6.1",
