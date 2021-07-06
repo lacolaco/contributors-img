@@ -82,7 +82,7 @@
     "@nrwl/jest": "12.5.6",
     "@nrwl/node": "12.5.6",
     "@nrwl/workspace": "12.5.6",
-    "@types/compression": "1.7.0",
+    "@types/compression": "1.7.1",
     "@types/cors": "2.8.10",
     "@types/express": "4.17.12",
     "@types/jest": "26.0.23",
