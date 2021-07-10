@@ -147,10 +147,10 @@
   resolved "https://registry.yarnpkg.com/@angular-eslint/builder/-/builder-3.0.1.tgz#576f33a043b99e6277e905e51db1487de3f603b1"
   integrity sha512-qknzIRXdBpMYHMkogHrX4DmlApxzW4IrUJF00IHQURbzErRkYh41StQ8cj9n4tVV5KLSHsh8X3VnIPOL2AN5jg==
 
-"@angular-eslint/eslint-plugin-template@12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin-template/-/eslint-plugin-template-12.2.0.tgz#8ec6af0d4becb0516954e8c991203f77c2d5e1e5"
-  integrity sha512-DLZiv6x2ZF0OJ3a3KR/APQkhA3HZqebdVCJd29EzdF3qnZGQybNV5GfFONf67vDkm/wA/UaF8rO4Rc8WQv2PHQ==
+"@angular-eslint/eslint-plugin-template@12.2.1":
+  version "12.2.1"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin-template/-/eslint-plugin-template-12.2.1.tgz#6ad5636b30e9b18f62b089621ecf53311dcbfc92"
+  integrity sha512-MX0/IjTVFhzkH4T4a528ioV21Ah/cX5V3uv1wHHk70JR8f5lIlYAoQz445H9VU3vulcZl94a2BdXXevD74tUjg==
   dependencies:
     "@typescript-eslint/experimental-utils" "4.23.0"
     aria-query "^4.2.2"
@@ -165,10 +165,10 @@
     aria-query "^4.2.2"
     axobject-query "^2.2.0"
 
-"@angular-eslint/eslint-plugin@12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin/-/eslint-plugin-12.2.0.tgz#b8874f40f711a7388068a68ee8c23872f14f5d96"
-  integrity sha512-VKeRAql5AzhMrFFP865FjwkheUSsSGKpdTCa8jYZXZkmsXQnqta+omexBqvKT3CSYAEjSN3FLpQyqSXWWZysWg==
+"@angular-eslint/eslint-plugin@12.2.1":
+  version "12.2.1"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/eslint-plugin/-/eslint-plugin-12.2.1.tgz#0f834d7218d00b5e018f07227dc3570d9bd1554c"
+  integrity sha512-LBjWJUJOnXFoywnEmtByP6XyrI1Qrimrgb7WUTmdRf0Zm47oJS7QVRJJtLkrSClwdVmH3HOx9QyL4Gd8HS18sA==
   dependencies:
     "@typescript-eslint/experimental-utils" "4.23.0"
 
@@ -179,13 +179,13 @@
   dependencies:
     "@typescript-eslint/experimental-utils" "4.16.1"
 
-"@angular-eslint/schematics@12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@angular-eslint/schematics/-/schematics-12.2.0.tgz#c42ca2c5624e8ba947c2ebf3f90399ae0e39bc5b"
-  integrity sha512-HsUjfjvGzCv5zygwcxPP0zPp/qTCp4JZlA+8m59S1X5w+yy2zt/vQW/8bOFUtVJCFTa+KcxDt/fzU/qSZKpCGw==
+"@angular-eslint/schematics@12.2.1":
+  version "12.2.1"
+  resolved "https://registry.yarnpkg.com/@angular-eslint/schematics/-/schematics-12.2.1.tgz#77aa5e70c371164c47fbd3bf4347a395d9dcbd16"
+  integrity sha512-uS9y9jUvmplDiGPdej/G3VmX2KRR2JIneBXXRt1ZNld7gJHchgXauFwgJ1tvlzy3z4iXV+QkDSVgPMTpVErTNA==
   dependencies:
-    "@angular-eslint/eslint-plugin" "12.2.0"
-    "@angular-eslint/eslint-plugin-template" "12.2.0"
+    "@angular-eslint/eslint-plugin" "12.2.1"
+    "@angular-eslint/eslint-plugin-template" "12.2.1"
     ignore "5.1.8"
     strip-json-comments "3.1.1"
     tmp "0.2.1"
