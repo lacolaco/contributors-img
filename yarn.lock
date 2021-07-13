@@ -2502,10 +2502,10 @@
   dependencies:
     "@firebase/app-types" "0.6.2"
 
-"@firebase/database@0.10.6":
-  version "0.10.6"
-  resolved "https://registry.yarnpkg.com/@firebase/database/-/database-0.10.6.tgz#bec8edff424e16bff50376c7822e051997228332"
-  integrity sha512-AGxRnKaJQd4Pq7sblrWI39XM5N2u/pZOeopMxVRja38Cubxp6P5T7lzpp0xNSOQ/RszAoHskGIlCfIz+teaXSQ==
+"@firebase/database@0.10.7":
+  version "0.10.7"
+  resolved "https://registry.yarnpkg.com/@firebase/database/-/database-0.10.7.tgz#6241b573741ccb45b71d03226c0bfef6d2dbafb8"
+  integrity sha512-7BFj8LFhGL+TmLiPOffOVfkrO2wm44mGcT0jqrkTkt1KydapmjABFJBRvONvlLij5LoWrJK1cSuE8wYDQrDq2Q==
   dependencies:
     "@firebase/auth-interop-types" "0.1.6"
     "@firebase/component" "0.5.4"
@@ -8423,17 +8423,17 @@ firebase-tools@9.16.0:
     winston-transport "^4.4.0"
     ws "^7.2.3"
 
-firebase@8.7.0:
-  version "8.7.0"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-8.7.0.tgz#5b8949f7649a29f2b0d544815d5915bf1657f9d2"
-  integrity sha512-eBth95zArEIGn0HGJfRuhtM68Ucs6bN0diPzX9BnqbwvngEe9iksr/u6wBL9/61CBhGc/+k+m9QJREQuqUbG7Q==
+firebase@8.7.1:
+  version "8.7.1"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-8.7.1.tgz#b22ce063c4df16d849c0160662e6fcf6bc396f32"
+  integrity sha512-OM+pUxIAqd5+XQMGux8InhhWmHDqlzQij67ljomMNblrxGiFOh8bMe+DGU9r8dh7CDaBYNtT6L0KR859BqhkDQ==
   dependencies:
     "@firebase/analytics" "0.6.14"
     "@firebase/app" "0.6.28"
     "@firebase/app-check" "0.2.0"
     "@firebase/app-types" "0.6.2"
     "@firebase/auth" "0.16.8"
-    "@firebase/database" "0.10.6"
+    "@firebase/database" "0.10.7"
     "@firebase/firestore" "2.3.8"
     "@firebase/functions" "0.6.13"
     "@firebase/installations" "0.4.30"
