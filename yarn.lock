@@ -8882,10 +8882,10 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-tools@9.16.4:
-  version "9.16.4"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-9.16.4.tgz#8403430452ed803f87ad179df5703ca6218ea397"
-  integrity sha512-cWcjwPUIgO1bKzzJADd+roAlM0IyWbaUUuOuUQlW8YU9VFP/f/mF7bOu4ys+faIyZCqPwiX9BXOb+PEYWJm0nA==
+firebase-tools@9.16.5:
+  version "9.16.5"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-9.16.5.tgz#c6d38bded228fd2a5dfd781a42287c78dab66b86"
+  integrity sha512-dp/cvt+39wv5CO+MzX36snmRnvn5j7Nn73QfKiIvHXAT5Ek/fRJn2pWnaxP+bhd19SuEY1Buf8PcdlMl42hzlw==
   dependencies:
     "@google-cloud/pubsub" "^2.7.0"
     "@types/archiver" "^5.1.0"
