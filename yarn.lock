@@ -4304,14 +4304,6 @@
     jest-diff "^26.0.0"
     pretty-format "^26.0.0"
 
-"@types/jest@26.x":
-  version "26.0.18"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.18.tgz#3c5f9228e9ac15bd42f903f1acf2ad6ea5ed73d9"
-  integrity sha512-scDPs+mELZgsFetTgBSsIxKGrlitn9t/d2ecP+S1QSIGD+31fkMBEftLfOAX5k3tU06/0PjreJIQ+gWEbbHqpw==
-  dependencies:
-    jest-diff "^26.0.0"
-    pretty-format "^26.0.0"
-
 "@types/jsdom@16.2.13":
   version "16.2.13"
   resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-16.2.13.tgz#126c8b7441b159d6234610a48de77b6066f1823f"
@@ -10933,7 +10925,7 @@ jest-environment-jsdom@^26.6.2:
     jest-util "^26.6.2"
     jsdom "^16.4.0"
 
-jest-environment-jsdom@^27.0.6:
+jest-environment-jsdom@^27.0.0, jest-environment-jsdom@^27.0.6:
   version "27.0.6"
   resolved "https://registry.yarnpkg.com/jest-environment-jsdom/-/jest-environment-jsdom-27.0.6.tgz#f66426c4c9950807d0a9f209c590ce544f73291f"
   integrity sha512-FvetXg7lnXL9+78H+xUAsra3IeZRTiegA3An01cWeXBspKXUhAwMM9ycIJ4yBaR0L7HkoMPaZsozCLHh4T8fuw==
@@ -11156,13 +11148,14 @@ jest-pnp-resolver@^1.2.2:
   resolved "https://registry.yarnpkg.com/jest-pnp-resolver/-/jest-pnp-resolver-1.2.2.tgz#b704ac0ae028a89108a4d040b3f919dfddc8e33c"
   integrity sha512-olV41bKSMm8BdnuMsewT4jqlZ8+3TCARAXjZGT9jcoSnrfUnRCqnMoF9XEeoWjbzObpqF9dRhHQj0Xb9QdF6/w==
 
-jest-preset-angular@8.4.0:
-  version "8.4.0"
-  resolved "https://registry.yarnpkg.com/jest-preset-angular/-/jest-preset-angular-8.4.0.tgz#476b8a29a4e3a28145b3a53bbe318252da8644f0"
-  integrity sha512-lngQRVVMy2qdzhSzUVTkKFsWC+Z2uMFlJf8J5ZeapNZFsRYW2tjlVqdm+sJOTnVmMVnN7CtDqvRDwlyFTIYD+A==
+jest-preset-angular@9.0.7:
+  version "9.0.7"
+  resolved "https://registry.yarnpkg.com/jest-preset-angular/-/jest-preset-angular-9.0.7.tgz#16c006158d32d9d66bf4f86efd136d943308ba78"
+  integrity sha512-yK4TdbNBwO5Nq55nYq8uJqs8+xKWVXjBVv3glndm/gx4EjVMmxJO2FB5q7JJ8M5Uf/jxANSu0PjS65opti2DXA==
   dependencies:
-    pretty-format "26.x"
-    ts-jest "26.x"
+    jest-environment-jsdom "^27.0.0"
+    pretty-format "^27.0.0"
+    ts-jest "^27.0.0"
 
 jest-regex-util@^26.0.0:
   version "26.0.0"
@@ -11399,7 +11392,7 @@ jest-snapshot@^27.0.6:
     pretty-format "^27.0.6"
     semver "^7.3.2"
 
-jest-util@27.0.6, jest-util@^27.0.6:
+jest-util@27.0.6, jest-util@^27.0.0, jest-util@^27.0.6:
   version "27.0.6"
   resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-27.0.6.tgz#e8e04eec159de2f4d5f57f795df9cdc091e50297"
   integrity sha512-1JjlaIh+C65H/F7D11GNkGDDZtDfMEM8EBXsvd+l/cxtgQ6QhxuloOaiayt89DxUvDarbVhqI98HhgrM1yliFQ==
@@ -12104,7 +12097,7 @@ lodash.keys@~2.4.1:
     lodash._shimkeys "~2.4.1"
     lodash.isobject "~2.4.1"
 
-lodash.memoize@4.x, lodash.memoize@^4.1.2:
+lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
@@ -14458,7 +14451,7 @@ pretty-bytes@^5.3.0:
   resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-5.6.0.tgz#356256f643804773c82f64723fe78c92c62beaeb"
   integrity sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==
 
-pretty-format@26.x, pretty-format@^26.0.0, pretty-format@^26.4.2, pretty-format@^26.6.2:
+pretty-format@^26.0.0, pretty-format@^26.4.2, pretty-format@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-26.6.2.tgz#e35c2705f14cb7fe2fe94fa078345b444120fc93"
   integrity sha512-7AeGuCYNGmycyQbCqd/3PWH4eOoX/OiCa0uphp57NVTeAGdJGaAliecxwBDHYQCIvrW7aDBZCYeNTP/WX69mkg==
@@ -14468,7 +14461,7 @@ pretty-format@26.x, pretty-format@^26.0.0, pretty-format@^26.4.2, pretty-format@
     ansi-styles "^4.0.0"
     react-is "^17.0.1"
 
-pretty-format@^27.0.6:
+pretty-format@^27.0.0, pretty-format@^27.0.6:
   version "27.0.6"
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-27.0.6.tgz#ab770c47b2c6f893a21aefc57b75da63ef49a11f"
   integrity sha512-8tGD7gBIENgzqA+UBzObyWqQ5B778VIFZA/S66cclyd5YkFLYs2Js7gxDKf0MXtTc9zcS7t1xhdfcElJ3YIvkQ==
@@ -16712,20 +16705,17 @@ ts-jest@26.5.6:
     semver "7.x"
     yargs-parser "20.x"
 
-ts-jest@26.x:
-  version "26.4.4"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-26.4.4.tgz#61f13fb21ab400853c532270e52cc0ed7e502c49"
-  integrity sha512-3lFWKbLxJm34QxyVNNCgXX1u4o/RV0myvA2y2Bxm46iGIjKlaY0own9gIckbjZJPn+WaJEnfPPJ20HHGpoq4yg==
+ts-jest@^27.0.0:
+  version "27.0.5"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-27.0.5.tgz#0b0604e2271167ec43c12a69770f0bb65ad1b750"
+  integrity sha512-lIJApzfTaSSbtlksfFNHkWOzLJuuSm4faFAfo5kvzOiRAuoN4/eKxVJ2zEAho8aecE04qX6K1pAzfH5QHL1/8w==
   dependencies:
-    "@types/jest" "26.x"
     bs-logger "0.x"
-    buffer-from "1.x"
     fast-json-stable-stringify "2.x"
-    jest-util "^26.1.0"
+    jest-util "^27.0.0"
     json5 "2.x"
-    lodash.memoize "4.x"
+    lodash "4.x"
     make-error "1.x"
-    mkdirp "1.x"
     semver "7.x"
     yargs-parser "20.x"
 
