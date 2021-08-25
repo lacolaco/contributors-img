@@ -3430,15 +3430,15 @@
   resolved "https://registry.yarnpkg.com/@lacolaco/reactive-store/-/reactive-store-4.0.0.tgz#20019116cf480be16a47cadde88d04aaaffa1e50"
   integrity sha512-btXCHbCQTkSrhDn4lwKUyDz/BuAc2mN1ZIT1svCsAzcjSJ61cu8MmB5Ttk9u7o97/hH6vUPhCLNjqjpT5ys5ag==
 
-"@ngneat/spectator@7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@ngneat/spectator/-/spectator-7.2.0.tgz#2419f06f384041e263b0432577197c8f259b6264"
-  integrity sha512-FUdQqXCQEBwxAX33ZbU7h25cMKT24kesIX8ggiSHfGyyAJbYSJwZkzWLLpLgJqSQcPbe1dLCxCGA6tpIkGF9rg==
+"@ngneat/spectator@8.0.3":
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/@ngneat/spectator/-/spectator-8.0.3.tgz#fe6c4d8f6fb9a9aa2017e85e54ae3ef413e9478e"
+  integrity sha512-9dgsvbgWu9T43yDSNWnb7UshjirHcF+l/02RV8IcX2Kcthqe0n1cz78EmOv2uN7ZZS2xtmYJhZzdysQ8u5mpog==
   dependencies:
     "@testing-library/dom" "7.26.5"
     jquery "3.6.0"
-    replace-in-file "^6.2.0"
-    tslib "^2.0.0"
+    replace-in-file "6.2.0"
+    tslib "^2.1.0"
 
 "@ngtools/webpack@12.0.5":
   version "12.0.5"
@@ -15061,7 +15061,7 @@ repeat-string@^1.6.1:
   resolved "https://registry.yarnpkg.com/repeat-string/-/repeat-string-1.6.1.tgz#8dcae470e1c88abc2d600fff4a776286da75e637"
   integrity sha1-jcrkcOHIirwtYA//Sndihtp15jc=
 
-replace-in-file@^6.2.0:
+replace-in-file@6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/replace-in-file/-/replace-in-file-6.2.0.tgz#9c0e381b0e02f27f83d5ba500bb4046f63d18566"
   integrity sha512-Im2AF9G/qgkYneOc9QwWwUS/efyyonTUBvzXS2VXuxPawE5yQIjT/e6x4CTijO0Quq48lfAujuo+S89RR2TP2Q==
