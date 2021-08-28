@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { of } from 'rxjs';
+import { RepositoryGalleryComponent } from '../../component/repository-gallery/repository-gallery.component';
 import { RecentUsageComponent } from './recent-usage.component';
 
 describe('RecentUsageComponent', () => {
@@ -9,12 +10,16 @@ describe('RecentUsageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RecentUsageComponent],
-      imports: [
-        AngularFireModule.initializeApp({
-          projectId: 'test',
-        }),
-        AngularFirestoreModule,
+      declarations: [RecentUsageComponent, RepositoryGalleryComponent],
+      providers: [
+        {
+          provide: AngularFirestore,
+          useValue: {
+            collection: () => ({
+              valueChanges: jest.fn().mockReturnValue(of([])),
+            }),
+          },
+        },
       ],
     }).compileComponents();
   });
