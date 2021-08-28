@@ -5,9 +5,7 @@
       <mat-card class="card">
         <div>{{ repo.name }}</div>
         <mat-card-actions>
-          <a mat-button routerLink [queryParams]="{ repo: repo.name }">
-            Generate
-          </a>
+          <a mat-button routerLink [queryParams]="{ repo: repo.name }"> Generate </a>
           <a mat-button href="https://github.com/{{ repo.name }}" target="_blank" rel="noopener">
             <img height="32" src="assets/images/github-64px.png" />
           </a>

@@ -19,13 +19,13 @@
     }
   },
   "projects": {
+    "api": {
+      "tags": ["app"]
+    },
     "core": {
       "tags": ["lib"]
     },
     "webapp": {
-      "tags": ["app"]
-    },
-    "api": {
       "tags": ["app"]
     }
   }
