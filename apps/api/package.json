@@ -13,7 +13,7 @@
     "compression": "1.7.4",
     "core-js": "3.16.3",
     "express": "4.17.1",
-    "jsdom": "16.7.0",
+    "jsdom": "17.0.0",
     "morgan": "1.10.0",
     "node-fetch": "2.6.1",
     "tsyringe": "4.5.0"
