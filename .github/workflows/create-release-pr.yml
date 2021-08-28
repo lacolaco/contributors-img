@@ -16,3 +16,4 @@ jobs:
           BRANCH_PREFIX: 'master'
           PULL_REQUEST_BRANCH: 'production'
           PULL_REQUEST_TITLE: 'release'
+          PULL_REQUEST_BODY: 'Preview: ![](https://stg.contrib.rocks/image?repo=angular/angular-ja)'
