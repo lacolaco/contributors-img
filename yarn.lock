@@ -3065,13 +3065,13 @@
     stream-events "^1.0.1"
     xdg-basedir "^4.0.0"
 
-"@google-cloud/trace-agent@5.1.3":
-  version "5.1.3"
-  resolved "https://registry.yarnpkg.com/@google-cloud/trace-agent/-/trace-agent-5.1.3.tgz#fac66664cb97d3f564fe4d2e01c334797589d9ba"
-  integrity sha512-f+5DX7n6QpDlHA+4kr81z69SLAdrlvd9T8skqCMgnYvtXx14AwzXZyzEDf3jppOYzYoqPPJv8XYiyYHHmYD0BA==
+"@google-cloud/trace-agent@5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@google-cloud/trace-agent/-/trace-agent-5.1.5.tgz#188a709da0433084f9cc39c3a3336b04d280b5bf"
+  integrity sha512-8Mrspg9nebd1VA4xC+XQTBBY3PV3SoUR70CHc3waN9lZskrCQO0Ha50VamhtUx8gUMgUK8ANed5EsF8rv+jY4Q==
   dependencies:
     "@google-cloud/common" "^3.0.0"
-    "@opencensus/propagation-stackdriver" "0.0.22"
+    "@opencensus/propagation-stackdriver" "0.1.0"
     builtin-modules "^3.0.0"
     console-log-level "^1.4.0"
     continuation-local-storage "^3.2.1"
@@ -3952,10 +3952,10 @@
   dependencies:
     "@octokit/openapi-types" "^10.0.0"
 
-"@opencensus/core@^0.0.22":
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/@opencensus/core/-/core-0.0.22.tgz#dad55faf24825e7ed5e9f3d7a7795aafe15eb021"
-  integrity sha512-ErazJtivjceNoOZI1bG9giQ6cWS45J4i6iPUtlp7dLNu58OLs/v+CD0FsaPCh47XgPxAI12vbBE8Ec09ViwHNA==
+"@opencensus/core@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@opencensus/core/-/core-0.1.0.tgz#dbb06007f9b924ab5d58411bb39d43fa1cb153e3"
+  integrity sha512-Bdbi5vi44a1fwyHNyKh6bwzuFZJeZJPhzdwogk/Kw5juoEeRGPworK1sgtB3loeR8cqLyi5us0mz9h0xqINiSQ==
   dependencies:
     continuation-local-storage "^3.2.1"
     log-driver "^1.2.7"
@@ -3963,12 +3963,12 @@
     shimmer "^1.2.0"
     uuid "^8.0.0"
 
-"@opencensus/propagation-stackdriver@0.0.22":
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/@opencensus/propagation-stackdriver/-/propagation-stackdriver-0.0.22.tgz#94f3098deac85b45f1cf827517937c465294c53e"
-  integrity sha512-eBvf/ihb1mN8Yz/ASkz8nHzuMKqygu77+VNnUeR0yEh3Nj+ykB8VVR6lK+NAFXo1Rd1cOsTmgvuXAZgDAGleQQ==
+"@opencensus/propagation-stackdriver@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@opencensus/propagation-stackdriver/-/propagation-stackdriver-0.1.0.tgz#83efd36922d9391eea9ee67b443fc520b399ff84"
+  integrity sha512-YLklu8jnnYKaJ8gUFz3rM0FVdsWXEJAMLzeeU4JRac6LI34raENy4kvRezZtNEFS5KthaJUsYg04sPc/Ag0w4w==
   dependencies:
-    "@opencensus/core" "^0.0.22"
+    "@opencensus/core" "^0.1.0"
     hex2dec "^1.0.1"
     uuid "^8.0.0"
 
