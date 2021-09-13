@@ -3,7 +3,7 @@ name: 'Deploy (staging)'
 on:
   push:
     branches:
-      - master
+      - main
 
 env:
   GCP_PROJECT_ID: contributors-img
