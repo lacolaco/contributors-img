@@ -1,5 +1,5 @@
 import { Container, Element, Svg } from '@svgdotjs/svg.js';
-import { createContributorAvatarImage, createSvgInstance } from './svg-builder';
+import { createContributorAvatarImage, createSvgInstance } from './utils';
 
 describe('createSvgInstance()', () => {
   it('should return SVG instance', () => {

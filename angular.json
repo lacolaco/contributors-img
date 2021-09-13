@@ -94,6 +94,27 @@
         }
       }
     },
+    "renderer": {
+      "root": "libs/renderer",
+      "sourceRoot": "libs/renderer/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/renderer/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/renderer"],
+          "options": {
+            "jestConfig": "libs/renderer/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "webapp": {
       "root": "apps/webapp",
       "sourceRoot": "apps/webapp/src",
