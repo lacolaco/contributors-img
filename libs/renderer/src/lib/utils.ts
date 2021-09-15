@@ -1,4 +1,3 @@
-import { Contributor } from '@lib/core';
 import * as SVG from '@svgdotjs/svg.js';
 import AbortController from 'abort-controller';
 import { JSDOM } from 'jsdom';
@@ -34,25 +33,4 @@ export function createSvgInstance() {
     SVG.registerWindow(DOM.window, DOM.window.document);
   }
   return SVG.SVG();
-}
-
-export async function createContributorAvatarImage(
-  container: SVG.Container,
-  { login, avatar_url, html_url }: Contributor,
-  size: number,
-  borderColor = '#c0c0c0',
-) {
-  const imageURL = new URL(avatar_url);
-  imageURL.searchParams.set('size', size.toString());
-  const imageURI = await createDataURIFromURL(imageURL.toString());
-
-  const image = container.image(imageURI).size(size, size);
-  const bg = container.pattern(size, size).add(image);
-  const link = container.link(html_url).target('_blank');
-  return container
-    .circle(size, size)
-    .stroke({ color: borderColor, width: 1 })
-    .fill(bg)
-    .add(container.element('title').words(login))
-    .addTo(link);
 }
