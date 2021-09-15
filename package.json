@@ -80,7 +80,7 @@
     "@nrwl/angular": "12.9.0",
     "@nrwl/eslint-plugin-nx": "12.9.0",
     "@nrwl/express": "12.9.0",
-    "@nrwl/jest": "12.8.0",
+    "@nrwl/jest": "12.9.0",
     "@nrwl/node": "12.9.0",
     "@nrwl/workspace": "12.9.0",
     "@types/compression": "1.7.2",
