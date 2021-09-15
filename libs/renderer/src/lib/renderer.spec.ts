@@ -1,74 +1,74 @@
-import { renderContributorsImage, createContributorAvatarImage } from './renderer';
 import { Contributor } from '@lib/core';
-import { Container, Element } from '@svgdotjs/svg.js';
-import { createSvgInstance } from './utils';
+import { createMockContributor } from '@lib/core/testing';
+import { Circle } from '@svgdotjs/svg.js';
+import { createContributorView, renderContributorsImage } from './renderer';
+import { setupSvgRenderer } from './utils';
 
-describe('renderContributorsImage', () => {
-  test('returned value is a SVG string', async () => {
-    const contributors: Contributor[] = [];
-
-    const image = await renderContributorsImage(contributors);
-
-    expect(typeof image).toBe('string');
-  });
-
-  test('all given contributors are rendered', async () => {
-    const contributors: Contributor[] = [
-      { id: 1, login: 'login1', avatar_url: 'https://via.placeholder.com', html_url: 'htmlUrl1', contributions: 1 },
-      { id: 2, login: 'login2', avatar_url: 'https://via.placeholder.com', html_url: 'htmlUrl2', contributions: 1 },
-    ];
-
-    const image = await renderContributorsImage(contributors);
-
-    expect(contributors.map((c) => c.login).every((login) => image.includes(login))).toBeTruthy();
-  });
-});
-
-describe('createContributorAvatarImage', () => {
-  let container: Container;
-
-  const createContributor = () => ({
-    login: 'lacolaco',
-    id: 1,
-    html_url: 'https://github.com/lacolaco',
-    avatar_url: 'https://github.com/lacolaco.png',
-    contributions: 1,
-  });
-
+describe('renderer', () => {
   beforeEach(() => {
-    container = createSvgInstance();
+    setupSvgRenderer();
   });
 
-  it('should return svg element', async () => {
-    const el = await createContributorAvatarImage(container, createContributor(), 64);
+  describe('renderContributorsImage', () => {
+    test('returned value is a SVG string', async () => {
+      const contributors: Contributor[] = [];
 
-    expect(el).toBeInstanceOf(Element);
+      const image = await renderContributorsImage(contributors);
+
+      expect(typeof image).toBe('string');
+    });
+
+    test('all given contributors are rendered', async () => {
+      const contributors: Contributor[] = [
+        { id: 1, login: 'login1', avatar_url: 'https://via.placeholder.com', html_url: 'htmlUrl1', contributions: 1 },
+        { id: 2, login: 'login2', avatar_url: 'https://via.placeholder.com', html_url: 'htmlUrl2', contributions: 1 },
+      ];
+
+      const image = await renderContributorsImage(contributors);
+
+      expect(contributors.map((c) => c.login).every((login) => image.includes(login))).toBeTruthy();
+    });
   });
 
-  it('should contain svg image', async () => {
-    const el = await createContributorAvatarImage(container, createContributor(), 64);
+  describe('createContributorView', () => {
+    test('the view size is 64px by default', async () => {
+      const svg = await createContributorView(createMockContributor(), { size: 64 });
+      expect(svg.width()).toBe(64);
+      expect(svg.height()).toBe(64);
+    });
 
-    expect(el.root().findOne('image')).toBeTruthy();
-  });
+    test('the view size is configurable with options', async () => {
+      const svg = await createContributorView(createMockContributor(), { size: 48 });
+      expect(svg.width()).toBe(48);
+      expect(svg.height()).toBe(48);
+    });
 
-  it('should contain svg title', async () => {
-    const contributor = createContributor();
-    const el = await createContributorAvatarImage(container, contributor, 64);
+    test('the view contains a title with contributor name', async () => {
+      const contributor = createMockContributor();
+      const svg = await createContributorView(contributor, { size: 64 });
+      const [title] = svg.children();
+      expect(title.svg()).toBe(`<title>${contributor.login}</title>`);
+    });
 
-    expect(el.findOne('title').svg()).toContain(contributor.login);
-  });
+    test('the view shape is a circle', async () => {
+      const svg = await createContributorView(createMockContributor(), { size: 64 });
+      const [_, shape] = svg.children();
+      expect(shape).toBeInstanceOf(Circle);
+    });
 
-  it('should contain svg link', async () => {
-    const contributor = createContributor();
-    const el = await createContributorAvatarImage(container, contributor, 64);
+    test('the shape is filled by image', async () => {
+      const contributor = createMockContributor();
+      const svg = await createContributorView(contributor, { size: 64 });
+      const [_, shape] = svg.children();
+      const fill = svg.findOne('pattern');
+      expect(shape.attr('fill')).toContain(fill.attr('id'));
+    });
 
-    expect(el.root().findOne('a').attr('href')).toBe(contributor.html_url);
-  });
+    test('the image source is contributor avatar', async () => {
+      const contributor = createMockContributor();
+      const svg = await createContributorView(contributor, { size: 64 });
 
-  it('should be sized', async () => {
-    const el = await createContributorAvatarImage(container, createContributor(), 64);
-
-    expect(el.width()).toBe(64);
-    expect(el.height()).toBe(64);
+      expect(svg.findOne('pattern > image').attr('href')).toBe(contributor.avatar_url);
+    });
   });
 });
