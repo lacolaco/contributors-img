@@ -25,6 +25,9 @@
     "core": {
       "tags": ["lib"]
     },
+    "renderer": {
+      "tags": ["lib"]
+    },
     "webapp": {
       "tags": ["app"]
     }

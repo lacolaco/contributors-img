@@ -59,11 +59,11 @@
     "morgan": "1.10.0",
     "node-fetch": "2.6.2",
     "normalize.css": "8.0.1",
+    "rxfire": "6.0.1",
     "rxjs": "6.6.7",
     "tslib": "2.3.1",
     "tsyringe": "4.5.0",
-    "zone.js": "0.11.4",
-    "rxfire": "6.0.1"
+    "zone.js": "0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/architect": "0.1200.5",
@@ -80,6 +80,7 @@
     "@nrwl/angular": "12.9.0",
     "@nrwl/eslint-plugin-nx": "12.9.0",
     "@nrwl/express": "12.9.0",
+    "@nrwl/jest": "12.8.0",
     "@nrwl/node": "12.9.0",
     "@nrwl/workspace": "12.9.0",
     "@types/compression": "1.7.2",
