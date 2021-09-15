@@ -9,7 +9,7 @@ declare module '@svgdotjs/svg.js' {
   export function registerWindow(windowImpl: any, documentImpl: any): void;
 }
 
-export async function createDataURIFromURL(imageUrl: string): Promise<string> {
+export async function createImageDataURI(imageUrl: string): Promise<string> {
   try {
     const controller = new AbortController();
     setTimeout(() => {
@@ -27,10 +27,11 @@ export async function createDataURIFromURL(imageUrl: string): Promise<string> {
   }
 }
 
+export function setupSvgRenderer(): void {
+  const dom = new JSDOM();
+  SVG.registerWindow(dom.window, dom.window.document);
+}
+
 export function createSvgInstance() {
-  if (SVG.getWindow() == null) {
-    const DOM = new JSDOM();
-    SVG.registerWindow(DOM.window, DOM.window.document);
-  }
   return SVG.SVG();
 }

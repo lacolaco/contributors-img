@@ -20,6 +20,7 @@
     "paths": {
       "@lib/renderer": ["libs/renderer/src/index.ts"],
       "@lib/core": ["./libs/core/src/index.ts"],
+      "@lib/core/testing": ["./libs/core/src/testing/index.ts"],
       "@lib/renderer-ui": ["libs/renderer-ui/src/index.ts"]
     },
     "rootDir": "."
