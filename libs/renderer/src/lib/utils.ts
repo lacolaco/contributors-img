@@ -1,9 +1,14 @@
 import { Contributor } from '@lib/core';
 import * as SVG from '@svgdotjs/svg.js';
-import { JSDOM } from 'jsdom';
-
-import fetch from 'node-fetch';
 import AbortController from 'abort-controller';
+import { JSDOM } from 'jsdom';
+import fetch from 'node-fetch';
+
+// Accept window from JSDOM
+declare module '@svgdotjs/svg.js' {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export function registerWindow(windowImpl: any, documentImpl: any): void;
+}
 
 export async function createDataURIFromURL(imageUrl: string): Promise<string> {
   try {
@@ -23,15 +28,11 @@ export async function createDataURIFromURL(imageUrl: string): Promise<string> {
   }
 }
 
-declare module '@svgdotjs/svg.js' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export function registerWindow(windowImpl: any, documentImpl: any): void;
-}
-
-const DOM = new JSDOM();
-SVG.registerWindow(DOM.window, DOM.window.document);
-
 export function createSvgInstance() {
+  if (SVG.getWindow() == null) {
+    const DOM = new JSDOM();
+    SVG.registerWindow(DOM.window, DOM.window.document);
+  }
   return SVG.SVG();
 }
 
