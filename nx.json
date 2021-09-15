@@ -1,7 +1,7 @@
 {
   "npmScope": "contributors-img",
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "main"
   },
   "implicitDependencies": {
     "angular.json": "*",
@@ -23,6 +23,9 @@
       "tags": ["app"]
     },
     "core": {
+      "tags": ["lib"]
+    },
+    "renderer": {
       "tags": ["lib"]
     },
     "webapp": {
