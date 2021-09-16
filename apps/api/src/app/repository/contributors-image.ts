@@ -4,10 +4,10 @@ import { injectable } from 'tsyringe';
 import { CacheStorage } from '../service/cache-storage';
 import { ContributorsImageSvgRenderer } from '../service/contributors-image-renderer';
 import { runWithTracing } from '../utils/tracing';
-import { ContributorsRepository } from './contributors';
+import { ContributorsRepository, GetContributorsParams } from './contributors';
 
-function createCacheKey(repository: Repository, ext: string) {
-  return `image-cache/${repository.owner}--${repository.repo}.${ext}`;
+function createCacheKey(repository: Repository, params: GetContributorsParams, ext: string) {
+  return `image-cache/${repository.owner}--${repository.repo}--${params.maxCount}.${ext}`;
 }
 
 @injectable()
@@ -18,8 +18,11 @@ export class ContributorsImageRepository {
     private readonly renderer: ContributorsImageSvgRenderer,
   ) {}
 
-  async getImageFileStream(repository: Repository): Promise<{ fileStream: Readable; contentType: string }> {
-    const cacheKey = createCacheKey(repository, 'svg');
+  async getImageFileStream(
+    repository: Repository,
+    params: GetContributorsParams,
+  ): Promise<{ fileStream: Readable; contentType: string }> {
+    const cacheKey = createCacheKey(repository, params, 'svg');
     const cached = await runWithTracing('restoreFromCache', async () => {
       return this.cacheStorage
         .restoreFileStream(cacheKey)
@@ -30,7 +33,7 @@ export class ContributorsImageRepository {
     }
 
     const contributors = await runWithTracing('getAllContributors', () =>
-      this.contributorsRepository.getAllContributors(repository),
+      this.contributorsRepository.getAll(repository, params),
     );
 
     const svgImage = await runWithTracing('renderImage', async () =>

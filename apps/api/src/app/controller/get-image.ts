@@ -10,15 +10,21 @@ export class GetImageController implements Controller {
   constructor(private readonly imageQuery: ContributorsImageQuery) {}
   async onRequest(req: Request, res: Response) {
     const repoName = req.query['repo'];
+    const maxCount = Number(req.query['max']) || null;
     if (!assertRepositoryName(repoName)) {
       res.status(400).send(`"${repoName}" is not a valid repository name`);
       return;
     }
+    if (typeof maxCount === 'number' && maxCount < 1) {
+      res.status(400).send('max must be a positive integer');
+      return;
+    }
+
     const preview = !!req.query['preview'];
     addTracingLabels({ 'app/repoName': repoName });
     try {
       const { fileStream, contentType } = await runWithTracing('getImage', () =>
-        this.imageQuery.getImage(repoName, { preview }),
+        this.imageQuery.getImage(repoName, { preview }, { maxCount: maxCount ?? 100 }),
       );
       res
         .header('Content-Type', contentType)

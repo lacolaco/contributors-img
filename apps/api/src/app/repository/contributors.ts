@@ -4,16 +4,20 @@ import { CacheStorage } from '../service/cache-storage';
 import { GitHubClient } from '../service/github-client';
 import { runWithTracing } from '../utils/tracing';
 
-function createCacheKey(repository: Repository) {
-  return `contributors-json-cache/${repository.owner}--${repository.repo}.json`;
+function createCacheKey(repository: Repository, params: GetContributorsParams) {
+  return `contributors-json-cache/${repository.owner}--${repository.repo}--${params.maxCount}.json`;
+}
+
+export interface GetContributorsParams {
+  maxCount: number;
 }
 
 @injectable()
 export class ContributorsRepository {
   constructor(private readonly githubClient: GitHubClient, private readonly cacheStorage: CacheStorage) {}
 
-  async getAllContributors(repository: Repository): Promise<Contributor[]> {
-    const cacheKey = createCacheKey(repository);
+  async getAll(repository: Repository, params: GetContributorsParams): Promise<Contributor[]> {
+    const cacheKey = createCacheKey(repository, params);
     const cached = await runWithTracing('restoreFromCache', () =>
       this.cacheStorage.restoreJSON<Contributor[]>(cacheKey),
     );
@@ -22,7 +26,7 @@ export class ContributorsRepository {
     }
 
     const contributors = await runWithTracing('fetchContributors', () =>
-      this.githubClient.getAllContributors(repository),
+      this.githubClient.getContributors(repository, { maxCount: params.maxCount }),
     );
 
     runWithTracing('saveCache', () => this.cacheStorage.saveJSON(cacheKey, contributors));
