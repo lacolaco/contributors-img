@@ -1,0 +1,37 @@
+import { Repository } from '@lib/core';
+import { container } from 'tsyringe';
+import { CacheStorage } from '../service/cache-storage';
+import { GitHubClient } from '../service/github-client';
+import { ContributorsRepository } from './contributors';
+
+describe('ContributorsRepository', () => {
+  let repository: ContributorsRepository;
+
+  beforeEach(() => {
+    container.clearInstances();
+    container.registerInstance(CacheStorage, new CacheStorage(null));
+    repository = container.resolve(ContributorsRepository);
+  });
+
+  describe('getAll', () => {
+    test('it gets contributors from github api', async () => {
+      const repo = new Repository('angular', 'angular');
+      const githubClient = container.resolve(GitHubClient);
+      jest.spyOn(githubClient, 'getContributors').mockResolvedValue([]);
+
+      await repository.getContributors(repo, { maxCount: 100 });
+
+      expect(githubClient.getContributors).toHaveBeenCalled();
+    });
+
+    test('max count is configurable', async () => {
+      const repo = new Repository('angular', 'angular');
+      const githubClient = container.resolve(GitHubClient);
+      jest.spyOn(githubClient, 'getContributors').mockResolvedValue([]);
+
+      await repository.getContributors(repo, { maxCount: 200 });
+
+      expect(githubClient.getContributors).toHaveBeenCalledWith(repo, { maxCount: 200 });
+    });
+  });
+});
