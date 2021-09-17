@@ -1,13 +1,13 @@
 import { assertRepositoryName } from '@lib/core';
 import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
-import { ContributorsQuery } from '../query/contributors';
+import { GetContributorsUsecase } from '../usecase/contributors';
+import { addTracingLabels } from '../utils/tracing';
 import { Controller } from '../utils/types';
-import { addTracingLabels, runWithTracing } from '../utils/tracing';
 
 @injectable()
 export class GetContributorsController implements Controller {
-  constructor(private readonly contributorsQuery: ContributorsQuery) {}
+  constructor(private readonly getContributorsUsecase: GetContributorsUsecase) {}
 
   async onRequest(req: Request, res: Response) {
     const repoName = req.query['repo'];
@@ -23,9 +23,7 @@ export class GetContributorsController implements Controller {
 
     addTracingLabels({ 'app/repoName': repoName });
     try {
-      const contributors = await runWithTracing('getContributors', () =>
-        this.contributorsQuery.getContributors(repoName, { maxCount: maxCount ?? 100 }),
-      );
+      const contributors = await this.getContributorsUsecase.execute(repoName, { maxCount: maxCount ?? 100 });
       res.header('cache-control', `public, max-age=${60 * 60}`).json(contributors);
     } catch (err) {
       console.error(err);

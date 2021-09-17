@@ -1,7 +1,7 @@
 import { assertRepositoryName } from '@lib/core';
 import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
-import { ContributorsImageQuery } from '../query/contributors-image';
+import { ContributorsImageQuery } from '../usecase/contributors-image';
 import { addTracingLabels, runWithTracing } from '../utils/tracing';
 import { Controller } from '../utils/types';
 
@@ -23,8 +23,10 @@ export class GetImageController implements Controller {
     const preview = !!req.query['preview'];
     addTracingLabels({ 'app/repoName': repoName });
     try {
-      const { fileStream, contentType } = await runWithTracing('getImage', () =>
-        this.imageQuery.getImage(repoName, { preview }, { maxCount: maxCount ?? 100 }),
+      const { fileStream, contentType } = await this.imageQuery.getImage(
+        repoName,
+        { preview },
+        { maxCount: maxCount ?? 100 },
       );
       res
         .header('Content-Type', contentType)

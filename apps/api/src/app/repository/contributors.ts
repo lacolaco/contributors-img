@@ -17,19 +17,16 @@ export class ContributorsRepository {
   constructor(private readonly githubClient: GitHubClient, private readonly cacheStorage: CacheStorage) {}
 
   async getAll(repository: Repository, params: GetContributorsParams): Promise<Contributor[]> {
-    const cacheKey = createCacheKey(repository, params);
-    const cached = await runWithTracing('restoreFromCache', () =>
-      this.cacheStorage.restoreJSON<Contributor[]>(cacheKey),
-    );
-    if (cached) {
-      return cached;
-    }
+    return runWithTracing('ContributorsRepository.getAllContributors', async () => {
+      const cacheKey = createCacheKey(repository, params);
+      const cached = await this.cacheStorage.restoreJSON<Contributor[]>(cacheKey);
+      if (cached) {
+        return cached;
+      }
 
-    const contributors = await runWithTracing('fetchContributors', () =>
-      this.githubClient.getContributors(repository, { maxCount: params.maxCount }),
-    );
-
-    runWithTracing('saveCache', () => this.cacheStorage.saveJSON(cacheKey, contributors));
-    return contributors;
+      const contributors = await this.githubClient.getContributors(repository, { maxCount: params.maxCount });
+      this.cacheStorage.saveJSON(cacheKey, contributors);
+      return contributors;
+    });
   }
 }

@@ -22,31 +22,24 @@ export class ContributorsImageRepository {
     repository: Repository,
     params: GetContributorsParams,
   ): Promise<{ fileStream: Readable; contentType: string }> {
-    const cacheKey = createCacheKey(repository, params, 'svg');
-    const cached = await runWithTracing('restoreFromCache', async () => {
-      return this.cacheStorage
+    return runWithTracing('getImageFileStream', async () => {
+      const cacheKey = createCacheKey(repository, params, 'svg');
+      const cached = await this.cacheStorage
         .restoreFileStream(cacheKey)
         .then((fileStream) => (fileStream ? { fileStream, contentType: 'image/svg+xml' } : null));
+      if (cached) {
+        return cached;
+      }
+
+      const contributors = await this.contributorsRepository.getAll(repository, params);
+      const svgImage = await this.renderer.renderSimpleAvatarTable(contributors);
+
+      this.cacheStorage.saveFile(cacheKey, svgImage, 'image/svg+xml');
+
+      return {
+        fileStream: Readable.from(svgImage),
+        contentType: 'image/svg+xml',
+      };
     });
-    if (cached) {
-      return cached;
-    }
-
-    const contributors = await runWithTracing('getAllContributors', () =>
-      this.contributorsRepository.getAll(repository, params),
-    );
-
-    const svgImage = await runWithTracing('renderImage', async () =>
-      this.renderer.renderSimpleAvatarTable(contributors),
-    );
-
-    runWithTracing('saveCache', async () => {
-      await Promise.all([this.cacheStorage.saveFile(cacheKey, svgImage, 'image/svg+xml')]);
-    });
-
-    return {
-      fileStream: Readable.from(svgImage),
-      contentType: 'image/svg+xml',
-    };
   }
 }

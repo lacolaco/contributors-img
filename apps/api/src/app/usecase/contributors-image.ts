@@ -18,16 +18,16 @@ export class ContributorsImageQuery {
     { preview = false }: { preview: boolean },
     params: GetContributorsParams,
   ): Promise<{ fileStream: Readable; contentType: string }> {
-    const repository = Repository.fromString(repoName);
+    return runWithTracing('ContributorsImageQuery.getImage', async () => {
+      const repository = Repository.fromString(repoName);
 
-    const { fileStream, contentType } = await runWithTracing('getImageFileStream', () =>
-      this.contributorsImageRepository.getImageFileStream(repository, params),
-    );
+      const { fileStream, contentType } = await this.contributorsImageRepository.getImageFileStream(repository, params);
 
-    if (!preview) {
-      runWithTracing('saveRepositoryUsage', () => this.usageRepository.saveRepositoryUsage(repository, new Date()));
-    }
+      if (!preview) {
+        this.usageRepository.saveRepositoryUsage(repository, new Date());
+      }
 
-    return { fileStream, contentType };
+      return { fileStream, contentType };
+    });
   }
 }
