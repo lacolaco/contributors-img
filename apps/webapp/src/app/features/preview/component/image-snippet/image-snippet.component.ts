@@ -17,7 +17,6 @@ export class ImageSnippetComponent {
   <img src="${location.origin}/image?repo=${repoString}" />
 </a>
 
-Made with [contributors-img](${location.origin}).
-`.trim();
+Made with [contributors-img](${location.origin}).`.trim();
   }
 }
