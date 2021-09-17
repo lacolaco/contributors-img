@@ -1,17 +1,18 @@
 import { Contributor, Repository } from '@lib/core';
 import { injectable } from 'tsyringe';
-import { ContributorsRepository, GetContributorsParams } from '../repository/contributors';
+import { ContributorsRepository } from '../repository/contributors';
 import { runWithTracing } from '../utils/tracing';
+import { defaultContributorsMaxCount } from './constants';
 
 @injectable()
 export class GetContributorsUsecase {
   constructor(private readonly contributorsRepository: ContributorsRepository) {}
 
-  async execute(repoName: string, params: GetContributorsParams): Promise<Contributor[]> {
+  async execute(repository: Repository, maxCount: number | null): Promise<Contributor[]> {
     return runWithTracing('GetContributorsUsecase.getContributors', async () => {
-      const repository = Repository.fromString(repoName);
+      maxCount = maxCount ?? defaultContributorsMaxCount;
 
-      return this.contributorsRepository.getAll(repository, params);
+      return this.contributorsRepository.getContributors(repository, { maxCount });
     });
   }
 }

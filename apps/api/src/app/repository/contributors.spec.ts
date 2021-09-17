@@ -19,7 +19,7 @@ describe('ContributorsRepository', () => {
       const githubClient = container.resolve(GitHubClient);
       jest.spyOn(githubClient, 'getContributors').mockResolvedValue([]);
 
-      await repository.getAll(repo, { maxCount: 100 });
+      await repository.getContributors(repo, { maxCount: 100 });
 
       expect(githubClient.getContributors).toHaveBeenCalled();
     });
@@ -29,7 +29,7 @@ describe('ContributorsRepository', () => {
       const githubClient = container.resolve(GitHubClient);
       jest.spyOn(githubClient, 'getContributors').mockResolvedValue([]);
 
-      await repository.getAll(repo, { maxCount: 200 });
+      await repository.getContributors(repo, { maxCount: 200 });
 
       expect(githubClient.getContributors).toHaveBeenCalledWith(repo, { maxCount: 200 });
     });

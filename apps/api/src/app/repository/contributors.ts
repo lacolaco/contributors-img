@@ -16,8 +16,8 @@ export interface GetContributorsParams {
 export class ContributorsRepository {
   constructor(private readonly githubClient: GitHubClient, private readonly cacheStorage: CacheStorage) {}
 
-  async getAll(repository: Repository, params: GetContributorsParams): Promise<Contributor[]> {
-    return runWithTracing('ContributorsRepository.getAllContributors', async () => {
+  async getContributors(repository: Repository, params: GetContributorsParams): Promise<Contributor[]> {
+    return runWithTracing('ContributorsRepository.getContributors', async () => {
       const cacheKey = createCacheKey(repository, params);
       const cached = await this.cacheStorage.restoreJSON<Contributor[]>(cacheKey);
       if (cached) {
@@ -25,7 +25,7 @@ export class ContributorsRepository {
       }
 
       const contributors = await this.githubClient.getContributors(repository, { maxCount: params.maxCount });
-      this.cacheStorage.saveJSON(cacheKey, contributors);
+      await this.cacheStorage.saveJSON(cacheKey, contributors);
       return contributors;
     });
   }
