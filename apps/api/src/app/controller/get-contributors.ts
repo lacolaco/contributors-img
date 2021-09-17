@@ -16,13 +16,14 @@ export class GetContributorsController implements Controller {
 
   async onRequest(req: Request, res: Response) {
     const { repo, max } = req.query as Params;
-    const maxOrNull = max ? Number(max) : null;
+
+    const maxOrNull = max ? Number.parseInt(max, 10) : null;
     // request validation
     if (!assertRepositoryName(repo)) {
       res.status(400).send(`"${repo}" is not a valid repository name`);
       return;
     }
-    if (max != null && Number(max) > 0) {
+    if (maxOrNull != null && (!Number.isInteger(maxOrNull) || Number(max) < 1)) {
       res.status(400).send(`max ${max} is not a positive integer`);
       return;
     }

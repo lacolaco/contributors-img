@@ -33,11 +33,14 @@ export class PreviewComponent implements OnInit, OnDestroy {
     this.route.queryParamMap
       .pipe(
         takeUntil(this.onDestroy$),
-        map((q) => Repository.fromString(q.get('repo') ?? 'angular/angular-ja')),
-        switchMap((repository) => {
+        map((q) => ({
+          repository: Repository.fromString(q.get('repo') ?? 'angular/angular-ja'),
+          max: Number(q.get('max')) || null,
+        })),
+        switchMap(({ repository, max }) => {
           this.store.startFetchingImage(repository);
           this.store.closeImageSnippet();
-          return this.api.getByRepository(repository).pipe(finalize(() => this.store.finishFetchingImage()));
+          return this.api.getByRepository(repository, { max }).pipe(finalize(() => this.store.finishFetchingImage()));
         }),
       )
       .subscribe((imageSvg) => {
