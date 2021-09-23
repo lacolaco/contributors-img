@@ -57,7 +57,7 @@
     "firebase": "9.0.2",
     "jsdom": "17.0.0",
     "morgan": "1.10.0",
-    "node-fetch": "2.6.2",
+    "node-fetch": "2.6.5",
     "normalize.css": "8.0.1",
     "rxfire": "6.0.1",
     "rxjs": "6.6.7",
