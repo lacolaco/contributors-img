@@ -103,7 +103,7 @@
     "faker": "5.5.3",
     "firebase-tools": "9.18.0",
     "jest": "27.2.3",
-    "jest-preset-angular": "9.0.7",
+    "jest-preset-angular": "10.0.1",
     "prettier": "2.4.1",
     "ts-jest": "27.0.5",
     "ts-node": "10.2.1",
