@@ -3549,10 +3549,10 @@
   resolved "https://registry.yarnpkg.com/@lacolaco/reactive-store/-/reactive-store-4.0.0.tgz#20019116cf480be16a47cadde88d04aaaffa1e50"
   integrity sha512-btXCHbCQTkSrhDn4lwKUyDz/BuAc2mN1ZIT1svCsAzcjSJ61cu8MmB5Ttk9u7o97/hH6vUPhCLNjqjpT5ys5ag==
 
-"@ngneat/spectator@8.0.4":
-  version "8.0.4"
-  resolved "https://registry.yarnpkg.com/@ngneat/spectator/-/spectator-8.0.4.tgz#4201a3b3b7077157cff649aa077f0ddc202bf79f"
-  integrity sha512-9h/ldUAV1soJewXciR5Xt/Z69igOaJcCPRMGQyal9n6D4encqSzqXRxXnQzO+pOB0hqbrPMOUSvADVM/Ry7bKg==
+"@ngneat/spectator@8.1.0":
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/@ngneat/spectator/-/spectator-8.1.0.tgz#07e6696149ede21065dfa9f5f7df59e6bca77655"
+  integrity sha512-SrQviMZjXDxU3O3QVAYC5co+XcR9Y3VEj4irzuKqa4hCtW1c7ffMLxk5XDyPLOiI0h70I7sG4IivaIrbHdIubg==
   dependencies:
     "@testing-library/dom" "7.26.5"
     jquery "3.6.0"
