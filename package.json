@@ -52,7 +52,7 @@
     "@svgdotjs/svg.js": "3.1.1",
     "abort-controller": "3.0.0",
     "compression": "1.7.4",
-    "core-js": "3.17.3",
+    "core-js": "3.18.1",
     "express": "4.17.1",
     "firebase": "9.0.2",
     "jsdom": "17.0.0",
