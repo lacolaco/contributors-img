@@ -57,12 +57,12 @@
     "firebase": "9.1.0",
     "jsdom": "17.0.0",
     "morgan": "1.10.0",
-    "node-fetch": "2.6.5",
     "normalize.css": "8.0.1",
     "rxfire": "6.0.2",
     "rxjs": "6.6.7",
     "tslib": "2.3.1",
     "tsyringe": "4.5.0",
+    "undici": "^4.7.0",
     "zone.js": "0.11.4"
   },
   "devDependencies": {
@@ -91,7 +91,6 @@
     "@types/jsdom": "16.2.13",
     "@types/morgan": "1.9.3",
     "@types/node": "14.17.19",
-    "@types/node-fetch": "2.5.12",
     "@typescript-eslint/eslint-plugin": "4.32.0",
     "@typescript-eslint/parser": "4.32.0",
     "dotenv": "10.0.0",

@@ -1,7 +1,7 @@
 import * as SVG from '@svgdotjs/svg.js';
 import AbortController from 'abort-controller';
 import { JSDOM } from 'jsdom';
-import fetch from 'node-fetch';
+import { request } from 'undici';
 
 // Accept window from JSDOM
 declare module '@svgdotjs/svg.js' {
@@ -15,12 +15,11 @@ export async function createImageDataURI(imageUrl: string): Promise<string> {
     setTimeout(() => {
       controller.abort();
     }, 30 * 1000);
-    const resp = await fetch(imageUrl, {
-      signal: controller.signal,
-    });
-    const contentType = resp.headers.get('content-type');
-    const data = (await resp.buffer()).toString('base64');
-    return `data:${contentType};base64,${data}`;
+
+    const { headers, body } = await request(imageUrl);
+    const contentType = headers['content-type'];
+    const buf = await body.arrayBuffer().then(Buffer.from);
+    return `data:${contentType};base64,${buf.toString('base64')}`;
   } catch (error) {
     console.error(error);
     return '';
