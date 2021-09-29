@@ -2,11 +2,14 @@ import { Contributor } from '@lib/core';
 import * as SVG from '@svgdotjs/svg.js';
 import { from } from 'rxjs';
 import { mergeMap, tap } from 'rxjs/operators';
-import { createImageDataURI, setupSvgRenderer } from './utils';
+import { setupSvgRenderer } from './utils';
 
 setupSvgRenderer();
 
-export async function renderContributorsImage(contributors: Contributor[]): Promise<string> {
+export async function renderContributorsImage(
+  contributors: Contributor[],
+  imageUriTransformer: (imageUrl: string) => Promise<string>,
+): Promise<string> {
   const itemSize = 64;
   const gap = 4;
   const columns = Math.min(12, contributors.length);
@@ -14,7 +17,7 @@ export async function renderContributorsImage(contributors: Contributor[]): Prom
 
   const container = await createContainer({ itemSize, gap, columns, rows });
   await renderContributors(container, contributors, { size: itemSize, columns, gap });
-  await inlineForeignImages(container);
+  await inlineForeignImages(container, imageUriTransformer);
 
   return container.svg();
 }
@@ -54,7 +57,10 @@ export async function renderContributors<T extends SVG.Element>(
     .toPromise();
 }
 
-export async function inlineForeignImages(element: SVG.Element): Promise<void> {
+export async function inlineForeignImages(
+  element: SVG.Element,
+  imageUriFactory: (imageUrl: string) => Promise<string>,
+): Promise<void> {
   return await from(element.find('image'))
     .pipe(
       mergeMap(async (image) => {
@@ -64,7 +70,7 @@ export async function inlineForeignImages(element: SVG.Element): Promise<void> {
         }
         const imageURL = new URL(href);
         imageURL.searchParams.set('size', image.width().toString());
-        const uri = await createImageDataURI(imageURL.toString());
+        const uri = await imageUriFactory(imageURL.toString());
         image.attr('href', uri);
       }),
     )
