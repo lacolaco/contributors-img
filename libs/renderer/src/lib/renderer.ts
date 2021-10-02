@@ -1,7 +1,6 @@
 import { Contributor } from '@lib/core';
 import * as SVG from '@svgdotjs/svg.js';
-import { from } from 'rxjs';
-import { mergeMap, tap } from 'rxjs/operators';
+import { from, mergeMap, tap } from 'rxjs';
 import { setupSvgRenderer } from './utils';
 
 setupSvgRenderer();

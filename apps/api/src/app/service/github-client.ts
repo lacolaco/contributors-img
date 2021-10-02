@@ -1,7 +1,6 @@
 import { Contributor, Repository } from '@lib/core';
 import { Octokit } from '@octokit/rest';
-import { concat, of, range } from 'rxjs';
-import { concatMap, filter, mapTo, toArray } from 'rxjs/operators';
+import { concat, concatMap, filter, firstValueFrom, mapTo, of, range, toArray } from 'rxjs';
 import { singleton } from 'tsyringe';
 import { runWithTracing } from '../utils/tracing';
 
@@ -13,8 +12,8 @@ export class GitHubClient {
     return runWithTracing('GitHubClient.getContributors', async () => {
       const pages = Math.floor(maxCount / 100);
       const lastPageSize = maxCount % 100;
-      const contributors = await concat(range(0, pages).pipe(mapTo(100)), of(lastPageSize))
-        .pipe(
+      const contributors = await firstValueFrom(
+        concat(range(0, pages).pipe(mapTo(100)), of(lastPageSize)).pipe(
           filter((pageSize) => pageSize > 0),
           concatMap((pageSize, i) =>
             this.octokit.repos.listContributors({
@@ -26,8 +25,8 @@ export class GitHubClient {
           ),
           concatMap(({ data }) => of(...(data as Contributor[]))),
           toArray(),
-        )
-        .toPromise();
+        ),
+      );
 
       return contributors;
     });
