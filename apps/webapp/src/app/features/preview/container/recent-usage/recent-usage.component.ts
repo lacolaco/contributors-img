@@ -1,7 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Subject } from 'rxjs';
-import { takeUntil, throttleTime } from 'rxjs/operators';
+import { Subject, takeUntil, throttleTime } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 
 @Component({
