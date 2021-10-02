@@ -10,10 +10,11 @@ describe('renderer', () => {
   });
 
   describe('renderContributorsImage', () => {
+    const noopImageUriTransformer = async (uri: string) => uri;
     test('returned value is a SVG string', async () => {
       const contributors: Contributor[] = [];
 
-      const image = await renderContributorsImage(contributors);
+      const image = await renderContributorsImage(contributors, noopImageUriTransformer);
 
       expect(typeof image).toBe('string');
     });
@@ -24,7 +25,7 @@ describe('renderer', () => {
         { id: 2, login: 'login2', avatar_url: 'https://via.placeholder.com', html_url: 'htmlUrl2', contributions: 1 },
       ];
 
-      const image = await renderContributorsImage(contributors);
+      const image = await renderContributorsImage(contributors, noopImageUriTransformer);
 
       expect(contributors.map((c) => c.login).every((login) => image.includes(login))).toBeTruthy();
     });
