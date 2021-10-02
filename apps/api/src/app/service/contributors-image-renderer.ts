@@ -1,22 +1,17 @@
 import { Contributor } from '@lib/core';
-import { renderContributorsImage } from '@lib/renderer';
-import AbortController from 'abort-controller';
+import { createRenderer } from '@lib/renderer';
+import { from } from 'rxjs';
+import { concatMap, toArray } from 'rxjs/operators';
 import { injectable } from 'tsyringe';
 import { request } from 'undici';
 import { ContentType } from '../utils/content-type';
 import { runWithTracing } from '../utils/tracing';
 
-const imageUriTransformer = async (imageUrl: string): Promise<string> => {
+const convertImageToDataURL = async (imageURL: string, imageSize: number): Promise<string> => {
+  const url = new URL(imageURL);
+  url.searchParams.set('size', imageSize.toString());
   try {
-    const controller = new AbortController();
-    setTimeout(() => {
-      controller.abort();
-    }, 30 * 1000);
-
-    const { headers, body } = await request(imageUrl, {
-      method: 'GET',
-      signal: controller.signal,
-    });
+    const { headers, body } = await request(url, { method: 'GET' });
     const contentType = headers['content-type'];
     const buf = await body.arrayBuffer().then(Buffer.from);
     return `data:${contentType};base64,${buf.toString('base64')}`;
@@ -30,7 +25,19 @@ const imageUriTransformer = async (imageUrl: string): Promise<string> => {
 export class ContributorsImageRenderer {
   async render(contributors: Contributor[]): Promise<{ data: string; contentType: ContentType }> {
     return runWithTracing('ContributorsImageRenderer.render', async () => {
-      const svg = await renderContributorsImage(contributors, imageUriTransformer);
+      const renderer = createRenderer();
+
+      const svg = await from(contributors)
+        .pipe(
+          concatMap(async (contributor) => ({
+            ...contributor,
+            avatar_url: await convertImageToDataURL(contributor.avatar_url, renderer.layout.itemSize),
+          })),
+          toArray(),
+          concatMap((contributors) => renderer.render(contributors)),
+        )
+        .toPromise();
+
       return {
         data: svg,
         contentType: ContentType.svg,
