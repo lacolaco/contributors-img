@@ -10,13 +10,17 @@ export class UsageRepository {
 
   async saveRepositoryUsage(repository: Repository, timestamp: Date) {
     return runWithTracing('saveRepositoryUsage', async () => {
-      this.firestore
-        .collection(`${environment.firestoreRootCollectionName}/usage/repositories`)
-        .doc(`${repository.owner}--${repository.repo}`)
-        .set({
-          name: repository.toString(),
-          timestamp,
-        });
+      try {
+        await this.firestore
+          .collection(`${environment.firestoreRootCollectionName}/usage/repositories`)
+          .doc(`${repository.owner}--${repository.repo}`)
+          .set({
+            name: repository.toString(),
+            timestamp,
+          });
+      } catch (error) {
+        console.error(error);
+      }
     });
   }
 }

@@ -6,23 +6,35 @@ import { setupSvgRenderer } from './utils';
 
 setupSvgRenderer();
 
-export async function renderContributorsImage(
-  contributors: Contributor[],
-  imageUriTransformer: (imageUrl: string) => Promise<string>,
-): Promise<string> {
+export type LayoutOptions = { itemSize: number; gap: number; maxColumns: number };
+export interface ContributorsImageRenderer {
+  readonly render: (contributors: Contributor[]) => Promise<string>;
+  readonly layout: LayoutOptions;
+}
+
+export function createRenderer(): ContributorsImageRenderer {
   const itemSize = 64;
   const gap = 4;
-  const columns = Math.min(12, contributors.length);
+  const maxColumns = 12;
+
+  return {
+    layout: { itemSize, gap, maxColumns },
+    render: (contributors: Contributor[]) => renderContributorsImage(contributors, { itemSize, gap, maxColumns }),
+  };
+}
+
+async function renderContributorsImage(contributors: Contributor[], layoutOptions: LayoutOptions): Promise<string> {
+  const { itemSize, gap, maxColumns } = layoutOptions;
+  const columns = Math.min(maxColumns, contributors.length);
   const rows = Math.ceil(contributors.length / columns);
 
   const container = await createContainer({ itemSize, gap, columns, rows });
   await renderContributors(container, contributors, { size: itemSize, columns, gap });
-  await inlineForeignImages(container, imageUriTransformer);
 
   return container.svg();
 }
 
-export async function createContainer(params: {
+async function createContainer(params: {
   itemSize: number;
   columns: number;
   rows: number;
@@ -37,7 +49,7 @@ export async function createContainer(params: {
   return container;
 }
 
-export async function renderContributors<T extends SVG.Element>(
+async function renderContributors<T extends SVG.Element>(
   container: T,
   contributors: Contributor[],
   params: { size: number; columns: number; gap: number },
@@ -52,26 +64,6 @@ export async function renderContributors<T extends SVG.Element>(
         const x = (i % columns) * (size + gap);
         const y = Math.floor(i / columns) * (size + gap);
         image.addTo(container).move(x, y);
-      }),
-    )
-    .toPromise();
-}
-
-export async function inlineForeignImages(
-  element: SVG.Element,
-  imageUriFactory: (imageUrl: string) => Promise<string>,
-): Promise<void> {
-  return await from(element.find('image'))
-    .pipe(
-      mergeMap(async (image) => {
-        const href = image.attr('href') as string;
-        if (href.startsWith('data:')) {
-          return;
-        }
-        const imageURL = new URL(href);
-        imageURL.searchParams.set('size', image.width().toString());
-        const uri = await imageUriFactory(imageURL.toString());
-        image.attr('href', uri);
       }),
     )
     .toPromise();

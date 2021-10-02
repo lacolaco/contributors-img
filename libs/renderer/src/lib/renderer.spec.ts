@@ -1,20 +1,22 @@
 import { Contributor } from '@lib/core';
 import { createMockContributor } from '@lib/core/testing';
 import { Circle } from '@svgdotjs/svg.js';
-import { createContributorView, renderContributorsImage } from './renderer';
+import { ContributorsImageRenderer, createContributorView, createRenderer } from './renderer';
 import { setupSvgRenderer } from './utils';
 
 describe('renderer', () => {
+  let renderer: ContributorsImageRenderer;
   beforeEach(() => {
     setupSvgRenderer();
+
+    renderer = createRenderer();
   });
 
-  describe('renderContributorsImage', () => {
-    const noopImageUriTransformer = async (uri: string) => uri;
+  describe('render()', () => {
     test('returned value is a SVG string', async () => {
       const contributors: Contributor[] = [];
 
-      const image = await renderContributorsImage(contributors, noopImageUriTransformer);
+      const image = await renderer.render(contributors);
 
       expect(typeof image).toBe('string');
     });
@@ -25,7 +27,7 @@ describe('renderer', () => {
         { id: 2, login: 'login2', avatar_url: 'https://via.placeholder.com', html_url: 'htmlUrl2', contributions: 1 },
       ];
 
-      const image = await renderContributorsImage(contributors, noopImageUriTransformer);
+      const image = await renderer.render(contributors);
 
       expect(contributors.map((c) => c.login).every((login) => image.includes(login))).toBeTruthy();
     });
