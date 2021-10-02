@@ -1,7 +1,6 @@
 import { Contributor } from '@lib/core';
 import { createRenderer } from '@lib/renderer';
-import { from } from 'rxjs';
-import { concatMap, toArray } from 'rxjs/operators';
+import { concatMap, firstValueFrom, from, toArray } from 'rxjs';
 import { injectable } from 'tsyringe';
 import { request } from 'undici';
 import { ContentType } from '../utils/content-type';
@@ -27,16 +26,16 @@ export class ContributorsImageRenderer {
     return runWithTracing('ContributorsImageRenderer.render', async () => {
       const renderer = createRenderer();
 
-      const svg = await from(contributors)
-        .pipe(
+      const svg = await firstValueFrom(
+        from(contributors).pipe(
           concatMap(async (contributor) => ({
             ...contributor,
             avatar_url: await convertImageToDataURL(contributor.avatar_url, renderer.layout.itemSize),
           })),
           toArray(),
           concatMap((contributors) => renderer.render(contributors)),
-        )
-        .toPromise();
+        ),
+      );
 
       return {
         data: svg,
