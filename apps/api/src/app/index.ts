@@ -2,7 +2,6 @@ import * as compression from 'compression';
 import * as express from 'express';
 import * as morgan from 'morgan';
 import routes from './routes';
-import './infrastructure/providers';
 
 export function startServer(config: { port: string | number }) {
   const app = express();

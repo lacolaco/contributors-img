@@ -3,8 +3,8 @@ import { Readable } from 'stream';
 import { injectable } from 'tsyringe';
 import { ContributorsRepository } from '../repository/contributors';
 import { ContributorsImageRepository } from '../repository/contributors-image';
-import { UsageRepository } from '../repository/usage';
 import { ContributorsImageRenderer } from '../service/contributors-image-renderer';
+import { UsageCollector as UsageCollector } from '../service/usage-collector';
 import { runWithTracing } from '../utils/tracing';
 import { FileStream } from '../utils/types';
 import { defaultContributorsMaxCount } from './constants';
@@ -14,20 +14,21 @@ export class GetContributorsImageUsecase {
   constructor(
     private readonly contributorsImageRepository: ContributorsImageRepository,
     private readonly contributorsRepository: ContributorsRepository,
-    private readonly usageRepository: UsageRepository,
+    private readonly usageCollector: UsageCollector,
     private readonly renderer: ContributorsImageRenderer,
   ) {}
 
-  async execute(
-    repository: Repository,
-    {
-      preview = false,
-      maxCount,
-    }: {
-      preview: boolean;
-      maxCount: number | null;
-    },
-  ): Promise<FileStream> {
+  async execute({
+    repository,
+    isGitHubRequest,
+    preview = false,
+    maxCount = null,
+  }: {
+    repository: Repository;
+    preview: boolean;
+    isGitHubRequest: boolean;
+    maxCount: number | null;
+  }): Promise<FileStream> {
     return runWithTracing('GetContributorsImageUsecase.getImage', async () => {
       maxCount = maxCount ?? defaultContributorsMaxCount;
 
@@ -44,8 +45,11 @@ export class GetContributorsImageUsecase {
       // save image to cache
       await image.save(data, contentType);
 
+      if (isGitHubRequest) {
+        this.usageCollector.collectUsage(repository);
+      }
       if (!preview) {
-        this.usageRepository.saveRepositoryUsage(repository, new Date());
+        this.usageCollector.saveRepositoryUsage(repository, new Date());
       }
 
       return {

@@ -2,6 +2,7 @@ import { assertRepositoryName, Repository } from '@lib/core';
 import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
 import { GetContributorsImageUsecase } from '../usecase/contributors-image';
+import { isGitHubRequest } from '../utils/request';
 import { addTracingLabels } from '../utils/tracing';
 import { Controller } from '../utils/types';
 
@@ -18,7 +19,6 @@ export class GetImageController implements Controller {
     const { repo, max, preview } = req.query as Params;
 
     const maxOrNull = max ? Number.parseInt(max, 10) : null;
-    console.debug(maxOrNull);
     // request validation
     if (!assertRepositoryName(repo)) {
       res.status(400).send(`"${repo}" is not a valid repository name`);
@@ -31,7 +31,9 @@ export class GetImageController implements Controller {
 
     addTracingLabels({ 'app/repoName': repo });
     try {
-      const fileStream = await this.usecase.execute(Repository.fromString(repo), {
+      const fileStream = await this.usecase.execute({
+        repository: Repository.fromString(repo),
+        isGitHubRequest: isGitHubRequest(req),
         preview: !!preview,
         maxCount: maxOrNull,
       });

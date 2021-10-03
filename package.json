@@ -45,6 +45,7 @@
     "@angular/platform-browser-dynamic": "12.2.4",
     "@angular/router": "12.2.4",
     "@google-cloud/firestore": "4.15.1",
+    "@google-cloud/logging": "9.6.1",
     "@google-cloud/storage": "5.14.4",
     "@google-cloud/trace-agent": "5.1.5",
     "@lacolaco/reactive-store": "4.0.0",
@@ -109,4 +110,3 @@
     "typescript": "4.2.4"
   }
 }
-
