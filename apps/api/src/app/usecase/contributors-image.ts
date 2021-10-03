@@ -4,7 +4,7 @@ import { injectable } from 'tsyringe';
 import { ContributorsRepository } from '../repository/contributors';
 import { ContributorsImageRepository } from '../repository/contributors-image';
 import { ContributorsImageRenderer } from '../service/contributors-image-renderer';
-import { UsageCollector as UsageCollector } from '../service/usage-collector';
+import { UsageCollector } from '../service/usage-collector';
 import { runWithTracing } from '../utils/tracing';
 import { FileStream } from '../utils/types';
 import { defaultContributorsMaxCount } from './constants';
