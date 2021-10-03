@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "@google-cloud/firestore": "4.15.1",
+    "@google-cloud/logging": "9.6.1",
     "@google-cloud/storage": "5.14.4",
     "@google-cloud/trace-agent": "5.1.5",
     "@octokit/rest": "18.11.4",
