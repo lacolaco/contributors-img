@@ -6,6 +6,7 @@ import { GetImageController } from './controller/get-image';
 export default (): Router => {
   const router = Router();
 
+  // TODO: request injector should be created per request
   const requestInjector = container.createChildContainer();
 
   const getContributors = requestInjector.resolve(GetContributorsController);
