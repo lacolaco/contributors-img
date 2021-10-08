@@ -9,7 +9,7 @@ import { runWithTracing } from '../utils/tracing';
 export class UsageCollector {
   constructor(private readonly firestore: Firestore, private readonly logging: Logging) {}
 
-  async collectUsage(repository: Repository, timestamp: number = Date.now()) {
+  async collectUsage(repository: Repository, contributorCount: number, timestamp = Date.now()) {
     return runWithTracing('UsageCollector.collectUsage', async () => {
       const log = this.logging.log('repository-usage');
       const entry = log.entry(
@@ -19,7 +19,11 @@ export class UsageCollector {
             repository: repository.toString(),
           },
         },
-        { repository, timestamp },
+        {
+          repository,
+          contributorCount,
+          timestamp: timestamp.toString(),
+        },
       );
       return await log.write(entry);
     });
