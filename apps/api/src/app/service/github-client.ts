@@ -1,6 +1,19 @@
 import { Contributor, Repository, RepositoryContributors } from '@lib/core';
 import { Octokit } from '@octokit/rest';
-import { concat, concatMap, filter, firstValueFrom, from, map, mapTo, Observable, of, range, toArray, zip } from 'rxjs';
+import {
+  concat,
+  concatMap,
+  filter,
+  firstValueFrom,
+  forkJoin,
+  from,
+  map,
+  mapTo,
+  Observable,
+  of,
+  range,
+  toArray,
+} from 'rxjs';
 import { singleton } from 'tsyringe';
 import { runWithTracing } from '../utils/tracing';
 
@@ -10,7 +23,7 @@ export class GitHubClient {
 
   async getContributors(repository: Repository, { maxCount }: { maxCount: number }): Promise<RepositoryContributors> {
     return runWithTracing('GitHubClient.getContributors', async () => {
-      const data$ = zip([this.fetchRepositoryMeta(repository), this.fetchContributors(repository, maxCount)]).pipe(
+      const data$ = forkJoin([this.fetchRepositoryMeta(repository), this.fetchContributors(repository, maxCount)]).pipe(
         map(([{ stargazersCount }, contributors]) => ({
           ...repository,
           stargazersCount,
