@@ -46,7 +46,7 @@ export class GetContributorsImageUsecase {
       await image.save(data, contentType);
 
       if (isGitHubRequest) {
-        this.usageCollector.collectUsage(repository, contributors.length);
+        this.usageCollector.collectUsage(contributors);
       }
       if (!preview) {
         this.usageCollector.saveRepositoryUsage(repository, new Date());

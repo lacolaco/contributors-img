@@ -1,6 +1,19 @@
-import { Contributor, Repository } from '@lib/core';
+import { Contributor, Repository, RepositoryContributors } from '@lib/core';
 import { Octokit } from '@octokit/rest';
-import { concat, concatMap, filter, firstValueFrom, mapTo, of, range, toArray } from 'rxjs';
+import {
+  concat,
+  concatMap,
+  filter,
+  firstValueFrom,
+  forkJoin,
+  from,
+  map,
+  mapTo,
+  Observable,
+  of,
+  range,
+  toArray,
+} from 'rxjs';
 import { singleton } from 'tsyringe';
 import { runWithTracing } from '../utils/tracing';
 
@@ -8,27 +21,43 @@ import { runWithTracing } from '../utils/tracing';
 export class GitHubClient {
   constructor(private readonly octokit: Octokit) {}
 
-  async getContributors(repository: Repository, { maxCount }: { maxCount: number }): Promise<Contributor[]> {
+  async getContributors(repository: Repository, { maxCount }: { maxCount: number }): Promise<RepositoryContributors> {
     return runWithTracing('GitHubClient.getContributors', async () => {
-      const pages = Math.floor(maxCount / 100);
-      const lastPageSize = maxCount % 100;
-      const contributors = await firstValueFrom(
-        concat(range(0, pages).pipe(mapTo(100)), of(lastPageSize)).pipe(
-          filter((pageSize) => pageSize > 0),
-          concatMap((pageSize, i) =>
-            this.octokit.repos.listContributors({
-              owner: repository.owner,
-              repo: repository.repo,
-              page: i + 1,
-              per_page: pageSize,
-            }),
-          ),
-          concatMap(({ data }) => of(...(data as Contributor[]))),
-          toArray(),
-        ),
+      const data$ = forkJoin([this.fetchRepositoryMeta(repository), this.fetchContributors(repository, maxCount)]).pipe(
+        map(([{ stargazersCount }, contributors]) => ({
+          ...repository,
+          stargazersCount,
+          data: contributors,
+        })),
       );
 
-      return contributors;
+      return firstValueFrom(data$);
     });
+  }
+  private fetchRepositoryMeta({ owner, repo }: Repository): Observable<{ stargazersCount: number }> {
+    return from(this.octokit.repos.get({ owner, repo })).pipe(
+      map(({ data }) => ({
+        stargazersCount: data.stargazers_count,
+      })),
+    );
+  }
+
+  private fetchContributors({ owner, repo }: Repository, maxCount: number): Observable<Contributor[]> {
+    const pages = Math.floor(maxCount / 100);
+    const lastPageSize = maxCount % 100;
+
+    return concat(range(0, pages).pipe(mapTo(100)), of(lastPageSize)).pipe(
+      filter((pageSize) => pageSize > 0),
+      concatMap((pageSize, i) =>
+        this.octokit.repos.listContributors({
+          owner,
+          repo,
+          page: i + 1,
+          per_page: pageSize,
+        }),
+      ),
+      concatMap(({ data }) => of(...(data as Contributor[]))),
+      toArray(),
+    );
   }
 }
