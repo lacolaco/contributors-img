@@ -3,6 +3,9 @@
   "scripts": {
     "start": "node main.js"
   },
+  "engines": {
+    "node": ">= 16"
+  },
   "dependencies": {
     "@google-cloud/firestore": "4.15.1",
     "@google-cloud/logging": "9.6.1",
