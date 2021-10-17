@@ -1,0 +1,26 @@
+{
+  "name": "job-worker",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "engines": {
+    "node": ">= 16"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "4.15.1",
+    "@google-cloud/logging": "9.6.1",
+    "@google-cloud/storage": "5.15.3",
+    "@google-cloud/trace-agent": "5.1.5",
+    "@octokit/rest": "18.12.0",
+    "@svgdotjs/svg.js": "3.1.1",
+    "abort-controller": "3.0.0",
+    "compression": "1.7.4",
+    "core-js": "3.18.3",
+    "express": "4.17.1",
+    "jsdom": "18.0.0",
+    "morgan": "1.10.0",
+    "tsyringe": "4.5.0",
+    "rxjs": "7.4.0",
+    "undici": "4.7.3"
+  }
+}

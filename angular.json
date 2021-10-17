@@ -94,6 +94,68 @@
         }
       }
     },
+    "job-worker": {
+      "root": "apps/job-worker",
+      "sourceRoot": "apps/job-worker/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/job-worker",
+            "main": "apps/job-worker/src/main.ts",
+            "tsConfig": "apps/job-worker/tsconfig.app.json",
+            "assets": ["apps/job-worker/src/assets"]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/job-worker/src/environments/environment.ts",
+                  "with": "apps/job-worker/src/environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/job-worker/src/environments/environment.ts",
+                  "with": "apps/job-worker/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "job-worker:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/job-worker/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/job-worker"],
+          "options": {
+            "jestConfig": "apps/job-worker/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "renderer": {
       "root": "libs/renderer",
       "sourceRoot": "libs/renderer/src",
