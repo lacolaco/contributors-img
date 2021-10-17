@@ -1,20 +1,8 @@
 import { Contributor, Repository, RepositoryContributors } from '@lib/core';
 import { Octokit } from '@octokit/rest';
-import {
-  concat,
-  concatMap,
-  filter,
-  firstValueFrom,
-  forkJoin,
-  from,
-  map,
-  mapTo,
-  Observable,
-  of,
-  range,
-  toArray,
-} from 'rxjs';
+import { concatMap, firstValueFrom, forkJoin, from, map, Observable, of, toArray } from 'rxjs';
 import { singleton } from 'tsyringe';
+import { createPager } from '../utils/paging';
 import { runWithTracing } from '../utils/tracing';
 
 @singleton()
@@ -43,11 +31,9 @@ export class GitHubClient {
   }
 
   private fetchContributors({ owner, repo }: Repository, maxCount: number): Observable<Contributor[]> {
-    const pages = Math.floor(maxCount / 100);
-    const lastPageSize = maxCount % 100;
+    const pages = createPager(100)(maxCount);
 
-    return concat(range(0, pages).pipe(mapTo(100)), of(lastPageSize)).pipe(
-      filter((pageSize) => pageSize > 0),
+    return from(pages).pipe(
       concatMap((pageSize, i) =>
         this.octokit.repos.listContributors({
           owner,
