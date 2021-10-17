@@ -7,7 +7,7 @@ describe('ContributorsImageRenderer', () => {
 
   describe('.renderSvg()', () => {
     it('should return SVG string', async () => {
-      expect(typeof service.render([]) === 'string');
+      expect(typeof service.render({ owner: 'test', repo: 'test', stargazersCount: 0, data: [] }) === 'string');
     });
 
     it('should render contributors avatar', async () => {
@@ -21,7 +21,7 @@ describe('ContributorsImageRenderer', () => {
         },
       ];
 
-      const svg = await service.render(contributors);
+      const svg = await service.render({ owner: 'test', repo: 'test', stargazersCount: 0, data: contributors });
       expect(svg).toBeTruthy();
     });
   });
