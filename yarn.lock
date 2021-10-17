@@ -3086,10 +3086,10 @@
     lodash.snakecase "^4.1.1"
     p-defer "^3.0.0"
 
-"@google-cloud/storage@5.15.0":
-  version "5.15.0"
-  resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-5.15.0.tgz#57ec774978d89d22c24760924145085035c9be2f"
-  integrity sha512-tev7Q/rvuzTyaKvprLpb0uxAR5k1mR88KRj6ta0EVUBlgXO1vTPEbUj+x/ppZPnXg/CkwRJh1TWcmHMHeIHIfQ==
+"@google-cloud/storage@5.15.3":
+  version "5.15.3"
+  resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-5.15.3.tgz#f97ff762c1985d78cc9bca3baaa4b3e413330ae8"
+  integrity sha512-a2Y+mvfbzznWorQiv6c+qdPDlBpe47tikV8tpQSnvYXz1Ed/rjin41k2nKUQUcAPGHtYeTzGfKnCNKC+lv8qRg==
   dependencies:
     "@google-cloud/common" "^3.7.4"
     "@google-cloud/paginator" "^3.0.0"
