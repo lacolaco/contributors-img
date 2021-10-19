@@ -102,7 +102,7 @@
     "eslint-plugin-prefer-arrow": "1.2.3",
     "faker": "5.5.3",
     "firebase-tools": "9.20.0",
-    "jest": "27.3.0",
+    "jest": "27.3.1",
     "jest-preset-angular": "10.0.1",
     "prettier": "2.4.1",
     "ts-jest": "27.0.7",
