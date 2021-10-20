@@ -17597,10 +17597,10 @@ unbox-primitive@^1.0.1:
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
 
-undici@4.7.3:
-  version "4.7.3"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-4.7.3.tgz#211c87e8eb40f69a391867c6813bd86786253236"
-  integrity sha512-ecY0KLuZ3EVbiR+Z2kpxh3V3tLGhkxuNv5jhIYskZXO8KgpwcFxqScIMs6JO523VFnfRnN2Fm6yhLxc+BQvezw==
+undici@4.8.0:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-4.8.0.tgz#17d84f902b210a2ee5edc2f8bcc2df2ed7f1c4a7"
+  integrity sha512-+JlCKo5bJ9lMtElHMN2LwFtHqg3ovelCsuS6R4vCIJ/Js3NbP4OE3XOLOQjj9pitXJePi2mr12cteLqcbylpxQ==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
