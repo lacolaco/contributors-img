@@ -9,7 +9,8 @@ export default (): Router => {
   const requestInjector = container.createChildContainer();
 
   const updateFeaturedRepositories = requestInjector.resolve(UpdateFeaturedRepositoriesController);
-  router.get('/update-featured-repositories', (req, res) => updateFeaturedRepositories.onRequest(req, res));
+  // Eventarc send a POST request from PubSub messages
+  router.post('/update-featured-repositories', (req, res) => updateFeaturedRepositories.onRequest(req, res));
 
   return router;
 };
