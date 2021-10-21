@@ -94,19 +94,19 @@
         }
       }
     },
-    "job-worker": {
-      "root": "apps/job-worker",
-      "sourceRoot": "apps/job-worker/src",
+    "worker": {
+      "root": "apps/worker",
+      "sourceRoot": "apps/worker/src",
       "projectType": "application",
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/job-worker",
-            "main": "apps/job-worker/src/main.ts",
-            "tsConfig": "apps/job-worker/tsconfig.app.json",
-            "assets": ["apps/job-worker/src/assets"]
+            "outputPath": "dist/apps/worker",
+            "main": "apps/worker/src/main.ts",
+            "tsConfig": "apps/worker/tsconfig.app.json",
+            "assets": ["apps/worker/src/assets"]
           },
           "configurations": {
             "staging": {
@@ -115,8 +115,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/job-worker/src/environments/environment.ts",
-                  "with": "apps/job-worker/src/environments/environment.staging.ts"
+                  "replace": "apps/worker/src/environments/environment.ts",
+                  "with": "apps/worker/src/environments/environment.staging.ts"
                 }
               ]
             },
@@ -126,8 +126,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/job-worker/src/environments/environment.ts",
-                  "with": "apps/job-worker/src/environments/environment.prod.ts"
+                  "replace": "apps/worker/src/environments/environment.ts",
+                  "with": "apps/worker/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -136,21 +136,21 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "job-worker:build"
+            "buildTarget": "worker:build"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/job-worker/**/*.ts"]
+            "lintFilePatterns": ["apps/worker/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/job-worker"],
+          "outputs": ["coverage/apps/worker"],
           "options": {
-            "jestConfig": "apps/job-worker/jest.config.js",
+            "jestConfig": "apps/worker/jest.config.js",
             "passWithNoTests": true
           }
         }

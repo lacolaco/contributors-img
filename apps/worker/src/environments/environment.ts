@@ -2,5 +2,5 @@ import { Environment } from './type';
 
 export const environment: Environment = {
   production: false,
-  environment: 'development',
+  environment: 'production',
 };
