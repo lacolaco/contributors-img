@@ -7,7 +7,8 @@ on:
 
 env:
   GCP_PROJECT_ID: contributors-img
-  CLOUD_RUN_SERVICE_NAME: api-staging
+  CLOUD_RUN_SERVICE_NAME_API: api-staging
+  CLOUD_RUN_SERVICE_NAME_WORKER: worker-staging
   CLOUD_RUN_REGION: us-central1
   APP_CACHE_BUCKET: cache.storage.stg.contrib.rocks
 
@@ -51,13 +52,20 @@ jobs:
           export_default_credentials: true
       - run: yarn install --frozen-lockfile
       - run: yarn build:all:staging
-      - name: Deploy API to Cloud Run
+      - name: Deploy API to Cloud Run (api)
         run: |
-          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME} \
+          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
           --source dist/apps/api \
           --region ${CLOUD_RUN_REGION} --platform managed --allow-unauthenticated \
           --memory 1Gi \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
           --set-env-vars CACHE_STORAGE_BUCKET="${APP_CACHE_BUCKET}"
+      - name: Deploy API to Cloud Run (worker)
+        run: |
+          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
+          --source dist/apps/worker \
+          --region ${CLOUD_RUN_REGION} --platform managed \
+          --memory 1Gi \
+          --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}"
       - name: Deploy webapp to Firebase
         run: yarn firebase deploy --project=${GCP_PROJECT_ID} --only=hosting:staging
