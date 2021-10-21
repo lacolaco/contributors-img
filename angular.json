@@ -94,6 +94,75 @@
         }
       }
     },
+    "worker": {
+      "root": "apps/worker",
+      "sourceRoot": "apps/worker/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/worker",
+            "main": "apps/worker/src/main.ts",
+            "tsConfig": "apps/worker/tsconfig.app.json",
+            "assets": [
+              {
+                "input": "apps/worker",
+                "glob": "package.json",
+                "output": "package.json"
+              },
+              "apps/worker/src/assets"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/worker/src/environments/environment.ts",
+                  "with": "apps/worker/src/environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/worker/src/environments/environment.ts",
+                  "with": "apps/worker/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "worker:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/worker/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/worker"],
+          "options": {
+            "jestConfig": "apps/worker/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "renderer": {
       "root": "libs/renderer",
       "sourceRoot": "libs/renderer/src",
