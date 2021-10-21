@@ -7,7 +7,8 @@ on:
 
 env:
   GCP_PROJECT_ID: contributors-img
-  CLOUD_RUN_SERVICE_NAME: api-production
+  CLOUD_RUN_SERVICE_NAME_API: api-production
+  CLOUD_RUN_SERVICE_NAME_WORKER: worker-production
   CLOUD_RUN_REGION: us-central1
   APP_CACHE_BUCKET: cache.storage.contrib.rocks
 
@@ -53,11 +54,18 @@ jobs:
       - run: yarn build:all:production
       - name: Deploy API to Cloud Run
         run: |
-          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME} \
+          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
           --source dist/apps/api \
           --region ${CLOUD_RUN_REGION} --platform managed --allow-unauthenticated \
           --memory 2Gi \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
           --set-env-vars CACHE_STORAGE_BUCKET="${APP_CACHE_BUCKET}"
+      - name: Deploy API to Cloud Run (worker)
+        run: |
+          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
+          --source dist/apps/worker \
+          --region ${CLOUD_RUN_REGION} --platform managed \
+          --memory 1Gi \
+          --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}"
       - name: Deploy webapp to Firebase
         run: yarn firebase deploy --project=${GCP_PROJECT_ID} --only=hosting:production,firestore
