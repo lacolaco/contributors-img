@@ -4,6 +4,6 @@ module.exports = {
     '<rootDir>/apps/webapp',
     '<rootDir>/apps/api',
     '<rootDir>/libs/renderer',
-    '<rootDir>/apps/job-worker',
+    '<rootDir>/apps/worker',
   ],
 };
