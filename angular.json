@@ -106,7 +106,14 @@
             "outputPath": "dist/apps/worker",
             "main": "apps/worker/src/main.ts",
             "tsConfig": "apps/worker/tsconfig.app.json",
-            "assets": ["apps/worker/src/assets"]
+            "assets": [
+              {
+                "input": "apps/worker",
+                "glob": "package.json",
+                "output": "package.json"
+              },
+              "apps/worker/src/assets"
+            ]
           },
           "configurations": {
             "staging": {
