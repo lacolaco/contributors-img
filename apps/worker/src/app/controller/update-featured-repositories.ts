@@ -10,7 +10,7 @@ type RepositoryUsageRow = {
   contributors: number;
 };
 
-async function queryRepositoryUsage({ minStars = 100, limit = 50 }: { minStars?: number; limit?: number }) {
+async function queryRepositoryUsage({ minStars = 1000, limit = 50 }: { minStars?: number; limit?: number }) {
   const bq = new BigQuery();
   const query = `
 SELECT
@@ -33,7 +33,7 @@ FROM (
 GROUP BY
   repository
 HAVING
-  days >= 4
+  days >= 6
   AND stars > @minStars
 ORDER BY
   stars DESC,

@@ -9325,10 +9325,10 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-tools@9.20.0:
-  version "9.20.0"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-9.20.0.tgz#96a551147ccc8720e976357c85fb037e371a030d"
-  integrity sha512-/5LzkZtW8aC57syHf34FXY1w6g9unb7qdvtlYROdJA33sk2xsWsJmuvtJylhYhTNX8zrwFsmiTHRlaBxA9YWtg==
+firebase-tools@9.21.0:
+  version "9.21.0"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-9.21.0.tgz#1895563f67f16d505541a0933cd48c27fc776f6e"
+  integrity sha512-/Zp9dHhofgKhCSfeLmlecNQ7YX1//db80sFHDHonBxJMqThju8LVpeppHvszJF2WmlkyV3PWeikmB2zB8jvdmg==
   dependencies:
     "@google-cloud/pubsub" "^2.7.0"
     "@types/archiver" "^5.1.0"
@@ -16020,10 +16020,10 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxfire@6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/rxfire/-/rxfire-6.0.2.tgz#2edf59e1b35401503e1bef368c40cbc17f1afb53"
-  integrity sha512-4Ob30tYy88sEDk92QzKznVvNjB13T0Z30aCC5hWkekaW2SzR3OHr4LO74IFGw7c/PoDUmQTzwwnncjq56pfOrQ==
+rxfire@6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/rxfire/-/rxfire-6.0.3.tgz#556a08e5276563c867daeb8c670f59363d212365"
+  integrity sha512-77nkyffHh7jgfi1YA/N9RI+kWxYpgKk6GRML1lyersvaqbJt4hkvWwk1rWib9Rb5Lr5mT+Ha45lu7nM79sJCZA==
   dependencies:
     tslib "^1.9.0 || ~2.1.0"
 
@@ -17456,10 +17456,10 @@ ts-loader@5.4.5:
     micromatch "^3.1.4"
     semver "^5.0.1"
 
-ts-node@10.3.0:
-  version "10.3.0"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.3.0.tgz#a797f2ed3ff50c9a5d814ce400437cb0c1c048b4"
-  integrity sha512-RYIy3i8IgpFH45AX4fQHExrT8BxDeKTdC83QFJkNzkvt8uFB6QJ8XMyhynYiKMLxt9a7yuXaDBZNOYS3XjDcYw==
+ts-node@10.3.1:
+  version "10.3.1"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.3.1.tgz#739b42839b56d1a3c85026994af7045b2fccc6f5"
+  integrity sha512-Yw3W2mYzhHfCHOICGNJqa0i+rbL0rAyg7ZIHxU+K4pgY8gd2Lh1j+XbHCusJMykbj6RZMJVOY0MlHVd+GOivcw==
   dependencies:
     "@cspotcode/source-map-support" "0.7.0"
     "@tsconfig/node10" "^1.0.7"
@@ -17685,10 +17685,10 @@ unbox-primitive@^1.0.1:
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
 
-undici@4.8.0:
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-4.8.0.tgz#17d84f902b210a2ee5edc2f8bcc2df2ed7f1c4a7"
-  integrity sha512-+JlCKo5bJ9lMtElHMN2LwFtHqg3ovelCsuS6R4vCIJ/Js3NbP4OE3XOLOQjj9pitXJePi2mr12cteLqcbylpxQ==
+undici@4.8.1:
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-4.8.1.tgz#37b6e94e497f7851f3220858acfe04dc48dccd05"
+  integrity sha512-0HYfUmepa5euTv3ewj9OqJDiBrZrBEr4o8HPdNHeWOsPCLLXZSBVovW+D3D1LoFeGXhe5Bm2V/e7YJatUjeWfQ==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
