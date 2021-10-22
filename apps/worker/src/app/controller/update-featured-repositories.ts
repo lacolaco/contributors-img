@@ -1,6 +1,7 @@
+import { BigQuery } from '@google-cloud/bigquery';
+import { Firestore } from '@google-cloud/firestore';
 import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
-import { BigQuery } from '@google-cloud/bigquery';
 import { environment } from '../../environments/environment';
 
 type RepositoryUsageRow = {
@@ -33,7 +34,7 @@ FROM (
 GROUP BY
   repository
 HAVING
-  days >= 6
+  days >= 5
   AND stars > @minStars
 ORDER BY
   stars DESC,
@@ -55,12 +56,28 @@ LIMIT
   return rows as RepositoryUsageRow[];
 }
 
+async function saveFeaturedRepositories(featuredRepositories: RepositoryUsageRow[]) {
+  const firestore = new Firestore();
+  try {
+    await firestore
+      .collection(`${environment.environment}`)
+      .doc('featured_repositories')
+      .set({ items: featuredRepositories });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 @injectable()
 export class UpdateFeaturedRepositoriesController {
   async onRequest(req: Request, res: Response) {
-    const rows = await queryRepositoryUsage({});
-    rows.forEach((row) => console.log(row));
-
-    res.status(200).send(rows);
+    try {
+      const rows = await queryRepositoryUsage({});
+      rows.forEach((row) => console.log(JSON.stringify(row)));
+      await saveFeaturedRepositories(rows);
+      res.status(200).send('OK');
+    } catch (error) {
+      res.status(500).send(error);
+    }
   }
 }
