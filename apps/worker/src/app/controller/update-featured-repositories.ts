@@ -34,7 +34,7 @@ FROM (
 GROUP BY
   repository
 HAVING
-  days >= 5
+  days >= 6
   AND stars > @minStars
 ORDER BY
   stars DESC,
@@ -56,13 +56,13 @@ LIMIT
   return rows as RepositoryUsageRow[];
 }
 
-async function saveFeaturedRepositories(featuredRepositories: RepositoryUsageRow[]) {
+async function saveFeaturedRepositories(featuredRepositories: RepositoryUsageRow[], updatedAt: Date) {
   const firestore = new Firestore();
   try {
-    await firestore
-      .collection(`${environment.environment}`)
-      .doc('featured_repositories')
-      .set({ items: featuredRepositories });
+    await firestore.collection(`${environment.environment}`).doc('featured_repositories').set({
+      items: featuredRepositories,
+      updatedAt,
+    });
   } catch (error) {
     console.error(error);
   }
@@ -74,7 +74,7 @@ export class UpdateFeaturedRepositoriesController {
     try {
       const rows = await queryRepositoryUsage({});
       rows.forEach((row) => console.log(JSON.stringify(row)));
-      await saveFeaturedRepositories(rows);
+      await saveFeaturedRepositories(rows, new Date());
       res.status(200).send('OK');
     } catch (error) {
       res.status(500).send(error);
