@@ -11,6 +11,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { environment } from '../../../environments/environment';
+import { SharedModule } from '../../shared/shared.module';
 import { SvgViewModule } from '../../shared/svg-view/svg-view.component';
 import { FooterComponent } from './component/footer/footer.component';
 import { HeaderComponent } from './component/header/header.component';
@@ -42,9 +43,8 @@ import { PreviewComponent } from './preview.component';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCardModule,
-    MatDialogModule,
     SvgViewModule,
+    SharedModule,
   ],
 })
 export class PreviewModule {}

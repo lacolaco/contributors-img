@@ -39,9 +39,10 @@ GROUP BY
 HAVING
   days >= 6
   AND usage.stargazers >= @minStars
+  AND usage.contributors >= 50
 ORDER BY
-  usage.contributors DESC,
-  usage.stargazers DESC
+  usage.stargazers DESC,
+  usage.contributors DESC
 LIMIT
   @limit`.trim();
   const [rows] = await bq.query(

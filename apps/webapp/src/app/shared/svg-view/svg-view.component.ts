@@ -1,12 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-svg-view',
   template: `<div *ngIf="sanitizedSvg" [innerHtml]="sanitizedSvg"></div>`,
-  styles: [``],
+  styles: [
+    `
+      app-svg-view svg {
+        max-width: 100%;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class SvgViewComponent {
   @Input() content: string | null = null;

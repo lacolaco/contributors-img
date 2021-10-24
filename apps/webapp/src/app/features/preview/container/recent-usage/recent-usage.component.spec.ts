@@ -15,9 +15,11 @@ describe('RecentUsageComponent', () => {
         {
           provide: AngularFirestore,
           useValue: {
-            collection: () => ({
-              valueChanges: jest.fn().mockReturnValue(of([])),
-            }),
+            collection: jest.fn(() => ({
+              doc: jest.fn(() => ({
+                valueChanges: jest.fn(() => of({})),
+              })),
+            })),
           },
         },
       ],
