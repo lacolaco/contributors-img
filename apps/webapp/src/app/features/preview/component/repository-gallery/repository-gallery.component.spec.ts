@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RepositoryGalleryComponent } from './repository-gallery.component';
 
@@ -11,7 +10,7 @@ describe('RepositoryGalleryComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [RepositoryGalleryComponent],
-        imports: [RouterTestingModule, MatCardModule],
+        imports: [RouterTestingModule],
       }).compileComponents();
     }),
   );

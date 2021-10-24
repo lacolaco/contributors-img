@@ -1,7 +1,12 @@
 import { Component, OnDestroy } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Subject, takeUntil, throttleTime } from 'rxjs';
+import { FeaturedRepository } from '@lib/core';
+import { filter, map, Observable, Subject, takeUntil } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
+
+type FeaturedRepositoryDocument = {
+  items: FeaturedRepository[];
+};
 
 @Component({
   selector: 'app-recent-usage',
@@ -10,6 +15,7 @@ import { environment } from '../../../../../environments/environment';
     `
       :host {
         display: block;
+        width: 100%;
       }
     `,
   ],
@@ -17,12 +23,15 @@ import { environment } from '../../../../../environments/environment';
 export class RecentUsageComponent implements OnDestroy {
   private readonly onDestroy$ = new Subject<void>();
 
-  readonly repositories$ = this.firestore
-    .collection<{ name: string }>(`${environment.firestoreRootCollectionName}/usage/repositories`, (q) =>
-      q.limit(12).orderBy('timestamp', 'desc'),
-    )
+  readonly repositories$: Observable<FeaturedRepository[]> = this.firestore
+    .collection(`${environment.firestoreRootCollectionName}`)
+    .doc<FeaturedRepositoryDocument>('featured_repositories')
     .valueChanges()
-    .pipe(takeUntil(this.onDestroy$), throttleTime(1000 * 10));
+    .pipe(
+      takeUntil(this.onDestroy$),
+      filter((doc): doc is FeaturedRepositoryDocument => doc != null),
+      map((doc) => doc.items),
+    );
 
   constructor(private readonly firestore: AngularFirestore) {}
 

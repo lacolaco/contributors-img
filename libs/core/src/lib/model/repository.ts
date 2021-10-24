@@ -19,3 +19,9 @@ export interface RepositoryContributors {
   stargazersCount: number;
   data: Contributor[];
 }
+
+export interface FeaturedRepository {
+  repository: string;
+  stargazers: number;
+  contributors: number;
+}
