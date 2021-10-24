@@ -62,10 +62,13 @@ LIMIT
 async function saveFeaturedRepositories(featuredRepositories: RepositoryUsageRow[], updatedAt: Date) {
   const firestore = new Firestore();
   try {
-    await firestore.collection(`${environment.environment}`).doc('featured_repositories').set({
-      items: featuredRepositories,
-      updatedAt,
-    });
+    await firestore
+      .collection(`${environment.environment}`)
+      .doc('featured_repositories')
+      .set({
+        items: featuredRepositories.map((item) => item.usage),
+        updatedAt,
+      });
   } catch (error) {
     console.error(error);
   }
