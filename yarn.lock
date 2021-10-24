@@ -2577,14 +2577,14 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.3.tgz#90420f9f9c6d3987f176a19a7d8e764271a2f55d"
   integrity sha512-Fxt+AfXgjMoin2maPIYzFZnQjAXjAL0PHscM5pRTtatFqB+vZxAM9tLp2Optnuw3QOQC40jTNeGYFOMvyf7v9g==
 
-"@es-joy/jsdoccomment@0.10.8":
-  version "0.10.8"
-  resolved "https://registry.yarnpkg.com/@es-joy/jsdoccomment/-/jsdoccomment-0.10.8.tgz#b3152887e25246410ed4ea569a55926ec13b2b05"
-  integrity sha512-3P1JiGL4xaR9PoTKUHa2N/LKwa2/eUdRqGwijMWWgBqbFEqJUVpmaOi2TcjcemrsRMgFLBzQCK4ToPhrSVDiFQ==
+"@es-joy/jsdoccomment@0.12.0":
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/@es-joy/jsdoccomment/-/jsdoccomment-0.12.0.tgz#47de05d86e9728ae3a5f1c57d6e9b63b07c6dc98"
+  integrity sha512-Gw4/j9v36IKY8ET+W0GoOzrRw17xjf21EIFFRL3zx21fF5MnqmeNpNi+PU/LKjqLpPb2Pw2XdlJbYM31VVo/PQ==
   dependencies:
     comment-parser "1.2.4"
     esquery "^1.4.0"
-    jsdoc-type-pratt-parser "1.1.1"
+    jsdoc-type-pratt-parser "2.0.0"
 
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
@@ -4620,10 +4620,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.24.tgz#b0f86f58564fa02a28b68f8b55d4cdec42e3b9d6"
   integrity sha512-btt/oNOiDWcSuI721MdL8VQGnjsKjlTMdrKyTcLCKeQp/n4AAMFJ961wMbp+09y8WuGPClDEv07RIItdXKIXAA==
 
-"@types/node@14.17.28":
-  version "14.17.28"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.28.tgz#c683413f485a5690649ef36cdc9402bae32da2df"
-  integrity sha512-1Nh2wEWN8y9hyC4yTDPccUnRunqNeBEFmmTU+K5FpGZOEixqAzMhUXzrBwajNYCZq5uoGaztaMN9Yy1PDMMB6Q==
+"@types/node@14.17.29":
+  version "14.17.29"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.29.tgz#44a774fa2858efa4d039dd9051b51160e8295c70"
+  integrity sha512-sd4CHI9eTJXTH2vF3RGtGkqvWRwhsSSUFsXD4oG38GZzSZ0tNPbWikd2AbOAcKxCXhOg57fL8FPxjpfSzb2pIQ==
 
 "@types/node@>= 8":
   version "14.14.11"
@@ -8664,16 +8664,16 @@ eslint-plugin-import@2.25.2:
     resolve "^1.20.0"
     tsconfig-paths "^3.11.0"
 
-eslint-plugin-jsdoc@36.1.1:
-  version "36.1.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-36.1.1.tgz#124cd0e53a5d07f01ebde916a96dd1a6009625d6"
-  integrity sha512-nuLDvH1EJaKx0PCa9oeQIxH6pACIhZd1gkalTUxZbaxxwokjs7TplqY0Q8Ew3CoZaf5aowm0g/Z3JGHCatt+gQ==
+eslint-plugin-jsdoc@37.0.0:
+  version "37.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-37.0.0.tgz#b7094c7a7dfaf48c037cd781fe7cef53ff26b2d4"
+  integrity sha512-Pv5/Y9stNPHJEoF9GM+pcB9nOT4sNToVxv9v5vsyr8tbam0tM4DUKFShtJBZ+fZFdwhFaQU1hGcPQqsjy+dKCQ==
   dependencies:
-    "@es-joy/jsdoccomment" "0.10.8"
+    "@es-joy/jsdoccomment" "0.12.0"
     comment-parser "1.2.4"
     debug "^4.3.2"
     esquery "^1.4.0"
-    jsdoc-type-pratt-parser "^1.1.1"
+    jsdoc-type-pratt-parser "^2.0.0"
     lodash "^4.17.21"
     regextras "^0.8.0"
     semver "^7.3.5"
@@ -12138,10 +12138,10 @@ jsbn@~0.1.0:
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
   integrity sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
 
-jsdoc-type-pratt-parser@1.1.1, jsdoc-type-pratt-parser@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/jsdoc-type-pratt-parser/-/jsdoc-type-pratt-parser-1.1.1.tgz#10fe5e409ba38de22a48b555598955a26ff0160f"
-  integrity sha512-uelRmpghNwPBuZScwgBG/OzodaFk5RbO5xaivBdsAY70icWfShwZ7PCMO0x1zSkOa8T1FzHThmrdoyg/0AwV5g==
+jsdoc-type-pratt-parser@2.0.0, jsdoc-type-pratt-parser@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/jsdoc-type-pratt-parser/-/jsdoc-type-pratt-parser-2.0.0.tgz#ec739a0868922515fcb179852e990e89b52b9044"
+  integrity sha512-sUuj2j48wxrEpbFjDp1sAesAxPiLT+z0SWVmMafyIINs6Lj5gIPKh3VrkBZu4E/Dv+wHpOot0m6H8zlHQjwqeQ==
 
 jsdom@18.0.0:
   version "18.0.0"
@@ -17456,10 +17456,10 @@ ts-loader@5.4.5:
     micromatch "^3.1.4"
     semver "^5.0.1"
 
-ts-node@10.3.1:
-  version "10.3.1"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.3.1.tgz#739b42839b56d1a3c85026994af7045b2fccc6f5"
-  integrity sha512-Yw3W2mYzhHfCHOICGNJqa0i+rbL0rAyg7ZIHxU+K4pgY8gd2Lh1j+XbHCusJMykbj6RZMJVOY0MlHVd+GOivcw==
+ts-node@10.4.0:
+  version "10.4.0"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.4.0.tgz#680f88945885f4e6cf450e7f0d6223dd404895f7"
+  integrity sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==
   dependencies:
     "@cspotcode/source-map-support" "0.7.0"
     "@tsconfig/node10" "^1.0.7"

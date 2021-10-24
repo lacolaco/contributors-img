@@ -4,24 +4,27 @@ import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
 import { environment } from '../../environments/environment';
 
-type RepositoryUsageRow = {
-  repository: string;
+type RepositoryUsageRow = Readonly<{
+  owner: string;
   days: number;
-  stars: number;
-  contributors: number;
-};
+  usage: {
+    repository: string;
+    stargazers: number;
+    contributors: number;
+  };
+}>;
 
 async function queryRepositoryUsage({ minStars = 1000, limit = 50 }: { minStars?: number; limit?: number }) {
   const bq = new BigQuery();
   const query = `
 SELECT
-  repository,
+  owner,
   COUNT(DISTINCT _date) AS days,
-  MAX(stargazers) AS stars,
-  MAX(contributors) AS contributors,
+  ARRAY_AGG(STRUCT(repository, stargazers, contributors) ORDER BY contributors DESC, stargazers DESC)[OFFSET(0)] as usage,
 FROM (
   SELECT
     jsonPayload.repository AS repository,
+    SPLIT(jsonPayload.repository, '/')[OFFSET(0)] AS owner,
     DATE(TIMESTAMP_MILLIS(CAST(jsonPayload.timestamp AS INT64))) AS _date,
     jsonPayload.stargazers AS stargazers,
     jsonPayload.contributors AS contributors
@@ -32,13 +35,13 @@ FROM (
     AND _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 7 day))
     AND FORMAT_DATE('%Y%m%d', CURRENT_DATE()))
 GROUP BY
-  repository
+  owner
 HAVING
   days >= 6
-  AND stars > @minStars
+  AND usage.stargazers >= @minStars
 ORDER BY
-  stars DESC,
-  contributors DESC
+  usage.contributors DESC,
+  usage.stargazers DESC
 LIMIT
   @limit`.trim();
   const [rows] = await bq.query(
