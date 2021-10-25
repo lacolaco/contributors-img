@@ -25,7 +25,7 @@ describe('ImageSnippetComponent', () => {
   <img src="${location.origin}/image?repo=foo/bar" />
 </a>
 
-Made with [contributors-img](${location.origin}).
+Made with [contrib.rocks](${location.origin}).
 `.trim(),
     );
   });
