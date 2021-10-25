@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { FeaturedRepository } from '@lib/core';
 
 @Component({
   selector: 'app-repository-gallery',
@@ -8,5 +9,5 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 })
 export class RepositoryGalleryComponent {
   @Input()
-  repositories: { name: string }[];
+  repositories: FeaturedRepository[] = [];
 }
