@@ -99,7 +99,7 @@
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "2.25.2",
-    "eslint-plugin-jsdoc": "37.0.1",
+    "eslint-plugin-jsdoc": "37.0.3",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "faker": "5.5.3",
     "firebase-tools": "9.21.0",
