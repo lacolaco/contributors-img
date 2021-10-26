@@ -78,7 +78,7 @@
     "@angular/cli": "12.2.11",
     "@angular/compiler-cli": "12.2.4",
     "@angular/language-service": "12.2.4",
-    "@ngneat/spectator": "8.2.0",
+    "@ngneat/spectator": "8.3.0",
     "@nrwl/angular": "12.10.0",
     "@nrwl/eslint-plugin-nx": "12.10.0",
     "@nrwl/express": "12.10.0",
