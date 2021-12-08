@@ -17876,10 +17876,10 @@ unbox-primitive@^1.0.1:
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
 
-undici@4.8.1:
-  version "4.8.1"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-4.8.1.tgz#37b6e94e497f7851f3220858acfe04dc48dccd05"
-  integrity sha512-0HYfUmepa5euTv3ewj9OqJDiBrZrBEr4o8HPdNHeWOsPCLLXZSBVovW+D3D1LoFeGXhe5Bm2V/e7YJatUjeWfQ==
+undici@4.11.3:
+  version "4.11.3"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-4.11.3.tgz#c0b2423ee988b159331acc6880483906ff003817"
+  integrity sha512-bLOCH2juB9gAkqE4a4zb+eMGhI8XD4SH1tF9Qu9J3Y8TA379Xxg7lWRMiDvc36pRWV1z9/HICv05fXkeeLw1Dg==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
