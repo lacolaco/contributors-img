@@ -9,7 +9,7 @@
   "dependencies": {
     "@google-cloud/bigquery": "5.9.2",
     "@google-cloud/firestore": "4.15.1",
-    "@google-cloud/logging": "9.6.1",
+    "@google-cloud/logging": "9.6.3",
     "@google-cloud/trace-agent": "5.1.6",
     "@octokit/rest": "18.12.0",
     "abort-controller": "3.0.0",
