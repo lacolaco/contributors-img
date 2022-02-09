@@ -17,7 +17,7 @@
     "compression": "1.7.4",
     "core-js": "3.18.3",
     "express": "4.17.1",
-    "jsdom": "18.1.1",
+    "jsdom": "19.0.0",
     "morgan": "1.10.0",
     "tsyringe": "4.5.0",
     "rxjs": "7.4.0",

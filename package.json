@@ -57,7 +57,7 @@
     "core-js": "3.18.3",
     "express": "4.17.1",
     "firebase": "9.6.6",
-    "jsdom": "18.1.1",
+    "jsdom": "19.0.0",
     "morgan": "1.10.0",
     "normalize.css": "8.0.1",
     "rxfire": "6.0.3",
