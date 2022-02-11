@@ -7,15 +7,15 @@
     "node": ">= 16"
   },
   "dependencies": {
-    "@google-cloud/firestore": "4.15.1",
-    "@google-cloud/logging": "9.6.8",
+    "@google-cloud/firestore": "5.0.2",
+    "@google-cloud/logging": "9.6.9",
     "@google-cloud/storage": "5.16.1",
     "@google-cloud/trace-agent": "5.1.6",
     "@octokit/rest": "18.12.0",
     "@svgdotjs/svg.js": "3.1.1",
     "abort-controller": "3.0.0",
     "compression": "1.7.4",
-    "core-js": "3.18.3",
+    "core-js": "3.21.0",
     "express": "4.17.2",
     "jsdom": "19.0.0",
     "morgan": "1.10.0",
