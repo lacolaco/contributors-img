@@ -64,14 +64,17 @@ describe('renderer', () => {
       const svg = await createContributorView(contributor, { size: 64 });
       const [_, shape] = svg.children();
       const fill = svg.findOne('pattern');
-      expect(shape.attr('fill')).toContain(fill.attr('id'));
+      expect(shape.fill).toBeDefined();
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(shape.attr('fill')).toContain(fill!.attr('id'));
     });
 
     test('the image source is contributor avatar', async () => {
       const contributor = createMockContributor();
       const svg = await createContributorView(contributor, { size: 64 });
 
-      expect(svg.findOne('pattern > image').attr('href')).toBe(contributor.avatar_url);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      expect(svg.findOne('pattern > image')!.attr('href')).toBe(contributor.avatar_url);
     });
   });
 });
