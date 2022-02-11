@@ -14148,12 +14148,12 @@ rxjs@6.6.7, rxjs@^6.6.2:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@7.4.0:
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.4.0.tgz#a12a44d7eebf016f5ff2441b87f28c9a51cebc68"
-  integrity sha512-7SQDi7xeTMCJpqViXh8gL/lebcwlp3d831F05+9B44A4B0WfsEwUQHR64gsH1kvJ+Ep/J9K2+n1hVl1CsGN23w==
+rxjs@7.5.4:
+  version "7.5.4"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.5.4.tgz#3d6bd407e6b7ce9a123e76b1e770dc5761aa368d"
+  integrity sha512-h5M3Hk78r6wAheJF0a5YahB1yRQKCsZ4MsGdZ5O9ETbVtjPcScGfrMmoOq7EBsCRzd4BDkvDJ7ogP8Sz5tTFiQ==
   dependencies:
-    tslib "~2.1.0"
+    tslib "^2.1.0"
 
 rxjs@^6.4.0:
   version "6.6.0"
