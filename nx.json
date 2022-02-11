@@ -14,25 +14,28 @@
   "tasksRunnerOptions": {
     "default": {
       "options": {
-        "cacheableOperations": ["build", "test", "lint"]
+        "cacheableOperations": ["build", "test", "lint"],
+        "parallel": 1
       }
     }
   },
-  "projects": {
-    "api": {
-      "tags": ["app"]
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "webapp",
+  "generators": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "none",
+      "strict": true
     },
-    "core": {
-      "tags": ["lib"]
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest",
+      "strict": true
     },
-    "worker": {
-      "tags": ["app"]
-    },
-    "renderer": {
-      "tags": ["lib"]
-    },
-    "webapp": {
-      "tags": ["app"]
+    "@nrwl/angular:component": {
+      "style": "scss",
+      "changeDetection": "OnPush"
     }
   }
 }

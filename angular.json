@@ -1,7 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "",
   "projects": {
     "api": {
       "root": "apps/api",
@@ -71,7 +70,8 @@
           },
           "outputs": ["coverage/apps/api"]
         }
-      }
+      },
+      "tags": ["app"]
     },
     "core": {
       "root": "libs/core",
@@ -92,76 +92,8 @@
             "passWithNoTests": true
           }
         }
-      }
-    },
-    "worker": {
-      "root": "apps/worker",
-      "sourceRoot": "apps/worker/src",
-      "projectType": "application",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/apps/worker",
-            "main": "apps/worker/src/main.ts",
-            "tsConfig": "apps/worker/tsconfig.app.json",
-            "assets": [
-              {
-                "input": "apps/worker",
-                "glob": "package.json",
-                "output": "package.json"
-              },
-              "apps/worker/src/assets"
-            ]
-          },
-          "configurations": {
-            "staging": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/worker/src/environments/environment.ts",
-                  "with": "apps/worker/src/environments/environment.staging.ts"
-                }
-              ]
-            },
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/worker/src/environments/environment.ts",
-                  "with": "apps/worker/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "worker:build"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["apps/worker/**/*.ts"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/worker"],
-          "options": {
-            "jestConfig": "apps/worker/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
+      },
+      "tags": ["lib"]
     },
     "renderer": {
       "root": "libs/renderer",
@@ -182,7 +114,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["lib"]
     },
     "webapp": {
       "root": "apps/webapp",
@@ -293,26 +226,78 @@
             "passWithNoTests": true
           }
         }
-      }
-    }
-  },
-  "defaultProject": "webapp",
-  "cli": {
-    "defaultCollection": "@nrwl/angular"
-  },
-  "schematics": {
-    "@nrwl/angular:application": {
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "none",
-      "strict": true
+      },
+      "tags": ["app"]
     },
-    "@nrwl/angular:library": {
-      "unitTestRunner": "jest",
-      "strict": true
-    },
-    "@nrwl/angular:component": {
-      "style": "scss",
-      "changeDetection": "OnPush"
+    "worker": {
+      "root": "apps/worker",
+      "sourceRoot": "apps/worker/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/worker",
+            "main": "apps/worker/src/main.ts",
+            "tsConfig": "apps/worker/tsconfig.app.json",
+            "assets": [
+              {
+                "input": "apps/worker",
+                "glob": "package.json",
+                "output": "package.json"
+              },
+              "apps/worker/src/assets"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/worker/src/environments/environment.ts",
+                  "with": "apps/worker/src/environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/worker/src/environments/environment.ts",
+                  "with": "apps/worker/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "worker:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/worker/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/worker"],
+          "options": {
+            "jestConfig": "apps/worker/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": ["app"]
     }
   }
 }
