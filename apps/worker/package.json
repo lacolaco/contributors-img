@@ -7,7 +7,7 @@
     "node": ">= 16"
   },
   "dependencies": {
-    "@google-cloud/bigquery": "5.9.2",
+    "@google-cloud/bigquery": "5.10.0",
     "@google-cloud/firestore": "5.0.2",
     "@google-cloud/logging": "9.6.8",
     "@google-cloud/trace-agent": "5.1.6",
