@@ -38,7 +38,7 @@
     "@angular/common": "13.2.2",
     "@angular/compiler": "13.2.2",
     "@angular/core": "13.2.2",
-    "@angular/fire": "7.0.4",
+    "@angular/fire": "7.2.1",
     "@angular/forms": "13.2.2",
     "@angular/material": "13.2.2",
     "@angular/platform-browser": "13.2.2",
@@ -111,3 +111,4 @@
     "typescript": "4.5.5"
   }
 }
+
