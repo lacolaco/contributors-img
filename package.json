@@ -44,7 +44,7 @@
     "@angular/platform-browser": "13.2.2",
     "@angular/platform-browser-dynamic": "13.2.2",
     "@angular/router": "13.2.2",
-    "@google-cloud/bigquery": "5.10.0",
+    "@google-cloud/bigquery": "5.11.0",
     "@google-cloud/firestore": "5.0.2",
     "@google-cloud/logging": "9.6.9",
     "@google-cloud/storage": "5.18.1",
