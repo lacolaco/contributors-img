@@ -47,7 +47,7 @@
     "@google-cloud/bigquery": "5.10.0",
     "@google-cloud/firestore": "5.0.2",
     "@google-cloud/logging": "9.6.9",
-    "@google-cloud/storage": "5.18.1",
+    "@google-cloud/storage": "5.18.2",
     "@google-cloud/trace-agent": "5.1.6",
     "@lacolaco/reactive-store": "4.0.0",
     "@octokit/rest": "18.12.0",
