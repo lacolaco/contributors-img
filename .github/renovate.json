@@ -4,6 +4,7 @@
     "github>lacolaco/renovate-config:automerge-types",
     "github>lacolaco/renovate-config:ng-update"
   ],
+  "stabilityDays": 5,
   "packageRules": [
     {
       "depTypeList": ["devDependencies"],
