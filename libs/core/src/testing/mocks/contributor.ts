@@ -1,14 +1,14 @@
 import { Contributor } from '../../index';
-import { datatype, internet } from 'faker';
+import faker from '@faker-js/faker';
 
 export function createMockContributor(params: Partial<Contributor> = {}): Contributor {
-  const username = internet.userName();
+  const username = faker.internet.userName();
   return {
-    id: datatype.number({ min: 0 }),
+    id: faker.datatype.number({ min: 0 }),
     login: username,
-    avatar_url: internet.avatar(),
+    avatar_url: faker.internet.avatar(),
     html_url: `https://github.com/${username}`,
-    contributions: datatype.number({ min: 0 }),
+    contributions: faker.datatype.number({ min: 0 }),
     ...params,
   };
 }
