@@ -100,7 +100,7 @@
     "eslint-plugin-import": "2.25.4",
     "eslint-plugin-jsdoc": "37.9.4",
     "eslint-plugin-prefer-arrow": "1.2.3",
-    "@faker-js/faker": "6.0.0-alpha.6",
+    "@faker-js/faker": "6.0.0-alpha.7",
     "firebase-tools": "9.23.3",
     "jest": "27.5.1",
     "jest-preset-angular": "11.1.1",
