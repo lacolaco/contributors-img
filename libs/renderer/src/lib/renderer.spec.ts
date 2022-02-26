@@ -1,7 +1,7 @@
 import { Contributor } from '@lib/core';
 import { createMockContributor } from '@lib/core/testing';
 import { Circle } from '@svgdotjs/svg.js';
-import { ContributorsImageRenderer, createContributorView, createRenderer } from './renderer';
+import { ContributorsImageRenderer, createContributorView, createJsRenderer, createRustRenderer } from './renderer';
 import { setupSvgRenderer } from './utils';
 
 describe('renderer', () => {
@@ -9,16 +9,29 @@ describe('renderer', () => {
   beforeEach(() => {
     setupSvgRenderer();
 
-    renderer = createRenderer();
+    renderer = createJsRenderer();
   });
 
   describe('render()', () => {
     test('returned value is a SVG string', async () => {
-      const contributors: Contributor[] = [];
+      const contributors: Contributor[] = [
+        createMockContributor({
+          id: 1,
+          login: 'login1',
+          avatar_url: 'https://via.placeholder.com',
+        }),
+        createMockContributor({
+          id: 2,
+          login: 'login2',
+          avatar_url: 'https://via.placeholder.com',
+        }),
+      ];
 
       const image = await renderer.render(contributors);
 
-      expect(typeof image).toBe('string');
+      expect(image).toMatchInlineSnapshot(
+        `"<svg xmlns=\\"http://www.w3.org/2000/svg\\" version=\\"1.1\\" xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" xmlns:svgjs=\\"http://svgjs.dev/svgjs\\" width=\\"132\\" height=\\"64\\"><svg width=\\"64\\" height=\\"64\\" x=\\"0\\" y=\\"0\\"><title>login1</title><circle r=\\"31.5\\" cx=\\"32\\" cy=\\"32\\" stroke-width=\\"1\\" stroke=\\"#c0c0c0\\" fill=\\"url(&quot;#SvgjsPattern1000&quot;)\\"></circle><defs><pattern x=\\"0\\" y=\\"0\\" width=\\"64\\" height=\\"64\\" patternUnits=\\"userSpaceOnUse\\" id=\\"SvgjsPattern1000\\"><image width=\\"64\\" height=\\"64\\" href=\\"https://via.placeholder.com\\"></image></pattern></defs></svg><svg width=\\"64\\" height=\\"64\\" x=\\"68\\" y=\\"0\\"><title>login2</title><circle r=\\"31.5\\" cx=\\"32\\" cy=\\"32\\" stroke-width=\\"1\\" stroke=\\"#c0c0c0\\" fill=\\"url(&quot;#SvgjsPattern1001&quot;)\\"></circle><defs><pattern x=\\"0\\" y=\\"0\\" width=\\"64\\" height=\\"64\\" patternUnits=\\"userSpaceOnUse\\" id=\\"SvgjsPattern1001\\"><image width=\\"64\\" height=\\"64\\" href=\\"https://via.placeholder.com\\"></image></pattern></defs></svg></svg>"`,
+      );
     });
 
     test('all given contributors are rendered', async () => {
@@ -76,5 +89,52 @@ describe('renderer', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       expect(svg.findOne('pattern > image')!.attr('href')).toBe(contributor.avatar_url);
     });
+  });
+});
+
+describe('renderer-rust', () => {
+  let renderer: ContributorsImageRenderer;
+
+  beforeEach(() => {
+    renderer = createRustRenderer();
+  });
+
+  test('returned value is a SVG string', async () => {
+    const contributors: Contributor[] = [
+      createMockContributor({
+        id: 1,
+        login: 'login1',
+        avatar_url: 'https://via.placeholder.com',
+      }),
+      createMockContributor({
+        id: 2,
+        login: 'login2',
+        avatar_url: 'https://via.placeholder.com',
+      }),
+    ];
+    const image = await renderer.render(contributors);
+
+    expect(image).toMatchInlineSnapshot(`
+      "<svg height=\\"64\\" width=\\"132\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+      <svg height=\\"64\\" width=\\"64\\" x=\\"0\\" xmlns=\\"http://www.w3.org/2000/svg\\" y=\\"0\\">
+      <title>login1</title>
+      <circle cx=\\"32\\" cy=\\"32\\" fill=\\"url('#fill1')\\" r=\\"32\\" stroke=\\"#c0c0c0\\" stroke-width=\\"1\\"/>
+      <defs>
+      <pattern height=\\"64\\" id=\\"fill1\\" patternUnits=\\"userSpaceOnUse\\" width=\\"64\\" x=\\"0\\" y=\\"0\\">
+      <image height=\\"64\\" href=\\"https://via.placeholder.com\\" width=\\"64\\"/>
+      </pattern>
+      </defs>
+      </svg>
+      <svg height=\\"64\\" width=\\"64\\" x=\\"68\\" xmlns=\\"http://www.w3.org/2000/svg\\" y=\\"0\\">
+      <title>login2</title>
+      <circle cx=\\"32\\" cy=\\"32\\" fill=\\"url('#fill2')\\" r=\\"32\\" stroke=\\"#c0c0c0\\" stroke-width=\\"1\\"/>
+      <defs>
+      <pattern height=\\"64\\" id=\\"fill2\\" patternUnits=\\"userSpaceOnUse\\" width=\\"64\\" x=\\"0\\" y=\\"0\\">
+      <image height=\\"64\\" href=\\"https://via.placeholder.com\\" width=\\"64\\"/>
+      </pattern>
+      </defs>
+      </svg>
+      </svg>"
+    `);
   });
 });
