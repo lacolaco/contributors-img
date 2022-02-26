@@ -2711,6 +2711,14 @@
     arrify "^2.0.0"
     extend "^3.0.2"
 
+"@google-cloud/paginator@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@google-cloud/paginator/-/paginator-3.0.7.tgz#fb6f8e24ec841f99defaebf62c75c2e744dd419b"
+  integrity sha512-jJNutk0arIQhmpUUQJPJErsojqo834KcyB6X7a1mxuic8i1tKXxde8E69IZxNZawRIlZdIK2QY4WALvlK5MzYQ==
+  dependencies:
+    arrify "^2.0.0"
+    extend "^3.0.2"
+
 "@google-cloud/precise-date@^2.0.0":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@google-cloud/precise-date/-/precise-date-2.0.3.tgz#14f6f28ce35dabf3882e7aeab1c9d51bd473faed"
@@ -2747,13 +2755,13 @@
     lodash.snakecase "^4.1.1"
     p-defer "^3.0.0"
 
-"@google-cloud/storage@5.18.1":
-  version "5.18.1"
-  resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-5.18.1.tgz#1bae7345b3ec2b38e874cdefc94e8b62130577ea"
-  integrity sha512-EeVIarDb6u9vE5Se3YaXA8tuW8Ae2xmYLHy43doutTwzkXwizGXVS2Qmc2pouq9ln8qMD9A2f3arvhgAPtK9LQ==
+"@google-cloud/storage@5.18.2":
+  version "5.18.2"
+  resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-5.18.2.tgz#0ded98a69323d253e6dd986650edc89b5c504bf9"
+  integrity sha512-hL/6epBF2uPt7YtJoOKI6mVxe6RsKBs7S8o2grE0bFGdQKSOngVHBcstH8jDw7aN2rXGouA2TfVTxH+VapY5cg==
   dependencies:
     "@google-cloud/common" "^3.8.1"
-    "@google-cloud/paginator" "^3.0.0"
+    "@google-cloud/paginator" "^3.0.7"
     "@google-cloud/promisify" "^2.0.0"
     abort-controller "^3.0.0"
     arrify "^2.0.0"

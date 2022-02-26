@@ -9,7 +9,7 @@
   "dependencies": {
     "@google-cloud/firestore": "5.0.2",
     "@google-cloud/logging": "9.6.9",
-    "@google-cloud/storage": "5.18.1",
+    "@google-cloud/storage": "5.18.2",
     "@google-cloud/trace-agent": "5.1.6",
     "@octokit/rest": "18.12.0",
     "@svgdotjs/svg.js": "3.1.2",
