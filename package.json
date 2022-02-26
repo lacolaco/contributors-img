@@ -8,7 +8,7 @@
     "build:all": "nx run-many --target build --all --with-deps --parallel",
     "build:all:staging": "yarn build:all --configuration staging",
     "build:all:production": "yarn build:all --configuration production",
-    "test": "jest",
+    "test": "nx test",
     "test:ci": "jest --coverage",
     "format": "yarn prettier --write '.'",
     "format:check": "yarn prettier --check '.'",
@@ -110,4 +110,3 @@
     "typescript": "4.5.5"
   }
 }
-
