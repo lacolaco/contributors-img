@@ -38,6 +38,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install --frozen-lockfile
+      - uses: ./.github/actions/setup-rust
       - run: yarn build:all:production
 
   test:
@@ -56,6 +57,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install --frozen-lockfile
+      - uses: ./.github/actions/setup-rust
       - run: yarn test:ci
 
   lint:
@@ -74,4 +76,5 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install --frozen-lockfile
+      - uses: ./.github/actions/setup-rust
       - run: yarn lint

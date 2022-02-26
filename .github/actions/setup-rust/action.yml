@@ -1,0 +1,13 @@
+name: Setup Rust
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+        profile: minimal
+        components: clippy, rustfmt
+    - run: cargo install wasm-pack
+      shell: bash
