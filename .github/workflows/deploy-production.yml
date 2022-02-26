@@ -51,6 +51,7 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
       - run: yarn install --frozen-lockfile
+      - uses: ./.github/actions/setup-rust
       - run: yarn build:all:production
       - name: Deploy API to Cloud Run
         run: |

@@ -73,7 +73,8 @@
             "jestConfig": "apps/api/jest.config.js",
             "passWithNoTests": true
           },
-          "outputs": ["coverage/apps/api"]
+          "outputs": ["coverage/apps/api"],
+          "dependsOn": [{ "target": "build", "projects": "dependencies" }]
         }
       },
       "tags": ["app"]
