@@ -1,5 +1,5 @@
 import { RepositoryContributors } from '@lib/core';
-import { createRenderer } from '@lib/renderer';
+import { createRustRenderer } from '@lib/renderer';
 import { concatMap, firstValueFrom, from, toArray } from 'rxjs';
 import { injectable } from 'tsyringe';
 import { request } from 'undici';
@@ -24,7 +24,7 @@ const convertImageToDataURL = async (imageURL: string, imageSize: number): Promi
 export class ContributorsImageRenderer {
   async render(contributors: RepositoryContributors): Promise<{ data: string; contentType: ContentType }> {
     return runWithTracing('ContributorsImageRenderer.render', async () => {
-      const renderer = createRenderer();
+      const renderer = createRustRenderer();
 
       const svg = await firstValueFrom(
         from(contributors.data).pipe(
