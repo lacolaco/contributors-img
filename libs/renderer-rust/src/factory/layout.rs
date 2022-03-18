@@ -25,7 +25,10 @@ fn create_container(item_size: u16, columns: u16, rows: u16, gap: u16) -> SVG {
     let width = item_size * columns + gap * (columns - 1);
     let height = item_size * rows + gap * (rows - 1);
 
-    SVG::new().set("width", width).set("height", height)
+    SVG::new()
+        .set("width", width)
+        .set("height", height)
+        .set("viewBox", format!("0 0 {} {}", width, height))
 }
 
 #[test]

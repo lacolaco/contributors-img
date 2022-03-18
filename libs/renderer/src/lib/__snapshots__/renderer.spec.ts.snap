@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renderer-rust returned value is a SVG string 1`] = `
+"<svg height=\\"64\\" viewBox=\\"0 0 132 64\\" width=\\"132\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+<svg height=\\"64\\" width=\\"64\\" x=\\"0\\" xmlns=\\"http://www.w3.org/2000/svg\\" y=\\"0\\">
+<title>login1</title>
+<circle cx=\\"32\\" cy=\\"32\\" fill=\\"url('#fill1')\\" r=\\"32\\" stroke=\\"#c0c0c0\\" stroke-width=\\"1\\"/>
+<defs>
+<pattern height=\\"64\\" id=\\"fill1\\" patternUnits=\\"userSpaceOnUse\\" width=\\"64\\" x=\\"0\\" y=\\"0\\">
+<image height=\\"64\\" href=\\"https://via.placeholder.com\\" width=\\"64\\"/>
+</pattern>
+</defs>
+</svg>
+<svg height=\\"64\\" width=\\"64\\" x=\\"68\\" xmlns=\\"http://www.w3.org/2000/svg\\" y=\\"0\\">
+<title>login2</title>
+<circle cx=\\"32\\" cy=\\"32\\" fill=\\"url('#fill2')\\" r=\\"32\\" stroke=\\"#c0c0c0\\" stroke-width=\\"1\\"/>
+<defs>
+<pattern height=\\"64\\" id=\\"fill2\\" patternUnits=\\"userSpaceOnUse\\" width=\\"64\\" x=\\"0\\" y=\\"0\\">
+<image height=\\"64\\" href=\\"https://via.placeholder.com\\" width=\\"64\\"/>
+</pattern>
+</defs>
+</svg>
+</svg>"
+`;
