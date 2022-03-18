@@ -6,12 +6,13 @@ import { Repository } from '@lib/core';
 export class ContributorsImageApi {
   constructor(private readonly httpClient: HttpClient) {}
 
-  getByRepository(repository: Repository, { max }: { max: number | null }) {
+  getByRepository(repository: Repository, { max, columns }: { max: number | null; columns: number | null }) {
     const params = new HttpParams({
       fromObject: {
         repo: repository.toString(),
         preview: true,
         max: max ?? '',
+        columns: columns ?? '',
       },
     });
     return this.httpClient.get('/image', {

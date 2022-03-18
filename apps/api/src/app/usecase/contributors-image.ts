@@ -1,4 +1,4 @@
-import { Repository } from '@lib/core';
+import { RendererOptions, Repository } from '@lib/core';
 import { Readable } from 'stream';
 import { injectable } from 'tsyringe';
 import { ContributorsRepository } from '../repository/contributors';
@@ -7,7 +7,7 @@ import { ContributorsImageRenderer } from '../service/contributors-image-rendere
 import { UsageCollector } from '../service/usage-collector';
 import { runWithTracing } from '../utils/tracing';
 import { FileStream } from '../utils/types';
-import { defaultContributorsMaxCount } from './constants';
+import { defaultContributorsMaxCount, defaultRendererOptions } from './constants';
 
 @injectable()
 export class GetContributorsImageUsecase {
@@ -23,17 +23,23 @@ export class GetContributorsImageUsecase {
     isGitHubRequest,
     preview = false,
     maxCount = null,
+    maxColumns = null,
   }: {
     repository: Repository;
     preview: boolean;
     isGitHubRequest: boolean;
     maxCount: number | null;
+    maxColumns: number | null;
   }): Promise<FileStream> {
     return runWithTracing('GetContributorsImageUsecase.getImage', async () => {
       maxCount = maxCount ?? defaultContributorsMaxCount;
+      maxColumns = maxColumns ?? defaultRendererOptions.maxColumns;
 
       // restore cached image if exists
-      const image = await this.contributorsImageRepository.loadImage(repository, { maxCount });
+      const image = await this.contributorsImageRepository.loadImage(repository, {
+        maxCount,
+        maxColumns,
+      });
       if (image.data) {
         return image;
       }
@@ -41,7 +47,7 @@ export class GetContributorsImageUsecase {
       // get contributors
       const contributors = await this.contributorsRepository.getContributors(repository, { maxCount });
       // render image
-      const { data, contentType } = await this.renderer.render(contributors);
+      const { data, contentType } = await this.renderer.render(contributors, { maxColumns });
       // save image to cache
       await image.save(data, contentType);
 

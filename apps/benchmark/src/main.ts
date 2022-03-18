@@ -2,8 +2,8 @@ import { Contributor } from '@lib/core';
 import { createMockContributor } from '@lib/core/testing';
 import { createJsRenderer, createRustRenderer } from '@lib/renderer';
 
-const jsRenderer = createJsRenderer();
-const rustRenderer = createRustRenderer();
+const jsRenderer = createJsRenderer({ maxColumns: 12 });
+const rustRenderer = createRustRenderer({ maxColumns: 12 });
 
 async function renderer_js(contributors: Contributor[]) {
   await jsRenderer.render(contributors);

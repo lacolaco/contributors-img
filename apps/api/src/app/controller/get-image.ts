@@ -10,15 +10,17 @@ type Params = {
   repo: string;
   max?: string;
   preview?: string;
+  columns?: string;
 };
 
 @injectable()
 export class GetImageController implements Controller {
   constructor(private readonly usecase: GetContributorsImageUsecase) {}
   async onRequest(req: Request, res: Response) {
-    const { repo, max, preview } = req.query as Params;
+    const { repo, max, preview, columns } = req.query as Params;
 
     const maxOrNull = max ? Number.parseInt(max, 10) : null;
+    const columnsOrNull = columns ? Number.parseInt(columns, 10) : null;
     // request validation
     if (!assertRepositoryName(repo)) {
       res.status(400).send(`"${repo}" is not a valid repository name`);
@@ -26,6 +28,10 @@ export class GetImageController implements Controller {
     }
     if (maxOrNull != null && (!Number.isInteger(maxOrNull) || Number(max) < 1)) {
       res.status(400).send(`max ${max} is not a positive integer`);
+      return;
+    }
+    if (columnsOrNull != null && (!Number.isInteger(columnsOrNull) || columnsOrNull < 1)) {
+      res.status(400).send(`columns ${max} is not a positive integer`);
       return;
     }
 
@@ -36,6 +42,7 @@ export class GetImageController implements Controller {
         isGitHubRequest: isGitHubRequest(req),
         preview: !!preview,
         maxCount: maxOrNull,
+        maxColumns: columnsOrNull,
       });
       res
         .header('Content-Type', fileStream.contentType)
