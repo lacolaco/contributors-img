@@ -9,6 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
     `
       app-svg-view svg {
         max-width: 100%;
+        height: auto;
       }
     `,
   ],

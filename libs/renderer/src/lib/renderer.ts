@@ -1,4 +1,4 @@
-import { Contributor } from '@lib/core';
+import { Contributor, RendererOptions } from '@lib/core';
 import * as SVG from '@svgdotjs/svg.js';
 import { from, mergeMap, tap } from 'rxjs';
 import { setupSvgRenderer } from './utils';
@@ -12,25 +12,25 @@ export interface ContributorsImageRenderer {
   readonly layout: LayoutOptions;
 }
 
-export function createJsRenderer(): ContributorsImageRenderer {
+export function createJsRenderer(options: RendererOptions): ContributorsImageRenderer {
   const itemSize = 64;
   const gap = 4;
-  const maxColumns = 12;
+  const maxColumns = options.maxColumns;
 
   return {
     layout: { itemSize, gap, maxColumns },
-    render: (contributors: Contributor[]) => renderContributorsImage(contributors, { itemSize, gap, maxColumns }),
+    render: (contributors) => renderContributorsImage(contributors, { itemSize, gap, maxColumns }),
   };
 }
 
-export function createRustRenderer(): ContributorsImageRenderer {
+export function createRustRenderer(options: RendererOptions): ContributorsImageRenderer {
   const itemSize = 64;
   const gap = 4;
-  const maxColumns = 12;
+  const maxColumns = options.maxColumns;
 
   return {
     layout: { itemSize, gap, maxColumns },
-    render: async (contributors: Contributor[]) => rustRenderer.render(contributors, itemSize, maxColumns, gap),
+    render: async (contributors) => rustRenderer.render(contributors, itemSize, maxColumns, gap),
   };
 }
 
