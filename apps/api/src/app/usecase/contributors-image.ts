@@ -33,12 +33,13 @@ export class GetContributorsImageUsecase {
   }): Promise<FileStream> {
     return runWithTracing('GetContributorsImageUsecase.getImage', async () => {
       maxCount = maxCount ?? defaultContributorsMaxCount;
-      const rendererOptions: RendererOptions = {
-        maxColumns: maxColumns ?? defaultRendererOptions.maxColumns,
-      };
+      maxColumns = maxColumns ?? defaultRendererOptions.maxColumns;
 
       // restore cached image if exists
-      const image = await this.contributorsImageRepository.loadImage(repository, { maxCount });
+      const image = await this.contributorsImageRepository.loadImage(repository, {
+        maxCount,
+        maxColumns,
+      });
       if (image.data) {
         return image;
       }
@@ -46,7 +47,7 @@ export class GetContributorsImageUsecase {
       // get contributors
       const contributors = await this.contributorsRepository.getContributors(repository, { maxCount });
       // render image
-      const { data, contentType } = await this.renderer.render(contributors, rendererOptions);
+      const { data, contentType } = await this.renderer.render(contributors, { maxColumns });
       // save image to cache
       await image.save(data, contentType);
 

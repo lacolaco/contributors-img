@@ -4,10 +4,14 @@ import { CacheStorage } from '../service/cache-storage';
 import { ContentType } from '../utils/content-type';
 import { runWithTracing } from '../utils/tracing';
 import { FileStream } from '../utils/types';
-import { GetContributorsParams } from './contributors';
 
-function createCacheKey(repository: Repository, params: GetContributorsParams, ext: string) {
-  return `image-cache/${repository.owner}--${repository.repo}--${params.maxCount}.${ext}`;
+function createCacheKey(repository: Repository, params: GetContributorsImageParams, ext: string) {
+  return `image-cache/${repository.owner}--${repository.repo}--${params.maxCount}_${params.maxColumns}.${ext}`;
+}
+
+export interface GetContributorsImageParams {
+  maxCount: number;
+  maxColumns: number;
 }
 
 type SavedImage =
@@ -21,7 +25,7 @@ type SavedImage =
 export class ContributorsImageRepository {
   constructor(private readonly cacheStorage: CacheStorage) {}
 
-  async loadImage(repository: Repository, params: { maxCount: number }): Promise<SavedImage> {
+  async loadImage(repository: Repository, params: { maxCount: number; maxColumns: number }): Promise<SavedImage> {
     return runWithTracing('ContributorsImageRepository.loadImage', async () => {
       const cacheKey = createCacheKey(repository, params, 'svg');
       const fileStream = await this.cacheStorage.restoreFileStream(cacheKey);
