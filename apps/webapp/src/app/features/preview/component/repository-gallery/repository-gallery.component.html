@@ -20,7 +20,13 @@
           <div class="repo-numbers">
             <div>{{ repo.stargazers | number }} stars</div>
 
-            <a style="font-weight: bold" routerLink [queryParams]="{ repo: repo.repository }">View rocks</a>
+            <a
+              style="font-weight: bold"
+              routerLink
+              [queryParams]="{ repo: repo.repository }"
+              [queryParamsHandling]="'merge'"
+              >View rocks</a
+            >
           </div>
         </div>
       </div>
