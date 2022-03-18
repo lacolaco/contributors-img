@@ -15,7 +15,7 @@ export interface ContributorsImageRenderer {
 export function createJsRenderer(options: RendererOptions): ContributorsImageRenderer {
   const itemSize = 64;
   const gap = 4;
-  const maxColumns = options.maxColumns ?? 12;
+  const maxColumns = options.maxColumns;
 
   return {
     layout: { itemSize, gap, maxColumns },
@@ -26,7 +26,7 @@ export function createJsRenderer(options: RendererOptions): ContributorsImageRen
 export function createRustRenderer(options: RendererOptions): ContributorsImageRenderer {
   const itemSize = 64;
   const gap = 4;
-  const maxColumns = options.maxColumns ?? 12;
+  const maxColumns = options.maxColumns;
 
   return {
     layout: { itemSize, gap, maxColumns },
