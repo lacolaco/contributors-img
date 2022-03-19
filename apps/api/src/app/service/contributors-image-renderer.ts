@@ -1,5 +1,5 @@
 import { RendererOptions, RepositoryContributors } from '@lib/core';
-import { createRustRenderer } from '@lib/renderer';
+import { createRenderer } from '@lib/renderer';
 import { concatMap, firstValueFrom, from, toArray } from 'rxjs';
 import { injectable } from 'tsyringe';
 import { request } from 'undici';
@@ -27,7 +27,7 @@ export class ContributorsImageRenderer {
     rendererOptions: RendererOptions,
   ): Promise<{ data: string; contentType: ContentType }> {
     return runWithTracing('ContributorsImageRenderer.render', async () => {
-      const renderer = createRustRenderer(rendererOptions);
+      const renderer = createRenderer(rendererOptions);
 
       const svg = await firstValueFrom(
         from(contributors.data).pipe(
