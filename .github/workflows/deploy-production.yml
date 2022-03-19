@@ -45,7 +45,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.5.1
+        uses: google-github-actions/setup-gcloud@v0.6.0
         with:
           project_id: ${{ env.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
