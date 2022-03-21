@@ -9,7 +9,7 @@ jobs:
   install-deps:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: nodenv/actions-node-version@v2
         id: nodenv
       - uses: actions/setup-node@v3
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [install-deps]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: nodenv/actions-node-version@v2
         id: nodenv
       - uses: actions/setup-node@v3
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [install-deps]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: nodenv/actions-node-version@v2
         id: nodenv
       - uses: actions/setup-node@v3
@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [install-deps]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: nodenv/actions-node-version@v2
         id: nodenv
       - uses: actions/setup-node@v3
