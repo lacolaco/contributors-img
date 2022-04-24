@@ -31,7 +31,7 @@ export class GetImageController implements Controller {
       return;
     }
     if (columnsOrNull != null && (!Number.isInteger(columnsOrNull) || columnsOrNull < 1)) {
-      res.status(400).send(`columns ${max} is not a positive integer`);
+      res.status(400).send(`columns ${columns} is not a positive integer`);
       return;
     }
 
