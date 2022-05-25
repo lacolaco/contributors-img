@@ -6,14 +6,12 @@ describe('RepositoryGalleryComponent', () => {
   let component: RepositoryGalleryComponent;
   let fixture: ComponentFixture<RepositoryGalleryComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [RepositoryGalleryComponent],
-        imports: [RouterTestingModule],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [RepositoryGalleryComponent],
+      imports: [RouterTestingModule],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RepositoryGalleryComponent);
