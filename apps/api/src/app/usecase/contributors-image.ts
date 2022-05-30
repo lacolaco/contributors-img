@@ -1,4 +1,4 @@
-import { RendererOptions, Repository } from '@lib/core';
+import { Repository } from '@lib/core';
 import { Readable } from 'stream';
 import { injectable } from 'tsyringe';
 import { ContributorsRepository } from '../repository/contributors';
@@ -7,7 +7,7 @@ import { ContributorsImageRenderer } from '../service/contributors-image-rendere
 import { UsageCollector } from '../service/usage-collector';
 import { runWithTracing } from '../utils/tracing';
 import { FileStream } from '../utils/types';
-import { defaultContributorsMaxCount, defaultRendererOptions } from './constants';
+import { defaultRendererOptions } from './constants';
 
 @injectable()
 export class GetContributorsImageUsecase {
@@ -32,7 +32,7 @@ export class GetContributorsImageUsecase {
     maxColumns: number | null;
   }): Promise<FileStream> {
     return runWithTracing('GetContributorsImageUsecase.getImage', async () => {
-      maxCount = maxCount ?? defaultContributorsMaxCount;
+      maxCount = maxCount ?? defaultRendererOptions.maxCount;
       maxColumns = maxColumns ?? defaultRendererOptions.maxColumns;
 
       // restore cached image if exists
@@ -45,9 +45,9 @@ export class GetContributorsImageUsecase {
       }
 
       // get contributors
-      const contributors = await this.contributorsRepository.getContributors(repository, { maxCount });
+      const contributors = await this.contributorsRepository.getContributors(repository);
       // render image
-      const { data, contentType } = await this.renderer.render(contributors, { maxColumns });
+      const { data, contentType } = await this.renderer.render(contributors, { maxCount, maxColumns });
       // save image to cache
       await image.save(data, contentType);
 

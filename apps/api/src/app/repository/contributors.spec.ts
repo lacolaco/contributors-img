@@ -19,19 +19,9 @@ describe('ContributorsRepository', () => {
       const githubClient = container.resolve(GitHubClient);
       jest.spyOn(githubClient, 'getContributors').mockResolvedValue({ ...repo, data: [], stargazersCount: 0 });
 
-      await repository.getContributors(repo, { maxCount: 100 });
+      await repository.getContributors(repo);
 
       expect(githubClient.getContributors).toHaveBeenCalled();
-    });
-
-    test('max count is configurable', async () => {
-      const repo = new Repository('angular', 'angular');
-      const githubClient = container.resolve(GitHubClient);
-      jest.spyOn(githubClient, 'getContributors').mockResolvedValue({ ...repo, data: [], stargazersCount: 0 });
-
-      await repository.getContributors(repo, { maxCount: 200 });
-
-      expect(githubClient.getContributors).toHaveBeenCalledWith(repo, { maxCount: 200 });
     });
   });
 });

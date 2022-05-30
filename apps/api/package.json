@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "@google-cloud/firestore": "5.0.2",
-    "@google-cloud/logging": "9.8.0",
-    "@google-cloud/storage": "5.18.2",
+    "@google-cloud/logging": "9.9.0",
+    "@google-cloud/storage": "5.20.5",
     "@google-cloud/trace-agent": "5.1.6",
     "@octokit/rest": "18.12.0",
     "abort-controller": "3.0.0",
