@@ -4,7 +4,7 @@ import { createRenderer } from './renderer';
 
 describe('renderer-rust', () => {
   test('returned value is a SVG string', async () => {
-    const renderer = createRenderer({ maxColumns: 12 });
+    const renderer = createRenderer({ maxCount: 100, maxColumns: 12 });
     const contributors: Contributor[] = [
       createMockContributor({
         id: 1,
