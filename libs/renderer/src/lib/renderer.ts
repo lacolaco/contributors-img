@@ -10,10 +10,10 @@ export interface ContributorsImageRenderer {
 export function createRenderer(options: RendererOptions): ContributorsImageRenderer {
   const itemSize = 64;
   const gap = 4;
-  const maxColumns = options.maxColumns;
+  const { maxColumns, maxCount } = options;
 
   return {
     layout: { itemSize, gap, maxColumns },
-    render: async (contributors) => rustRenderer.render(contributors, itemSize, maxColumns, gap),
+    render: async (contributors) => rustRenderer.render(contributors.slice(0, maxCount), itemSize, maxColumns, gap),
   };
 }
