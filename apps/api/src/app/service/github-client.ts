@@ -1,17 +1,16 @@
 import { Contributor, Repository, RepositoryContributors } from '@lib/core';
 import { Octokit } from '@octokit/rest';
-import { concatMap, firstValueFrom, forkJoin, from, map, Observable, of, toArray } from 'rxjs';
+import { firstValueFrom, forkJoin, from, map, Observable } from 'rxjs';
 import { singleton } from 'tsyringe';
-import { createPager } from '../utils/paging';
 import { runWithTracing } from '../utils/tracing';
 
 @singleton()
 export class GitHubClient {
   constructor(private readonly octokit: Octokit) {}
 
-  async getContributors(repository: Repository, { maxCount }: { maxCount: number }): Promise<RepositoryContributors> {
+  async getContributors(repository: Repository): Promise<RepositoryContributors> {
     return runWithTracing('GitHubClient.getContributors', async () => {
-      const data$ = forkJoin([this.fetchRepositoryMeta(repository), this.fetchContributors(repository, maxCount)]).pipe(
+      const data$ = forkJoin([this.fetchRepositoryMeta(repository), this.fetchContributors(repository)]).pipe(
         map(([meta, contributors]) => ({
           ...meta,
           data: contributors,
@@ -34,20 +33,11 @@ export class GitHubClient {
     );
   }
 
-  private fetchContributors({ owner, repo }: Repository, maxCount: number): Observable<Contributor[]> {
-    const pages = createPager(100)(maxCount);
-
-    return from(pages).pipe(
-      concatMap((pageSize, i) =>
-        this.octokit.repos.listContributors({
-          owner,
-          repo,
-          page: i + 1,
-          per_page: pageSize,
-        }),
-      ),
-      concatMap(({ data }) => of(...(data as Contributor[]))),
-      toArray(),
-    );
+  private async fetchContributors({ owner, repo }: Repository): Promise<Contributor[]> {
+    return (await this.octokit.paginate(this.octokit.repos.listContributors, {
+      owner,
+      repo,
+      per_page: 100,
+    })) as Contributor[];
   }
 }
