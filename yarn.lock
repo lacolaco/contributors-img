@@ -2656,10 +2656,10 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
   integrity sha512-82cpyJyKRoQoRi+14ibCeGPu0CwypgtBAdBhq1WfvagpCZNKqwXbKwXllYSMG91DhmG4jt9gN8eP6lGOtozuaw==
 
-"@google-cloud/bigquery@5.11.0":
-  version "5.11.0"
-  resolved "https://registry.yarnpkg.com/@google-cloud/bigquery/-/bigquery-5.11.0.tgz#ee55005cf3ede32e057be7a387c3f522d7e0b950"
-  integrity sha512-W84nOWCUGz3jo0tavEKiiRGa1hpc3UsyW7Jn5JwMggy7OSm7dkNwQKzlUJ85P6dVG+myGNBfnNdggvpdgNheZw==
+"@google-cloud/bigquery@5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/bigquery/-/bigquery-5.12.0.tgz#11158b940d1086f7b98af426249e10ae053694a0"
+  integrity sha512-UaIvvuKpyJhCRBkxEJXnJwvxOxkGoZHvSs9IsS0MNUS4YphcbWYOyzRMufV5gxdsr7XNSd+36Nj/n/7vyZiCqQ==
   dependencies:
     "@google-cloud/common" "^3.9.0"
     "@google-cloud/paginator" "^3.0.0"
