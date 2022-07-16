@@ -5,7 +5,7 @@
     "ng": "nx",
     "start": "node -r dotenv/config node_modules/.bin/nx serve",
     "build": "nx build",
-    "build:all": "nx run-many --target build --all --with-deps --parallel",
+    "build:all": "nx run-many --target build --projects api,webapp,worker --parallel",
     "build:all:staging": "yarn build:all --configuration staging",
     "build:all:production": "yarn build:all --configuration production",
     "test": "nx test",

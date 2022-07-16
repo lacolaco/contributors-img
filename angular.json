@@ -74,12 +74,7 @@
             "passWithNoTests": true
           },
           "outputs": ["coverage/apps/api"],
-          "dependsOn": [
-            {
-              "target": "build",
-              "projects": "dependencies"
-            }
-          ]
+          "dependsOn": ["^build"]
         }
       },
       "tags": ["app"]
@@ -125,12 +120,7 @@
             "jestConfig": "libs/renderer/jest.config.ts",
             "passWithNoTests": true
           },
-          "dependsOn": [
-            {
-              "target": "build",
-              "projects": "dependencies"
-            }
-          ]
+          "dependsOn": ["^build"]
         }
       },
       "tags": ["lib"]
