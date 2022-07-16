@@ -70,11 +70,16 @@
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/api/jest.config.js",
+            "jestConfig": "apps/api/jest.config.ts",
             "passWithNoTests": true
           },
           "outputs": ["coverage/apps/api"],
-          "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "dependencies"
+            }
+          ]
         }
       },
       "tags": ["app"]
@@ -94,7 +99,7 @@
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/core/jest.config.js",
+            "jestConfig": "libs/core/jest.config.ts",
             "passWithNoTests": true
           }
         }
@@ -117,10 +122,15 @@
           "builder": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/renderer"],
           "options": {
-            "jestConfig": "libs/renderer/jest.config.js",
+            "jestConfig": "libs/renderer/jest.config.ts",
             "passWithNoTests": true
           },
-          "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+          "dependsOn": [
+            {
+              "target": "build",
+              "projects": "dependencies"
+            }
+          ]
         }
       },
       "tags": ["lib"]
@@ -263,7 +273,7 @@
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/webapp/jest.config.js",
+            "jestConfig": "apps/webapp/jest.config.ts",
             "passWithNoTests": true
           }
         }
@@ -333,7 +343,7 @@
           "builder": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/worker"],
           "options": {
-            "jestConfig": "apps/worker/jest.config.js",
+            "jestConfig": "apps/worker/jest.config.ts",
             "passWithNoTests": true
           }
         }

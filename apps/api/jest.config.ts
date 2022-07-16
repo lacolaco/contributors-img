@@ -1,13 +1,15 @@
+/* eslint-disable */
 const presetTs = require('ts-jest/presets').defaults;
 
-module.exports = {
+export default {
   ...presetTs,
-  displayName: 'core',
+  displayName: 'api',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
-  coverageDirectory: '../../coverage/libs/core',
+  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  coverageDirectory: '../../coverage/apps/api',
 };

@@ -1,6 +1,7 @@
+/* eslint-disable */
 const presetAngular = require('jest-preset-angular/jest-preset');
 
-module.exports = {
+export default {
   ...presetAngular,
   displayName: 'webapp',
   preset: '../../jest.preset.js',

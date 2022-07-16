@@ -17,13 +17,13 @@ export class RepositoryFormComponent {
   @Output() valueChange = new EventEmitter<string>();
 
   readonly form = new FormGroup({
-    repository: new FormControl(this.repository, {
+    repository: new FormControl('', {
       validators: [Validators.required],
     }),
   });
 
   generateImage() {
     const repoName = this.form.value.repository;
-    this.valueChange.emit(repoName);
+    this.valueChange.emit(repoName ?? '');
   }
 }
