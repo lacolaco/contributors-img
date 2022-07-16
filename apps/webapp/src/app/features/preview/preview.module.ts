@@ -6,8 +6,6 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFirePerformanceModule } from '@angular/fire/compat/performance';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { environment } from '../../../environments/environment';
@@ -21,6 +19,8 @@ import { RepositoryGalleryComponent } from './component/repository-gallery/repos
 import { RecentUsageComponent } from './container/recent-usage/recent-usage.component';
 import { PreviewRoutingModule } from './preview-routing.module';
 import { PreviewComponent } from './preview.component';
+import { FeaturedRepositoryDatastore } from './service/featured-repository-datastore';
+import { FeaturedRepositoryDatastoreImpl } from './service/featured-repository-datastore.impl';
 
 @NgModule({
   declarations: [
@@ -45,6 +45,12 @@ import { PreviewComponent } from './preview.component';
     MatButtonModule,
     SvgViewModule,
     SharedModule,
+  ],
+  providers: [
+    {
+      provide: FeaturedRepositoryDatastore,
+      useClass: FeaturedRepositoryDatastoreImpl,
+    },
   ],
 })
 export class PreviewModule {}
