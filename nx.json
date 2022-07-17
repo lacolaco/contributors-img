@@ -20,6 +20,11 @@
       }
     }
   },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
+    }
+  },
   "cli": {
     "defaultCollection": "@nrwl/angular"
   },

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { of } from 'rxjs';
+import { FeaturedRepositoryDatastore } from '../../service/featured-repository-datastore';
 import { RepositoryGalleryComponent } from '../../component/repository-gallery/repository-gallery.component';
 import { RecentUsageComponent } from './recent-usage.component';
 
@@ -13,13 +13,9 @@ describe('RecentUsageComponent', () => {
       declarations: [RecentUsageComponent, RepositoryGalleryComponent],
       providers: [
         {
-          provide: AngularFirestore,
+          provide: FeaturedRepositoryDatastore,
           useValue: {
-            collection: jest.fn(() => ({
-              doc: jest.fn(() => ({
-                valueChanges: jest.fn(() => of({})),
-              })),
-            })),
+            repositories$: of([]),
           },
         },
       ],
