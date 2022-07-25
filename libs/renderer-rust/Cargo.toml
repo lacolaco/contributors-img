@@ -12,4 +12,4 @@ crate-type = ["cdylib", "rlib"]
 
 serde = {version = "=1.0.137", features = ["derive"]}
 svg = "0.10.0"
-wasm-bindgen = {version = "=0.2.80", features = ["serde-serialize"]}
+wasm-bindgen = {version = "=0.2.82", features = ["serde-serialize"]}
