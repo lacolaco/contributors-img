@@ -62,7 +62,7 @@
     "rxfire": "6.0.3",
     "rxjs": "7.5.5",
     "tslib": "2.4.0",
-    "tsyringe": "4.5.0",
+    "tsyringe": "4.7.0",
     "undici": "5.8.0",
     "zone.js": "0.11.5"
   },
