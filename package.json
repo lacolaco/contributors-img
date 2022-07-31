@@ -60,7 +60,7 @@
     "morgan": "1.10.0",
     "normalize.css": "8.0.1",
     "rxfire": "6.0.3",
-    "rxjs": "7.5.5",
+    "rxjs": "7.5.6",
     "tslib": "2.4.0",
     "tsyringe": "4.7.0",
     "undici": "5.8.0",
