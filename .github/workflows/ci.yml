@@ -27,11 +27,12 @@ jobs:
     needs: [install-deps]
     steps:
       - uses: actions/checkout@v3
-      - uses: nodenv/actions-node-version@v2
-        id: nodenv
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: 'go.mod'
       - uses: actions/setup-node@v3
         with:
-          node-version: '${{ steps.nodenv.outputs.node-version }}'
+          node-version-file: '.node-version'
           cache: yarn
       - uses: actions/cache@v3
         with:
@@ -46,11 +47,12 @@ jobs:
     needs: [install-deps]
     steps:
       - uses: actions/checkout@v3
-      - uses: nodenv/actions-node-version@v2
-        id: nodenv
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: 'go.mod'
       - uses: actions/setup-node@v3
         with:
-          node-version: '${{ steps.nodenv.outputs.node-version }}'
+          node-version-file: '.node-version'
           cache: yarn
       - uses: actions/cache@v3
         with:
@@ -65,11 +67,12 @@ jobs:
     needs: [install-deps]
     steps:
       - uses: actions/checkout@v3
-      - uses: nodenv/actions-node-version@v2
-        id: nodenv
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: 'go.mod'
       - uses: actions/setup-node@v3
         with:
-          node-version: '${{ steps.nodenv.outputs.node-version }}'
+          node-version-file: '.node-version'
           cache: yarn
       - uses: actions/cache@v3
         with:

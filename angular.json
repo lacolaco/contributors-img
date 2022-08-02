@@ -79,6 +79,7 @@
       },
       "tags": ["app"]
     },
+    "api-go": "apps/api-go",
     "core": {
       "root": "libs/core",
       "sourceRoot": "libs/core/src",
@@ -133,8 +134,9 @@
         "lint": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "cargo clippy",
-            "cwd": "libs/renderer-rust"
+            "commands": ["cargo clippy", "cargo fmt --check"],
+            "cwd": "libs/renderer-rust",
+            "parallel": false
           }
         },
         "test": {
@@ -153,6 +155,14 @@
           },
           "configurations": {
             "production": {}
+          }
+        },
+        "format": {
+          "builder": "@nrwl/workspace:run-commands",
+          "outputs": ["dist/libs/renderer-rust"],
+          "options": {
+            "command": "cargo fmt",
+            "cwd": "libs/renderer-rust"
           }
         }
       },
@@ -339,6 +349,7 @@
         }
       },
       "tags": ["app"]
-    }
+    },
+    "worker-go": "apps/worker-go"
   }
 }
