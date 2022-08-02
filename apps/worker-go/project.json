@@ -21,6 +21,14 @@
         "cwd": "apps/worker-go"
       }
     },
+    "lint": {
+      "builder": "@nrwl/workspace:run-commands",
+      "inputs": ["default"],
+      "options": {
+        "command": "go vet .",
+        "cwd": "apps/worker-go"
+      }
+    },
     "format": {
       "builder": "@nrwl/workspace:run-commands",
       "inputs": ["default"],
