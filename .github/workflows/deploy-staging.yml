@@ -8,7 +8,7 @@ on:
 env:
   CLOUD_RUN_SERVICE_NAME_API: api-staging
   CLOUD_RUN_SERVICE_NAME_WORKER: worker-staging
-  CLOUD_RUN_SERVICE_NAME_WORKER_GO: worker-go-staging
+  CLOUD_RUN_SERVICE_NAME_WORKER_GO: staging-worker-go
   CLOUD_RUN_REGION: us-central1
   APP_CACHE_BUCKET: cache.storage.stg.contrib.rocks
 
