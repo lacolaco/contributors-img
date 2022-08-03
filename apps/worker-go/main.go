@@ -23,19 +23,19 @@ func main() {
 		ctx := SetEnvironment(r.Context(), env)
 		repositories, err := QueryFeaturedRepositories(ctx)
 		if err != nil {
-			w.Write([]byte(err.Error()))
 			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
 			return
 		}
 		err = SaveFeaturedRepositories(ctx, repositories, time.Now())
 		if err != nil {
-			w.Write([]byte(err.Error()))
 			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
 			return
 		}
 		body, _ := json.MarshalIndent(repositories, "", "  ")
-		w.Write(body)
 		w.WriteHeader(http.StatusOK)
+		w.Write(body)
 	})
 
 	port := os.Getenv("PORT")
