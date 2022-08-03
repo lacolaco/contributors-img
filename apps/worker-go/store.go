@@ -17,7 +17,7 @@ func SaveFeaturedRepositories(ctx context.Context, repositories []FeaturedReposi
 	for i, repository := range repositories {
 		items[i] = repository.Usage
 	}
-	_, err = c.Collection(env).Doc("featured_repositories_2").Set(ctx, struct {
+	_, err = c.Collection(env).Doc("featured_repositories").Set(ctx, struct {
 		Items     []RepositoryUsage `firestore:"items"`
 		UpdatedAt time.Time         `firestore:"updatedAt"`
 	}{
