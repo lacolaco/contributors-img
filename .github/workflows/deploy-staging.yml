@@ -57,7 +57,7 @@ jobs:
       - run: yarn build:all:staging
       - name: Deploy API to Cloud Run (api)
         run: |
-          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
+          gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
           --source dist/apps/api \
           --region ${CLOUD_RUN_REGION} --platform managed --allow-unauthenticated \
           --memory 1Gi \
@@ -65,20 +65,21 @@ jobs:
           --set-env-vars CACHE_STORAGE_BUCKET="${APP_CACHE_BUCKET}"
       - name: Deploy API to Cloud Run (worker)
         run: |
-          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
+          gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
           --source dist/apps/worker \
           --region ${CLOUD_RUN_REGION} --platform managed \
           --memory 1Gi \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}"
       - uses: imjasonh/setup-ko@v0.4
         env:
-          KO_DOCKER_REPO: us-central1-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/build/worker-go-staging
+          KO_DOCKER_REPO: us-central1-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/cloud-run-builds
       - name: Deploy API to Cloud Run (worker-go)
         run: |
           gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER_GO} \
           --image $(ko build ./apps/worker-go) \
           --region ${CLOUD_RUN_REGION} --platform managed \
           --memory 1Gi \
-          --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}"
+          --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
+          --set-env-vars APP_ENV="staging"
       - name: Deploy webapp to Firebase
         run: yarn firebase deploy --project=${{ steps.auth.outputs.project_id }} --only=hosting:staging
