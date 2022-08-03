@@ -34,7 +34,6 @@ func main() {
 			return
 		}
 		body, _ := json.MarshalIndent(repositories, "", "  ")
-		w.WriteHeader(http.StatusOK)
 		w.Write(body)
 	})
 
