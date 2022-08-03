@@ -6,7 +6,6 @@ on:
       - main
 
 env:
-  GCP_PROJECT_ID: contributors-img
   CLOUD_RUN_SERVICE_NAME_API: api-staging
   CLOUD_RUN_SERVICE_NAME_WORKER: worker-staging
   CLOUD_RUN_SERVICE_NAME_WORKER_GO: worker-go-staging
@@ -79,4 +78,4 @@ jobs:
           --memory 1Gi \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}"
       - name: Deploy webapp to Firebase
-        run: yarn firebase deploy --project=${GCP_PROJECT_ID} --only=hosting:staging
+        run: yarn firebase deploy --project=${{ steps.auth.outputs.project_id }} --only=hosting:staging
