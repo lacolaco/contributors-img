@@ -19,6 +19,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install --frozen-lockfile
+      - uses: ./.github/actions/setup-go
 
   build:
     runs-on: ubuntu-latest
