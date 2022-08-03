@@ -70,10 +70,13 @@ jobs:
           --region ${CLOUD_RUN_REGION} --platform managed \
           --memory 1Gi \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}"
+      - uses: imjasonh/setup-ko@v0.4
+        env:
+          KO_DOCKER_REPO: us-central1-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/build/worker-go-staging
       - name: Deploy API to Cloud Run (worker-go)
         run: |
           gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER_GO} \
-          --source apps/worker-go \
+          --image $(ko build ./apps/worker-go) \
           --region ${CLOUD_RUN_REGION} --platform managed \
           --memory 1Gi \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}"
