@@ -80,9 +80,7 @@ jobs:
         run: |
           gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER_GO} \
           --image ${{ steps.build-worker-go.outputs.image }} \
-          --region ${CLOUD_RUN_REGION} --platform managed \
-          --memory 1Gi \
-          --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
+          --region ${CLOUD_RUN_REGION} --platform managed --memory 1Gi \
           --set-env-vars APP_ENV="staging"
       - name: Deploy webapp to Firebase
         run: yarn firebase deploy --project=${{ steps.auth.outputs.project_id }} --only=hosting:staging
