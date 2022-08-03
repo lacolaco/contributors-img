@@ -1,0 +1,10 @@
+name: Setup Go
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-go@v3
+      with:
+        go-version-file: 'go.mod'
+        check-latest: true
+        cache: true
