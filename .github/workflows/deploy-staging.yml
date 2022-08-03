@@ -8,7 +8,6 @@ on:
 env:
   CLOUD_RUN_SERVICE_NAME_API: api-staging
   CLOUD_RUN_SERVICE_NAME_WORKER: staging-worker
-  CLOUD_RUN_REGION: us-central1
   APP_CACHE_BUCKET: cache.storage.stg.contrib.rocks
 
 permissions:
