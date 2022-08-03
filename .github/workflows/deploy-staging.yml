@@ -73,10 +73,13 @@ jobs:
       - uses: imjasonh/setup-ko@v0.4
         env:
           KO_DOCKER_REPO: us-central1-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/cloud-run-builds
+      - name: Build Docker image of worker-go
+        id: 'build-worker-go'
+        run: echo "::set-output name=image::$(ko build ./apps/worker-go)"
       - name: Deploy API to Cloud Run (worker-go)
         run: |
           gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER_GO} \
-          --image $(ko build ./apps/worker-go) \
+          --image ${{ steps.build-worker-go.outputs.image }} \
           --region ${CLOUD_RUN_REGION} --platform managed \
           --memory 1Gi \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
