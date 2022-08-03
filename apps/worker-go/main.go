@@ -19,7 +19,7 @@ func main() {
 	}
 	fmt.Printf("Environment: %s\n", env)
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/update-featured-repositories", func(w http.ResponseWriter, r *http.Request) {
 		ctx := SetEnvironment(r.Context(), env)
 		repositories, err := QueryFeaturedRepositories(ctx)
 		if err != nil {
