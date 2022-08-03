@@ -9,19 +9,22 @@ env:
   GCP_PROJECT_ID: contributors-img
   CLOUD_RUN_SERVICE_NAME_API: api-staging
   CLOUD_RUN_SERVICE_NAME_WORKER: worker-staging
+  CLOUD_RUN_SERVICE_NAME_WORKER_GO: worker-go-staging
   CLOUD_RUN_REGION: us-central1
   APP_CACHE_BUCKET: cache.storage.stg.contrib.rocks
+
+permissions:
+  contents: 'read'
+  id-token: 'write'
 
 jobs:
   install-deps:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: nodenv/actions-node-version@v2
-        id: nodenv
       - uses: actions/setup-node@v3
         with:
-          node-version: '${{ steps.nodenv.outputs.node-version }}'
+          node-version-file: '.node-version'
           cache: yarn
       - uses: actions/cache@v3
         with:
@@ -34,23 +37,22 @@ jobs:
     needs: [install-deps]
     steps:
       - uses: actions/checkout@v3
-      - uses: nodenv/actions-node-version@v2
-        id: nodenv
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          workload_identity_provider: 'projects/484218711641/locations/global/workloadIdentityPools/deploy-github-actions/providers/deploy-github-actions-provider'
+          service_account: 'deploy-service@contributors-img.iam.gserviceaccount.com'
+      - uses: google-github-actions/setup-gcloud@v0
       - uses: actions/setup-node@v3
         with:
-          node-version: '${{ steps.nodenv.outputs.node-version }}'
+          node-version-file: '.node-version'
           cache: yarn
       - uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.6.0
-        with:
-          project_id: ${{ env.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
       - run: yarn install --frozen-lockfile
+      - uses: ./.github/actions/setup-go
       - uses: ./.github/actions/setup-rust
       - run: yarn build:all:staging
       - name: Deploy API to Cloud Run (api)
@@ -65,6 +67,13 @@ jobs:
         run: |
           gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
           --source dist/apps/worker \
+          --region ${CLOUD_RUN_REGION} --platform managed \
+          --memory 1Gi \
+          --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}"
+      - name: Deploy API to Cloud Run (worker-go)
+        run: |
+          gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER_GO} \
+          --source apps/worker-go \
           --region ${CLOUD_RUN_REGION} --platform managed \
           --memory 1Gi \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}"
