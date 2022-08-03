@@ -46,7 +46,6 @@
     "@angular/platform-browser": "14.1.0",
     "@angular/platform-browser-dynamic": "14.1.0",
     "@angular/router": "14.1.0",
-    "@google-cloud/bigquery": "6.0.1",
     "@google-cloud/firestore": "5.0.2",
     "@google-cloud/logging": "10.1.1",
     "@google-cloud/storage": "6.2.3",
