@@ -57,8 +57,7 @@ jobs:
         run: |
           gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
           --source dist/apps/api \
-          --region ${CLOUD_RUN_REGION} --platform managed --allow-unauthenticated \
-          --memory 1Gi \
+          --region us-central1 --platform managed --allow-unauthenticated --memory 1Gi \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
           --set-env-vars CACHE_STORAGE_BUCKET="${APP_CACHE_BUCKET}"
       - uses: imjasonh/setup-ko@v0.4
