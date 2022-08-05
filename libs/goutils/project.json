@@ -4,23 +4,14 @@
     "default": ["{workspaceRoot}/go.mod", "{projectRoot}/**/*"],
     "app": ["!{projectRoot}/**/*_spec.go"]
   },
-  "tags": ["app"],
-  "implicitDependencies": ["goutils"],
+  "tags": ["lib"],
   "targets": {
-    "serve": {
-      "builder": "@nrwl/workspace:run-commands",
-      "inputs": ["default", "app"],
-      "options": {
-        "command": "go run .",
-        "cwd": "apps/worker"
-      }
-    },
     "test": {
       "builder": "@nrwl/workspace:run-commands",
       "inputs": ["default"],
       "options": {
         "command": "go test ./...",
-        "cwd": "apps/worker"
+        "cwd": "libs/goutils"
       }
     },
     "lint": {
@@ -28,7 +19,7 @@
       "inputs": ["default"],
       "options": {
         "command": "go vet ./...",
-        "cwd": "apps/worker"
+        "cwd": "libs/goutils"
       }
     },
     "format": {
@@ -36,7 +27,7 @@
       "inputs": ["default"],
       "options": {
         "command": "gofmt -w .",
-        "cwd": "apps/worker"
+        "cwd": "libs/goutils"
       }
     }
   }

@@ -280,6 +280,7 @@
       },
       "tags": ["app"]
     },
-    "worker": "apps/worker"
+    "worker": "apps/worker",
+    "goutils": "libs/goutils"
   }
 }
