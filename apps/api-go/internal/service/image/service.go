@@ -34,6 +34,7 @@ func (s *Service) GetImage(ctx context.Context, p *GetImageParams) (model.FileHa
 		return nil, err
 	}
 	if cache != nil {
+		fmt.Printf("GetImage: restored from cache: %s\n", cacheKey)
 		return cache, nil
 	}
 	// render image
