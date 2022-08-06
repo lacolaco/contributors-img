@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestDummy(t *testing.T) {
+func Test_Dummy(t *testing.T) {
 	msg := "Hello, World!"
 	fmt.Println(msg)
 }
