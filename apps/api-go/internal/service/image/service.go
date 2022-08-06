@@ -27,6 +27,20 @@ type GetImageParams struct {
 }
 
 func (s *Service) GetImage(ctx context.Context, p *GetImageParams) (model.FileHandle, error) {
+	// set default options
+	const (
+		defaultMaxCount = 100
+		defaultColumns  = 12
+		defaultItemSize = 64
+	)
+	if p.RendererOptions.MaxCount < 1 {
+		p.RendererOptions.MaxCount = defaultMaxCount
+	}
+	if p.RendererOptions.Columns < 1 {
+		p.RendererOptions.Columns = defaultColumns
+	}
+	p.RendererOptions.ItemSize = defaultItemSize
+
 	cacheKey := createImageCacheKey(p, "svg")
 	// restore cached image
 	cache, err := s.restoreCache(ctx, cacheKey)
@@ -59,19 +73,6 @@ func (s *Service) restoreCache(ctx context.Context, key string) (model.FileHandl
 }
 
 func (s *Service) render(ctx context.Context, p *GetImageParams) (renderer.Image, error) {
-	// default renderer options
-	const (
-		defaultMaxCount = 100
-		defaultColumns  = 12
-		defaultItemSize = 64
-	)
-	if p.RendererOptions.MaxCount < 1 {
-		p.RendererOptions.MaxCount = defaultMaxCount
-	}
-	if p.RendererOptions.Columns < 1 {
-		p.RendererOptions.Columns = defaultColumns
-	}
-	p.RendererOptions.ItemSize = defaultItemSize
 	// get data
 	maxCount := goutils.Min(p.RendererOptions.MaxCount, len(p.Data.Contributors))
 	data := &model.RepositoryContributors{
