@@ -2,16 +2,10 @@ package main
 
 import (
 	"log"
-	"os"
 
-	"github.com/joho/godotenv"
+	app "contrib.rocks/apps/api-go/internal"
 )
 
 func main() {
-	godotenv.Load()
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "3333"
-	}
-	log.Fatal(StartServer(port))
+	log.Fatal(app.StartServer())
 }

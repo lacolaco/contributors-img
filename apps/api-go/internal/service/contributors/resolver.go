@@ -1,24 +1,14 @@
-package service
+package contributors
 
 import (
 	"context"
 	"sync"
 
-	"contrib.rocks/apps/api-go/core"
-	"contrib.rocks/apps/api-go/infrastructure"
 	"contrib.rocks/libs/goutils/model"
 	"github.com/google/go-github/v45/github"
 )
 
-type GitHubService struct {
-	c *infrastructure.GitHubClient
-}
-
-func NewGitHubService(i *core.Infrastructure) *GitHubService {
-	return &GitHubService{i.GitHubClient}
-}
-
-func (s *GitHubService) GetContributors(ctx context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
+func resolveRepositoryData(client *github.Client, ctx context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
 	type Result[T any] struct {
 		Value T
 		Error error
@@ -32,7 +22,7 @@ func (s *GitHubService) GetContributors(ctx context.Context, r *model.Repository
 	contributorsChan := make(chan ContributorsResult, 1)
 	go func(ch chan RepositoryResult) {
 		defer wg.Done()
-		data, err := s.fetchRepository(ctx, r)
+		data, _, err := client.Repositories.Get(ctx, r.Owner, r.RepoName)
 		if err != nil {
 			ch <- RepositoryResult{nil, err}
 			return
@@ -42,7 +32,7 @@ func (s *GitHubService) GetContributors(ctx context.Context, r *model.Repository
 	}(repositoryChan)
 	go func(ch chan ContributorsResult) {
 		defer wg.Done()
-		data, err := s.fetchContributors(ctx, r)
+		data, err := getAllContributors(client, ctx, r.Owner, r.RepoName)
 		if err != nil {
 			ch <- ContributorsResult{nil, err}
 			return
@@ -59,6 +49,7 @@ func (s *GitHubService) GetContributors(ctx context.Context, r *model.Repository
 	if contributorsResult.Error != nil {
 		return nil, contributorsResult.Error
 	}
+
 	contributors := make([]*model.Contributor, 0, len(contributorsResult.Value))
 	for _, e := range contributorsResult.Value {
 		contributors = append(contributors, &model.Contributor{
@@ -79,21 +70,13 @@ func (s *GitHubService) GetContributors(ctx context.Context, r *model.Repository
 	}, nil
 }
 
-func (s *GitHubService) fetchRepository(ctx context.Context, r *model.Repository) (*github.Repository, error) {
-	ret, _, err := s.c.Repositories.Get(ctx, r.Owner, r.RepoName)
-	if err != nil {
-		return nil, err
-	}
-	return ret, nil
-}
-
-func (s *GitHubService) fetchContributors(ctx context.Context, r *model.Repository) ([]*github.Contributor, error) {
+func getAllContributors(client *github.Client, ctx context.Context, owner, repo string) ([]*github.Contributor, error) {
 	options := &github.ListContributorsOptions{
 		ListOptions: github.ListOptions{PerPage: 100},
 	}
 	var ret []*github.Contributor
 	for {
-		data, resp, err := s.c.Repositories.ListContributors(ctx, r.Owner, r.RepoName, options)
+		data, resp, err := client.Repositories.ListContributors(ctx, owner, repo, options)
 		if err != nil {
 			return nil, err
 		}
