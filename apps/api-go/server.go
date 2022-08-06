@@ -15,10 +15,10 @@ func StartServer(port string) error {
 	i := core.NewInfrastructure()
 	defer i.Close()
 
-	r := gin.Default()
 	if i.Env == config.EnvProduction {
 		gin.SetMode(gin.ReleaseMode)
 	}
+	r := gin.Default()
 	r.Use(middleware.AppDefault()...)
 
 	cs := service.NewContributorsService(i)
