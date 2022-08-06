@@ -1,4 +1,4 @@
-package dataurl_test
+package dataurl
 
 import (
 	"fmt"
@@ -6,7 +6,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"contrib.rocks/libs/goutils/dataurl"
 	"github.com/bradleyjkemp/cupaloy"
 )
 
@@ -17,7 +16,7 @@ func TestDataURLResolver(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	ret, err := dataurl.ResolveImageDataURL(ts.URL, 64)
+	ret, err := ResolveImageDataURL(ts.URL, 64)
 	if err != nil {
 		t.Fatalf(err.Error())
 	}

@@ -1,40 +1,40 @@
-package service
+package contributors
 
 import (
 	"context"
 	"fmt"
 
-	"contrib.rocks/apps/api-go/core"
-	"contrib.rocks/apps/api-go/infrastructure"
+	"contrib.rocks/apps/api-go/internal/service/cache"
 	"contrib.rocks/libs/goutils/model"
+	"github.com/google/go-github/v45/github"
 )
 
-type ContributorsService struct {
-	cache *infrastructure.CacheStorage
-	ghc   *GitHubService
+type Service struct {
+	cacheService *cache.Service
+	githubClient *github.Client
 }
 
-func NewContributorsService(i *core.Infrastructure) *ContributorsService {
-	return &ContributorsService{i.Cache, NewGitHubService(i)}
+func New(c *cache.Service, gh *github.Client) *Service {
+	return &Service{c, gh}
 }
 
-func (s *ContributorsService) GetContributors(ctx context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
+func (s *Service) GetContributors(ctx context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
 	cacheKey := createContributorsJSONCacheKey(r)
 	// restore cache
 	var cache *model.RepositoryContributors
-	err := s.cache.GetJSON(ctx, cacheKey, cache)
+	err := s.cacheService.GetJSON(ctx, cacheKey, cache)
 	if err != nil {
 		return nil, err
 	}
 	if cache != nil {
 		return cache, nil
 	}
-	data, err := s.ghc.GetContributors(ctx, r)
+	data, err := resolveRepositoryData(s.githubClient, ctx, r)
 	if err != nil {
 		return nil, err
 	}
 	// save cache
-	err = s.cache.SaveJSON(ctx, cacheKey, data)
+	err = s.cacheService.SaveJSON(ctx, cacheKey, data)
 	if err != nil {
 		return nil, err
 	}

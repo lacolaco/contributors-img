@@ -5,10 +5,10 @@ import (
 	"time"
 
 	"cloud.google.com/go/firestore"
+	"contrib.rocks/libs/goutils/env"
 )
 
-func SaveFeaturedRepositories(ctx context.Context, repositories []FeaturedRepository, updatedAt time.Time) error {
-	env := GetEnvironment(ctx)
+func SaveFeaturedRepositories(ctx context.Context, appEnv env.Environment, repositories []FeaturedRepository, updatedAt time.Time) error {
 	c, err := firestore.NewClient(ctx, firestore.DetectProjectID)
 	if err != nil {
 		return err
@@ -17,7 +17,7 @@ func SaveFeaturedRepositories(ctx context.Context, repositories []FeaturedReposi
 	for i, repository := range repositories {
 		items[i] = repository.Usage
 	}
-	_, err = c.Collection(env).Doc("featured_repositories").Set(ctx, struct {
+	_, err = c.Collection(string(appEnv)).Doc("featured_repositories").Set(ctx, struct {
 		Items     []RepositoryUsage `firestore:"items"`
 		UpdatedAt time.Time         `firestore:"updatedAt"`
 	}{

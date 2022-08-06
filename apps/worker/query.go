@@ -4,11 +4,11 @@ import (
 	"context"
 
 	"cloud.google.com/go/bigquery"
+	"contrib.rocks/libs/goutils/env"
 	"google.golang.org/api/iterator"
 )
 
-func QueryFeaturedRepositories(ctx context.Context) ([]FeaturedRepository, error) {
-	env := GetEnvironment(ctx)
+func QueryFeaturedRepositories(ctx context.Context, appEnv env.Environment) ([]FeaturedRepository, error) {
 	bq, err := bigquery.NewClient(ctx, bigquery.DetectProjectID)
 	if err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func QueryFeaturedRepositories(ctx context.Context) ([]FeaturedRepository, error
 	LIMIT
 	  @limit`)
 	q.Parameters = []bigquery.QueryParameter{
-		{Name: "environment", Value: env},
+		{Name: "environment", Value: string(appEnv)},
 		{Name: "days", Value: int(6)},
 		{Name: "minStars", Value: int(1000)},
 		{Name: "limit", Value: int(50)},

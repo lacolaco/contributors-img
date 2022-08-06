@@ -1,4 +1,4 @@
-package controller_test
+package image
 
 import (
 	"net/http"
@@ -6,7 +6,6 @@ import (
 	"net/url"
 	"testing"
 
-	"contrib.rocks/apps/api-go/controller"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,8 +20,8 @@ func Test_GetImageParams_BindQuery_AllParams(t *testing.T) {
 	c, _ := gin.CreateTestContext(httptest.NewRecorder())
 	c.Request, _ = http.NewRequest("GET", uri.String(), nil)
 
-	var params controller.ImageParams
-	err := params.Bind(c)
+	var params getImageParams
+	err := params.bind(c)
 
 	if err != nil {
 		t.Fatalf(err.Error())
@@ -48,8 +47,8 @@ func Test_GetImageParams_BingQuery_NoRepository(t *testing.T) {
 	c, _ := gin.CreateTestContext(httptest.NewRecorder())
 	c.Request, _ = http.NewRequest("GET", uri.String(), nil)
 
-	var params controller.ImageParams
-	err := params.Bind(c)
+	var params getImageParams
+	err := params.bind(c)
 
 	if err == nil {
 		t.Fatalf(err.Error())
@@ -64,8 +63,8 @@ func Test_GetImageParams_BingQuery_InvalidRepository(t *testing.T) {
 	c, _ := gin.CreateTestContext(httptest.NewRecorder())
 	c.Request, _ = http.NewRequest("GET", uri.String(), nil)
 
-	var params controller.ImageParams
-	err := params.Bind(c)
+	var params getImageParams
+	err := params.bind(c)
 
 	if err == nil {
 		t.Fatalf(err.Error())

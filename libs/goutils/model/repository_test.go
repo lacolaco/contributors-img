@@ -1,10 +1,8 @@
-package model_test
+package model
 
 import (
 	"reflect"
 	"testing"
-
-	"contrib.rocks/libs/goutils/model"
 )
 
 func TestValidateRepositoryName(t *testing.T) {
@@ -22,7 +20,7 @@ func TestValidateRepositoryName(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := model.ValidateRepositoryName(tt.args.s); (err != nil) != tt.wantErr {
+			if err := ValidateRepositoryName(tt.args.s); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateRepositoryName() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
@@ -32,13 +30,13 @@ func TestValidateRepositoryName(t *testing.T) {
 func TestRepositoryString_Object(t *testing.T) {
 	tests := []struct {
 		name string
-		r    model.RepositoryString
-		want *model.Repository
+		r    RepositoryString
+		want *Repository
 	}{
 		{
 			name: "valid",
 			r:    "angular/angular-ja",
-			want: &model.Repository{Owner: "angular", RepoName: "angular-ja"},
+			want: &Repository{Owner: "angular", RepoName: "angular-ja"},
 		},
 	}
 	for _, tt := range tests {
@@ -53,12 +51,12 @@ func TestRepositoryString_Object(t *testing.T) {
 func TestRepository_String(t *testing.T) {
 	tests := []struct {
 		name string
-		r    *model.Repository
+		r    *Repository
 		want string
 	}{
 		{
 			name: "valid",
-			r:    &model.Repository{Owner: "angular", RepoName: "angular-ja"},
+			r:    &Repository{Owner: "angular", RepoName: "angular-ja"},
 			want: "angular/angular-ja",
 		},
 	}
