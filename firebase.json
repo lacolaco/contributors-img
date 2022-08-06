@@ -55,14 +55,14 @@
         {
           "source": "/api/**",
           "run": {
-            "serviceId": "api-staging",
+            "serviceId": "staging-api",
             "region": "us-central1"
           }
         },
         {
           "source": "/image",
           "run": {
-            "serviceId": "api-staging",
+            "serviceId": "staging-api",
             "region": "us-central1"
           }
         },

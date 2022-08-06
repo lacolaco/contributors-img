@@ -1,17 +1,15 @@
 package main
 
-import "context"
+import (
+	"context"
 
-type contextKey int
-
-const (
-	environmentKey contextKey = iota
+	"contrib.rocks/libs/goutils/config"
 )
 
 func SetEnvironment(ctx context.Context, env string) context.Context {
-	return context.WithValue(ctx, environmentKey, env)
+	return context.WithValue(ctx, config.EnvContextKey, env)
 }
 
 func GetEnvironment(ctx context.Context) string {
-	return ctx.Value(environmentKey).(string)
+	return ctx.Value(config.EnvContextKey).(string)
 }

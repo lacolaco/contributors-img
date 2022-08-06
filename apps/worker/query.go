@@ -22,7 +22,7 @@ func QueryFeaturedRepositories(ctx context.Context) ([]FeaturedRepository, error
 	  SELECT
 		jsonPayload.repository AS repository,
 		SPLIT(jsonPayload.repository, '/')[OFFSET(0)] AS owner,
-		DATE(TIMESTAMP_MILLIS(CAST(jsonPayload.timestamp AS INT64))) AS _date,
+		DATE(timestamp) AS _date,
 		jsonPayload.stargazers AS stargazers,
 		jsonPayload.contributors AS contributors
 	  FROM ` + "`contributors-img.repository_usage.repository_usage_*`" + `
