@@ -68,15 +68,15 @@ jobs:
           --image ${{ steps.build-api.outputs.image }} \
           --region us-central1 --platform managed --memory 2Gi --allow-unauthenticated \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
-          --set-env-vars CACHE_STORAGE_BUCKET="${APP_CACHE_BUCKET}"
-          --set-env-vars APP_ENV="production"
+          --set-env-vars CACHE_STORAGE_BUCKET="${APP_CACHE_BUCKET}" \
+          --set-env-vars APP_ENV="production" \
           --labels env=production
       - name: Deploy API to Cloud Run (worker)
         run: |
           gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
           --image ${{ steps.build-worker.outputs.image }} \
           --region us-central1 --platform managed --memory 1Gi \
-          --set-env-vars APP_ENV="production"
+          --set-env-vars APP_ENV="production" \
           --labels env=production
       - name: Deploy webapp to Firebase
         run: yarn firebase deploy --project=${{ steps.auth.outputs.project_id }} --only=hosting:production,firestore
