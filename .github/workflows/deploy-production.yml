@@ -6,7 +6,7 @@ on:
       - production
 
 env:
-  CLOUD_RUN_SERVICE_NAME_API: api-production
+  CLOUD_RUN_SERVICE_NAME_API: production-api
   CLOUD_RUN_SERVICE_NAME_WORKER: production-worker
   APP_CACHE_BUCKET: cache.storage.contrib.rocks
 
@@ -53,24 +53,30 @@ jobs:
       - uses: ./.github/actions/setup-go      
       - uses: ./.github/actions/setup-rust
       - run: yarn build:all:production
-      - name: Deploy API to Cloud Run
-        run: |
-          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
-          --source dist/apps/api \
-          --region us-central1 --platform managed --allow-unauthenticated --memory 2Gi \
-          --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
-          --set-env-vars CACHE_STORAGE_BUCKET="${APP_CACHE_BUCKET}"
       - uses: imjasonh/setup-ko@v0.4
         env:
           KO_DOCKER_REPO: us-central1-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/cloud-run-builds
+      - name: Build Docker image of api
+        id: 'build-api'
+        run: echo "::set-output name=image::$(ko build ./apps/api-go)"
       - name: Build Docker image of worker
         id: 'build-worker'
         run: echo "::set-output name=image::$(ko build ./apps/worker)"
+      - name: Deploy API to Cloud Run (api)
+        run: |
+          gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
+          --image ${{ steps.build-api.outputs.image }} \
+          --region us-central1 --platform managed --memory 2Gi --allow-unauthenticated \
+          --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
+          --set-env-vars CACHE_STORAGE_BUCKET="${APP_CACHE_BUCKET}"
+          --set-env-vars APP_ENV="production"
+          --labels env=production
       - name: Deploy API to Cloud Run (worker)
         run: |
           gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
           --image ${{ steps.build-worker.outputs.image }} \
           --region us-central1 --platform managed --memory 1Gi \
           --set-env-vars APP_ENV="production"
+          --labels env=production
       - name: Deploy webapp to Firebase
         run: yarn firebase deploy --project=${{ steps.auth.outputs.project_id }} --only=hosting:production,firestore
