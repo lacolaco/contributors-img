@@ -1,4 +1,4 @@
-package service
+package usage
 
 import (
 	"context"
@@ -6,23 +6,22 @@ import (
 	"time"
 
 	"cloud.google.com/go/logging"
-	"contrib.rocks/apps/api-go/core"
-	"contrib.rocks/apps/api-go/infrastructure"
-	"contrib.rocks/libs/goutils/config"
+	"contrib.rocks/apps/api-go/internal/config"
+	"contrib.rocks/libs/goutils/env"
 	"contrib.rocks/libs/goutils/model"
 )
 
-type UsageService struct {
-	env config.Environment
-	l   *infrastructure.LoggingClient
+type Service struct {
+	env           env.Environment
+	loggingClient *logging.Client
 }
 
-func NewUsageService(i *core.Infrastructure) *UsageService {
-	return &UsageService{i.Env, i.LoggingClient}
+func New(l *logging.Client, cfg *config.Config) *Service {
+	return &Service{cfg.Env, l}
 }
 
-func (s *UsageService) Collect(ctx context.Context, r *model.RepositoryContributors, via string) error {
-	logger := s.l.Logger("repository-usage")
+func (s *Service) CollectUsage(ctx context.Context, r *model.RepositoryContributors, via string) error {
+	logger := s.loggingClient.Logger("repository-usage")
 	logger.Log(logging.Entry{
 		Labels: map[string]string{
 			"environment": string(s.env),

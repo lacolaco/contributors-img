@@ -1,10 +1,8 @@
-package goutils_test
+package goutils
 
 import (
 	"reflect"
 	"testing"
-
-	"contrib.rocks/libs/goutils"
 )
 
 func TestMin_Int(t *testing.T) {
@@ -23,7 +21,7 @@ func TestMin_Int(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := goutils.Min(tt.args.a, tt.args.b); !reflect.DeepEqual(got, tt.want) {
+			if got := Min(tt.args.a, tt.args.b); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Min() = %v, want %v", got, tt.want)
 			}
 		})

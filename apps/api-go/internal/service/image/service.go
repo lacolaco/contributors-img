@@ -1,24 +1,23 @@
-package service
+package image
 
 import (
 	"context"
 	"fmt"
 	"sync"
 
-	"contrib.rocks/apps/api-go/core"
-	"contrib.rocks/apps/api-go/infrastructure"
+	"contrib.rocks/apps/api-go/internal/service/cache"
 	"contrib.rocks/libs/goutils"
 	"contrib.rocks/libs/goutils/dataurl"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"
 )
 
-type ImageService struct {
-	cache *infrastructure.CacheStorage
+type Service struct {
+	cacheService *cache.Service
 }
 
-func NewImageService(i *core.Infrastructure) *ImageService {
-	return &ImageService{i.Cache}
+func New(c *cache.Service) *Service {
+	return &Service{c}
 }
 
 type GetImageParams struct {
@@ -27,7 +26,7 @@ type GetImageParams struct {
 	Data            *model.RepositoryContributors
 }
 
-func (s *ImageService) GetImage(ctx context.Context, p *GetImageParams) (model.FileHandle, error) {
+func (s *Service) GetImage(ctx context.Context, p *GetImageParams) (model.FileHandle, error) {
 	cacheKey := createImageCacheKey(p, "svg")
 	// restore cached image
 	cache, err := s.restoreCache(ctx, cacheKey)
@@ -50,17 +49,28 @@ func (s *ImageService) GetImage(ctx context.Context, p *GetImageParams) (model.F
 	return image, nil
 }
 
-func (s *ImageService) restoreCache(ctx context.Context, key string) (model.FileHandle, error) {
-	cache, err := s.cache.Get(ctx, key)
+func (s *Service) restoreCache(ctx context.Context, key string) (model.FileHandle, error) {
+	cache, err := s.cacheService.Get(ctx, key)
 	if err != nil {
 		return nil, err
 	}
 	return cache, nil
 }
 
-func (s *ImageService) render(ctx context.Context, p *GetImageParams) (renderer.Image, error) {
+func (s *Service) render(ctx context.Context, p *GetImageParams) (renderer.Image, error) {
 	// default renderer options
-	p.RendererOptions.ItemSize = 64
+	const (
+		defaultMaxCount = 100
+		defaultColumns  = 12
+		defaultItemSize = 64
+	)
+	if p.RendererOptions.MaxCount < 1 {
+		p.RendererOptions.MaxCount = defaultMaxCount
+	}
+	if p.RendererOptions.Columns < 1 {
+		p.RendererOptions.Columns = defaultColumns
+	}
+	p.RendererOptions.ItemSize = defaultItemSize
 	// get data
 	maxCount := goutils.Min(p.RendererOptions.MaxCount, len(p.Data.Contributors))
 	data := &model.RepositoryContributors{
@@ -95,8 +105,8 @@ func (s *ImageService) render(ctx context.Context, p *GetImageParams) (renderer.
 	return image, nil
 }
 
-func (s *ImageService) saveCache(ctx context.Context, key string, image renderer.Image) error {
-	return s.cache.Save(ctx, key, image.Bytes(), image.ContentType())
+func (s *Service) saveCache(ctx context.Context, key string, image renderer.Image) error {
+	return s.cacheService.Save(ctx, key, image.Bytes(), image.ContentType())
 }
 
 func createImageCacheKey(p *GetImageParams, ext string) string {

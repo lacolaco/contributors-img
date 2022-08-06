@@ -5,27 +5,27 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
-	"contrib.rocks/libs/goutils/config"
-	"github.com/joho/godotenv"
+	"contrib.rocks/libs/goutils/env"
+	"github.com/gobuffalo/envy"
 )
 
 func main() {
-	godotenv.Load()
-	env := config.GetEnv()
-	fmt.Printf("Environment: %s\n", env)
+	envy.Load()
+	appEnv := env.FromString(envy.Get("APP_ENV", "development"))
+	port := envy.Get("PORT", "8080")
+	fmt.Printf("Environment: %s\n", appEnv)
 
 	http.HandleFunc("/update-featured-repositories", func(w http.ResponseWriter, r *http.Request) {
-		ctx := SetEnvironment(r.Context(), config.EnvContextKey)
-		repositories, err := QueryFeaturedRepositories(ctx)
+		ctx := r.Context()
+		repositories, err := QueryFeaturedRepositories(ctx, appEnv)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 			return
 		}
-		err = SaveFeaturedRepositories(ctx, repositories, time.Now())
+		err = SaveFeaturedRepositories(ctx, appEnv, repositories, time.Now())
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
@@ -35,10 +35,6 @@ func main() {
 		w.Write(body)
 	})
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
 	fmt.Printf("Listening on http://localhost:%s\n", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }
