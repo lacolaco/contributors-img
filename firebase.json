@@ -19,14 +19,14 @@
         {
           "source": "/api/**",
           "run": {
-            "serviceId": "production-api",
+            "serviceId": "api-production",
             "region": "us-central1"
           }
         },
         {
           "source": "/image",
           "run": {
-            "serviceId": "production-api",
+            "serviceId": "api-production",
             "region": "us-central1"
           }
         },
