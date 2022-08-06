@@ -79,7 +79,9 @@ func (c *API) Get(ctx *gin.Context) {
 	}
 	r := file.Reader()
 	defer r.Close()
-	ctx.DataFromReader(http.StatusOK, file.Size(), file.ContentType(), r, nil)
+	ctx.DataFromReader(http.StatusOK, file.Size(), file.ContentType(), r, map[string]string{
+		"cache-control": fmt.Sprintf(`public, max-age=%d`, 60*60*6),
+	})
 	// collect usage stats
 	if err := c.us.CollectUsage(ctx, data, params.Via); err != nil {
 		fmt.Printf("error collecting usage: %s\n", err)
