@@ -11,7 +11,7 @@ func main() {
 	godotenv.Load()
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "3333"
 	}
 	log.Fatal(StartServer(port))
 }

@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"contrib.rocks/libs/goutils"
+	"contrib.rocks/libs/goutils/config"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 )
@@ -14,9 +14,9 @@ func AppDefault() []gin.HandlerFunc {
 }
 
 func environment() gin.HandlerFunc {
-	env := goutils.GetEnv()
+	env := config.GetEnv()
 	return func(ctx *gin.Context) {
-		ctx.Set(goutils.EnvContextKey, env)
+		ctx.Set(config.EnvContextKey, env)
 	}
 }
 

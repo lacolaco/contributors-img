@@ -3,7 +3,6 @@ package controller
 import (
 	"strings"
 
-	"contrib.rocks/libs/goutils"
 	"contrib.rocks/libs/goutils/model"
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +12,7 @@ type ImageParams struct {
 	MaxCount   int                    `form:"max"`
 	Columns    int                    `form:"columns"`
 	Preview    bool                   `form:"preview"`
-	ViaGitHub  bool
+	Via        string
 }
 
 const (
@@ -26,7 +25,7 @@ func (p *ImageParams) Bind(ctx *gin.Context) error {
 		return err
 	}
 	// validate repository name format
-	if err := goutils.ValidateRepositoryName(string(p.Repository)); err != nil {
+	if err := model.ValidateRepositoryName(string(p.Repository)); err != nil {
 		return err
 	}
 	// validate max count is upper than 1
@@ -37,6 +36,11 @@ func (p *ImageParams) Bind(ctx *gin.Context) error {
 	if p.Columns < 1 {
 		p.Columns = defaultColumns
 	}
-	p.ViaGitHub = strings.Contains(ctx.Request.UserAgent(), "github")
+	p.Via = "unknown"
+	if strings.Contains(ctx.Request.UserAgent(), "github") {
+		p.Via = "github"
+	} else if strings.HasSuffix(ctx.Request.Host, "contrib.rocks") {
+		p.Via = "preview"
+	}
 	return nil
 }

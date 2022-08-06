@@ -8,17 +8,17 @@ import (
 	"os"
 	"time"
 
-	"contrib.rocks/libs/goutils"
+	"contrib.rocks/libs/goutils/config"
 	"github.com/joho/godotenv"
 )
 
 func main() {
 	godotenv.Load()
-	env := goutils.GetEnv()
+	env := config.GetEnv()
 	fmt.Printf("Environment: %s\n", env)
 
 	http.HandleFunc("/update-featured-repositories", func(w http.ResponseWriter, r *http.Request) {
-		ctx := SetEnvironment(r.Context(), goutils.EnvContextKey)
+		ctx := SetEnvironment(r.Context(), config.EnvContextKey)
 		repositories, err := QueryFeaturedRepositories(ctx)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)

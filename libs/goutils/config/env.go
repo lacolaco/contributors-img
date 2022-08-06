@@ -1,19 +1,19 @@
-package goutils
+package config
 
 import "os"
 
-type Env string
+type Environment string
 
 const (
-	EnvStaging    = Env("staging")
-	EnvProduction = Env("production")
+	EnvStaging    = Environment("staging")
+	EnvProduction = Environment("production")
 )
 
 const (
 	EnvContextKey = string("environment")
 )
 
-func GetEnv() Env {
+func GetEnv() Environment {
 	env := os.Getenv("APP_ENV")
 	switch env {
 	case "production":

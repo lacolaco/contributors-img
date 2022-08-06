@@ -7,23 +7,25 @@ import (
 	"contrib.rocks/apps/api-go/core"
 	"contrib.rocks/apps/api-go/middleware"
 	"contrib.rocks/apps/api-go/service"
-	"contrib.rocks/libs/goutils"
+	"contrib.rocks/libs/goutils/config"
 	"github.com/gin-gonic/gin"
 )
 
 func StartServer(port string) error {
-	env := goutils.GetEnv()
-	if env == goutils.EnvProduction {
-		gin.SetMode(gin.ReleaseMode)
-	}
+	i := core.NewInfrastructure()
+	defer i.Close()
 
 	r := gin.Default()
+	if i.Env == config.EnvProduction {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	r.Use(middleware.AppDefault()...)
 
-	i := core.NewInfrastructure()
+	cs := service.NewContributorsService(i)
 	is := service.NewImageService(i)
+	usage := service.NewUsageService(i)
 	{
-		image := controller.NewImageController(is)
+		image := controller.NewImageController(cs, is, usage)
 		r.GET("/image", image.Get)
 	}
 
