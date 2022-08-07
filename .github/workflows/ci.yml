@@ -21,7 +21,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - uses: ./.github/actions/setup-go
 
-  build:
+  build-webapp:
     runs-on: ubuntu-latest
     needs: [install-deps]
     steps:
@@ -35,8 +35,29 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install --frozen-lockfile
-      - uses: ./.github/actions/setup-go
       - run: yarn build:all:production
+
+  build-api:
+    runs-on: ubuntu-latest
+    needs: [install-deps]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-go
+      - uses: imjasonh/setup-ko@v0.4
+      - run: ko build --push=false ./apps/api
+        env: 
+          KO_DOCKER_REPO: ""
+
+  build-worker:
+    runs-on: ubuntu-latest
+    needs: [install-deps]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-go
+      - uses: imjasonh/setup-ko@v0.4
+      - run: ko build --push=false ./apps/worker
+        env: 
+          KO_DOCKER_REPO: ""
 
   test:
     runs-on: ubuntu-latest
