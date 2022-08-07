@@ -49,7 +49,7 @@ jobs:
       - name: Build Docker image of api
         id: 'build-api'
         run: echo "::set-output name=image::$(ko build ./apps/api)"
-      - name: Deploy API to Cloud Run (api)
+      - name: Deploy to Cloud Run (api)
         run: |
           gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
           --image ${{ steps.build-api.outputs.image }} \
@@ -78,7 +78,7 @@ jobs:
       - name: Build Docker image of worker
         id: 'build-worker'
         run: echo "::set-output name=image::$(ko build ./apps/worker)"
-      - name: Deploy API to Cloud Run (worker)
+      - name: Deploy to Cloud Run (worker)
         run: |
           gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
           --image ${{ steps.build-worker.outputs.image }} \
