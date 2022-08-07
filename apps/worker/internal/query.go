@@ -1,18 +1,16 @@
-package main
+package app
 
 import (
 	"context"
 
 	"cloud.google.com/go/bigquery"
+	"contrib.rocks/libs/goutils/apiclient"
 	"contrib.rocks/libs/goutils/env"
 	"google.golang.org/api/iterator"
 )
 
 func QueryFeaturedRepositories(ctx context.Context, appEnv env.Environment) ([]FeaturedRepository, error) {
-	bq, err := bigquery.NewClient(ctx, bigquery.DetectProjectID)
-	if err != nil {
-		return nil, err
-	}
+	bq := apiclient.NewBigQueryClient()
 	q := bq.Query(`
 	SELECT
 	  owner,
