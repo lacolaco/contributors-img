@@ -64,7 +64,7 @@ jobs:
         run: echo "::set-output name=image::$(ko build ./apps/worker)"
       - name: Deploy API to Cloud Run (api)
         run: |
-          gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
+          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
           --image ${{ steps.build-api.outputs.image }} \
           --labels env=staging \
           --execution-environment gen1 --region us-central1 --platform managed --memory 128Mi --allow-unauthenticated \
@@ -73,7 +73,7 @@ jobs:
           --set-env-vars APP_ENV="staging"
       - name: Deploy API to Cloud Run (worker)
         run: |
-          gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
+          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
           --image ${{ steps.build-worker.outputs.image }} \
           --labels env=staging \
           --execution-environment gen1 --region us-central1 --platform managed --memory 128Mi \
