@@ -1,4 +1,4 @@
-package main
+package app
 
 type RepositoryUsage struct {
 	Repository   string  `json:"repository" firestore:"repository"`
