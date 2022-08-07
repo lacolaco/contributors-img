@@ -5,19 +5,24 @@ import (
 	"fmt"
 	"sync"
 
+	"cloud.google.com/go/logging"
+	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/service/internal/cache"
 	"contrib.rocks/libs/goutils"
 	"contrib.rocks/libs/goutils/dataurl"
+	"contrib.rocks/libs/goutils/env"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"
 )
 
 type Service struct {
-	cacheService *cache.Service
+	env           env.Environment
+	cacheService  *cache.Service
+	loggingClient *logging.Client
 }
 
-func New(c *cache.Service) *Service {
-	return &Service{c}
+func New(cfg *config.Config, c *cache.Service, l *logging.Client) *Service {
+	return &Service{cfg.Env, c, l}
 }
 
 type GetImageParams struct {
@@ -47,9 +52,11 @@ func (s *Service) GetImage(ctx context.Context, r *model.RepositoryContributors,
 		return nil, err
 	}
 	if cache != nil {
+		s.sendCacheHitLog(ctx, cacheKey, true)
 		fmt.Printf("GetImage: restored from cache: %s\n", cacheKey)
 		return cache, nil
 	}
+	s.sendCacheHitLog(ctx, cacheKey, false)
 	// render image
 	image, err := s.render(ctx, r, options)
 	if err != nil {
@@ -108,6 +115,21 @@ func (s *Service) render(ctx context.Context, data *model.RepositoryContributors
 
 func (s *Service) saveCache(ctx context.Context, key string, image renderer.Image) error {
 	return s.cacheService.Save(ctx, key, image.Bytes(), image.ContentType())
+}
+
+func (s *Service) sendCacheHitLog(ctx context.Context, key string, hit bool) {
+	var logId string
+	if hit {
+		logId = "image-cache-hit"
+	} else {
+		logId = "image-cache-miss"
+	}
+	s.loggingClient.Logger(logId).Log(logging.Entry{
+		Labels: map[string]string{
+			"environment": string(s.env),
+		},
+		Payload: key,
+	})
 }
 
 func createImageCacheKey(r *model.Repository, options *renderer.RendererOptions, ext string) string {
