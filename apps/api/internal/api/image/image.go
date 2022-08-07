@@ -6,9 +6,11 @@ import (
 	"strings"
 
 	"contrib.rocks/apps/api/internal/service"
+	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"
 	"github.com/gin-gonic/gin"
+	"go.opentelemetry.io/otel/attribute"
 )
 
 type API struct {
@@ -46,37 +48,46 @@ func (p *getImageParams) bind(ctx *gin.Context) error {
 	return nil
 }
 
-func (c *API) Get(ctx *gin.Context) {
+func (api *API) Get(c *gin.Context) {
+	ctx, span := tracing.DefaultTracer.Start(c.Request.Context(), "api.image.Get")
+	defer span.End()
+
 	var params getImageParams
-	if err := params.bind(ctx); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if err := params.bind(c); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	fmt.Printf("params=%+v\n", params)
+	span.SetAttributes(
+		attribute.String("api.image.params.repository", string(params.Repository)),
+		attribute.String("api.image.params.via", params.Via),
+		attribute.Int64("api.image.params.max", int64(params.MaxCount)),
+		attribute.Int64("api.image.params.columns", int64(params.Columns)),
+	)
 
 	// get data
-	data, err := c.cs.GetContributors(ctx, params.Repository.Object())
+	data, err := api.cs.GetContributors(ctx, params.Repository.Object())
 	if err != nil {
-		ctx.Error(err).SetType(gin.ErrorTypePublic)
+		c.Error(err).SetType(gin.ErrorTypePublic)
 		return
 	}
 	fmt.Printf("data=%+v\n", data)
 	// get image
-	file, err := c.is.GetImage(ctx, data, &renderer.RendererOptions{
+	file, err := api.is.GetImage(ctx, data, &renderer.RendererOptions{
 		MaxCount: params.MaxCount,
 		Columns:  params.Columns,
 	})
 	if err != nil {
-		ctx.Error(err).SetType(gin.ErrorTypePublic)
+		c.Error(err).SetType(gin.ErrorTypePublic)
 		return
 	}
 	r := file.Reader()
 	defer r.Close()
-	ctx.DataFromReader(http.StatusOK, file.Size(), file.ContentType(), r, map[string]string{
+	c.DataFromReader(http.StatusOK, file.Size(), file.ContentType(), r, map[string]string{
 		"cache-control": fmt.Sprintf(`public, max-age=%d`, 60*60*6),
 	})
 	// collect usage stats
-	if err := c.us.CollectUsage(ctx, data, params.Via); err != nil {
-		ctx.Error(err).SetType(gin.ErrorTypePrivate)
+	if err := api.us.CollectUsage(ctx, data, params.Via); err != nil {
+		c.Error(err).SetType(gin.ErrorTypePrivate)
 	}
 }

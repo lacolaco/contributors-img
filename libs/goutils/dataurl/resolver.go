@@ -1,6 +1,7 @@
 package dataurl
 
 import (
+	"context"
 	"encoding/base64"
 	"fmt"
 	"io"
@@ -8,12 +9,16 @@ import (
 	"net/url"
 )
 
-func ResolveImageDataURL(remoteURL string, imageSize int) (string, error) {
+func ResolveImageDataURL(c context.Context, remoteURL string, imageSize int) (string, error) {
 	u, _ := url.Parse(remoteURL)
 	q := u.Query()
 	q.Set("size", fmt.Sprint(imageSize))
 	u.RawQuery = q.Encode()
-	resp, err := http.Get(u.String())
+	req, err := http.NewRequestWithContext(c, "GET", u.String(), nil)
+	if err != nil {
+		return "", err
+	}
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return "", err
 	}

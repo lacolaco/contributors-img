@@ -1,6 +1,7 @@
 package dataurl
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -16,7 +17,7 @@ func TestDataURLResolver(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	ret, err := ResolveImageDataURL(ts.URL, 64)
+	ret, err := ResolveImageDataURL(context.Background(), ts.URL, 64)
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
