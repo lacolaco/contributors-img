@@ -52,11 +52,10 @@ func (s *Service) GetImage(ctx context.Context, r *model.RepositoryContributors,
 		return nil, err
 	}
 	if cache != nil {
-		s.sendCacheHitLog(ctx, cacheKey, true)
 		fmt.Printf("GetImage: restored from cache: %s\n", cacheKey)
 		return cache, nil
 	}
-	s.sendCacheHitLog(ctx, cacheKey, false)
+	s.sendCacheMissLog(ctx, cacheKey)
 	// render image
 	image, err := s.render(ctx, r, options)
 	if err != nil {
@@ -117,14 +116,8 @@ func (s *Service) saveCache(ctx context.Context, key string, image renderer.Imag
 	return s.cacheService.Save(ctx, key, image.Bytes(), image.ContentType())
 }
 
-func (s *Service) sendCacheHitLog(ctx context.Context, key string, hit bool) {
-	var logId string
-	if hit {
-		logId = "image-cache-hit"
-	} else {
-		logId = "image-cache-miss"
-	}
-	s.loggingClient.Logger(logId).Log(logging.Entry{
+func (s *Service) sendCacheMissLog(ctx context.Context, key string) {
+	s.loggingClient.Logger("image-cache-miss").Log(logging.Entry{
 		Labels: map[string]string{
 			"environment": string(s.env),
 		},

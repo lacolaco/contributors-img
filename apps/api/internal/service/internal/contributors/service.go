@@ -32,11 +32,10 @@ func (s *Service) GetContributors(ctx context.Context, r *model.Repository) (*mo
 		return nil, err
 	}
 	if cache != nil {
-		s.sendCacheHitLog(ctx, cacheKey, true)
 		fmt.Printf("GetContributors: restored from cache: %s\n", cacheKey)
 		return cache, nil
 	}
-	s.sendCacheHitLog(ctx, cacheKey, false)
+	s.sendCacheMissLog(ctx, cacheKey)
 	// get contributors from github
 	data, err := resolveRepositoryData(s.githubClient, ctx, r)
 	if err != nil {
@@ -50,14 +49,8 @@ func (s *Service) GetContributors(ctx context.Context, r *model.Repository) (*mo
 	return data, nil
 }
 
-func (s *Service) sendCacheHitLog(ctx context.Context, key string, hit bool) {
-	var logId string
-	if hit {
-		logId = "contributors-json-cache-hit"
-	} else {
-		logId = "contributors-json-cache-miss"
-	}
-	s.loggingClient.Logger(logId).Log(logging.Entry{
+func (s *Service) sendCacheMissLog(ctx context.Context, key string) {
+	s.loggingClient.Logger("contributors-json-cache-miss").Log(logging.Entry{
 		Labels: map[string]string{
 			"environment": string(s.env),
 		},
