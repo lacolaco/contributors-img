@@ -59,7 +59,7 @@ func (c *API) Get(ctx *gin.Context) {
 	// get data
 	data, err := c.cs.GetContributors(ctx, params.Repository.Object())
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		ctx.Error(err).SetType(gin.ErrorTypePublic)
 		return
 	}
 	fmt.Printf("data=%+v\n", data)
@@ -73,8 +73,7 @@ func (c *API) Get(ctx *gin.Context) {
 		Data: data,
 	})
 	if err != nil {
-		fmt.Print(err)
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		ctx.Error(err).SetType(gin.ErrorTypePublic)
 		return
 	}
 	r := file.Reader()
@@ -84,6 +83,6 @@ func (c *API) Get(ctx *gin.Context) {
 	})
 	// collect usage stats
 	if err := c.us.CollectUsage(ctx, data, params.Via); err != nil {
-		fmt.Printf("error collecting usage: %s\n", err)
+		ctx.Error(err).SetType(gin.ErrorTypePrivate)
 	}
 }
