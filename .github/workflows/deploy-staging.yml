@@ -51,14 +51,13 @@ jobs:
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install --frozen-lockfile
       - uses: ./.github/actions/setup-go
-      - uses: ./.github/actions/setup-rust
       - run: yarn build:all:staging
       - uses: imjasonh/setup-ko@v0.4
         env:
           KO_DOCKER_REPO: us-central1-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/cloud-run-builds
       - name: Build Docker image of worker
         id: 'build-api'
-        run: echo "::set-output name=image::$(ko build ./apps/api-go)"
+        run: echo "::set-output name=image::$(ko build ./apps/api)"
       - name: Build Docker image of worker
         id: 'build-worker'
         run: echo "::set-output name=image::$(ko build ./apps/worker)"

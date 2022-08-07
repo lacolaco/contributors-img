@@ -20,10 +20,7 @@
     "skipLibCheck": true,
     "paths": {
       "@lib/core": ["./libs/core/src/index.ts"],
-      "@lib/core/testing": ["./libs/core/src/testing/index.ts"],
-      "@lib/renderer": ["libs/renderer/src/index.ts"],
-      "@lib/renderer-rust": ["dist/libs/renderer-rust"],
-      "@lib/renderer-ui": ["libs/renderer-ui/src/index.ts"]
+      "@lib/core/testing": ["./libs/core/src/testing/index.ts"]
     },
     "rootDir": "."
   },

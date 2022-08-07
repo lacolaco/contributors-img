@@ -9,8 +9,7 @@
     "tsconfig.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
-    "nx.json": "*",
-    "Cargo.toml": "*"
+    "nx.json": "*"
   },
   "tasksRunnerOptions": {
     "default": {
