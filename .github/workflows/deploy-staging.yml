@@ -43,7 +43,7 @@ jobs:
           service_account: 'deploy-service@contributors-img.iam.gserviceaccount.com'
       - uses: google-github-actions/setup-gcloud@v0
       - uses: ./.github/actions/setup-go
-      - uses: imjasonh/setup-ko@v0.4
+      - uses: imjasonh/setup-ko@v0.5
         env:
           KO_DOCKER_REPO: us-central1-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/cloud-run-builds
       - name: Build Docker image of api
@@ -72,7 +72,7 @@ jobs:
           service_account: 'deploy-service@contributors-img.iam.gserviceaccount.com'
       - uses: google-github-actions/setup-gcloud@v0
       - uses: ./.github/actions/setup-go
-      - uses: imjasonh/setup-ko@v0.4
+      - uses: imjasonh/setup-ko@v0.5
         env:
           KO_DOCKER_REPO: us-central1-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/cloud-run-builds
       - name: Build Docker image of worker

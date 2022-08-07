@@ -1,6 +1,6 @@
 module contrib.rocks
 
-go 1.18
+go 1.19
 
 require (
 	cloud.google.com/go/bigquery v1.37.0
