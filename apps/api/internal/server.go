@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"contrib.rocks/apps/api-go/internal/api"
-	"contrib.rocks/apps/api-go/internal/config"
-	"contrib.rocks/apps/api-go/internal/service"
+	"contrib.rocks/apps/api/internal/api"
+	"contrib.rocks/apps/api/internal/config"
+	"contrib.rocks/apps/api/internal/service"
 	"contrib.rocks/libs/goutils/env"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"

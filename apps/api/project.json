@@ -12,7 +12,7 @@
       "inputs": ["default", "app"],
       "options": {
         "command": "go run .",
-        "cwd": "apps/api-go"
+        "cwd": "apps/api"
       }
     },
     "test": {
@@ -20,7 +20,7 @@
       "inputs": ["default"],
       "options": {
         "command": "go test ./...",
-        "cwd": "apps/api-go"
+        "cwd": "apps/api"
       }
     },
     "lint": {
@@ -28,7 +28,7 @@
       "inputs": ["default"],
       "options": {
         "command": "go vet ./...",
-        "cwd": "apps/api-go"
+        "cwd": "apps/api"
       }
     },
     "format": {
@@ -36,7 +36,7 @@
       "inputs": ["default"],
       "options": {
         "command": "gofmt -w .",
-        "cwd": "apps/api-go"
+        "cwd": "apps/api"
       }
     }
   }

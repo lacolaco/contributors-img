@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/logging"
-	"contrib.rocks/apps/api-go/internal/config"
+	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/libs/goutils/env"
 	"contrib.rocks/libs/goutils/model"
 )

@@ -3,11 +3,11 @@ package service
 import (
 	"io"
 
-	"contrib.rocks/apps/api-go/internal/config"
-	"contrib.rocks/apps/api-go/internal/service/cache"
-	"contrib.rocks/apps/api-go/internal/service/contributors"
-	"contrib.rocks/apps/api-go/internal/service/image"
-	"contrib.rocks/apps/api-go/internal/service/usage"
+	"contrib.rocks/apps/api/internal/config"
+	"contrib.rocks/apps/api/internal/service/cache"
+	"contrib.rocks/apps/api/internal/service/contributors"
+	"contrib.rocks/apps/api/internal/service/image"
+	"contrib.rocks/apps/api/internal/service/usage"
 	"contrib.rocks/libs/goutils/apiclient"
 )
 

@@ -1,8 +1,8 @@
 package api
 
 import (
-	"contrib.rocks/apps/api-go/internal/api/image"
-	"contrib.rocks/apps/api-go/internal/service"
+	"contrib.rocks/apps/api/internal/api/image"
+	"contrib.rocks/apps/api/internal/service"
 	"github.com/gin-gonic/gin"
 )
 

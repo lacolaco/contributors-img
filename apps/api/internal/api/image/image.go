@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strings"
 
-	"contrib.rocks/apps/api-go/internal/service/contributors"
-	"contrib.rocks/apps/api-go/internal/service/image"
-	"contrib.rocks/apps/api-go/internal/service/usage"
+	"contrib.rocks/apps/api/internal/service/contributors"
+	"contrib.rocks/apps/api/internal/service/image"
+	"contrib.rocks/apps/api/internal/service/usage"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"
 	"github.com/gin-gonic/gin"

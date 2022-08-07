@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	app "contrib.rocks/apps/api-go/internal"
+	app "contrib.rocks/apps/api/internal"
 )
 
 func main() {

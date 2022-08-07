@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 
 	"cloud.google.com/go/storage"
-	"contrib.rocks/apps/api-go/internal/config"
+	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/libs/goutils/model"
 )
 

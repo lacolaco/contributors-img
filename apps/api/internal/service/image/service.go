@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync"
 
-	"contrib.rocks/apps/api-go/internal/service/cache"
+	"contrib.rocks/apps/api/internal/service/cache"
 	"contrib.rocks/libs/goutils"
 	"contrib.rocks/libs/goutils/dataurl"
 	"contrib.rocks/libs/goutils/model"

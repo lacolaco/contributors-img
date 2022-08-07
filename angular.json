@@ -2,7 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "projects": {
-    "api": "apps/api-go",
+    "api": "apps/api",
     "core": {
       "root": "libs/core",
       "sourceRoot": "libs/core/src",

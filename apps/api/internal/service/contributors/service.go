@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"contrib.rocks/apps/api-go/internal/service/cache"
+	"contrib.rocks/apps/api/internal/service/cache"
 	"contrib.rocks/libs/goutils/model"
 	"github.com/google/go-github/v45/github"
 )
