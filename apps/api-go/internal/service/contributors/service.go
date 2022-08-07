@@ -27,6 +27,7 @@ func (s *Service) GetContributors(ctx context.Context, r *model.Repository) (*mo
 		return nil, err
 	}
 	if cache != nil {
+		fmt.Printf("GetContributors: restored from cache: %s\n", cacheKey)
 		return cache, nil
 	}
 	data, err := resolveRepositoryData(s.githubClient, ctx, r)
