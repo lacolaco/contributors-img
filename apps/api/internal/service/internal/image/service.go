@@ -8,6 +8,7 @@ import (
 	"cloud.google.com/go/logging"
 	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/service/internal/cache"
+	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils"
 	"contrib.rocks/libs/goutils/dataurl"
 	"contrib.rocks/libs/goutils/env"
@@ -30,7 +31,10 @@ type GetImageParams struct {
 	Data            *model.RepositoryContributors
 }
 
-func (s *Service) GetImage(ctx context.Context, r *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error) {
+func (s *Service) GetImage(c context.Context, r *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error) {
+	ctx, span := tracing.DefaultTracer.Start(c, "image.Service.GetImage")
+	defer span.End()
+
 	// set default options
 	const (
 		defaultMaxCount = 100
@@ -77,7 +81,10 @@ func (s *Service) restoreCache(ctx context.Context, key string) (model.FileHandl
 	return cache, nil
 }
 
-func (s *Service) render(ctx context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions) (renderer.Image, error) {
+func (s *Service) render(c context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions) (renderer.Image, error) {
+	ctx, span := tracing.DefaultTracer.Start(c, "image.Service.render")
+	defer span.End()
+
 	// get formatted data
 	maxCount := goutils.Min(options.MaxCount, len(data.Contributors))
 	formatted := &model.RepositoryContributors{
@@ -94,7 +101,7 @@ func (s *Service) render(ctx context.Context, data *model.RepositoryContributors
 		chs = append(chs, make(chan string, 1))
 		go func(ret chan<- string, avatarUrl string, itemSize int) {
 			defer wg.Done()
-			d, err := dataurl.ResolveImageDataURL(avatarUrl, itemSize)
+			d, err := dataurl.ResolveImageDataURL(ctx, avatarUrl, itemSize)
 			if err != nil {
 				ret <- ""
 				return
@@ -112,11 +119,11 @@ func (s *Service) render(ctx context.Context, data *model.RepositoryContributors
 	return image, nil
 }
 
-func (s *Service) saveCache(ctx context.Context, key string, image renderer.Image) error {
-	return s.cacheService.Save(ctx, key, image.Bytes(), image.ContentType())
+func (s *Service) saveCache(c context.Context, key string, image renderer.Image) error {
+	return s.cacheService.Save(c, key, image.Bytes(), image.ContentType())
 }
 
-func (s *Service) sendCacheMissLog(ctx context.Context, key string) {
+func (s *Service) sendCacheMissLog(c context.Context, key string) {
 	s.loggingClient.Logger("image-cache-miss").Log(logging.Entry{
 		Labels: map[string]string{
 			"environment": string(s.env),
