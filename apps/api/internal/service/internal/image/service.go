@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync"
 
-	"contrib.rocks/apps/api/internal/service/cache"
+	"contrib.rocks/apps/api/internal/service/internal/cache"
 	"contrib.rocks/libs/goutils"
 	"contrib.rocks/libs/goutils/dataurl"
 	"contrib.rocks/libs/goutils/model"
@@ -21,27 +21,26 @@ func New(c *cache.Service) *Service {
 }
 
 type GetImageParams struct {
-	Repository      *model.Repository
 	RendererOptions *renderer.RendererOptions
 	Data            *model.RepositoryContributors
 }
 
-func (s *Service) GetImage(ctx context.Context, p *GetImageParams) (model.FileHandle, error) {
+func (s *Service) GetImage(ctx context.Context, r *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error) {
 	// set default options
 	const (
 		defaultMaxCount = 100
 		defaultColumns  = 12
 		defaultItemSize = 64
 	)
-	if p.RendererOptions.MaxCount < 1 {
-		p.RendererOptions.MaxCount = defaultMaxCount
+	if options.MaxCount < 1 {
+		options.MaxCount = defaultMaxCount
 	}
-	if p.RendererOptions.Columns < 1 {
-		p.RendererOptions.Columns = defaultColumns
+	if options.Columns < 1 {
+		options.Columns = defaultColumns
 	}
-	p.RendererOptions.ItemSize = defaultItemSize
+	options.ItemSize = defaultItemSize
 
-	cacheKey := createImageCacheKey(p, "svg")
+	cacheKey := createImageCacheKey(r.Repository, options, "svg")
 	// restore cached image
 	cache, err := s.restoreCache(ctx, cacheKey)
 	if err != nil {
@@ -52,7 +51,7 @@ func (s *Service) GetImage(ctx context.Context, p *GetImageParams) (model.FileHa
 		return cache, nil
 	}
 	// render image
-	image, err := s.render(ctx, p)
+	image, err := s.render(ctx, r, options)
 	if err != nil {
 		return nil, err
 	}
@@ -72,19 +71,19 @@ func (s *Service) restoreCache(ctx context.Context, key string) (model.FileHandl
 	return cache, nil
 }
 
-func (s *Service) render(ctx context.Context, p *GetImageParams) (renderer.Image, error) {
-	// get data
-	maxCount := goutils.Min(p.RendererOptions.MaxCount, len(p.Data.Contributors))
-	data := &model.RepositoryContributors{
-		Repository:      p.Data.Repository,
-		StargazersCount: p.Data.StargazersCount,
+func (s *Service) render(ctx context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions) (renderer.Image, error) {
+	// get formatted data
+	maxCount := goutils.Min(options.MaxCount, len(data.Contributors))
+	formatted := &model.RepositoryContributors{
+		Repository:      data.Repository,
+		StargazersCount: data.StargazersCount,
 		Contributors:    make([]*model.Contributor, maxCount),
 	}
-	copy(data.Contributors, p.Data.Contributors)
+	copy(formatted.Contributors, data.Contributors)
 	// convert avatar images to data urls
 	var wg sync.WaitGroup
-	chs := make([]chan string, 0, len(data.Contributors))
-	for i, c := range data.Contributors {
+	chs := make([]chan string, 0, len(formatted.Contributors))
+	for i, c := range formatted.Contributors {
 		wg.Add(1)
 		chs = append(chs, make(chan string, 1))
 		go func(ret chan<- string, avatarUrl string, itemSize int) {
@@ -95,15 +94,15 @@ func (s *Service) render(ctx context.Context, p *GetImageParams) (renderer.Image
 				return
 			}
 			ret <- d
-		}(chs[i], c.AvatarURL, p.RendererOptions.ItemSize)
+		}(chs[i], c.AvatarURL, options.ItemSize)
 	}
 	wg.Wait()
 	for i, ch := range chs {
-		data.Contributors[i].AvatarURL = <-ch
+		formatted.Contributors[i].AvatarURL = <-ch
 	}
 	// render image
-	r := renderer.NewRenderer(p.RendererOptions)
-	image := r.Render(data)
+	r := renderer.NewRenderer(options)
+	image := r.Render(formatted)
 	return image, nil
 }
 
@@ -111,8 +110,8 @@ func (s *Service) saveCache(ctx context.Context, key string, image renderer.Imag
 	return s.cacheService.Save(ctx, key, image.Bytes(), image.ContentType())
 }
 
-func createImageCacheKey(p *GetImageParams, ext string) string {
+func createImageCacheKey(r *model.Repository, options *renderer.RendererOptions, ext string) string {
 	// `image-cache/${repository.owner}--${repository.repo}--${params.maxCount}_${params.maxColumns}.${ext}`;
 	return fmt.Sprintf("image-cache/%s--%s--%d_%d.%s",
-		p.Repository.Owner, p.Repository.RepoName, p.RendererOptions.MaxCount, p.RendererOptions.Columns, ext)
+		r.Owner, r.RepoName, options.MaxCount, options.Columns, ext)
 }
