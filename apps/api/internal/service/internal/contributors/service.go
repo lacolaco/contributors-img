@@ -7,6 +7,7 @@ import (
 	"cloud.google.com/go/logging"
 	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/service/internal/cache"
+	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/env"
 	"contrib.rocks/libs/goutils/model"
 	"github.com/google/go-github/v45/github"
@@ -23,7 +24,10 @@ func New(cfg *config.Config, c *cache.Service, gh *github.Client, l *logging.Cli
 	return &Service{cfg.Env, c, gh, l}
 }
 
-func (s *Service) GetContributors(ctx context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
+func (s *Service) GetContributors(c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
+	ctx, span := tracing.DefaultTracer.Start(c, "contributors.Service.GetContributors")
+	defer span.End()
+
 	cacheKey := createContributorsJSONCacheKey(r)
 	// restore cache
 	var cache *model.RepositoryContributors
@@ -49,7 +53,7 @@ func (s *Service) GetContributors(ctx context.Context, r *model.Repository) (*mo
 	return data, nil
 }
 
-func (s *Service) sendCacheMissLog(ctx context.Context, key string) {
+func (s *Service) sendCacheMissLog(c context.Context, key string) {
 	s.loggingClient.Logger("contributors-json-cache-miss").Log(logging.Entry{
 		Labels: map[string]string{
 			"environment": string(s.env),

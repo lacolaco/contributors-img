@@ -4,11 +4,15 @@ import (
 	"context"
 	"sync"
 
+	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
 	"github.com/google/go-github/v45/github"
 )
 
-func resolveRepositoryData(client *github.Client, ctx context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
+func resolveRepositoryData(client *github.Client, c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
+	ctx, span := tracing.DefaultTracer.Start(c, "contributors.resolveRepositoryData")
+	defer span.End()
+
 	type Result[T any] struct {
 		Value T
 		Error error
@@ -70,13 +74,13 @@ func resolveRepositoryData(client *github.Client, ctx context.Context, r *model.
 	}, nil
 }
 
-func getAllContributors(client *github.Client, ctx context.Context, owner, repo string) ([]*github.Contributor, error) {
+func getAllContributors(client *github.Client, c context.Context, owner, repo string) ([]*github.Contributor, error) {
 	options := &github.ListContributorsOptions{
 		ListOptions: github.ListOptions{PerPage: 100},
 	}
 	var ret []*github.Contributor
 	for {
-		data, resp, err := client.Repositories.ListContributors(ctx, owner, repo, options)
+		data, resp, err := client.Repositories.ListContributors(c, owner, repo, options)
 		if err != nil {
 			return nil, err
 		}
