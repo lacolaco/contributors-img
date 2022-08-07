@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"cloud.google.com/go/bigquery"
+	"cloud.google.com/go/firestore"
 	"cloud.google.com/go/logging"
 	"cloud.google.com/go/storage"
 	"golang.org/x/oauth2/google"
@@ -35,6 +36,14 @@ func NewLoggingClient() *logging.Client {
 		panic(fmt.Errorf("project id is not found"))
 	}
 	c, err := logging.NewClient(context.Background(), cred.ProjectID)
+	if err != nil {
+		panic(err)
+	}
+	return c
+}
+
+func NewFirestoreClient() *firestore.Client {
+	c, err := firestore.NewClient(context.Background(), firestore.DetectProjectID)
 	if err != nil {
 		panic(err)
 	}

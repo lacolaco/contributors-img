@@ -4,20 +4,19 @@ import (
 	"io"
 
 	"contrib.rocks/apps/api/internal/config"
-	"contrib.rocks/apps/api/internal/service/cache"
-	"contrib.rocks/apps/api/internal/service/contributors"
-	"contrib.rocks/apps/api/internal/service/image"
-	"contrib.rocks/apps/api/internal/service/usage"
+	"contrib.rocks/apps/api/internal/service/internal/cache"
+	"contrib.rocks/apps/api/internal/service/internal/contributors"
+	"contrib.rocks/apps/api/internal/service/internal/image"
+	"contrib.rocks/apps/api/internal/service/internal/usage"
 	"contrib.rocks/libs/goutils/apiclient"
 )
 
-// TODO: make services less coupled (dependency injection?)
 type ServicePack struct {
-	CacheService        *cache.Service
-	ContributorsService *contributors.Service
-	UsageService        *usage.Service
-	ImageService        *image.Service
-	closables           []io.Closer
+	ContributorsService ContributorsService
+	UsageService        UsageService
+	ImageService        ImageService
+
+	closables []io.Closer
 }
 
 func NewServicePack(cfg *config.Config) *ServicePack {
@@ -29,10 +28,9 @@ func NewServicePack(cfg *config.Config) *ServicePack {
 	cacheService := cache.New(cfg, storageClient)
 
 	return &ServicePack{
-		CacheService:        cacheService,
-		ContributorsService: contributors.New(cacheService, githubClient),
-		UsageService:        usage.New(loggingClient, cfg),
-		ImageService:        image.New(cacheService),
+		ContributorsService: contributors.New(cfg, cacheService, githubClient, loggingClient),
+		UsageService:        usage.New(cfg, loggingClient),
+		ImageService:        image.New(cfg, cacheService, loggingClient),
 		closables:           closables,
 	}
 }

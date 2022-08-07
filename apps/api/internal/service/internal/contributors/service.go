@@ -4,18 +4,23 @@ import (
 	"context"
 	"fmt"
 
-	"contrib.rocks/apps/api/internal/service/cache"
+	"cloud.google.com/go/logging"
+	"contrib.rocks/apps/api/internal/config"
+	"contrib.rocks/apps/api/internal/service/internal/cache"
+	"contrib.rocks/libs/goutils/env"
 	"contrib.rocks/libs/goutils/model"
 	"github.com/google/go-github/v45/github"
 )
 
 type Service struct {
-	cacheService *cache.Service
-	githubClient *github.Client
+	env           env.Environment
+	cacheService  *cache.Service
+	githubClient  *github.Client
+	loggingClient *logging.Client
 }
 
-func New(c *cache.Service, gh *github.Client) *Service {
-	return &Service{c, gh}
+func New(cfg *config.Config, c *cache.Service, gh *github.Client, l *logging.Client) *Service {
+	return &Service{cfg.Env, c, gh, l}
 }
 
 func (s *Service) GetContributors(ctx context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
@@ -30,6 +35,8 @@ func (s *Service) GetContributors(ctx context.Context, r *model.Repository) (*mo
 		fmt.Printf("GetContributors: restored from cache: %s\n", cacheKey)
 		return cache, nil
 	}
+	s.sendCacheMissLog(ctx, cacheKey)
+	// get contributors from github
 	data, err := resolveRepositoryData(s.githubClient, ctx, r)
 	if err != nil {
 		return nil, err
@@ -40,6 +47,15 @@ func (s *Service) GetContributors(ctx context.Context, r *model.Repository) (*mo
 		return nil, err
 	}
 	return data, nil
+}
+
+func (s *Service) sendCacheMissLog(ctx context.Context, key string) {
+	s.loggingClient.Logger("contributors-json-cache-miss").Log(logging.Entry{
+		Labels: map[string]string{
+			"environment": string(s.env),
+		},
+		Payload: key,
+	})
 }
 
 func createContributorsJSONCacheKey(r *model.Repository) string {

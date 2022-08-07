@@ -5,21 +5,19 @@ import (
 	"net/http"
 	"strings"
 
-	"contrib.rocks/apps/api/internal/service/contributors"
-	"contrib.rocks/apps/api/internal/service/image"
-	"contrib.rocks/apps/api/internal/service/usage"
+	"contrib.rocks/apps/api/internal/service"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"
 	"github.com/gin-gonic/gin"
 )
 
 type API struct {
-	cs *contributors.Service
-	is *image.Service
-	us *usage.Service
+	cs service.ContributorsService
+	is service.ImageService
+	us service.UsageService
 }
 
-func New(cs *contributors.Service, is *image.Service, us *usage.Service) *API {
+func New(cs service.ContributorsService, is service.ImageService, us service.UsageService) *API {
 	return &API{cs, is, us}
 }
 
@@ -64,13 +62,9 @@ func (c *API) Get(ctx *gin.Context) {
 	}
 	fmt.Printf("data=%+v\n", data)
 	// get image
-	file, err := c.is.GetImage(ctx, &image.GetImageParams{
-		Repository: params.Repository.Object(),
-		RendererOptions: &renderer.RendererOptions{
-			MaxCount: params.MaxCount,
-			Columns:  params.Columns,
-		},
-		Data: data,
+	file, err := c.is.GetImage(ctx, data, &renderer.RendererOptions{
+		MaxCount: params.MaxCount,
+		Columns:  params.Columns,
 	})
 	if err != nil {
 		ctx.Error(err).SetType(gin.ErrorTypePublic)

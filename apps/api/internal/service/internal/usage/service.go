@@ -16,7 +16,7 @@ type Service struct {
 	loggingClient *logging.Client
 }
 
-func New(l *logging.Client, cfg *config.Config) *Service {
+func New(cfg *config.Config, l *logging.Client) *Service {
 	return &Service{cfg.Env, l}
 }
 
