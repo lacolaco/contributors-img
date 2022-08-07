@@ -64,7 +64,7 @@ jobs:
         run: echo "::set-output name=image::$(ko build ./apps/worker)"
       - name: Deploy API to Cloud Run (api)
         run: |
-          gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
+          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
           --image ${{ steps.build-api.outputs.image }} \
           --execution-environment gen1 --region us-central1 --platform managed --memory 512Mi --allow-unauthenticated \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
@@ -73,7 +73,7 @@ jobs:
           --labels env=production
       - name: Deploy API to Cloud Run (worker)
         run: |
-          gcloud --quiet run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
+          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
           --image ${{ steps.build-worker.outputs.image }} \
           --execution-environment gen1 --region us-central1 --platform managed --memory 512Mi \
           --set-env-vars APP_ENV="production" \
