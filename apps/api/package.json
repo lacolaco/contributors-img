@@ -9,7 +9,7 @@
   "dependencies": {
     "@google-cloud/firestore": "5.0.2",
     "@google-cloud/logging": "10.1.1",
-    "@google-cloud/storage": "6.2.3",
+    "@google-cloud/storage": "6.3.0",
     "@google-cloud/trace-agent": "5.1.6",
     "@octokit/rest": "19.0.3",
     "abort-controller": "3.0.0",

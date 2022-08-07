@@ -48,7 +48,7 @@
     "@angular/router": "14.1.0",
     "@google-cloud/firestore": "5.0.2",
     "@google-cloud/logging": "10.1.1",
-    "@google-cloud/storage": "6.2.3",
+    "@google-cloud/storage": "6.3.0",
     "@google-cloud/trace-agent": "5.1.6",
     "@lacolaco/reactive-store": "4.0.0",
     "@octokit/rest": "19.0.3",
