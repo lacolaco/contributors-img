@@ -1,0 +1,43 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "namedInputs": {
+    "default": ["{workspaceRoot}/go.mod", "{projectRoot}/**/*"],
+    "app": ["!{projectRoot}/**/*_spec.go"]
+  },
+  "tags": ["app"],
+  "implicitDependencies": ["goutils"],
+  "targets": {
+    "serve": {
+      "builder": "@nrwl/workspace:run-commands",
+      "inputs": ["default", "app"],
+      "options": {
+        "command": "go run .",
+        "cwd": "apps/api"
+      }
+    },
+    "test": {
+      "builder": "@nrwl/workspace:run-commands",
+      "inputs": ["default"],
+      "options": {
+        "command": "go test ./...",
+        "cwd": "apps/api"
+      }
+    },
+    "lint": {
+      "builder": "@nrwl/workspace:run-commands",
+      "inputs": ["default"],
+      "options": {
+        "command": "go vet ./...",
+        "cwd": "apps/api"
+      }
+    },
+    "format": {
+      "builder": "@nrwl/workspace:run-commands",
+      "inputs": ["default"],
+      "options": {
+        "command": "gofmt -w .",
+        "cwd": "apps/api"
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+  "version": 2,
+  "projects": {
+    "api": "apps/api",
+    "core": "libs/core",
+    "goutils": "libs/goutils",
+    "webapp": "apps/webapp",
+    "worker": "apps/worker"
+  }
+}

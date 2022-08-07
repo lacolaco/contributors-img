@@ -1,0 +1,33 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*"]
+  },
+  "tags": ["lib"],
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "builder": "@nrwl/jest:jest",
+      "inputs": ["default"],
+      "options": {
+        "jestConfig": "libs/core/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "builder": "@nrwl/linter:eslint",
+      "inputs": ["default"],
+      "options": {
+        "lintFilePatterns": ["libs/core/**/*.ts"]
+      }
+    },
+    "format": {
+      "builder": "@nrwl/workspace:run-commands",
+      "inputs": ["default"],
+      "options": {
+        "command": "yarn prettier -w '.'",
+        "cwd": "libs/core"
+      }
+    }
+  }
+}
