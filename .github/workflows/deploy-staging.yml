@@ -6,6 +6,7 @@ on:
       - main
 
 env:
+  CLOUD_RUN_SERVICE_ACCOUNT: staging-api@contributors-img.iam.gserviceaccount.com
   CLOUD_RUN_SERVICE_NAME_API: staging-api
   CLOUD_RUN_SERVICE_NAME_WORKER: staging-worker
   APP_CACHE_BUCKET: cache.storage.stg.contrib.rocks
@@ -30,7 +31,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - uses: ./.github/actions/setup-go
 
-  deploy:
+  deploy-api:
     runs-on: ubuntu-latest
     needs: [install-deps]
     steps:
@@ -41,6 +42,61 @@ jobs:
           workload_identity_provider: 'projects/484218711641/locations/global/workloadIdentityPools/deploy-github-actions/providers/deploy-github-actions-provider'
           service_account: 'deploy-service@contributors-img.iam.gserviceaccount.com'
       - uses: google-github-actions/setup-gcloud@v0
+      - uses: ./.github/actions/setup-go
+      - uses: imjasonh/setup-ko@v0.4
+        env:
+          KO_DOCKER_REPO: us-central1-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/cloud-run-builds
+      - name: Build Docker image of api
+        id: 'build-api'
+        run: echo "::set-output name=image::$(ko build ./apps/api)"
+      - name: Deploy API to Cloud Run (api)
+        run: |
+          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
+          --image ${{ steps.build-api.outputs.image }} \
+          --labels env=staging \
+          --service-account ${CLOUD_RUN_SERVICE_ACCOUNT} \
+          --execution-environment gen1 --region us-central1 --platform managed --memory 128Mi --allow-unauthenticated \
+          --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
+          --set-env-vars CACHE_STORAGE_BUCKET="${APP_CACHE_BUCKET}" \
+          --set-env-vars APP_ENV="staging"
+
+  deploy-worker:
+    runs-on: ubuntu-latest
+    needs: [install-deps]
+    steps:
+      - uses: actions/checkout@v3
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          workload_identity_provider: 'projects/484218711641/locations/global/workloadIdentityPools/deploy-github-actions/providers/deploy-github-actions-provider'
+          service_account: 'deploy-service@contributors-img.iam.gserviceaccount.com'
+      - uses: google-github-actions/setup-gcloud@v0
+      - uses: ./.github/actions/setup-go
+      - uses: imjasonh/setup-ko@v0.4
+        env:
+          KO_DOCKER_REPO: us-central1-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/cloud-run-builds
+      - name: Build Docker image of worker
+        id: 'build-worker'
+        run: echo "::set-output name=image::$(ko build ./apps/worker)"
+      - name: Deploy API to Cloud Run (worker)
+        run: |
+          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
+          --image ${{ steps.build-worker.outputs.image }} \
+          --labels env=staging \
+          --service-account ${CLOUD_RUN_SERVICE_ACCOUNT} \
+          --execution-environment gen1 --region us-central1 --platform managed --memory 128Mi \
+          --set-env-vars APP_ENV="staging"
+
+  deploy-webapp:
+    runs-on: ubuntu-latest
+    needs: [deploy-api]
+    steps:
+      - uses: actions/checkout@v3
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          workload_identity_provider: 'projects/484218711641/locations/global/workloadIdentityPools/deploy-github-actions/providers/deploy-github-actions-provider'
+          service_account: 'deploy-service@contributors-img.iam.gserviceaccount.com'
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.node-version'
@@ -50,32 +106,6 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install --frozen-lockfile
-      - uses: ./.github/actions/setup-go
       - run: yarn build:all:staging
-      - uses: imjasonh/setup-ko@v0.4
-        env:
-          KO_DOCKER_REPO: us-central1-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/cloud-run-builds
-      - name: Build Docker image of worker
-        id: 'build-api'
-        run: echo "::set-output name=image::$(ko build ./apps/api)"
-      - name: Build Docker image of worker
-        id: 'build-worker'
-        run: echo "::set-output name=image::$(ko build ./apps/worker)"
-      - name: Deploy API to Cloud Run (api)
-        run: |
-          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
-          --image ${{ steps.build-api.outputs.image }} \
-          --labels env=staging \
-          --execution-environment gen1 --region us-central1 --platform managed --memory 128Mi --allow-unauthenticated \
-          --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
-          --set-env-vars CACHE_STORAGE_BUCKET="${APP_CACHE_BUCKET}" \
-          --set-env-vars APP_ENV="staging"
-      - name: Deploy API to Cloud Run (worker)
-        run: |
-          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
-          --image ${{ steps.build-worker.outputs.image }} \
-          --labels env=staging \
-          --execution-environment gen1 --region us-central1 --platform managed --memory 128Mi \
-          --set-env-vars APP_ENV="staging"
       - name: Deploy webapp to Firebase
         run: yarn firebase deploy --project=${{ steps.auth.outputs.project_id }} --only=hosting:staging
