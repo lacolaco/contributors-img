@@ -27,7 +27,7 @@ func (s *Service) GetContributors(ctx context.Context, r *model.Repository) (*mo
 	cacheKey := createContributorsJSONCacheKey(r)
 	// restore cache
 	var cache *model.RepositoryContributors
-	err := s.cacheService.GetJSON(ctx, cacheKey, cache)
+	err := s.cacheService.GetJSON(ctx, cacheKey, &cache)
 	if err != nil {
 		return nil, err
 	}
