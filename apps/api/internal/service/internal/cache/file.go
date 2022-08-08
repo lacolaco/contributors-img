@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"fmt"
 	"io"
 
 	"cloud.google.com/go/storage"
@@ -10,18 +11,19 @@ import (
 var _ model.FileHandle = &cacheFileHandle{}
 
 type cacheFileHandle struct {
-	r *storage.Reader
+	r     *storage.Reader
+	attrs *storage.ObjectAttrs
 }
 
 func (h *cacheFileHandle) Reader() io.ReadCloser {
 	return h.r
 }
 func (h *cacheFileHandle) Size() int64 {
-	return h.r.Attrs.Size
+	return h.attrs.Size
 }
 func (h *cacheFileHandle) ContentType() string {
-	return h.r.Attrs.ContentType
+	return h.attrs.ContentType
 }
-func (h *cacheFileHandle) ContentLength() int64 {
-	return h.r.Attrs.Size
+func (h *cacheFileHandle) Etag() string {
+	return fmt.Sprintf("%x", h.attrs.MD5)
 }

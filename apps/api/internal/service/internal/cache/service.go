@@ -61,13 +61,21 @@ func getFile(bucket *storage.BucketHandle, c context.Context, name string) (mode
 	defer span.End()
 	span.SetAttributes(attribute.String("cache.object.name", name))
 
-	or, err := bucket.Object(name).NewReader(ctx)
+	obj := bucket.Object(name)
+	// TODO: concurrent read
+	attrs, err := obj.Attrs(ctx)
 	if err == storage.ErrObjectNotExist {
 		return nil, nil
-	} else if err != nil {
+	}
+	if err != nil {
 		return nil, err
 	}
-	return &cacheFileHandle{or}, nil
+	or, err := obj.NewReader(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &cacheFileHandle{or, attrs}, nil
 }
 
 func saveFile(bucket *storage.BucketHandle, c context.Context, name string, data []byte, contentType string) error {
