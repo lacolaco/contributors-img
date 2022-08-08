@@ -40,3 +40,24 @@ func TestRender_Title(t *testing.T) {
 		}
 	}
 }
+
+func TestSvgImage_Size(t *testing.T) {
+	img := svgImage([]byte("<svg></svg>"))
+	if img.Size() != 11 {
+		t.Fatalf("size not correct: %d", img.Size())
+	}
+}
+
+func TestSvgImage_ContentType(t *testing.T) {
+	img := svgImage([]byte("<svg></svg>"))
+	if img.ContentType() != "image/svg+xml" {
+		t.Fatalf("content type not correct: %s", img.ContentType())
+	}
+}
+
+func TestSvgImage_Etag(t *testing.T) {
+	img := svgImage([]byte("<svg></svg>"))
+	if img.ContentType() != "image/svg+xml" {
+		t.Fatalf("content type not correct: %s", img.ContentType())
+	}
+}
