@@ -3,7 +3,6 @@ package cache
 import (
 	"context"
 	"encoding/json"
-	"io"
 
 	"cloud.google.com/go/storage"
 	"contrib.rocks/apps/api/internal/config"
@@ -37,12 +36,9 @@ func (s *Service) GetJSON(c context.Context, name string, v any) error {
 		v = nil
 		return nil
 	}
-	defer o.Reader().Close()
-	b, err := io.ReadAll(o.Reader())
-	if err != nil {
-		return err
-	}
-	return json.Unmarshal(b, &v)
+	r := o.Reader()
+	defer r.Close()
+	return json.NewDecoder(r).Decode(&v)
 }
 
 func (s *Service) Save(c context.Context, name string, data []byte, contentType string) error {
