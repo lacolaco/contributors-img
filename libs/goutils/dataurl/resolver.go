@@ -7,6 +7,8 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+
+	"contrib.rocks/libs/goutils/httptrace"
 )
 
 func ResolveImageDataURL(c context.Context, remoteURL string, imageSize int) (string, error) {
@@ -14,11 +16,13 @@ func ResolveImageDataURL(c context.Context, remoteURL string, imageSize int) (st
 	q := u.Query()
 	q.Set("size", fmt.Sprint(imageSize))
 	u.RawQuery = q.Encode()
+
+	client := httptrace.NewClient(http.DefaultTransport)
 	req, err := http.NewRequestWithContext(c, "GET", u.String(), nil)
 	if err != nil {
 		return "", err
 	}
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return "", err
 	}
