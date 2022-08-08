@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 
 	"contrib.rocks/apps/api/internal/api"
@@ -36,6 +37,10 @@ func StartServer() error {
 	r.Use(gzip.Gzip(gzip.DefaultCompression))
 	r.Use(otelgin.Middleware("api", otelgin.WithTracerProvider(tp)))
 	r.Use(errorHandler)
+	r.Use(func(ctx *gin.Context) {
+		log.Printf("%#v\n", ctx.Request.Header)
+		ctx.Next()
+	})
 
 	api.Setup(r, sp)
 
