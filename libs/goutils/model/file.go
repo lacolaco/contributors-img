@@ -6,5 +6,5 @@ type FileHandle interface {
 	Reader() io.ReadCloser
 	ContentType() string
 	Size() int64
-	Etag() string
+	ETag() string
 }

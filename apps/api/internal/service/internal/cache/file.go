@@ -24,6 +24,6 @@ func (h *cacheFileHandle) Size() int64 {
 func (h *cacheFileHandle) ContentType() string {
 	return h.attrs.ContentType
 }
-func (h *cacheFileHandle) Etag() string {
+func (h *cacheFileHandle) ETag() string {
 	return fmt.Sprintf("%x", h.attrs.MD5)
 }
