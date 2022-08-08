@@ -54,7 +54,7 @@ func (api *API) Get(c *gin.Context) {
 
 	var params getImageParams
 	if err := params.bind(c); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 	fmt.Printf("params=%+v\n", params)
