@@ -83,9 +83,14 @@ func (api *API) Get(c *gin.Context) {
 	}
 	r := file.Reader()
 	defer r.Close()
+	// send image
+	if c.GetHeader("If-None-Match") == file.ETag() {
+		c.Status(http.StatusNotModified)
+		return
+	}
 	c.DataFromReader(http.StatusOK, file.Size(), file.ContentType(), r, map[string]string{
 		"cache-control": fmt.Sprintf(`public, max-age=%d`, 60*60*6),
-		"etag":          file.Etag(),
+		"etag":          file.ETag(),
 	})
 	// collect usage stats
 	if err := api.us.CollectUsage(ctx, data, params.Via); err != nil {
