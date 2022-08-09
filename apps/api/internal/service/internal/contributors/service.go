@@ -7,6 +7,7 @@ import (
 	"cloud.google.com/go/logging"
 	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/service/internal/cache"
+	"contrib.rocks/apps/api/internal/service/logger"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/env"
 	"contrib.rocks/libs/goutils/model"
@@ -27,6 +28,7 @@ func New(cfg *config.Config, c *cache.Service, gh *github.Client, l *logging.Cli
 func (s *Service) GetContributors(c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
 	ctx, span := tracing.DefaultTracer.Start(c, "contributors.Service.GetContributors")
 	defer span.End()
+	log := logger.FromContext(ctx)
 
 	cacheKey := createContributorsJSONCacheKey(r)
 	// restore cache
@@ -36,7 +38,7 @@ func (s *Service) GetContributors(c context.Context, r *model.Repository) (*mode
 		return nil, err
 	}
 	if cache != nil {
-		fmt.Printf("GetContributors: restored from cache: %s\n", cacheKey)
+		log.Debug(ctx, logger.NewEntry(fmt.Sprintf("restored contributors-json from cache: %s", cacheKey)))
 		return cache, nil
 	}
 	s.sendCacheMissLog(ctx, cacheKey)

@@ -8,6 +8,7 @@ import (
 	"cloud.google.com/go/logging"
 	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/service/internal/cache"
+	"contrib.rocks/apps/api/internal/service/logger"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils"
 	"contrib.rocks/libs/goutils/dataurl"
@@ -34,6 +35,7 @@ type GetImageParams struct {
 func (s *Service) GetImage(c context.Context, r *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error) {
 	ctx, span := tracing.DefaultTracer.Start(c, "image.Service.GetImage")
 	defer span.End()
+	log := logger.FromContext(ctx)
 
 	// set default options
 	const (
@@ -56,7 +58,7 @@ func (s *Service) GetImage(c context.Context, r *model.RepositoryContributors, o
 		return nil, err
 	}
 	if cache != nil {
-		fmt.Printf("GetImage: restored from cache: %s\n", cacheKey)
+		log.Debug(ctx, logger.NewEntry(fmt.Sprintf("restored image from cache: %s", cacheKey)))
 		return cache, nil
 	}
 	s.sendCacheMissLog(ctx, cacheKey)

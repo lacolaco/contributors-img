@@ -11,6 +11,6 @@ type Router interface {
 }
 
 func Setup(r Router, sp *service.ServicePack) {
-	imageApi := image.New(sp.ContributorsService, sp.ImageService, sp.UsageService)
+	imageApi := image.New(sp)
 	r.GET("/image", imageApi.Get)
 }
