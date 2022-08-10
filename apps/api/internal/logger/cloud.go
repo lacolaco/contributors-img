@@ -60,6 +60,7 @@ func (l *cloudLoggingLogger) withTracing(c context.Context, entry logging.Entry)
 	if sc.IsValid() {
 		entry.Trace = fmt.Sprintf("/projects/%s/traces/%s", l.cfg.ProjectID(), sc.TraceID().String())
 		entry.SpanID = sc.SpanID().String()
+		entry.TraceSampled = sc.IsSampled()
 	}
 	return entry
 }
