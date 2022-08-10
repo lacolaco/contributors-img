@@ -44,7 +44,7 @@ func (s *serviceImpl) GetContributors(c context.Context, r *model.Repository) (*
 	}
 	s.sendCacheMissLog(ctx, cacheKey)
 	// get contributors from github
-	data, err := resolveRepositoryData(s.githubClient, ctx, r)
+	data, err := fetchRepositoryContributors(s.githubClient, ctx, r)
 	if err != nil {
 		return nil, err
 	}
