@@ -1,8 +1,6 @@
 package service
 
 import (
-	"io"
-
 	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/contributors"
@@ -17,14 +15,10 @@ type ServicePack struct {
 	UsageService        usage.Service
 	ImageService        image.Service
 	DefaultLogger       logger.Logger
-
-	closables []io.Closer
 }
 
 func NewServicePack(cfg *config.Config) *ServicePack {
-	sp := ServicePack{
-		closables: []io.Closer{},
-	}
+	sp := ServicePack{}
 	gh := apiclient.NewGitHubClient(cfg.GitHubAuthToken)
 
 	var cache appcache.AppCache
@@ -41,10 +35,4 @@ func NewServicePack(cfg *config.Config) *ServicePack {
 	sp.UsageService = usage.New(logger.NewLogger("repository-usage"))
 
 	return &sp
-}
-
-func (sp *ServicePack) Close() {
-	for _, fn := range sp.closables {
-		fn.Close()
-	}
 }

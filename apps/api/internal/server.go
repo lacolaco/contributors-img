@@ -31,7 +31,6 @@ func StartServer() error {
 	defer closeLogger()
 
 	sp := service.NewServicePack(cfg)
-	defer sp.Close()
 
 	tp := tracing.InitTraceProvider(cfg)
 	defer tp.Shutdown(context.Background())

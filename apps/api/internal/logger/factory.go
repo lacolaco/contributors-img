@@ -16,7 +16,7 @@ func newLoggerFactory(cfg *config.Config, l *logging.Client) *factory {
 
 func (s *factory) Logger(name string) Logger {
 	if s.client == nil {
-		return &stdLogger{}
+		return newStdLogger(name)
 	}
 
 	return &cloudLoggingLogger{
