@@ -6,33 +6,10 @@ import (
 	"time"
 
 	"cloud.google.com/go/logging"
-	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/tracing"
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/trace"
 )
-
-type Logger interface {
-	ContextWithLogger(parent context.Context) context.Context
-	Log(ctx context.Context, e logging.Entry)
-	Debug(ctx context.Context, e logging.Entry)
-	Info(ctx context.Context, e logging.Entry)
-	Error(ctx context.Context, e logging.Entry)
-}
-
-type LoggerFactory interface {
-	Logger(name string) Logger
-}
-
-func NewLoggerFactory(cfg *config.Config, l *logging.Client) LoggerFactory {
-	return newLoggerFactory(cfg, l)
-}
-
-func NewEntry(o any) logging.Entry {
-	return logging.Entry{
-		Payload: o,
-	}
-}
 
 func Middleware(logger Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {

@@ -5,24 +5,21 @@ import (
 	"fmt"
 
 	"cloud.google.com/go/logging"
-	"contrib.rocks/apps/api/internal/config"
-	"contrib.rocks/apps/api/internal/service/internal/cache"
-	"contrib.rocks/apps/api/internal/service/logger"
+	"contrib.rocks/apps/api/internal/logger"
+	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/goutils/env"
 	"contrib.rocks/libs/goutils/model"
 	"github.com/google/go-github/v45/github"
 )
 
 type Service struct {
-	env           env.Environment
-	cacheService  *cache.Service
-	githubClient  *github.Client
-	loggingClient *logging.Client
+	githubClient    *github.Client
+	cache           appcache.AppCache
+	cacheMissLogger logger.Logger
 }
 
-func New(cfg *config.Config, c *cache.Service, gh *github.Client, l *logging.Client) *Service {
-	return &Service{cfg.Env, c, gh, l}
+func New(gh *github.Client, cache appcache.AppCache, cacheMissLogger logger.Logger) *Service {
+	return &Service{gh, cache, cacheMissLogger}
 }
 
 func (s *Service) GetContributors(c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
@@ -33,7 +30,7 @@ func (s *Service) GetContributors(c context.Context, r *model.Repository) (*mode
 	cacheKey := createContributorsJSONCacheKey(r)
 	// restore cache
 	var cache *model.RepositoryContributors
-	err := s.cacheService.GetJSON(ctx, cacheKey, &cache)
+	err := s.cache.GetJSON(ctx, cacheKey, &cache)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +45,7 @@ func (s *Service) GetContributors(c context.Context, r *model.Repository) (*mode
 		return nil, err
 	}
 	// save cache
-	err = s.cacheService.SaveJSON(ctx, cacheKey, data)
+	err = s.cache.SaveJSON(ctx, cacheKey, data)
 	if err != nil {
 		return nil, err
 	}
@@ -56,10 +53,7 @@ func (s *Service) GetContributors(c context.Context, r *model.Repository) (*mode
 }
 
 func (s *Service) sendCacheMissLog(c context.Context, key string) {
-	s.loggingClient.Logger("contributors-json-cache-miss").Log(logging.Entry{
-		Labels: map[string]string{
-			"environment": string(s.env),
-		},
+	s.cacheMissLogger.Log(c, logging.Entry{
 		Payload: key,
 	})
 }

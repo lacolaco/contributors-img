@@ -7,8 +7,8 @@ import (
 
 	"contrib.rocks/apps/api/internal/api"
 	"contrib.rocks/apps/api/internal/config"
+	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service"
-	"contrib.rocks/apps/api/internal/service/logger"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/env"
 	"github.com/gin-contrib/gzip"
@@ -27,6 +27,9 @@ func StartServer() error {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
+	closeLogger := logger.InitLoggerFactory(cfg)
+	defer closeLogger()
+
 	sp := service.NewServicePack(cfg)
 	defer sp.Close()
 
@@ -35,6 +38,7 @@ func StartServer() error {
 
 	r := gin.New()
 	r.Use(gin.Recovery())
+	r.Use(env.Middleware(cfg.Env))
 	r.Use(logger.Middleware(sp.DefaultLogger))
 	r.Use(errorHandler())
 	r.Use(otelgin.Middleware("api", otelgin.WithTracerProvider(tp)))

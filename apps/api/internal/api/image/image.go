@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
+	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service"
-	"contrib.rocks/apps/api/internal/service/logger"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"

@@ -17,14 +17,14 @@ const (
 	loggerContextKey contextKey = contextKey("logger")
 )
 
-var _ Logger = &loggerWrapper{}
+var _ Logger = &cloudLoggingLogger{}
 
-type loggerWrapper struct {
+type cloudLoggingLogger struct {
 	cfg    *config.Config
 	logger *logging.Logger
 }
 
-func (l *loggerWrapper) Log(c context.Context, entry logging.Entry) {
+func (l *cloudLoggingLogger) Log(c context.Context, entry logging.Entry) {
 	if entry.Trace == "" {
 		entry.Trace = l.trace(c)
 	}
@@ -34,22 +34,22 @@ func (l *loggerWrapper) Log(c context.Context, entry logging.Entry) {
 	l.logger.Log(entry)
 }
 
-func (l *loggerWrapper) Debug(c context.Context, entry logging.Entry) {
+func (l *cloudLoggingLogger) Debug(c context.Context, entry logging.Entry) {
 	entry.Severity = logging.Debug
 	l.Log(c, entry)
 }
 
-func (l *loggerWrapper) Info(c context.Context, entry logging.Entry) {
+func (l *cloudLoggingLogger) Info(c context.Context, entry logging.Entry) {
 	entry.Severity = logging.Info
 	l.Log(c, entry)
 }
 
-func (l *loggerWrapper) Error(c context.Context, entry logging.Entry) {
+func (l *cloudLoggingLogger) Error(c context.Context, entry logging.Entry) {
 	entry.Severity = logging.Error
 	l.Log(c, entry)
 }
 
-func (l *loggerWrapper) trace(c context.Context) string {
+func (l *cloudLoggingLogger) trace(c context.Context) string {
 	traceID := trace.SpanContextFromContext(c).TraceID()
 	if traceID.IsValid() {
 		return fmt.Sprintf("/projects/%s/traces/%s", l.cfg.ProjectID(), traceID.String())
@@ -57,7 +57,7 @@ func (l *loggerWrapper) trace(c context.Context) string {
 	return ""
 }
 
-func (l *loggerWrapper) ContextWithLogger(c context.Context) context.Context {
+func (l *cloudLoggingLogger) ContextWithLogger(c context.Context) context.Context {
 	return context.WithValue(c, loggerContextKey, l)
 }
 

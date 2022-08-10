@@ -6,25 +6,22 @@ import (
 	"sync"
 
 	"cloud.google.com/go/logging"
-	"contrib.rocks/apps/api/internal/config"
-	"contrib.rocks/apps/api/internal/service/internal/cache"
-	"contrib.rocks/apps/api/internal/service/logger"
+	"contrib.rocks/apps/api/internal/logger"
+	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils"
 	"contrib.rocks/libs/goutils/dataurl"
-	"contrib.rocks/libs/goutils/env"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"
 )
 
 type Service struct {
-	env           env.Environment
-	cacheService  *cache.Service
-	loggingClient *logging.Client
+	cache           appcache.AppCache
+	cacheMissLogger logger.Logger
 }
 
-func New(cfg *config.Config, c *cache.Service, l *logging.Client) *Service {
-	return &Service{cfg.Env, c, l}
+func New(cache appcache.AppCache, cacheMissLogger logger.Logger) *Service {
+	return &Service{cache, cacheMissLogger}
 }
 
 type GetImageParams struct {
@@ -76,7 +73,7 @@ func (s *Service) GetImage(c context.Context, r *model.RepositoryContributors, o
 }
 
 func (s *Service) restoreCache(ctx context.Context, key string) (model.FileHandle, error) {
-	cache, err := s.cacheService.Get(ctx, key)
+	cache, err := s.cache.Get(ctx, key)
 	if err != nil {
 		return nil, err
 	}
@@ -122,14 +119,11 @@ func (s *Service) render(c context.Context, data *model.RepositoryContributors, 
 }
 
 func (s *Service) saveCache(c context.Context, key string, image renderer.Image) error {
-	return s.cacheService.Save(c, key, image.Bytes(), image.ContentType())
+	return s.cache.Save(c, key, image.Bytes(), image.ContentType())
 }
 
 func (s *Service) sendCacheMissLog(c context.Context, key string) {
-	s.loggingClient.Logger("image-cache-miss").Log(logging.Entry{
-		Labels: map[string]string{
-			"environment": string(s.env),
-		},
+	s.cacheMissLogger.Log(c, logging.Entry{
 		Payload: key,
 	})
 }
