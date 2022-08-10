@@ -18,20 +18,21 @@ func QueryFeaturedRepositories(ctx context.Context, appEnv env.Environment) ([]F
 	  ARRAY_AGG(STRUCT(repository, stargazers, contributors) ORDER BY contributors DESC, stargazers DESC)[OFFSET(0)] as usage,
 	FROM (
 	  SELECT
+		jsonPayload.owner AS owner,
 		jsonPayload.repository AS repository,
-		SPLIT(jsonPayload.repository, '/')[OFFSET(0)] AS owner,
 		DATE(timestamp) AS _date,
-		jsonPayload.stargazers AS stargazers,
-		jsonPayload.contributors AS contributors
+		CAST(jsonPayload.stargazers as INT64) AS stargazers,
+		CAST(jsonPayload.contributors as INT64) AS contributors
 	  FROM ` + "`contributors-img.repository_usage.repository_usage_*`" + `
 	  WHERE
 		labels.environment = @environment
-		AND _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 7 day))
+		AND labels.via = "github"
+		AND _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL @dayInterval day))
 		AND FORMAT_DATE('%Y%m%d', CURRENT_DATE()))
 	GROUP BY
 	  owner
 	HAVING
-	  days >= @days
+	  days >= @minDays
 	  AND usage.stargazers >= @minStars
 	  AND usage.contributors >= 50
 	ORDER BY
@@ -41,7 +42,8 @@ func QueryFeaturedRepositories(ctx context.Context, appEnv env.Environment) ([]F
 	  @limit`)
 	q.Parameters = []bigquery.QueryParameter{
 		{Name: "environment", Value: string(appEnv)},
-		{Name: "days", Value: int(6)},
+		{Name: "dayInterval", Value: int(6)},
+		{Name: "minDays", Value: int(5)},
 		{Name: "minStars", Value: int(1000)},
 		{Name: "limit", Value: int(50)},
 	}
