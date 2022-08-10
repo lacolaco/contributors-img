@@ -37,9 +37,10 @@ func StartServer() error {
 
 	r := gin.New()
 	r.Use(gin.Recovery())
-	r.Use(env.Middleware(cfg.Env))
-	r.Use(logger.Middleware(sp.DefaultLogger))
 	r.Use(errorHandler())
+	r.Use(env.Middleware(cfg.Env))
+	r.Use(tracing.Middleware())
+	r.Use(logger.Middleware(sp.DefaultLogger))
 	r.Use(otelgin.Middleware("api", otelgin.WithTracerProvider(tp)))
 	r.Use(gzip.Gzip(gzip.DefaultCompression))
 

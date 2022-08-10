@@ -27,7 +27,7 @@ type serviceImpl struct {
 }
 
 func (s *serviceImpl) GetContributors(c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
-	ctx, span := tracing.DefaultTracer.Start(c, "contributors.Service.GetContributors")
+	ctx, span := tracing.Tracer().Start(c, "contributors.Service.GetContributors")
 	defer span.End()
 	log := logger.FromContext(ctx)
 

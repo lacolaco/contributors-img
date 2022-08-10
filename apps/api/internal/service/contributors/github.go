@@ -11,7 +11,7 @@ import (
 )
 
 func resolveRepositoryData(client *github.Client, c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
-	ctx, span := tracing.DefaultTracer.Start(c, "contributors.resolveRepositoryData")
+	ctx, span := tracing.Tracer().Start(c, "contributors.resolveRepositoryData")
 	defer span.End()
 
 	type Result[T any] struct {

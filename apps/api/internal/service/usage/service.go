@@ -26,7 +26,7 @@ type serviceImpl struct {
 }
 
 func (s *serviceImpl) CollectUsage(c context.Context, r *model.RepositoryContributors, via string) error {
-	ctx, span := tracing.DefaultTracer.Start(c, "usage.Service.CollectUsage")
+	ctx, span := tracing.Tracer().Start(c, "usage.Service.CollectUsage")
 	defer span.End()
 
 	s.usageLogger.Log(ctx, logging.Entry{

@@ -8,9 +8,17 @@ import (
 	cloudtrace "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace"
 	"go.opentelemetry.io/otel"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
+	"go.opentelemetry.io/otel/trace"
 )
 
-var DefaultTracer = otel.Tracer("")
+var configuredTracer trace.Tracer
+
+func Tracer() trace.Tracer {
+	if configuredTracer == nil {
+		return otel.Tracer("")
+	}
+	return configuredTracer
+}
 
 func InitTraceProvider(cfg *config.Config) *sdktrace.TracerProvider {
 	exporter, err := cloudtrace.New()
@@ -23,5 +31,6 @@ func InitTraceProvider(cfg *config.Config) *sdktrace.TracerProvider {
 	}
 	tp := sdktrace.NewTracerProvider(tpOpts...)
 	otel.SetTracerProvider(tp)
+	configuredTracer = otel.Tracer("")
 	return tp
 }

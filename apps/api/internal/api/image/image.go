@@ -57,7 +57,7 @@ func (p *getImageParams) bind(ctx *gin.Context) error {
 }
 
 func (api *API) Get(c *gin.Context) {
-	ctx, span := tracing.DefaultTracer.Start(c.Request.Context(), "api.image.Get")
+	ctx, span := tracing.Tracer().Start(c.Request.Context(), "api.image.Get")
 	defer span.End()
 
 	log := logger.FromContext(ctx)
