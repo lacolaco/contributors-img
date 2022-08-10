@@ -6,22 +6,13 @@ import (
 	"time"
 
 	"cloud.google.com/go/logging"
-	"contrib.rocks/apps/api/internal/tracing"
 	"github.com/gin-gonic/gin"
-	"go.opentelemetry.io/otel/trace"
 )
 
 func Middleware(logger Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := logger.ContextWithLogger(c.Request.Context())
 		c.Request = c.Request.WithContext(ctx)
-
-		traceID := trace.SpanContextFromContext(ctx).TraceID()
-		if !traceID.IsValid() {
-			ctx, span := tracing.DefaultTracer.Start(ctx, "api.http")
-			defer span.End()
-			c.Request = c.Request.WithContext(ctx)
-		}
 
 		c.Next()
 		logger.Info(c.Request.Context(), logging.Entry{

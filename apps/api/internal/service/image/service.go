@@ -36,7 +36,7 @@ type GetImageParams struct {
 }
 
 func (s *serviceImpl) GetImage(c context.Context, r *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error) {
-	ctx, span := tracing.DefaultTracer.Start(c, "image.Service.GetImage")
+	ctx, span := tracing.Tracer().Start(c, "image.Service.GetImage")
 	defer span.End()
 	log := logger.FromContext(ctx)
 
@@ -87,7 +87,7 @@ func (s *serviceImpl) restoreCache(ctx context.Context, key string) (model.FileH
 }
 
 func (s *serviceImpl) render(c context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions) (renderer.Image, error) {
-	ctx, span := tracing.DefaultTracer.Start(c, "image.Service.render")
+	ctx, span := tracing.Tracer().Start(c, "image.Service.render")
 	defer span.End()
 
 	// get formatted data

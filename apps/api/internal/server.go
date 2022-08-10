@@ -1,7 +1,6 @@
 package app
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 
@@ -13,7 +12,6 @@ import (
 	"contrib.rocks/libs/goutils/env"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
-	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 )
 
 func StartServer() error {
@@ -32,15 +30,15 @@ func StartServer() error {
 
 	sp := service.NewServicePack(cfg)
 
-	tp := tracing.InitTraceProvider(cfg)
-	defer tp.Shutdown(context.Background())
+	closeTracer := tracing.InitTraceProvider(cfg)
+	defer closeTracer()
 
 	r := gin.New()
 	r.Use(gin.Recovery())
 	r.Use(env.Middleware(cfg.Env))
+	r.Use(tracing.Middleware())
 	r.Use(logger.Middleware(sp.DefaultLogger))
 	r.Use(errorHandler())
-	r.Use(otelgin.Middleware("api", otelgin.WithTracerProvider(tp)))
 	r.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	api.Setup(r, sp)

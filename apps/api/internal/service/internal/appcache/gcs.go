@@ -58,7 +58,7 @@ func getFile(bucket *storage.BucketHandle, c context.Context, name string) (mode
 	if bucket == nil {
 		return nil, nil
 	}
-	ctx, span := tracing.DefaultTracer.Start(c, "cache.Service.getFile")
+	ctx, span := tracing.Tracer().Start(c, "cache.Service.getFile")
 	defer span.End()
 	span.SetAttributes(attribute.String("cache.object.name", name))
 
@@ -83,7 +83,7 @@ func saveFile(bucket *storage.BucketHandle, c context.Context, name string, data
 	if bucket == nil {
 		return nil
 	}
-	ctx, span := tracing.DefaultTracer.Start(c, "cache.Service.saveFile")
+	ctx, span := tracing.Tracer().Start(c, "cache.Service.saveFile")
 	defer span.End()
 	span.SetAttributes(attribute.String("cache.object.name", name))
 
