@@ -12,17 +12,21 @@ import (
 	"github.com/google/go-github/v45/github"
 )
 
-type Service struct {
+type Service interface {
+	GetContributors(ctx context.Context, r *model.Repository) (*model.RepositoryContributors, error)
+}
+
+func New(gh *github.Client, cache appcache.AppCache, cacheMissLogger logger.Logger) Service {
+	return &serviceImpl{gh, cache, cacheMissLogger}
+}
+
+type serviceImpl struct {
 	githubClient    *github.Client
 	cache           appcache.AppCache
 	cacheMissLogger logger.Logger
 }
 
-func New(gh *github.Client, cache appcache.AppCache, cacheMissLogger logger.Logger) *Service {
-	return &Service{gh, cache, cacheMissLogger}
-}
-
-func (s *Service) GetContributors(c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
+func (s *serviceImpl) GetContributors(c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
 	ctx, span := tracing.DefaultTracer.Start(c, "contributors.Service.GetContributors")
 	defer span.End()
 	log := logger.FromContext(ctx)
@@ -52,7 +56,7 @@ func (s *Service) GetContributors(c context.Context, r *model.Repository) (*mode
 	return data, nil
 }
 
-func (s *Service) sendCacheMissLog(c context.Context, key string) {
+func (s *serviceImpl) sendCacheMissLog(c context.Context, key string) {
 	s.cacheMissLogger.Log(c, logging.Entry{
 		Payload: key,
 	})

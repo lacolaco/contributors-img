@@ -7,6 +7,7 @@ import (
 
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service"
+	"contrib.rocks/apps/api/internal/service/contributors"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"
@@ -19,7 +20,7 @@ const (
 )
 
 type API struct {
-	cs service.ContributorsService
+	cs contributors.Service
 	is service.ImageService
 	us service.UsageService
 }
@@ -74,7 +75,10 @@ func (api *API) Get(c *gin.Context) {
 
 	// get data
 	data, err := api.cs.GetContributors(ctx, params.Repository.Object())
-	if err != nil {
+	if notfound, ok := err.(*contributors.RepositoryNotFoundError); ok {
+		c.AbortWithError(http.StatusNotFound, notfound)
+		return
+	} else if err != nil {
 		c.Error(err).SetType(gin.ErrorTypePublic)
 		return
 	}

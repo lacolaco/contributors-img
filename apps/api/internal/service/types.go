@@ -7,10 +7,6 @@ import (
 	"contrib.rocks/libs/goutils/renderer"
 )
 
-type ContributorsService interface {
-	GetContributors(ctx context.Context, r *model.Repository) (*model.RepositoryContributors, error)
-}
-
 type UsageService interface {
 	CollectUsage(ctx context.Context, r *model.RepositoryContributors, via string) error
 }

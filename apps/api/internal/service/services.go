@@ -5,15 +5,15 @@ import (
 
 	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/logger"
+	"contrib.rocks/apps/api/internal/service/contributors"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
-	"contrib.rocks/apps/api/internal/service/internal/contributors"
 	"contrib.rocks/apps/api/internal/service/internal/image"
 	"contrib.rocks/apps/api/internal/service/internal/usage"
 	"contrib.rocks/libs/goutils/apiclient"
 )
 
 type ServicePack struct {
-	ContributorsService ContributorsService
+	ContributorsService contributors.Service
 	UsageService        UsageService
 	ImageService        ImageService
 	DefaultLogger       logger.Logger
