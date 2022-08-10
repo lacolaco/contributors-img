@@ -55,10 +55,11 @@ func errorHandler() gin.HandlerFunc {
 		c.Next()
 
 		log := logger.FromContext(c.Request.Context())
-		err := c.Errors.ByType(gin.ErrorTypePublic).Last()
-		if err != nil {
-			log.Error(c, logger.NewEntry(err.Error()))
-			c.AbortWithError(http.StatusInternalServerError, err.Err)
+		err := c.Errors.Last()
+		if err == nil {
+			return
 		}
+		log.Error(c, logger.NewEntry(err.Error()))
+		c.AbortWithStatusJSON(http.StatusInternalServerError, err.JSON())
 	}
 }

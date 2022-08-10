@@ -24,16 +24,18 @@ func Middleware(logger Logger) gin.HandlerFunc {
 		}
 
 		c.Next()
-		logger.Log(c.Request.Context(), logging.Entry{
+		logger.Info(c.Request.Context(), logging.Entry{
 			HTTPRequest: &logging.HTTPRequest{
 				Request: c.Request,
 			},
 			Timestamp: time.Now(),
-			Severity:  logging.Info,
-			Payload: map[string]any{
-				"status": fmt.Sprintf("%d", c.Writer.Status()),
-				"method": c.Request.Method,
-				"url":    c.Request.URL.String(),
+			Payload: map[string]string{
+				"status":    fmt.Sprintf("%d", c.Writer.Status()),
+				"method":    c.Request.Method,
+				"host":      c.Request.Host,
+				"url":       c.Request.URL.String(),
+				"referer":   c.Request.Referer(),
+				"userAgent": c.Request.UserAgent(),
 			},
 		})
 	}

@@ -11,15 +11,21 @@ import (
 	"contrib.rocks/libs/goutils/model"
 )
 
-type Service struct {
+type Service interface {
+	CollectUsage(c context.Context, r *model.RepositoryContributors, via string) error
+}
+
+func New(usageLogger logger.Logger) Service {
+	return &serviceImpl{usageLogger}
+}
+
+var _ Service = &serviceImpl{}
+
+type serviceImpl struct {
 	usageLogger logger.Logger
 }
 
-func New(usageLogger logger.Logger) *Service {
-	return &Service{usageLogger}
-}
-
-func (s *Service) CollectUsage(c context.Context, r *model.RepositoryContributors, via string) error {
+func (s *serviceImpl) CollectUsage(c context.Context, r *model.RepositoryContributors, via string) error {
 	ctx, span := tracing.DefaultTracer.Start(c, "usage.Service.CollectUsage")
 	defer span.End()
 

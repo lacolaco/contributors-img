@@ -2,6 +2,7 @@ package logger
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -29,7 +30,12 @@ func (l *cloudLoggingLogger) Log(c context.Context, entry logging.Entry) {
 		entry.Trace = l.trace(c)
 	}
 	if l.cfg.Env == env.EnvDevelopment {
-		log.Printf("[%s] %+v", entry.Severity, entry.Payload)
+		bytes, err := json.Marshal(entry.Payload)
+		if err != nil {
+			log.Printf("Error marshalling entry: %v", err)
+			return
+		}
+		log.Printf("[%s] %s", entry.Severity, string(bytes))
 	}
 	l.logger.Log(entry)
 }

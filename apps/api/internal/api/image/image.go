@@ -8,6 +8,8 @@ import (
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service"
 	"contrib.rocks/apps/api/internal/service/contributors"
+	"contrib.rocks/apps/api/internal/service/image"
+	"contrib.rocks/apps/api/internal/service/usage"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"
@@ -21,8 +23,8 @@ const (
 
 type API struct {
 	cs contributors.Service
-	is service.ImageService
-	us service.UsageService
+	is image.Service
+	us usage.Service
 }
 
 func New(sp *service.ServicePack) *API {
@@ -62,7 +64,7 @@ func (api *API) Get(c *gin.Context) {
 
 	var params getImageParams
 	if err := params.bind(c); err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
+		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
 	log.Debug(ctx, logger.NewEntry(params))
@@ -76,7 +78,7 @@ func (api *API) Get(c *gin.Context) {
 	// get data
 	data, err := api.cs.GetContributors(ctx, params.Repository.Object())
 	if notfound, ok := err.(*contributors.RepositoryNotFoundError); ok {
-		c.AbortWithError(http.StatusNotFound, notfound)
+		c.String(http.StatusNotFound, notfound.Error())
 		return
 	} else if err != nil {
 		c.Error(err).SetType(gin.ErrorTypePublic)

@@ -29,10 +29,10 @@ func (l *stdLogger) ContextWithLogger(c context.Context) context.Context {
 }
 
 func printStandardLog(entry logging.Entry) {
-	s, err := json.Marshal(entry.Payload)
+	bytes, err := json.Marshal(entry.Payload)
 	if err != nil {
 		log.Printf("Error marshalling entry: %v", err)
 		return
 	}
-	log.Printf("[%s] %+v", entry.Severity, s)
+	log.Printf("[%s] %s", entry.Severity, string(bytes))
 }
