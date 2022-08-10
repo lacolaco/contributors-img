@@ -1,7 +1,6 @@
 package app
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 
@@ -32,16 +31,15 @@ func StartServer() error {
 
 	sp := service.NewServicePack(cfg)
 
-	tp := tracing.InitTraceProvider(cfg)
-	defer tp.Shutdown(context.Background())
+	closeTracer := tracing.InitTraceProvider(cfg)
+	defer closeTracer()
 
 	r := gin.New()
 	r.Use(gin.Recovery())
 	r.Use(errorHandler())
 	r.Use(env.Middleware(cfg.Env))
-	r.Use(tracing.Middleware())
+	r.Use(otelgin.Middleware("api"))
 	r.Use(logger.Middleware(sp.DefaultLogger))
-	r.Use(otelgin.Middleware("api", otelgin.WithTracerProvider(tp)))
 	r.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	api.Setup(r, sp)
