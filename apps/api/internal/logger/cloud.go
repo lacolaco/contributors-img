@@ -27,7 +27,7 @@ type cloudLoggingLogger struct {
 
 func (l *cloudLoggingLogger) Log(c context.Context, entry logging.Entry) {
 	if entry.Trace == "" {
-		entry.Trace = l.trace(c)
+		entry = l.withTracing(c, entry)
 	}
 	if l.cfg.Env == env.EnvDevelopment {
 		bytes, err := json.Marshal(entry.Payload)
@@ -55,12 +55,13 @@ func (l *cloudLoggingLogger) Error(c context.Context, entry logging.Entry) {
 	l.Log(c, entry)
 }
 
-func (l *cloudLoggingLogger) trace(c context.Context) string {
-	traceID := trace.SpanContextFromContext(c).TraceID()
-	if traceID.IsValid() {
-		return fmt.Sprintf("/projects/%s/traces/%s", l.cfg.ProjectID(), traceID.String())
+func (l *cloudLoggingLogger) withTracing(c context.Context, entry logging.Entry) logging.Entry {
+	sc := trace.SpanContextFromContext(c)
+	if sc.IsValid() {
+		entry.Trace = fmt.Sprintf("/projects/%s/traces/%s", l.cfg.ProjectID(), sc.TraceID().String())
+		entry.SpanID = sc.SpanID().String()
 	}
-	return ""
+	return entry
 }
 
 func (l *cloudLoggingLogger) ContextWithLogger(c context.Context) context.Context {
