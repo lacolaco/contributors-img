@@ -5,7 +5,11 @@ import (
 	"net/http"
 	"strings"
 
+	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service"
+	"contrib.rocks/apps/api/internal/service/contributors"
+	"contrib.rocks/apps/api/internal/service/image"
+	"contrib.rocks/apps/api/internal/service/usage"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"
@@ -13,14 +17,18 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 )
 
+const (
+	imageMaxAge = 60 * 60 * 6 // 6 hours
+)
+
 type API struct {
-	cs service.ContributorsService
-	is service.ImageService
-	us service.UsageService
+	cs contributors.Service
+	is image.Service
+	us usage.Service
 }
 
-func New(cs service.ContributorsService, is service.ImageService, us service.UsageService) *API {
-	return &API{cs, is, us}
+func New(sp *service.ServicePack) *API {
+	return &API{sp.ContributorsService, sp.ImageService, sp.UsageService}
 }
 
 type getImageParams struct {
@@ -52,12 +60,14 @@ func (api *API) Get(c *gin.Context) {
 	ctx, span := tracing.DefaultTracer.Start(c.Request.Context(), "api.image.Get")
 	defer span.End()
 
+	log := logger.FromContext(ctx)
+
 	var params getImageParams
 	if err := params.bind(c); err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
+		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Printf("params=%+v\n", params)
+	log.Debug(ctx, logger.NewEntry(params))
 	span.SetAttributes(
 		attribute.String("api.image.params.repository", string(params.Repository)),
 		attribute.String("api.image.params.via", params.Via),
@@ -67,11 +77,13 @@ func (api *API) Get(c *gin.Context) {
 
 	// get data
 	data, err := api.cs.GetContributors(ctx, params.Repository.Object())
-	if err != nil {
+	if notfound, ok := err.(*contributors.RepositoryNotFoundError); ok {
+		c.String(http.StatusNotFound, notfound.Error())
+		return
+	} else if err != nil {
 		c.Error(err).SetType(gin.ErrorTypePublic)
 		return
 	}
-	fmt.Printf("data=%+v\n", data)
 	// get image
 	file, err := api.is.GetImage(ctx, data, &renderer.RendererOptions{
 		MaxCount: params.MaxCount,
@@ -86,10 +98,11 @@ func (api *API) Get(c *gin.Context) {
 	// send image
 	if c.GetHeader("If-None-Match") == file.ETag() {
 		c.Status(http.StatusNotModified)
+		c.Header("cache-control", fmt.Sprintf("public, max-age=%d", imageMaxAge))
 		return
 	}
 	c.DataFromReader(http.StatusOK, file.Size(), file.ContentType(), r, map[string]string{
-		"cache-control": fmt.Sprintf(`public, max-age=%d`, 60*60*6),
+		"cache-control": fmt.Sprintf(`public, max-age=%d`, imageMaxAge),
 		"etag":          file.ETag(),
 	})
 	// collect usage stats

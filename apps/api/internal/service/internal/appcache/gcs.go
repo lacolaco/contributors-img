@@ -1,33 +1,34 @@
-package cache
+package appcache
 
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+	"io"
 
 	"cloud.google.com/go/storage"
-	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
 	"go.opentelemetry.io/otel/attribute"
 )
 
-type Service struct {
+var _ AppCache = &gcsCache{}
+
+type gcsCache struct {
 	bucket *storage.BucketHandle
 }
 
-func New(cfg *config.Config, storageClient *storage.Client) *Service {
-	var cs Service
-	if cfg.CacheBucketName != "" {
-		cs.bucket = storageClient.Bucket(cfg.CacheBucketName)
+func newGCSCache(storageClient *storage.Client, bucketName string) *gcsCache {
+	return &gcsCache{
+		bucket: storageClient.Bucket(bucketName),
 	}
-	return &cs
 }
 
-func (s *Service) Get(c context.Context, name string) (model.FileHandle, error) {
+func (s *gcsCache) Get(c context.Context, name string) (model.FileHandle, error) {
 	return getFile(s.bucket, c, name)
 }
 
-func (s *Service) GetJSON(c context.Context, name string, v any) error {
+func (s *gcsCache) GetJSON(c context.Context, name string, v any) error {
 	o, err := getFile(s.bucket, c, name)
 	if err != nil {
 		return err
@@ -41,11 +42,11 @@ func (s *Service) GetJSON(c context.Context, name string, v any) error {
 	return json.NewDecoder(r).Decode(&v)
 }
 
-func (s *Service) Save(c context.Context, name string, data []byte, contentType string) error {
+func (s *gcsCache) Save(c context.Context, name string, data []byte, contentType string) error {
 	return saveFile(s.bucket, c, name, data, contentType)
 }
 
-func (s *Service) SaveJSON(c context.Context, name string, v any) error {
+func (s *gcsCache) SaveJSON(c context.Context, name string, v any) error {
 	data, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -75,7 +76,7 @@ func getFile(bucket *storage.BucketHandle, c context.Context, name string) (mode
 		return nil, err
 	}
 
-	return &cacheFileHandle{or, attrs}, nil
+	return &gcsFileHandle{or, attrs}, nil
 }
 
 func saveFile(bucket *storage.BucketHandle, c context.Context, name string, data []byte, contentType string) error {
@@ -91,4 +92,24 @@ func saveFile(bucket *storage.BucketHandle, c context.Context, name string, data
 	w.ContentType = contentType
 	_, err := w.Write(data)
 	return err
+}
+
+var _ model.FileHandle = &gcsFileHandle{}
+
+type gcsFileHandle struct {
+	r     *storage.Reader
+	attrs *storage.ObjectAttrs
+}
+
+func (h *gcsFileHandle) Reader() io.ReadCloser {
+	return h.r
+}
+func (h *gcsFileHandle) Size() int64 {
+	return h.attrs.Size
+}
+func (h *gcsFileHandle) ContentType() string {
+	return h.attrs.ContentType
+}
+func (h *gcsFileHandle) ETag() string {
+	return fmt.Sprintf("%x", h.attrs.MD5)
 }

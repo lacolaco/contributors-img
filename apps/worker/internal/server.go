@@ -4,16 +4,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"contrib.rocks/libs/goutils/env"
-	"github.com/gobuffalo/envy"
+	"github.com/joho/godotenv"
 )
 
 func StartServer() error {
-	envy.Load()
-	appEnv := env.FromString(envy.Get("APP_ENV", "development"))
-	port := envy.Get("PORT", "8080")
+	godotenv.Load()
+	appEnv := env.FromString(os.Getenv("APP_ENV"))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3333"
+	}
 	fmt.Printf("Environment: %s\n", appEnv)
 
 	http.HandleFunc("/update-featured-repositories", func(w http.ResponseWriter, r *http.Request) {

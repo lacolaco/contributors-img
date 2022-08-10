@@ -6,24 +6,28 @@ import (
 	"sync"
 
 	"cloud.google.com/go/logging"
-	"contrib.rocks/apps/api/internal/config"
-	"contrib.rocks/apps/api/internal/service/internal/cache"
+	"contrib.rocks/apps/api/internal/logger"
+	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils"
 	"contrib.rocks/libs/goutils/dataurl"
-	"contrib.rocks/libs/goutils/env"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"
 )
 
-type Service struct {
-	env           env.Environment
-	cacheService  *cache.Service
-	loggingClient *logging.Client
+type Service interface {
+	GetImage(ctx context.Context, r *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error)
 }
 
-func New(cfg *config.Config, c *cache.Service, l *logging.Client) *Service {
-	return &Service{cfg.Env, c, l}
+func New(cache appcache.AppCache, cacheMissLogger logger.Logger) Service {
+	return &serviceImpl{cache, cacheMissLogger}
+}
+
+var _ Service = &serviceImpl{}
+
+type serviceImpl struct {
+	cache           appcache.AppCache
+	cacheMissLogger logger.Logger
 }
 
 type GetImageParams struct {
@@ -31,9 +35,10 @@ type GetImageParams struct {
 	Data            *model.RepositoryContributors
 }
 
-func (s *Service) GetImage(c context.Context, r *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error) {
+func (s *serviceImpl) GetImage(c context.Context, r *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error) {
 	ctx, span := tracing.DefaultTracer.Start(c, "image.Service.GetImage")
 	defer span.End()
+	log := logger.FromContext(ctx)
 
 	// set default options
 	const (
@@ -56,7 +61,7 @@ func (s *Service) GetImage(c context.Context, r *model.RepositoryContributors, o
 		return nil, err
 	}
 	if cache != nil {
-		fmt.Printf("GetImage: restored from cache: %s\n", cacheKey)
+		log.Debug(ctx, logger.NewEntry(fmt.Sprintf("restored image from cache: %s", cacheKey)))
 		return cache, nil
 	}
 	s.sendCacheMissLog(ctx, cacheKey)
@@ -73,15 +78,15 @@ func (s *Service) GetImage(c context.Context, r *model.RepositoryContributors, o
 	return image, nil
 }
 
-func (s *Service) restoreCache(ctx context.Context, key string) (model.FileHandle, error) {
-	cache, err := s.cacheService.Get(ctx, key)
+func (s *serviceImpl) restoreCache(ctx context.Context, key string) (model.FileHandle, error) {
+	cache, err := s.cache.Get(ctx, key)
 	if err != nil {
 		return nil, err
 	}
 	return cache, nil
 }
 
-func (s *Service) render(c context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions) (renderer.Image, error) {
+func (s *serviceImpl) render(c context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions) (renderer.Image, error) {
 	ctx, span := tracing.DefaultTracer.Start(c, "image.Service.render")
 	defer span.End()
 
@@ -119,15 +124,12 @@ func (s *Service) render(c context.Context, data *model.RepositoryContributors, 
 	return image, nil
 }
 
-func (s *Service) saveCache(c context.Context, key string, image renderer.Image) error {
-	return s.cacheService.Save(c, key, image.Bytes(), image.ContentType())
+func (s *serviceImpl) saveCache(c context.Context, key string, image renderer.Image) error {
+	return s.cache.Save(c, key, image.Bytes(), image.ContentType())
 }
 
-func (s *Service) sendCacheMissLog(c context.Context, key string) {
-	s.loggingClient.Logger("image-cache-miss").Log(logging.Entry{
-		Labels: map[string]string{
-			"environment": string(s.env),
-		},
+func (s *serviceImpl) sendCacheMissLog(c context.Context, key string) {
+	s.cacheMissLogger.Log(c, logging.Entry{
 		Payload: key,
 	})
 }

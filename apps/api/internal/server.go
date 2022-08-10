@@ -3,11 +3,11 @@ package app
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 
 	"contrib.rocks/apps/api/internal/api"
 	"contrib.rocks/apps/api/internal/config"
+	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/env"
@@ -27,20 +27,21 @@ func StartServer() error {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
+	closeLogger := logger.InitLoggerFactory(cfg)
+	defer closeLogger()
+
 	sp := service.NewServicePack(cfg)
-	defer sp.Close()
 
 	tp := tracing.InitTraceProvider(cfg)
 	defer tp.Shutdown(context.Background())
 
-	r := gin.Default()
-	r.Use(gzip.Gzip(gzip.DefaultCompression))
+	r := gin.New()
+	r.Use(gin.Recovery())
+	r.Use(env.Middleware(cfg.Env))
+	r.Use(logger.Middleware(sp.DefaultLogger))
+	r.Use(errorHandler())
 	r.Use(otelgin.Middleware("api", otelgin.WithTracerProvider(tp)))
-	r.Use(errorHandler)
-	r.Use(func(ctx *gin.Context) {
-		log.Printf("%#v\n", ctx.Request.Header)
-		ctx.Next()
-	})
+	r.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	api.Setup(r, sp)
 
@@ -48,12 +49,16 @@ func StartServer() error {
 	return r.Run(fmt.Sprintf(":%s", cfg.Port))
 }
 
-func errorHandler(c *gin.Context) {
-	c.Next()
+func errorHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Next()
 
-	err := c.Errors.ByType(gin.ErrorTypePublic).Last()
-	if err != nil {
-		fmt.Fprint(gin.DefaultErrorWriter, err.Err)
-		c.AbortWithError(http.StatusInternalServerError, err.Err)
+		log := logger.FromContext(c.Request.Context())
+		err := c.Errors.Last()
+		if err == nil {
+			return
+		}
+		log.Error(c, logger.NewEntry(err.Error()))
+		c.AbortWithStatusJSON(http.StatusInternalServerError, err.JSON())
 	}
 }

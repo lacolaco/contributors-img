@@ -1,42 +1,38 @@
 package service
 
 import (
-	"io"
-
 	"contrib.rocks/apps/api/internal/config"
-	"contrib.rocks/apps/api/internal/service/internal/cache"
-	"contrib.rocks/apps/api/internal/service/internal/contributors"
-	"contrib.rocks/apps/api/internal/service/internal/image"
-	"contrib.rocks/apps/api/internal/service/internal/usage"
+	"contrib.rocks/apps/api/internal/logger"
+	"contrib.rocks/apps/api/internal/service/contributors"
+	"contrib.rocks/apps/api/internal/service/image"
+	"contrib.rocks/apps/api/internal/service/internal/appcache"
+	"contrib.rocks/apps/api/internal/service/usage"
 	"contrib.rocks/libs/goutils/apiclient"
 )
 
 type ServicePack struct {
-	ContributorsService ContributorsService
-	UsageService        UsageService
-	ImageService        ImageService
-
-	closables []io.Closer
+	ContributorsService contributors.Service
+	UsageService        usage.Service
+	ImageService        image.Service
+	DefaultLogger       logger.Logger
 }
 
 func NewServicePack(cfg *config.Config) *ServicePack {
-	closables := []io.Closer{}
-	storageClient := apiclient.NewStorageClient()
-	loggingClient := apiclient.NewLoggingClient()
-	closables = append(closables, loggingClient)
-	githubClient := apiclient.NewGitHubClient(cfg.GitHubAuthToken)
-	cacheService := cache.New(cfg, storageClient)
+	sp := ServicePack{}
+	gh := apiclient.NewGitHubClient(cfg.GitHubAuthToken)
 
-	return &ServicePack{
-		ContributorsService: contributors.New(cfg, cacheService, githubClient, loggingClient),
-		UsageService:        usage.New(cfg, loggingClient),
-		ImageService:        image.New(cfg, cacheService, loggingClient),
-		closables:           closables,
+	var cache appcache.AppCache
+	if cfg.ProjectID() != "" && cfg.CacheBucketName != "" {
+		storageClient := apiclient.NewStorageClient()
+		cache = appcache.NewGCSCache(storageClient, cfg.CacheBucketName)
+	} else {
+		cache = appcache.NewMemoryCache()
 	}
-}
 
-func (sp *ServicePack) Close() {
-	for _, fn := range sp.closables {
-		fn.Close()
-	}
+	sp.DefaultLogger = logger.NewLogger("api/default")
+	sp.ContributorsService = contributors.New(gh, cache, logger.NewLogger("contributors-json-cache-miss"))
+	sp.ImageService = image.New(cache, logger.NewLogger("image-cache-miss"))
+	sp.UsageService = usage.New(logger.NewLogger("repository-usage"))
+
+	return &sp
 }

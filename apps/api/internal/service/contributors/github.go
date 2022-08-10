@@ -2,6 +2,7 @@ package contributors
 
 import (
 	"context"
+	"net/http"
 	"sync"
 
 	"contrib.rocks/apps/api/internal/tracing"
@@ -26,8 +27,11 @@ func resolveRepositoryData(client *github.Client, c context.Context, r *model.Re
 	contributorsChan := make(chan ContributorsResult, 1)
 	go func(ch chan RepositoryResult) {
 		defer wg.Done()
-		data, _, err := client.Repositories.Get(ctx, r.Owner, r.RepoName)
-		if err != nil {
+		data, repo, err := client.Repositories.Get(ctx, r.Owner, r.RepoName)
+		if repo.StatusCode == http.StatusNotFound {
+			ch <- RepositoryResult{nil, &RepositoryNotFoundError{r}}
+			return
+		} else if err != nil {
 			ch <- RepositoryResult{nil, err}
 			return
 		}
