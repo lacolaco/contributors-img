@@ -3,63 +3,31 @@ package contributors
 import (
 	"context"
 	"net/http"
-	"sync"
 
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
 	"github.com/google/go-github/v45/github"
+	"golang.org/x/sync/errgroup"
 )
 
-func resolveRepositoryData(client *github.Client, c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
-	ctx, span := tracing.Tracer().Start(c, "contributors.resolveRepositoryData")
+func fetchRepositoryContributors(client *github.Client, c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
+	ctx, span := tracing.Tracer().Start(c, "contributors.fetchRepositoryContributors")
 	defer span.End()
 
-	type Result[T any] struct {
-		Value T
-		Error error
-	}
-	type RepositoryResult Result[*github.Repository]
-	type ContributorsResult Result[[]*github.Contributor]
+	repositoryResultOut := make(chan *github.Repository, 1)
+	contributorsResultOut := make(chan []*github.Contributor, 1)
+	eg, ctx := errgroup.WithContext(ctx)
+	eg.Go(makeFetchRepositoryFn(client, ctx, r, repositoryResultOut))
+	eg.Go(makeFetchContributorsFn(client, ctx, r, contributorsResultOut))
 
-	wg := sync.WaitGroup{}
-	wg.Add(2)
-	repositoryChan := make(chan RepositoryResult, 1)
-	contributorsChan := make(chan ContributorsResult, 1)
-	go func(ch chan RepositoryResult) {
-		defer wg.Done()
-		data, repo, err := client.Repositories.Get(ctx, r.Owner, r.RepoName)
-		if repo.StatusCode == http.StatusNotFound {
-			ch <- RepositoryResult{nil, &RepositoryNotFoundError{r}}
-			return
-		} else if err != nil {
-			ch <- RepositoryResult{nil, err}
-			return
-		}
-		ch <- RepositoryResult{data, nil}
-		close(ch)
-	}(repositoryChan)
-	go func(ch chan ContributorsResult) {
-		defer wg.Done()
-		data, err := getAllContributors(client, ctx, r.Owner, r.RepoName)
-		if err != nil {
-			ch <- ContributorsResult{nil, err}
-			return
-		}
-		ch <- ContributorsResult{data, nil}
-		close(ch)
-	}(contributorsChan)
-	wg.Wait()
-	repositoryResult := <-repositoryChan
-	contributorsResult := <-contributorsChan
-	if repositoryResult.Error != nil {
-		return nil, repositoryResult.Error
+	if err := eg.Wait(); err != nil {
+		return nil, err
 	}
-	if contributorsResult.Error != nil {
-		return nil, contributorsResult.Error
-	}
+	repositoryResult := <-repositoryResultOut
+	contributorsResult := <-contributorsResultOut
 
-	contributors := make([]*model.Contributor, 0, len(contributorsResult.Value))
-	for _, e := range contributorsResult.Value {
+	contributors := make([]*model.Contributor, 0, len(contributorsResult))
+	for _, e := range contributorsResult {
 		contributors = append(contributors, &model.Contributor{
 			ID:            e.GetID(),
 			Login:         e.GetLogin(),
@@ -70,29 +38,53 @@ func resolveRepositoryData(client *github.Client, c context.Context, r *model.Re
 	}
 	return &model.RepositoryContributors{
 		Repository: &model.Repository{
-			Owner:    repositoryResult.Value.Owner.GetLogin(),
-			RepoName: repositoryResult.Value.GetName(),
+			Owner:    repositoryResult.Owner.GetLogin(),
+			RepoName: repositoryResult.GetName(),
 		},
-		StargazersCount: repositoryResult.Value.GetStargazersCount(),
+		StargazersCount: repositoryResult.GetStargazersCount(),
 		Contributors:    contributors,
 	}, nil
 }
 
-func getAllContributors(client *github.Client, c context.Context, owner, repo string) ([]*github.Contributor, error) {
-	options := &github.ListContributorsOptions{
-		ListOptions: github.ListOptions{PerPage: 100},
-	}
-	var ret []*github.Contributor
-	for {
-		data, resp, err := client.Repositories.ListContributors(c, owner, repo, options)
+func makeFetchRepositoryFn(client *github.Client, c context.Context, repo *model.Repository, out chan<- *github.Repository) func() error {
+	return func() error {
+		data, resp, err := client.Repositories.Get(c, repo.Owner, repo.RepoName)
 		if err != nil {
-			return nil, err
+			if resp != nil && resp.StatusCode == http.StatusNotFound {
+				return &RepositoryNotFoundError{repo}
+			}
+			return err
 		}
-		ret = append(ret, data...)
-		if resp.NextPage == 0 {
-			break
+		if out != nil && cap(out) > 0 {
+			out <- data
 		}
-		options.Page = resp.NextPage
+		return nil
 	}
-	return ret, nil
+}
+
+func makeFetchContributorsFn(client *github.Client, c context.Context, repo *model.Repository, out chan<- []*github.Contributor) func() error {
+	return func() error {
+		options := &github.ListContributorsOptions{
+			ListOptions: github.ListOptions{PerPage: 100},
+		}
+		var items []*github.Contributor
+		for {
+			data, resp, err := client.Repositories.ListContributors(c, repo.Owner, repo.RepoName, options)
+			if err != nil {
+				if resp != nil && resp.StatusCode == http.StatusNotFound {
+					return &RepositoryNotFoundError{repo}
+				}
+				return err
+			}
+			items = append(items, data...)
+			if resp.NextPage == 0 {
+				break
+			}
+			options.Page = resp.NextPage
+		}
+		if out != nil && cap(out) > 0 {
+			out <- items
+		}
+		return nil
+	}
 }
