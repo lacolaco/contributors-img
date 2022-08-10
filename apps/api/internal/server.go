@@ -12,7 +12,6 @@ import (
 	"contrib.rocks/libs/goutils/env"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
-	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 )
 
 func StartServer() error {
@@ -37,9 +36,9 @@ func StartServer() error {
 	r := gin.New()
 	r.Use(gin.Recovery())
 	r.Use(env.Middleware(cfg.Env))
+	r.Use(tracing.Middleware())
 	r.Use(logger.Middleware(sp.DefaultLogger))
 	r.Use(errorHandler())
-	r.Use(otelgin.Middleware("api"))
 	r.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	api.Setup(r, sp)
