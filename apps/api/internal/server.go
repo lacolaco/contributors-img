@@ -36,10 +36,10 @@ func StartServer() error {
 
 	r := gin.New()
 	r.Use(gin.Recovery())
-	r.Use(errorHandler())
 	r.Use(env.Middleware(cfg.Env))
-	r.Use(otelgin.Middleware("api"))
 	r.Use(logger.Middleware(sp.DefaultLogger))
+	r.Use(errorHandler())
+	r.Use(otelgin.Middleware("api"))
 	r.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	api.Setup(r, sp)
