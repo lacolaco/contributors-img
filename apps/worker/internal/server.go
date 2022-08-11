@@ -22,7 +22,7 @@ func StartServer() error {
 
 	http.HandleFunc("/update-featured-repositories", func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		repositories, err := QueryFeaturedRepositories(ctx, appEnv)
+		repositories, err := QueryFeaturedRepositories(ctx)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
