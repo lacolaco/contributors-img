@@ -15,6 +15,7 @@ func ResolveImageDataURL(c context.Context, remoteURL string, imageSize int) (st
 	u, _ := url.Parse(remoteURL)
 	q := u.Query()
 	q.Set("size", fmt.Sprint(imageSize))
+	q.Set("s", fmt.Sprint(imageSize))
 	u.RawQuery = q.Encode()
 
 	client := httptrace.NewClient(http.DefaultTransport)

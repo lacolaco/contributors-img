@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"strings"
 	"testing"
 
 	"contrib.rocks/libs/goutils/model"
@@ -184,7 +185,7 @@ func Test_buildRepositoryContributors(t *testing.T) {
 			t.Fatalf("expected contributor id to be 2, got %d", got.Contributors[1].ID)
 		}
 	})
-	t.Run(".Contributors should filter out bot users", func(t *testing.T) {
+	t.Run(".Contributors should ignore bot users", func(t *testing.T) {
 		rawRepo := &github.Repository{}
 		rawContribs := []*github.Contributor{
 			{ID: github.Int64(1)},
@@ -200,6 +201,22 @@ func Test_buildRepositoryContributors(t *testing.T) {
 		}
 		if got.Contributors[1].ID != 2 {
 			t.Fatalf("expected contributor id to be 2, got %d", got.Contributors[1].ID)
+		}
+	})
+	t.Run(".Contributors should normarize anonymous users", func(t *testing.T) {
+		rawRepo := &github.Repository{}
+		rawContribs := []*github.Contributor{
+			{Type: github.String("Anonymous"), Name: github.String("foo"), Email: github.String("foo@example.com")},
+		}
+		got := buildRepositoryContributors(rawRepo, rawContribs)
+		if len(got.Contributors) != 1 {
+			t.Fatalf("expected 1 contributor, got %d", len(got.Contributors))
+		}
+		if got.Contributors[0].Login != "foo" {
+			t.Fatalf("unexpected contributor login, got %s", got.Contributors[0].Login)
+		}
+		if !strings.HasPrefix(got.Contributors[0].AvatarURL, "https://www.gravatar.com/avatar/") {
+			t.Fatalf("unexpected contributor avatar url, got %s", got.Contributors[0].AvatarURL)
 		}
 	})
 }
