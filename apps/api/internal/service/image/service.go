@@ -35,7 +35,7 @@ type GetImageParams struct {
 	Data            *model.RepositoryContributors
 }
 
-func (s *serviceImpl) GetImage(c context.Context, r *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error) {
+func (s *serviceImpl) GetImage(c context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error) {
 	ctx, span := tracing.Tracer().Start(c, "image.Service.GetImage")
 	defer span.End()
 	log := logger.FromContext(ctx)
@@ -54,7 +54,7 @@ func (s *serviceImpl) GetImage(c context.Context, r *model.RepositoryContributor
 	}
 	options.ItemSize = defaultItemSize
 
-	cacheKey := createImageCacheKey(r.Repository, options, "svg")
+	cacheKey := createImageCacheKey(data.Repository, options, "svg")
 	// restore cached image
 	cache, err := s.restoreCache(ctx, cacheKey)
 	if err != nil {
@@ -66,7 +66,7 @@ func (s *serviceImpl) GetImage(c context.Context, r *model.RepositoryContributor
 	}
 	s.sendCacheMissLog(ctx, cacheKey)
 	// render image
-	image, err := s.render(ctx, r, options)
+	image, err := s.render(ctx, data, options)
 	if err != nil {
 		return nil, err
 	}

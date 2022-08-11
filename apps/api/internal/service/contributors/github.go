@@ -2,6 +2,8 @@ package contributors
 
 import (
 	"context"
+	"crypto/md5"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -49,6 +51,7 @@ func makeFetchRepositoryFn(client *github.Client, c context.Context, repo *model
 func makeFetchContributorsFn(client *github.Client, c context.Context, repo *model.Repository, out chan<- []*github.Contributor) func() error {
 	return func() error {
 		options := &github.ListContributorsOptions{
+			Anon:        "true",
 			ListOptions: github.ListOptions{PerPage: 100},
 		}
 		var items []*github.Contributor
@@ -76,17 +79,28 @@ func makeFetchContributorsFn(client *github.Client, c context.Context, repo *mod
 func buildRepositoryContributors(rawRepository *github.Repository, rawContributors []*github.Contributor) *model.RepositoryContributors {
 	contributors := make([]*model.Contributor, 0, len(rawContributors))
 	for _, item := range rawContributors {
-		// type is "User" or "Bot"
-		if strings.ToLower(item.GetType()) == "bot" {
+		switch strings.ToLower(item.GetType()) {
+		case "bot":
+			// ignore bots
 			continue
+		case "anonymous":
+			// Anonymous contributor has only these fields: name, email, and contributions
+			contributors = append(contributors, &model.Contributor{
+				Login: item.GetName(),
+				// Use the gravatar avatar instead.
+				AvatarURL:     fmt.Sprintf("https://www.gravatar.com/avatar/%x?d=mp", md5.Sum([]byte(item.GetEmail()))),
+				Contributions: item.GetContributions(),
+			})
+			continue
+		default:
+			contributors = append(contributors, &model.Contributor{
+				ID:            item.GetID(),
+				Login:         item.GetLogin(),
+				AvatarURL:     item.GetAvatarURL(),
+				HTMLURL:       item.GetHTMLURL(),
+				Contributions: item.GetContributions(),
+			})
 		}
-		contributors = append(contributors, &model.Contributor{
-			ID:            item.GetID(),
-			Login:         item.GetLogin(),
-			AvatarURL:     item.GetAvatarURL(),
-			HTMLURL:       item.GetHTMLURL(),
-			Contributions: item.GetContributions(),
-		})
 	}
 	return &model.RepositoryContributors{
 		Repository: &model.Repository{
