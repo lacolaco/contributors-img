@@ -8,15 +8,25 @@ import (
 	"contrib.rocks/libs/goutils/env"
 )
 
-func SaveFeaturedRepositories(ctx context.Context, appEnv env.Environment, repositories []FeaturedRepository, updatedAt time.Time) error {
+type FeaturedRepository struct {
+	Repository   string `firestore:"repository"`
+	Stargazers   int64  `firestore:"stargazers"`
+	Contributors int64  `firestore:"contributors"`
+}
+
+func SaveFeaturedRepositories(ctx context.Context, appEnv env.Environment, usages []*RepositoryUsage, updatedAt time.Time) error {
 	fs := apiclient.NewFirestoreClient()
-	items := make([]RepositoryUsage, len(repositories))
-	for i, repository := range repositories {
-		items[i] = repository.Usage
+	items := make([]FeaturedRepository, len(usages))
+	for i, repository := range usages {
+		items[i] = FeaturedRepository{
+			Repository:   repository.Repository,
+			Stargazers:   repository.Stargazers,
+			Contributors: repository.Contributors,
+		}
 	}
 	_, err := fs.Collection(string(appEnv)).Doc("featured_repositories").Set(ctx, struct {
-		Items     []RepositoryUsage `firestore:"items"`
-		UpdatedAt time.Time         `firestore:"updatedAt"`
+		Items     []FeaturedRepository `firestore:"items"`
+		UpdatedAt time.Time            `firestore:"updatedAt"`
 	}{
 		items, updatedAt,
 	})
