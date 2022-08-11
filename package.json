@@ -9,6 +9,7 @@
     "build:all:staging": "yarn build:all --configuration staging",
     "build:all:production": "yarn build:all --configuration production",
     "test": "nx test",
+    "test:u": "UPDATE_SNAPSHOTS=true yarn test",
     "test:ci": "nx run-many --target test --all --parallel",
     "format": "nx run-many --target format --parallel",
     "lint": "nx workspace-lint && nx run-many --target lint --parallel",
