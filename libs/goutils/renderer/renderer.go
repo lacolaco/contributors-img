@@ -67,7 +67,7 @@ func (r *renderer) buildSVG(w io.Writer, data *model.RepositoryContributors) {
 		// nested <svg> is not supported in svgo
 		fmt.Fprintf(canvas.Writer, `<svg x="%d" y="%d" width="%d" height="%d">\n`, x, y, r.Options.ItemSize, r.Options.ItemSize)
 		{
-			fillId := fmt.Sprintf("fill%d", c.ID)
+			fillId := fmt.Sprintf("fill%d", i)
 			canvas.Title(c.Login)
 			canvas.Circle(r.Options.ItemSize/2, r.Options.ItemSize/2, r.Options.ItemSize/2, `stroke="#c0c0c0"`, `stroke-width="1"`, fmt.Sprintf(`fill="url(#%s)"`, fillId))
 			canvas.Def()
