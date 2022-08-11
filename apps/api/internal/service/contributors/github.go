@@ -3,6 +3,7 @@ package contributors
 import (
 	"context"
 	"net/http"
+	"strings"
 
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
@@ -26,24 +27,7 @@ func fetchRepositoryContributors(client *github.Client, c context.Context, r *mo
 	repositoryResult := <-repositoryResultOut
 	contributorsResult := <-contributorsResultOut
 
-	contributors := make([]*model.Contributor, 0, len(contributorsResult))
-	for _, e := range contributorsResult {
-		contributors = append(contributors, &model.Contributor{
-			ID:            e.GetID(),
-			Login:         e.GetLogin(),
-			AvatarURL:     e.GetAvatarURL(),
-			HTMLURL:       e.GetHTMLURL(),
-			Contributions: e.GetContributions(),
-		})
-	}
-	return &model.RepositoryContributors{
-		Repository: &model.Repository{
-			Owner:    repositoryResult.Owner.GetLogin(),
-			RepoName: repositoryResult.GetName(),
-		},
-		StargazersCount: repositoryResult.GetStargazersCount(),
-		Contributors:    contributors,
-	}, nil
+	return buildRepositoryContributors(repositoryResult, contributorsResult), nil
 }
 
 func makeFetchRepositoryFn(client *github.Client, c context.Context, repo *model.Repository, out chan<- *github.Repository) func() error {
@@ -86,5 +70,30 @@ func makeFetchContributorsFn(client *github.Client, c context.Context, repo *mod
 			out <- items
 		}
 		return nil
+	}
+}
+
+func buildRepositoryContributors(rawRepository *github.Repository, rawContributors []*github.Contributor) *model.RepositoryContributors {
+	contributors := make([]*model.Contributor, 0, len(rawContributors))
+	for _, item := range rawContributors {
+		// type is "User" or "Bot"
+		if strings.ToLower(item.GetType()) == "bot" {
+			continue
+		}
+		contributors = append(contributors, &model.Contributor{
+			ID:            item.GetID(),
+			Login:         item.GetLogin(),
+			AvatarURL:     item.GetAvatarURL(),
+			HTMLURL:       item.GetHTMLURL(),
+			Contributions: item.GetContributions(),
+		})
+	}
+	return &model.RepositoryContributors{
+		Repository: &model.Repository{
+			Owner:    rawRepository.Owner.GetLogin(),
+			RepoName: rawRepository.GetName(),
+		},
+		StargazersCount: rawRepository.GetStargazersCount(),
+		Contributors:    contributors,
 	}
 }

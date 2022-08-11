@@ -139,3 +139,67 @@ func Test_fetchContributors(t *testing.T) {
 		}
 	})
 }
+
+func Test_buildRepositoryContributors(t *testing.T) {
+	t.Run(".Owner should equal to repo.owner.login", func(t *testing.T) {
+		rawRepo := &github.Repository{
+			Owner: &github.User{Login: github.String("foo")},
+		}
+		rawContribs := []*github.Contributor{}
+		got := buildRepositoryContributors(rawRepo, rawContribs)
+		if got.Owner != "foo" {
+			t.Fatalf("expected owner to be foo, got %s", got.Owner)
+		}
+	})
+	t.Run(".RepoName should equal to repo.name", func(t *testing.T) {
+		rawRepo := &github.Repository{Name: github.String("bar")}
+		rawContribs := []*github.Contributor{}
+		got := buildRepositoryContributors(rawRepo, rawContribs)
+		if got.RepoName != "bar" {
+			t.Fatalf("expected repo name to be bar, got %s", got.RepoName)
+		}
+	})
+	t.Run(".Stargazors should equal to repo.stargazers_count", func(t *testing.T) {
+		rawRepo := &github.Repository{StargazersCount: github.Int(1)}
+		rawContribs := []*github.Contributor{}
+		got := buildRepositoryContributors(rawRepo, rawContribs)
+		if got.StargazersCount != 1 {
+			t.Fatalf("expected stargazers to be 1, got %d", got.StargazersCount)
+		}
+	})
+	t.Run(".Contributors should equal to contributors", func(t *testing.T) {
+		rawRepo := &github.Repository{}
+		rawContribs := []*github.Contributor{
+			{ID: github.Int64(1)},
+			{ID: github.Int64(2)},
+		}
+		got := buildRepositoryContributors(rawRepo, rawContribs)
+		if len(got.Contributors) != 2 {
+			t.Fatalf("expected 2 contributors, got %d", len(got.Contributors))
+		}
+		if got.Contributors[0].ID != 1 {
+			t.Fatalf("expected contributor id to be 1, got %d", got.Contributors[0].ID)
+		}
+		if got.Contributors[1].ID != 2 {
+			t.Fatalf("expected contributor id to be 2, got %d", got.Contributors[1].ID)
+		}
+	})
+	t.Run(".Contributors should filter out bot users", func(t *testing.T) {
+		rawRepo := &github.Repository{}
+		rawContribs := []*github.Contributor{
+			{ID: github.Int64(1)},
+			{ID: github.Int64(2)},
+			{ID: github.Int64(3), Type: github.String("Bot")},
+		}
+		got := buildRepositoryContributors(rawRepo, rawContribs)
+		if len(got.Contributors) != 2 {
+			t.Fatalf("expected 2 contributors, got %d", len(got.Contributors))
+		}
+		if got.Contributors[0].ID != 1 {
+			t.Fatalf("expected contributor id to be 1, got %d", got.Contributors[0].ID)
+		}
+		if got.Contributors[1].ID != 2 {
+			t.Fatalf("expected contributor id to be 2, got %d", got.Contributors[1].ID)
+		}
+	})
+}
