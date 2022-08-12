@@ -9,23 +9,23 @@ import (
 )
 
 func TestMiddleware(t *testing.T) {
-	logger := newStdLogger("test")
-
-	var got Logger
+	var logger Logger
+	var factory LoggerFactory
 	r := gin.New()
-	r.Use(Middleware(logger))
+	r.Use(Middleware(newStdLoggerFactory(), "test"))
 	r.GET("/ping", func(c *gin.Context) {
-		got = FromContext(c.Request.Context())
+		logger = LoggerFromContext(c.Request.Context())
+		factory = LoggerFactoryFromContext(c.Request.Context())
 	})
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest(http.MethodGet, "/ping", nil)
 	r.ServeHTTP(w, req)
 
-	if got == nil {
+	if logger == nil {
 		t.Fatalf("Expected logger to be set in context")
 	}
-	if got != logger {
-		t.Fatalf("Expected logger to be set in context")
+	if factory == nil {
+		t.Fatalf("Expected logger factory to be set in context")
 	}
 }

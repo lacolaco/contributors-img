@@ -1,28 +1,19 @@
 package logger
 
 import (
-	"cloud.google.com/go/logging"
 	"contrib.rocks/apps/api/internal/config"
+	"contrib.rocks/libs/goutils/apiclient"
 )
 
-type factory struct {
-	cfg    *config.Config
-	client *logging.Client
+type LoggerFactory interface {
+	Logger(name string) Logger
+	Close()
 }
 
-func newLoggerFactory(cfg *config.Config, l *logging.Client) *factory {
-	return &factory{cfg, l}
-}
-
-func (s *factory) Logger(name string) Logger {
-	if s.client == nil {
-		return newStdLogger(name)
-	}
-
-	return &cloudLoggingLogger{
-		s.cfg,
-		s.client.Logger(name, logging.CommonLabels(map[string]string{
-			"environment": string(s.cfg.Env),
-		})),
+func NewLoggerFactory(cfg *config.Config) LoggerFactory {
+	if cfg.ProjectID() != "" {
+		return newCloudLoggingLoggerFactory(apiclient.NewLoggingClient(cfg.ProjectID()))
+	} else {
+		return newStdLoggerFactory()
 	}
 }

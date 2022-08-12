@@ -12,14 +12,10 @@ const configContextKey = contextKey("config")
 
 func Middleware(cfg *Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := wrapContext(c.Request.Context(), cfg)
+		ctx := context.WithValue(c.Request.Context(), configContextKey, cfg)
 		c.Request = c.Request.WithContext(ctx)
 		c.Next()
 	}
-}
-
-func wrapContext(parent context.Context, cfg *Config) context.Context {
-	return context.WithValue(parent, configContextKey, cfg)
 }
 
 func FromContext(ctx context.Context) *Config {

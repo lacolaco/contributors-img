@@ -15,21 +15,20 @@ type Service interface {
 	CollectUsage(c context.Context, r *model.RepositoryContributors, via string) error
 }
 
-func New(usageLogger logger.Logger) Service {
-	return &serviceImpl{usageLogger}
+func New() Service {
+	return &serviceImpl{}
 }
 
 var _ Service = &serviceImpl{}
 
 type serviceImpl struct {
-	usageLogger logger.Logger
 }
 
 func (s *serviceImpl) CollectUsage(c context.Context, r *model.RepositoryContributors, via string) error {
 	ctx, span := tracing.Tracer().Start(c, "usage.Service.CollectUsage")
 	defer span.End()
 
-	s.usageLogger.Log(ctx, logging.Entry{
+	logger.LoggerFactoryFromContext(c).Logger("repository-usage").Log(ctx, logging.Entry{
 		Labels: map[string]string{
 			"via": via,
 		},

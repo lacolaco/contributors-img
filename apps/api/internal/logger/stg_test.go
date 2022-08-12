@@ -26,7 +26,7 @@ func TestStdLogger(t *testing.T) {
 		t.Cleanup(func() {
 			buf.Reset()
 		})
-		newStdLogger("test").Debug(context.Background(), logging.Entry{
+		newStdLoggerFactory().Logger("test").Debug(context.Background(), logging.Entry{
 			Payload: "payload",
 		})
 		if buf.String() != "[test][DEBUG] \"payload\"\n" {
@@ -38,7 +38,7 @@ func TestStdLogger(t *testing.T) {
 		t.Cleanup(func() {
 			buf.Reset()
 		})
-		newStdLogger("test").Debug(context.Background(), logging.Entry{
+		newStdLoggerFactory().Logger("test").Debug(context.Background(), logging.Entry{
 			Payload: map[string]any{
 				"key": "value",
 			},

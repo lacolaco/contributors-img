@@ -9,22 +9,25 @@ import (
 type contextKey string
 
 const (
-	loggerContextKey contextKey = contextKey("logger")
+	loggerContextKey        contextKey = contextKey("logger")
+	loggerFactoryContextKey contextKey = contextKey("loggerFactory")
 )
 
-func Middleware(logger Logger) gin.HandlerFunc {
+func Middleware(factory LoggerFactory, loggerName string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := wrapContext(c.Request.Context(), logger)
+		ctx := c.Request.Context()
+		logger := factory.Logger(loggerName)
+		ctx = context.WithValue(ctx, loggerFactoryContextKey, factory)
+		ctx = context.WithValue(ctx, loggerContextKey, logger)
 		c.Request = c.Request.WithContext(ctx)
-
 		c.Next()
 	}
 }
 
-func wrapContext(c context.Context, logger Logger) context.Context {
-	return context.WithValue(c, loggerContextKey, logger)
+func LoggerFromContext(c context.Context) Logger {
+	return c.Value(loggerContextKey).(Logger)
 }
 
-func FromContext(c context.Context) Logger {
-	return c.Value(loggerContextKey).(Logger)
+func LoggerFactoryFromContext(c context.Context) LoggerFactory {
+	return c.Value(loggerFactoryContextKey).(LoggerFactory)
 }

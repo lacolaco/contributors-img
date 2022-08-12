@@ -19,15 +19,14 @@ type Service interface {
 	GetImage(ctx context.Context, r *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error)
 }
 
-func New(cache appcache.AppCache, cacheMissLogger logger.Logger) Service {
-	return &serviceImpl{cache, cacheMissLogger}
+func New(cache appcache.AppCache) Service {
+	return &serviceImpl{cache}
 }
 
 var _ Service = &serviceImpl{}
 
 type serviceImpl struct {
-	cache           appcache.AppCache
-	cacheMissLogger logger.Logger
+	cache appcache.AppCache
 }
 
 type GetImageParams struct {
@@ -38,7 +37,7 @@ type GetImageParams struct {
 func (s *serviceImpl) GetImage(c context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error) {
 	ctx, span := tracing.Tracer().Start(c, "image.Service.GetImage")
 	defer span.End()
-	log := logger.FromContext(ctx)
+	log := logger.LoggerFromContext(ctx)
 
 	// set default options
 	const (
@@ -129,7 +128,7 @@ func (s *serviceImpl) saveCache(c context.Context, key string, image renderer.Im
 }
 
 func (s *serviceImpl) sendCacheMissLog(c context.Context, key string) {
-	s.cacheMissLogger.Log(c, logging.Entry{
+	logger.LoggerFactoryFromContext(c).Logger("image-cache-miss").Log(c, logging.Entry{
 		Payload: key,
 	})
 }

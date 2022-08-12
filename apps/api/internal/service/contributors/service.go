@@ -16,20 +16,19 @@ type Service interface {
 	GetContributors(ctx context.Context, r *model.Repository) (*model.RepositoryContributors, error)
 }
 
-func New(gh *github.Client, cache appcache.AppCache, cacheMissLogger logger.Logger) Service {
-	return &serviceImpl{gh, cache, cacheMissLogger}
+func New(gh *github.Client, cache appcache.AppCache) Service {
+	return &serviceImpl{gh, cache}
 }
 
 type serviceImpl struct {
-	githubClient    *github.Client
-	cache           appcache.AppCache
-	cacheMissLogger logger.Logger
+	githubClient *github.Client
+	cache        appcache.AppCache
 }
 
 func (s *serviceImpl) GetContributors(c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
 	ctx, span := tracing.Tracer().Start(c, "contributors.Service.GetContributors")
 	defer span.End()
-	log := logger.FromContext(ctx)
+	log := logger.LoggerFromContext(ctx)
 
 	cacheKey := createContributorsJSONCacheKey(r)
 	// restore cache
@@ -57,7 +56,7 @@ func (s *serviceImpl) GetContributors(c context.Context, r *model.Repository) (*
 }
 
 func (s *serviceImpl) sendCacheMissLog(c context.Context, key string) {
-	s.cacheMissLogger.Log(c, logging.Entry{
+	logger.LoggerFactoryFromContext(c).Logger("contributors-json-cache-miss").Log(c, logging.Entry{
 		Payload: key,
 	})
 }

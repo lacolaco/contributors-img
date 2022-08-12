@@ -11,12 +11,21 @@ import (
 
 var _ Logger = &stdLogger{}
 
-type stdLogger struct {
-	name string
+type stdLoggerFactory struct {
 }
 
-func newStdLogger(name string) *stdLogger {
+func newStdLoggerFactory() LoggerFactory {
+	return &stdLoggerFactory{}
+}
+
+func (l *stdLoggerFactory) Logger(name string) Logger {
 	return &stdLogger{name}
+}
+
+func (l *stdLoggerFactory) Close() {}
+
+type stdLogger struct {
+	name string
 }
 
 func (l *stdLogger) Log(c context.Context, entry logging.Entry) {
@@ -34,9 +43,7 @@ func (l *stdLogger) Error(c context.Context, entry logging.Entry) {
 	entry.Severity = logging.Error
 	l.printStandardLog(entry)
 }
-func (l *stdLogger) ContextWithLogger(c context.Context) context.Context {
-	return context.WithValue(c, loggerContextKey, l)
-}
+func (l *stdLogger) Close() {}
 
 func (l *stdLogger) printStandardLog(entry logging.Entry) {
 	bytes, err := json.Marshal(entry.Payload)

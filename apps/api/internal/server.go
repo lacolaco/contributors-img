@@ -3,7 +3,9 @@ package app
 import (
 	"fmt"
 	"net/http"
+	"time"
 
+	"cloud.google.com/go/logging"
 	"contrib.rocks/apps/api/internal/api"
 	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/logger"
@@ -25,20 +27,19 @@ func StartServer() error {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	closeLogger := logger.InitLoggerFactory(cfg)
-	defer closeLogger()
-
-	sp := service.NewServicePack(cfg)
-
 	closeTracer := tracing.InitTraceProvider(cfg)
 	defer closeTracer()
+	loggerFactory := logger.NewLoggerFactory(cfg)
+	defer loggerFactory.Close()
+	sp := service.NewServicePack(cfg)
 
 	r := gin.New()
 	r.Use(gin.Recovery())
-	r.Use(env.Middleware(cfg.Env))
+	r.Use(config.Middleware(cfg))
 	r.Use(tracing.Middleware())
-	r.Use(logger.Middleware(sp.DefaultLogger))
+	r.Use(logger.Middleware(loggerFactory, "api/default"))
 	r.Use(errorHandler())
+	r.Use(requestLogger())
 	r.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	api.Setup(r, sp)
@@ -50,13 +51,30 @@ func StartServer() error {
 func errorHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Next()
-
-		log := logger.FromContext(c.Request.Context())
 		err := c.Errors.Last()
 		if err == nil {
 			return
 		}
-		log.Error(c, logger.NewEntry(err.Error()))
+		logger.LoggerFromContext(c.Request.Context()).Error(c, logger.NewEntry(err.Error()))
 		c.AbortWithStatusJSON(http.StatusInternalServerError, err.JSON())
+	}
+}
+
+func requestLogger() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		logger.LoggerFromContext(c.Request.Context()).Info(c.Request.Context(), logging.Entry{
+			HTTPRequest: &logging.HTTPRequest{
+				Request: c.Request,
+			},
+			Timestamp: time.Now(),
+			Payload: map[string]string{
+				"status":    fmt.Sprintf("%d", c.Writer.Status()),
+				"method":    c.Request.Method,
+				"host":      c.Request.Host,
+				"url":       c.Request.URL.String(),
+				"referer":   c.Request.Referer(),
+				"userAgent": c.Request.UserAgent(),
+			},
+		})
 	}
 }
