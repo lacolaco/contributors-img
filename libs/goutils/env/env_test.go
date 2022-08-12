@@ -1,7 +1,6 @@
 package env
 
 import (
-	"context"
 	"testing"
 )
 
@@ -26,15 +25,5 @@ func TestFromString(t *testing.T) {
 				t.Errorf("FromString() = %v, want %v", got, tt.want)
 			}
 		})
-	}
-}
-
-func TestFromContext(t *testing.T) {
-	c := context.Background()
-	env := EnvDevelopment
-
-	c = env.ContextWithEnvironment(c)
-	if got := FromContext(c); got != env {
-		t.Errorf("FromContext() = %v, want %v", got, env)
 	}
 }
