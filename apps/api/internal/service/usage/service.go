@@ -2,7 +2,6 @@ package usage
 
 import (
 	"context"
-	"time"
 
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/tracing"
@@ -29,16 +28,14 @@ func (s *serviceImpl) CollectUsage(c context.Context, r *model.RepositoryContrib
 
 	log := logger.LoggerFromContext(ctx)
 	log = log.With(
-		logger.LogGroupLabel("repository-usage"),
+		logger.LogGroup("repository-usage"),
 		logger.Label("via", via),
 	)
 	log.Info(r.Repository.String(),
-		zap.String("repository", r.Repository.String()),
 		zap.String("owner", r.Repository.Owner),
-		zap.String("repo", r.Repository.RepoName),
+		zap.String("repository", r.Repository.String()),
 		zap.Int("stargazers", r.StargazersCount),
 		zap.Int("contributors", len(r.Contributors)),
-		zap.Time("timestamp", time.Now()),
 	)
 	return nil
 }

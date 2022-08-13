@@ -6,11 +6,11 @@ import (
 )
 
 const (
-	logGroupKey = "app.group"
+	logGroupIDKey = "groupId"
 )
 
-func LogGroupLabel(group string) zapcore.Field {
-	return zapdriver.Labels(zapdriver.Label(logGroupKey, group))
+func LogGroup(groupID string) zapcore.Field {
+	return zapdriver.Labels(zapdriver.Label(logGroupIDKey, groupID))
 }
 
 func Label(key, value string) zapcore.Field {
