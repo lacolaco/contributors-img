@@ -2,6 +2,7 @@ package tracing
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"contrib.rocks/apps/api/internal/config"
@@ -53,4 +54,11 @@ func InitTraceProvider(cfg *config.Config) func() {
 	return func() {
 		tp.Shutdown(context.Background())
 	}
+}
+
+func buildTraceName(projectID string, traceID string) string {
+	if projectID == "" || traceID == "" {
+		return ""
+	}
+	return fmt.Sprintf("projects/%s/traces/%s", projectID, traceID)
 }

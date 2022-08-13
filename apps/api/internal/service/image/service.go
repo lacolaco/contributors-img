@@ -60,7 +60,7 @@ func (s *serviceImpl) GetImage(c context.Context, data *model.RepositoryContribu
 		return nil, err
 	}
 	if cache != nil {
-		log.Debug(ctx, logger.NewEntry(fmt.Sprintf("restored image from cache: %s", cacheKey)))
+		log.Debug(fmt.Sprintf("restored image from cache: %s", cacheKey))
 		return cache, nil
 	}
 	s.sendCacheMissLog(ctx, cacheKey)

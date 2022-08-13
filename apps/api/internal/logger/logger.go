@@ -12,9 +12,3 @@ type Logger interface {
 	Info(ctx context.Context, e logging.Entry)
 	Error(ctx context.Context, e logging.Entry)
 }
-
-func NewEntry(o any) logging.Entry {
-	return logging.Entry{
-		Payload: o,
-	}
-}

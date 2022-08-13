@@ -38,7 +38,7 @@ func (s *serviceImpl) GetContributors(c context.Context, r *model.Repository) (*
 		return nil, err
 	}
 	if cache != nil {
-		log.Debug(ctx, logger.NewEntry(fmt.Sprintf("restored contributors-json from cache: %s", cacheKey)))
+		log.Debug(fmt.Sprintf("restored contributors-json from cache: %s", cacheKey))
 		return cache, nil
 	}
 	s.sendCacheMissLog(ctx, cacheKey)

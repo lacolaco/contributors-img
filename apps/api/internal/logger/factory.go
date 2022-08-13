@@ -3,6 +3,9 @@ package logger
 import (
 	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/libs/goutils/apiclient"
+	"contrib.rocks/libs/goutils/env"
+	"go.ajitem.com/zapdriver"
+	"go.uber.org/zap"
 )
 
 type LoggerFactory interface {
@@ -16,4 +19,20 @@ func NewLoggerFactory(cfg *config.Config) LoggerFactory {
 	} else {
 		return newStdLoggerFactory()
 	}
+}
+
+func buildBaseLogger(cfg *config.Config) *zap.Logger {
+	var zc zap.Config
+	if cfg.Env == env.EnvDevelopment {
+		zc = zapdriver.NewDevelopmentConfig()
+		zc.Encoding = "json"
+	} else {
+		zc = zapdriver.NewProductionConfig()
+	}
+	logger, _ := zc.Build(
+		zap.Fields(
+			zapdriver.Labels(zapdriver.Label("environment", string(cfg.Env))),
+		),
+	)
+	return logger
 }

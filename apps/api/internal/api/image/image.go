@@ -15,6 +15,7 @@ import (
 	"contrib.rocks/libs/goutils/renderer"
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
+	"go.uber.org/zap"
 )
 
 const (
@@ -67,7 +68,8 @@ func (api *API) Get(c *gin.Context) {
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
-	log.Debug(ctx, logger.NewEntry(params))
+	log = log.With(zap.String("params.repository", string(params.Repository)))
+	log.Sugar().Debug(params)
 	span.SetAttributes(
 		attribute.String("api.image.params.repository", string(params.Repository)),
 		attribute.String("api.image.params.via", params.Via),
@@ -78,6 +80,7 @@ func (api *API) Get(c *gin.Context) {
 	// get data
 	data, err := api.cs.GetContributors(ctx, params.Repository.Object())
 	if notfound, ok := err.(*contributors.RepositoryNotFoundError); ok {
+		log.Error(err.Error())
 		c.String(http.StatusNotFound, notfound.Error())
 		return
 	} else if err != nil {
@@ -107,6 +110,6 @@ func (api *API) Get(c *gin.Context) {
 	})
 	// collect usage stats
 	if err := api.us.CollectUsage(ctx, data, params.Via); err != nil {
-		c.Error(err).SetType(gin.ErrorTypePrivate)
+		c.Error(err).SetType(gin.ErrorTypePublic)
 	}
 }
