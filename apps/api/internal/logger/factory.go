@@ -6,6 +6,7 @@ import (
 	"contrib.rocks/libs/goutils/env"
 	"go.ajitem.com/zapdriver"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 type LoggerFactory interface {
@@ -28,6 +29,7 @@ func buildBaseLogger(cfg *config.Config) *zap.Logger {
 		zc.Encoding = "json"
 	} else {
 		zc = zapdriver.NewProductionConfig()
+		zc.EncoderConfig.TimeKey = zapcore.OmitKey
 	}
 	logger, _ := zc.Build()
 	return logger
