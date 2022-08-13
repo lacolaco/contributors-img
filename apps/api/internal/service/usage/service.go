@@ -2,13 +2,12 @@ package usage
 
 import (
 	"context"
-	"fmt"
 	"time"
 
-	"cloud.google.com/go/logging"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
+	"go.uber.org/zap"
 )
 
 type Service interface {
@@ -28,26 +27,18 @@ func (s *serviceImpl) CollectUsage(c context.Context, r *model.RepositoryContrib
 	ctx, span := tracing.Tracer().Start(c, "usage.Service.CollectUsage")
 	defer span.End()
 
-	logger.LoggerFactoryFromContext(c).Logger("repository-usage").Log(ctx, logging.Entry{
-		Labels: map[string]string{
-			"via": via,
-		},
-		Payload: struct {
-			Repository   string `json:"repository"`
-			Owner        string `json:"owner"`
-			RepoName     string `json:"repo"`
-			Stargazers   int    `json:"stargazers"`
-			Contributors int    `json:"contributors"`
-			Timestamp    string `json:"timestamp"`
-		}{
-			Repository:   r.Repository.String(), // TODO remove
-			Owner:        r.Repository.Owner,
-			RepoName:     r.Repository.RepoName,
-			Stargazers:   r.StargazersCount,
-			Contributors: len(r.Contributors),
-			Timestamp:    fmt.Sprint(time.Now().UnixMilli()), // TODO remove
-		},
-	})
-
+	log := logger.LoggerFromContext(ctx)
+	log = log.With(
+		logger.LogGroupLabel("repository-usage"),
+		logger.Label("via", via),
+	)
+	log.Info(r.Repository.String(),
+		zap.String("repository", r.Repository.String()),
+		zap.String("owner", r.Repository.Owner),
+		zap.String("repo", r.Repository.RepoName),
+		zap.Int("stargazers", r.StargazersCount),
+		zap.Int("contributors", len(r.Contributors)),
+		zap.Time("timestamp", time.Now()),
+	)
 	return nil
 }

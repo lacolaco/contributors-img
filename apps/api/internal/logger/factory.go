@@ -29,10 +29,6 @@ func buildBaseLogger(cfg *config.Config) *zap.Logger {
 	} else {
 		zc = zapdriver.NewProductionConfig()
 	}
-	logger, _ := zc.Build(
-		zap.Fields(
-			zapdriver.Labels(zapdriver.Label("environment", string(cfg.Env))),
-		),
-	)
+	logger, _ := zc.Build()
 	return logger
 }

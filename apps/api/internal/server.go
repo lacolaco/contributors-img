@@ -64,7 +64,7 @@ func requestLogger() gin.HandlerFunc {
 		c.Next()
 		log := logger.LoggerFromContext(c.Request.Context())
 
-		log.Named("requestlog").Sugar().Info(map[string]string{
+		log.With(logger.LogGroupLabel("requestlog")).Sugar().Info(map[string]string{
 			"status":    fmt.Sprintf("%d", c.Writer.Status()),
 			"method":    c.Request.Method,
 			"host":      c.Request.Host,
