@@ -15,6 +15,7 @@ import (
 	"go.opentelemetry.io/otel/propagation"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	"go.opentelemetry.io/otel/trace"
+	"google.golang.org/api/option"
 )
 
 func Tracer() trace.Tracer {
@@ -22,7 +23,11 @@ func Tracer() trace.Tracer {
 }
 
 func installTraceProvider(cfg *config.Config) *sdktrace.TracerProvider {
-	exporter, err := cloudtrace.New()
+	// Disable telemetry by Cloud Trace itself.
+	// https://github.com/open-telemetry/opentelemetry-go/issues/1928#issuecomment-843644237
+	exporter, err := cloudtrace.New(
+		cloudtrace.WithTraceClientOptions([]option.ClientOption{option.WithTelemetryDisabled()}),
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -38,7 +43,7 @@ func installTraceProvider(cfg *config.Config) *sdktrace.TracerProvider {
 func installPropagators() {
 	otel.SetTextMapPropagator(
 		propagation.NewCompositeTextMapPropagator(
-			gcppropagator.CloudTraceFormatPropagator{},
+			gcppropagator.CloudTraceOneWayPropagator{},
 			propagation.TraceContext{},
 			propagation.Baggage{},
 		))
