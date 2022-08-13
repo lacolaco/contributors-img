@@ -12,6 +12,7 @@ require (
 	github.com/gin-contrib/gzip v0.0.6
 	github.com/gin-gonic/gin v1.8.1
 	github.com/google/go-github/v45 v45.2.0
+	go.ajitem.com/zapdriver v1.4.1
 	golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e
 	golang.org/x/oauth2 v0.0.0-20220722155238-128564f6959c
 	google.golang.org/api v0.91.0
@@ -19,10 +20,7 @@ require (
 
 require (
 	github.com/felixge/httpsnoop v1.0.3 // indirect
-	github.com/hirosassa/zerodriver v0.1.2 // indirect
-	github.com/mattn/go-colorable v0.1.12 // indirect
-	github.com/rs/zerolog v1.27.0 // indirect
-	go.ajitem.com/zapdriver v1.4.1 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	go.opentelemetry.io/otel/metric v0.31.0 // indirect
 )
 

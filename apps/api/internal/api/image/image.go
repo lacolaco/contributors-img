@@ -15,7 +15,6 @@ import (
 	"contrib.rocks/libs/goutils/renderer"
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
-	"go.uber.org/zap"
 )
 
 const (
@@ -68,7 +67,9 @@ func (api *API) Get(c *gin.Context) {
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
-	log = log.With(zap.String("params.repository", string(params.Repository)))
+	log = log.With(logger.Label("repository", string(params.Repository)))
+	ctx = logger.ContextWithLogger(ctx, log)
+
 	log.Sugar().Debug(params)
 	span.SetAttributes(
 		attribute.String("api.image.params.repository", string(params.Repository)),

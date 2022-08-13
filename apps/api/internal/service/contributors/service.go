@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"cloud.google.com/go/logging"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/tracing"
@@ -56,9 +55,9 @@ func (s *serviceImpl) GetContributors(c context.Context, r *model.Repository) (*
 }
 
 func (s *serviceImpl) sendCacheMissLog(c context.Context, key string) {
-	logger.LoggerFactoryFromContext(c).Logger("contributors-json-cache-miss").Log(c, logging.Entry{
-		Payload: key,
-	})
+	logger.LoggerFromContext(c).With(logger.LogGroup("contributors-json-cache-miss")).Info(
+		fmt.Sprintf("contributors-json-cache-miss: %s", key),
+	)
 }
 
 func createContributorsJSONCacheKey(r *model.Repository) string {

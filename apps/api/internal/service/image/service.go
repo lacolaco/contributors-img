@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"sync"
 
-	"cloud.google.com/go/logging"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/tracing"
@@ -128,9 +127,9 @@ func (s *serviceImpl) saveCache(c context.Context, key string, image renderer.Im
 }
 
 func (s *serviceImpl) sendCacheMissLog(c context.Context, key string) {
-	logger.LoggerFactoryFromContext(c).Logger("image-cache-miss").Log(c, logging.Entry{
-		Payload: key,
-	})
+	logger.LoggerFromContext(c).With(logger.LogGroup("image-cache-miss")).Info(
+		fmt.Sprintf("image-cache-miss: %s", key),
+	)
 }
 
 func createImageCacheKey(r *model.Repository, options *renderer.RendererOptions, ext string) string {

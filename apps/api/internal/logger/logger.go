@@ -1,14 +1,22 @@
 package logger
 
 import (
-	"context"
-
-	"cloud.google.com/go/logging"
+	"contrib.rocks/apps/api/internal/config"
+	"contrib.rocks/libs/goutils/env"
+	"go.ajitem.com/zapdriver"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
-type Logger interface {
-	Log(ctx context.Context, e logging.Entry)
-	Debug(ctx context.Context, e logging.Entry)
-	Info(ctx context.Context, e logging.Entry)
-	Error(ctx context.Context, e logging.Entry)
+func buildBaseLogger(cfg *config.Config) *zap.Logger {
+	var zc zap.Config
+	if cfg.Env == env.EnvDevelopment {
+		zc = zapdriver.NewDevelopmentConfig()
+		zc.Encoding = "json"
+	} else {
+		zc = zapdriver.NewProductionConfig()
+		zc.EncoderConfig.TimeKey = zapcore.OmitKey
+	}
+	logger, _ := zc.Build()
+	return logger
 }

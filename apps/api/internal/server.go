@@ -27,16 +27,14 @@ func StartServer() error {
 
 	closeTracer := tracing.InitTraceProvider(cfg)
 	defer closeTracer()
-	loggerFactory := logger.NewLoggerFactory(cfg)
-	defer loggerFactory.Close()
+
 	sp := service.NewServicePack(cfg)
 
 	r := gin.New()
 	r.Use(gin.Recovery())
 	r.Use(config.Middleware(cfg))
 	r.Use(tracing.Middleware(cfg))
-	r.Use(logger.Middleware(loggerFactory))
-	r.Use(logger.MiddlewareZap(cfg))
+	r.Use(logger.Middleware(cfg))
 	r.Use(errorHandler())
 	r.Use(requestLogger())
 	r.Use(gzip.Gzip(gzip.DefaultCompression))

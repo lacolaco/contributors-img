@@ -13,7 +13,7 @@ import (
 func TestMiddleware(t *testing.T) {
 	var logger *zap.Logger
 	r := gin.New()
-	r.Use(MiddlewareZap(config.NewTestConfig()))
+	r.Use(Middleware(config.NewTestConfig()))
 	r.GET("/ping", func(c *gin.Context) {
 		logger = LoggerFromContext(c.Request.Context())
 	})
