@@ -2,25 +2,23 @@ package tracing
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/libs/goutils/env"
 	cloudtrace "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace"
 	gcppropagator "github.com/GoogleCloudPlatform/opentelemetry-operations-go/propagator"
+	octrace "go.opencensus.io/trace"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/bridge/opencensus"
 	"go.opentelemetry.io/otel/propagation"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	"go.opentelemetry.io/otel/trace"
 )
 
-var configuredTracer trace.Tracer
-
 func Tracer() trace.Tracer {
-	if configuredTracer == nil {
-		return otel.Tracer("")
-	}
-	return configuredTracer
+	return otel.GetTracerProvider().Tracer("")
 }
 
 func installTraceProvider(cfg *config.Config) *sdktrace.TracerProvider {
@@ -40,17 +38,29 @@ func installTraceProvider(cfg *config.Config) *sdktrace.TracerProvider {
 func installPropagators() {
 	otel.SetTextMapPropagator(
 		propagation.NewCompositeTextMapPropagator(
-			gcppropagator.CloudTraceOneWayPropagator{},
+			gcppropagator.CloudTraceFormatPropagator{},
 			propagation.TraceContext{},
 			propagation.Baggage{},
 		))
 }
 
+func installOpenCensusBridge() {
+	tracer := otel.GetTracerProvider().Tracer("ocbridge")
+	octrace.DefaultTracer = opencensus.NewTracer(tracer)
+}
+
 func InitTraceProvider(cfg *config.Config) func() {
 	tp := installTraceProvider(cfg)
 	installPropagators()
-	configuredTracer = otel.Tracer("")
+	installOpenCensusBridge()
 	return func() {
 		tp.Shutdown(context.Background())
 	}
+}
+
+func buildTraceName(projectID string, traceID string) string {
+	if projectID == "" || traceID == "" {
+		return ""
+	}
+	return fmt.Sprintf("projects/%s/traces/%s", projectID, traceID)
 }

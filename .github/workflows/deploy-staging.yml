@@ -53,7 +53,7 @@ jobs:
         run: |
           gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
           --image ${{ steps.build-api.outputs.image }} \
-          --labels env=staging \
+          --labels environment=staging \
           --service-account ${CLOUD_RUN_SERVICE_ACCOUNT} \
           --execution-environment gen1 --region us-central1 --platform managed --memory 128Mi --allow-unauthenticated \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
@@ -82,7 +82,7 @@ jobs:
         run: |
           gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
           --image ${{ steps.build-worker.outputs.image }} \
-          --labels env=staging \
+          --labels environment=staging \
           --service-account ${CLOUD_RUN_SERVICE_ACCOUNT} \
           --execution-environment gen1 --region us-central1 --platform managed --memory 128Mi \
           --set-env-vars APP_ENV="staging"

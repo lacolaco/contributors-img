@@ -12,6 +12,7 @@ import (
 	"contrib.rocks/libs/goutils/env"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 func StartServer() error {
@@ -25,20 +26,18 @@ func StartServer() error {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	closeLogger := logger.InitLoggerFactory(cfg)
-	defer closeLogger()
-
-	sp := service.NewServicePack(cfg)
-
 	closeTracer := tracing.InitTraceProvider(cfg)
 	defer closeTracer()
 
+	sp := service.NewServicePack(cfg)
+
 	r := gin.New()
 	r.Use(gin.Recovery())
-	r.Use(env.Middleware(cfg.Env))
-	r.Use(tracing.Middleware())
-	r.Use(logger.Middleware(sp.DefaultLogger))
+	r.Use(config.Middleware(cfg))
+	r.Use(tracing.Middleware(cfg))
+	r.Use(logger.Middleware(cfg))
 	r.Use(errorHandler())
+	r.Use(requestLogger())
 	r.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	api.Setup(r, sp)
@@ -50,13 +49,28 @@ func StartServer() error {
 func errorHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Next()
-
-		log := logger.FromContext(c.Request.Context())
 		err := c.Errors.Last()
 		if err == nil {
 			return
 		}
-		log.Error(c, logger.NewEntry(err.Error()))
+		logger.LoggerFromContext(c.Request.Context()).Error(err.Error())
 		c.AbortWithStatusJSON(http.StatusInternalServerError, err.JSON())
+	}
+}
+
+func requestLogger() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		logger.LoggerFromContext(c.Request.Context()).Debug("request.start",
+			zap.String("method", c.Request.Method),
+			zap.String("host", c.Request.Host),
+			zap.String("url", c.Request.URL.String()),
+			zap.String("userAgent", c.Request.UserAgent()),
+			zap.String("referer", c.Request.Referer()),
+		)
+		c.Next()
+		logger.LoggerFromContext(c.Request.Context()).Debug("request.end",
+			zap.Int("status", c.Writer.Status()),
+			zap.Int("size", c.Writer.Size()),
+		)
 	}
 }

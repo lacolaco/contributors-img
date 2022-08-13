@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"cloud.google.com/go/logging"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/tracing"
@@ -12,24 +11,19 @@ import (
 	"github.com/google/go-github/v45/github"
 )
 
-type Service interface {
-	GetContributors(ctx context.Context, r *model.Repository) (*model.RepositoryContributors, error)
+func New(gh *github.Client, cache appcache.AppCache) *Service {
+	return &Service{gh, cache}
 }
 
-func New(gh *github.Client, cache appcache.AppCache, cacheMissLogger logger.Logger) Service {
-	return &serviceImpl{gh, cache, cacheMissLogger}
+type Service struct {
+	githubClient *github.Client
+	cache        appcache.AppCache
 }
 
-type serviceImpl struct {
-	githubClient    *github.Client
-	cache           appcache.AppCache
-	cacheMissLogger logger.Logger
-}
-
-func (s *serviceImpl) GetContributors(c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
+func (s *Service) GetContributors(c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
 	ctx, span := tracing.Tracer().Start(c, "contributors.Service.GetContributors")
 	defer span.End()
-	log := logger.FromContext(ctx)
+	log := logger.LoggerFromContext(ctx)
 
 	cacheKey := createContributorsJSONCacheKey(r)
 	// restore cache
@@ -39,7 +33,7 @@ func (s *serviceImpl) GetContributors(c context.Context, r *model.Repository) (*
 		return nil, err
 	}
 	if cache != nil {
-		log.Debug(ctx, logger.NewEntry(fmt.Sprintf("restored contributors-json from cache: %s", cacheKey)))
+		log.Debug(fmt.Sprintf("restored contributors-json from cache: %s", cacheKey))
 		return cache, nil
 	}
 	s.sendCacheMissLog(ctx, cacheKey)
@@ -56,13 +50,8 @@ func (s *serviceImpl) GetContributors(c context.Context, r *model.Repository) (*
 	return data, nil
 }
 
-func (s *serviceImpl) sendCacheMissLog(c context.Context, key string) {
-	s.cacheMissLogger.Log(c, logging.Entry{
-		Payload: key,
-	})
-}
-
-func createContributorsJSONCacheKey(r *model.Repository) string {
-	// `contributors-json-cache/v1.2/${repository.owner}--${repository.repo}.json`;
-	return fmt.Sprintf("contributors-json-cache/v1.2/%s--%s.json", r.Owner, r.RepoName)
+func (s *Service) sendCacheMissLog(c context.Context, key string) {
+	logger.LoggerFromContext(c).With(logger.LogGroup("contributors-json-cache-miss")).Info(
+		fmt.Sprintf("contributors-json-cache-miss: %s", key),
+	)
 }

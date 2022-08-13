@@ -5,27 +5,24 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"contrib.rocks/apps/api/internal/config"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 func TestMiddleware(t *testing.T) {
-	logger := newStdLogger("test")
-
-	var got Logger
+	var logger *zap.Logger
 	r := gin.New()
-	r.Use(Middleware(logger))
+	r.Use(Middleware(config.NewTestConfig()))
 	r.GET("/ping", func(c *gin.Context) {
-		got = FromContext(c.Request.Context())
+		logger = LoggerFromContext(c.Request.Context())
 	})
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest(http.MethodGet, "/ping", nil)
 	r.ServeHTTP(w, req)
 
-	if got == nil {
-		t.Fatalf("Expected logger to be set in context")
-	}
-	if got != logger {
+	if logger == nil {
 		t.Fatalf("Expected logger to be set in context")
 	}
 }
