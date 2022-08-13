@@ -1,6 +1,9 @@
 package config
 
-import "contrib.rocks/libs/goutils/env"
+import (
+	"contrib.rocks/libs/goutils/env"
+	"golang.org/x/oauth2/google"
+)
 
 func NewTestConfig() *Config {
 	return &Config{
@@ -8,6 +11,9 @@ func NewTestConfig() *Config {
 		Env:             env.EnvDevelopment,
 		GitHubAuthToken: "test",
 		CacheBucketName: "",
-		projectID:       "test",
+
+		googleCredentials: &google.Credentials{
+			ProjectID: "test",
+		},
 	}
 }

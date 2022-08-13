@@ -14,11 +14,19 @@ type Config struct {
 	Env             env.Environment
 	GitHubAuthToken string
 	CacheBucketName string
-	projectID       string
+
+	googleCredentials *google.Credentials
+}
+
+func (c *Config) GoogleCredentials() *google.Credentials {
+	return c.googleCredentials
 }
 
 func (c *Config) ProjectID() string {
-	return c.projectID
+	if c.googleCredentials != nil {
+		return c.googleCredentials.ProjectID
+	}
+	return ""
 }
 
 func Load() (*Config, error) {
@@ -33,14 +41,11 @@ func Load() (*Config, error) {
 		return nil, fmt.Errorf("GITHUB_AUTH_TOKEN is required")
 	}
 	config.CacheBucketName = os.Getenv("CACHE_STORAGE_BUCKET")
-	config.projectID = findProjectID()
+	config.googleCredentials = findGoogleCredentials()
 	return &config, nil
 }
 
-func findProjectID() string {
-	cred, err := google.FindDefaultCredentials(context.Background())
-	if err != nil {
-		return ""
-	}
-	return cred.ProjectID
+func findGoogleCredentials() *google.Credentials {
+	cred, _ := google.FindDefaultCredentials(context.Background())
+	return cred
 }

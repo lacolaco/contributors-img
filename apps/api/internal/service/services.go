@@ -19,7 +19,7 @@ func NewServicePack(cfg *config.Config) *ServicePack {
 	gh := apiclient.NewGitHubClient(cfg.GitHubAuthToken)
 
 	var cache appcache.AppCache
-	if cfg.ProjectID() != "" && cfg.CacheBucketName != "" {
+	if cfg.GoogleCredentials() != nil && cfg.CacheBucketName != "" {
 		storageClient := apiclient.NewStorageClient()
 		cache = appcache.NewGCSCache(storageClient, cfg.CacheBucketName)
 	} else {
