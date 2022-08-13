@@ -13,7 +13,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
-	"golang.org/x/sync/errgroup"
 )
 
 const (
@@ -99,18 +98,8 @@ func (api *API) Get(c *gin.Context) {
 		c.Error(err).SetType(gin.ErrorTypePublic)
 		return
 	}
-
-	eg, ctx := errgroup.WithContext(ctx)
-	eg.Go(func() error {
-		sendImage(c, image)
-		return nil
-	})
-	eg.Go(func() error {
-		return api.us.CollectUsage(ctx, data, params.Via)
-	})
-	if err := eg.Wait(); err != nil {
-		c.Error(err).SetType(gin.ErrorTypePublic)
-	}
+	api.us.CollectUsage(ctx, data, params.Via)
+	sendImage(c, image)
 }
 
 func sendImage(c *gin.Context, image model.FileHandle) {
