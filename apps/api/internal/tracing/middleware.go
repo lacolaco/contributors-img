@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/propagation"
-	"go.opentelemetry.io/otel/trace"
 )
 
 type contextKey int
@@ -24,15 +23,10 @@ func Middleware(cfg *config.Config) gin.HandlerFunc {
 			c.Request = c.Request.WithContext(originalCtx)
 		}()
 		ctx := otel.GetTextMapPropagator().Extract(originalCtx, propagation.HeaderCarrier(c.Request.Header))
-		sc := trace.SpanContextFromContext(ctx)
-		if !sc.IsValid() {
-			var span trace.Span
-			ctx, span = Tracer().Start(ctx, "api.http")
-			defer span.End()
-			sc = span.SpanContext()
-		}
-		ctx = context.WithValue(ctx, traceNameContextKey, buildTraceName(cfg.ProjectID(), sc.TraceID().String()))
+		ctx, span := Tracer().Start(ctx, "api.http")
+		defer span.End()
 
+		ctx = context.WithValue(ctx, traceNameContextKey, buildTraceName(cfg.ProjectID(), span.SpanContext().TraceID().String()))
 		c.Request = c.Request.WithContext(ctx)
 		c.Next()
 	}
