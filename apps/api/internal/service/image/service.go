@@ -79,10 +79,8 @@ func (s *Service) normalizeContributors(ctx context.Context, base *model.Reposit
 		index := i
 		avatarURL := c.AvatarURL
 		eg.Go(func() error {
-			d, err := dataurl.ResolveImageDataURL(ctx, avatarURL, options.ItemSize)
-			if err != nil {
-				return err
-			}
+			// ignore errors
+			d, _ := dataurl.ResolveImageDataURL(ctx, avatarURL, options.ItemSize)
 			results[index] = d
 			return nil
 		})

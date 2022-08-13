@@ -10,6 +10,7 @@ import (
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
 	"go.opentelemetry.io/otel/attribute"
+	"golang.org/x/sync/errgroup"
 )
 
 var _ AppCache = &gcsCache{}
@@ -63,20 +64,31 @@ func getFile(bucket *storage.BucketHandle, c context.Context, name string) (mode
 	span.SetAttributes(attribute.String("cache.object.name", name))
 
 	obj := bucket.Object(name)
-	// TODO: concurrent read
-	attrs, err := obj.Attrs(ctx)
+	eg, ctx := errgroup.WithContext(ctx)
+	file := &gcsFileHandle{}
+	eg.Go(func() error {
+		attrs, err := obj.Attrs(ctx)
+		if err != nil {
+			return err
+		}
+		file.attrs = attrs
+		return nil
+	})
+	eg.Go(func() error {
+		or, err := obj.NewReader(ctx)
+		if err != nil {
+			return err
+		}
+		file.r = or
+		return nil
+	})
+	err := eg.Wait()
 	if err == storage.ErrObjectNotExist {
 		return nil, nil
-	}
-	if err != nil {
+	} else if err != nil {
 		return nil, err
 	}
-	or, err := obj.NewReader(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return &gcsFileHandle{or, attrs}, nil
+	return file, nil
 }
 
 func saveFile(bucket *storage.BucketHandle, c context.Context, name string, data []byte, contentType string) error {

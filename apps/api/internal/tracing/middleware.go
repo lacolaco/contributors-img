@@ -26,7 +26,7 @@ func Middleware(cfg *config.Config) gin.HandlerFunc {
 		ctx := otel.GetTextMapPropagator().Extract(originalCtx, propagation.HeaderCarrier(c.Request.Header))
 		ctx, span := Tracer().Start(ctx, "api.http")
 		defer span.End()
-		span.SetAttributes(attribute.String("app.environment", string(cfg.Env)))
+		span.SetAttributes(attribute.String("/app/environment", string(cfg.Env)))
 
 		ctx = context.WithValue(ctx, traceNameContextKey, buildTraceName(cfg.ProjectID(), span.SpanContext().TraceID().String()))
 		c.Request = c.Request.WithContext(ctx)
