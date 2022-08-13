@@ -61,14 +61,13 @@ func requestLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Next()
 		log := logger.LoggerFromContext(c.Request.Context())
-
-		log.With(logger.LogGroup("requestlog")).Sugar().Info(map[string]string{
-			"status":    fmt.Sprintf("%d", c.Writer.Status()),
-			"method":    c.Request.Method,
-			"host":      c.Request.Host,
-			"url":       c.Request.URL.String(),
-			"referer":   c.Request.Referer(),
-			"userAgent": c.Request.UserAgent(),
-		})
+		log.Sugar().Debugw("request",
+			"status", fmt.Sprintf("%d", c.Writer.Status()),
+			"method", c.Request.Method,
+			"host", c.Request.Host,
+			"url", c.Request.URL.String(),
+			"referer", c.Request.Referer(),
+			"userAgent", c.Request.UserAgent(),
+		)
 	}
 }

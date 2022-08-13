@@ -12,7 +12,6 @@ func buildBaseLogger(cfg *config.Config) *zap.Logger {
 	var zc zap.Config
 	if cfg.Env == env.EnvDevelopment {
 		zc = zapdriver.NewDevelopmentConfig()
-		zc.Encoding = "json"
 	} else if cfg.Env == env.EnvStaging {
 		zc = zapdriver.NewProductionConfig()
 		zc.Level = zap.NewAtomicLevelAt(zap.DebugLevel)

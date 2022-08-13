@@ -15,6 +15,8 @@ import (
 	"contrib.rocks/libs/goutils/renderer"
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 const (
@@ -37,6 +39,16 @@ type getImageParams struct {
 	Columns    int                    `form:"columns"`
 	Preview    bool                   `form:"preview"`
 	Via        string
+}
+
+// MarshalLogObject implements zapcore.ObjectMarshaler
+func (p getImageParams) MarshalLogObject(enc zapcore.ObjectEncoder) error {
+	enc.AddString("repository", string(p.Repository))
+	enc.AddInt("max", p.MaxCount)
+	enc.AddInt("columns", p.Columns)
+	enc.AddBool("preview", p.Preview)
+	enc.AddString("via", p.Via)
+	return nil
 }
 
 func (p *getImageParams) bind(ctx *gin.Context) error {
@@ -75,9 +87,8 @@ func (api *API) Get(c *gin.Context) {
 	log = log.With(logger.Label("repository", string(params.Repository)))
 	ctx = logger.ContextWithLogger(ctx, log)
 
-	log.Info(fmt.Sprintf("[api.image.Get] start: %s", params.Repository))
+	log.Info(fmt.Sprintf("[api.image.Get] start: %s", params.Repository), zap.Object("params", params))
 	defer log.Info(fmt.Sprintf("[api.image.Get] end: %s", params.Repository))
-	log.Sugar().Debug(params)
 
 	// get data
 	data, err := api.cs.GetContributors(ctx, params.Repository.Object())
