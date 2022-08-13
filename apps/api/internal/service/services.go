@@ -12,7 +12,7 @@ import (
 type ServicePack struct {
 	ContributorsService contributors.Service
 	UsageService        usage.Service
-	ImageService        image.Service
+	ImageService        *image.Service
 }
 
 func NewServicePack(cfg *config.Config) *ServicePack {
