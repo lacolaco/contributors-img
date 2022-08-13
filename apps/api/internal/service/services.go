@@ -10,8 +10,8 @@ import (
 )
 
 type ServicePack struct {
-	ContributorsService contributors.Service
-	UsageService        usage.Service
+	ContributorsService *contributors.Service
+	UsageService        *usage.Service
 	ImageService        *image.Service
 }
 

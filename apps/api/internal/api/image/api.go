@@ -4,19 +4,15 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"contrib.rocks/apps/api/internal/logger"
-	"contrib.rocks/apps/api/internal/service"
 	"contrib.rocks/apps/api/internal/service/contributors"
-	"contrib.rocks/apps/api/internal/service/usage"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -29,56 +25,29 @@ type ImageService interface {
 	RenderImage(ctx context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error)
 }
 
+type ContributorsService interface {
+	GetContributors(ctx context.Context, repo *model.Repository) (*model.RepositoryContributors, error)
+}
+
+type UsageService interface {
+	CollectUsage(c context.Context, r *model.RepositoryContributors, via string) error
+}
+
 type API struct {
-	cs contributors.Service
+	cs ContributorsService
 	is ImageService
-	us usage.Service
+	us UsageService
 }
 
-func New(sp *service.ServicePack) *API {
-	return &API{sp.ContributorsService, sp.ImageService, sp.UsageService}
-}
-
-type getImageParams struct {
-	Repository model.RepositoryString `form:"repo" binding:"required"`
-	MaxCount   int                    `form:"max"`
-	Columns    int                    `form:"columns"`
-	Preview    bool                   `form:"preview"`
-	Via        string
-}
-
-// MarshalLogObject implements zapcore.ObjectMarshaler
-func (p getImageParams) MarshalLogObject(enc zapcore.ObjectEncoder) error {
-	enc.AddString("repository", string(p.Repository))
-	enc.AddInt("max", p.MaxCount)
-	enc.AddInt("columns", p.Columns)
-	enc.AddBool("preview", p.Preview)
-	enc.AddString("via", p.Via)
-	return nil
-}
-
-func (p *getImageParams) bind(ctx *gin.Context) error {
-	if err := ctx.ShouldBindQuery(p); err != nil {
-		return err
-	}
-	// validate repository name format
-	if err := model.ValidateRepositoryName(string(p.Repository)); err != nil {
-		return err
-	}
-	p.Via = "unknown"
-	if strings.Contains(ctx.Request.UserAgent(), "github") {
-		p.Via = "github"
-	} else if strings.HasSuffix(ctx.Request.Host, "contrib.rocks") {
-		p.Via = "preview"
-	}
-	return nil
+func New(cs ContributorsService, is ImageService, us UsageService) *API {
+	return &API{cs, is, us}
 }
 
 func (api *API) Get(c *gin.Context) {
 	ctx, span := tracing.Tracer().Start(c.Request.Context(), "api.image.Get")
 	defer span.End()
 	log := logger.LoggerFromContext(ctx)
-	var params getImageParams
+	var params GetImageParams
 	if err := params.bind(c); err != nil {
 		log.Error(err.Error())
 		c.String(http.StatusBadRequest, err.Error())
@@ -148,6 +117,7 @@ func sendImage(c *gin.Context, image model.FileHandle) {
 	if c.GetHeader("If-None-Match") == image.ETag() {
 		c.Status(http.StatusNotModified)
 		c.Header("cache-control", fmt.Sprintf("public, max-age=%d", imageMaxAge))
+		return
 	}
 	r := image.Reader()
 	defer r.Close()

@@ -14,20 +14,13 @@ const (
 	logGroupID = "repository-usage"
 )
 
-type Service interface {
-	CollectUsage(c context.Context, r *model.RepositoryContributors, via string) error
+func New() *Service {
+	return &Service{}
 }
 
-func New() Service {
-	return &serviceImpl{}
-}
+type Service struct{}
 
-var _ Service = &serviceImpl{}
-
-type serviceImpl struct {
-}
-
-func (s *serviceImpl) CollectUsage(c context.Context, r *model.RepositoryContributors, via string) error {
+func (s *Service) CollectUsage(c context.Context, r *model.RepositoryContributors, via string) error {
 	ctx, span := tracing.Tracer().Start(c, "usage.Service.CollectUsage")
 	defer span.End()
 

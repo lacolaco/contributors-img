@@ -11,20 +11,16 @@ import (
 	"github.com/google/go-github/v45/github"
 )
 
-type Service interface {
-	GetContributors(ctx context.Context, r *model.Repository) (*model.RepositoryContributors, error)
+func New(gh *github.Client, cache appcache.AppCache) *Service {
+	return &Service{gh, cache}
 }
 
-func New(gh *github.Client, cache appcache.AppCache) Service {
-	return &serviceImpl{gh, cache}
-}
-
-type serviceImpl struct {
+type Service struct {
 	githubClient *github.Client
 	cache        appcache.AppCache
 }
 
-func (s *serviceImpl) GetContributors(c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
+func (s *Service) GetContributors(c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
 	ctx, span := tracing.Tracer().Start(c, "contributors.Service.GetContributors")
 	defer span.End()
 	log := logger.LoggerFromContext(ctx)
@@ -54,13 +50,8 @@ func (s *serviceImpl) GetContributors(c context.Context, r *model.Repository) (*
 	return data, nil
 }
 
-func (s *serviceImpl) sendCacheMissLog(c context.Context, key string) {
+func (s *Service) sendCacheMissLog(c context.Context, key string) {
 	logger.LoggerFromContext(c).With(logger.LogGroup("contributors-json-cache-miss")).Info(
 		fmt.Sprintf("contributors-json-cache-miss: %s", key),
 	)
-}
-
-func createContributorsJSONCacheKey(r *model.Repository) string {
-	// `contributors-json-cache/v1.2/${repository.owner}--${repository.repo}.json`;
-	return fmt.Sprintf("contributors-json-cache/v1.2/%s--%s.json", r.Owner, r.RepoName)
 }

@@ -20,7 +20,7 @@ func Test_GetImageParams_BindQuery_AllParams(t *testing.T) {
 	c, _ := gin.CreateTestContext(httptest.NewRecorder())
 	c.Request, _ = http.NewRequest("GET", uri.String(), nil)
 
-	var params getImageParams
+	var params GetImageParams
 	err := params.bind(c)
 
 	if err != nil {
@@ -47,7 +47,7 @@ func Test_GetImageParams_BingQuery_NoRepository(t *testing.T) {
 	c, _ := gin.CreateTestContext(httptest.NewRecorder())
 	c.Request, _ = http.NewRequest("GET", uri.String(), nil)
 
-	var params getImageParams
+	var params GetImageParams
 	err := params.bind(c)
 
 	if err == nil {
@@ -63,7 +63,7 @@ func Test_GetImageParams_BingQuery_InvalidRepository(t *testing.T) {
 	c, _ := gin.CreateTestContext(httptest.NewRecorder())
 	c.Request, _ = http.NewRequest("GET", uri.String(), nil)
 
-	var params getImageParams
+	var params GetImageParams
 	err := params.bind(c)
 
 	if err == nil {
