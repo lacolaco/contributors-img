@@ -38,7 +38,7 @@ func installTraceProvider(cfg *config.Config) *sdktrace.TracerProvider {
 func installPropagators() {
 	otel.SetTextMapPropagator(
 		propagation.NewCompositeTextMapPropagator(
-			gcppropagator.CloudTraceFormatPropagator{},
+			gcppropagator.CloudTraceOneWayPropagator{},
 			propagation.TraceContext{},
 			propagation.Baggage{},
 		))
