@@ -13,6 +13,10 @@ func buildBaseLogger(cfg *config.Config) *zap.Logger {
 	if cfg.Env == env.EnvDevelopment {
 		zc = zapdriver.NewDevelopmentConfig()
 		zc.Encoding = "json"
+	} else if cfg.Env == env.EnvStaging {
+		zc = zapdriver.NewProductionConfig()
+		zc.Level = zap.NewAtomicLevelAt(zap.DebugLevel)
+		zc.EncoderConfig.TimeKey = zapcore.OmitKey
 	} else {
 		zc = zapdriver.NewProductionConfig()
 		zc.EncoderConfig.TimeKey = zapcore.OmitKey

@@ -59,24 +59,25 @@ func (p *getImageParams) bind(ctx *gin.Context) error {
 func (api *API) Get(c *gin.Context) {
 	ctx, span := tracing.Tracer().Start(c.Request.Context(), "api.image.Get")
 	defer span.End()
-
 	log := logger.LoggerFromContext(ctx)
-
 	var params getImageParams
 	if err := params.bind(c); err != nil {
+		log.Error(err.Error())
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
-	log = log.With(logger.Label("repository", string(params.Repository)))
-	ctx = logger.ContextWithLogger(ctx, log)
-
-	log.Sugar().Debug(params)
 	span.SetAttributes(
 		attribute.String("api.image.params.repository", string(params.Repository)),
 		attribute.String("api.image.params.via", params.Via),
 		attribute.Int64("api.image.params.max", int64(params.MaxCount)),
 		attribute.Int64("api.image.params.columns", int64(params.Columns)),
 	)
+	log = log.With(logger.Label("repository", string(params.Repository)))
+	ctx = logger.ContextWithLogger(ctx, log)
+
+	log.Info(fmt.Sprintf("[api.image.Get] start: %s", params.Repository))
+	defer log.Info(fmt.Sprintf("[api.image.Get] end: %s", params.Repository))
+	log.Sugar().Debug(params)
 
 	// get data
 	data, err := api.cs.GetContributors(ctx, params.Repository.Object())
