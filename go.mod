@@ -22,6 +22,7 @@ require (
 	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	go.opentelemetry.io/otel/metric v0.31.0 // indirect
+	go.opentelemetry.io/otel/sdk/metric v0.31.0 // indirect
 )
 
 require (
@@ -57,9 +58,10 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.8.1 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
-	go.opencensus.io v0.23.0 // indirect
+	go.opencensus.io v0.23.0
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.34.0
 	go.opentelemetry.io/otel v1.9.0
+	go.opentelemetry.io/otel/bridge/opencensus v0.31.0
 	go.opentelemetry.io/otel/sdk v1.9.0
 	go.opentelemetry.io/otel/trace v1.9.0
 	go.uber.org/atomic v1.10.0 // indirect

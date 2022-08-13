@@ -9,7 +9,9 @@ import (
 	"contrib.rocks/libs/goutils/env"
 	cloudtrace "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace"
 	gcppropagator "github.com/GoogleCloudPlatform/opentelemetry-operations-go/propagator"
+	octrace "go.opencensus.io/trace"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/bridge/opencensus"
 	"go.opentelemetry.io/otel/propagation"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	"go.opentelemetry.io/otel/trace"
@@ -42,9 +44,15 @@ func installPropagators() {
 		))
 }
 
+func installOpenCensusBridge() {
+	tracer := otel.GetTracerProvider().Tracer("ocbridge")
+	octrace.DefaultTracer = opencensus.NewTracer(tracer)
+}
+
 func InitTraceProvider(cfg *config.Config) func() {
 	tp := installTraceProvider(cfg)
 	installPropagators()
+	installOpenCensusBridge()
 	return func() {
 		tp.Shutdown(context.Background())
 	}
