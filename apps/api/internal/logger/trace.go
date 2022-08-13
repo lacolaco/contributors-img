@@ -14,7 +14,7 @@ const (
 	traceSampledKey = "logging.googleapis.com/trace_sampled"
 )
 
-func withTracing(c context.Context) zap.Option {
+func traceContext(c context.Context) zap.Option {
 	traceName := tracing.TraceNameFromContext(c)
 	spanContext := trace.SpanContextFromContext(c)
 	if traceName == "" || !spanContext.IsValid() {

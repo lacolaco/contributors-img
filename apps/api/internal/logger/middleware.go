@@ -16,13 +16,9 @@ const (
 
 // Middleware returns a gin middleware that sets the logger in the context.
 func Middleware(cfg *config.Config) gin.HandlerFunc {
-	baseLogger := buildBaseLogger(cfg)
-
+	logger := buildBaseLogger(cfg)
 	return func(c *gin.Context) {
 		ctx := c.Request.Context()
-		logger := baseLogger.WithOptions(
-			withTracing(ctx),
-		)
 		ctx = ContextWithLogger(ctx, logger)
 		c.Request = c.Request.WithContext(ctx)
 		c.Next()
@@ -35,6 +31,8 @@ func ContextWithLogger(c context.Context, logger *zap.Logger) context.Context {
 }
 
 // LoggerFromContext returns the logger for the given context.
+// The logger has been set a trace context if the request is traced.
 func LoggerFromContext(c context.Context) *zap.Logger {
-	return c.Value(loggerContextKey).(*zap.Logger)
+	logger := c.Value(loggerContextKey).(*zap.Logger)
+	return logger.WithOptions(traceContext(c))
 }
