@@ -12,6 +12,7 @@ import (
 	"contrib.rocks/libs/goutils/env"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 func StartServer() error {
@@ -59,15 +60,17 @@ func errorHandler() gin.HandlerFunc {
 
 func requestLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		logger.LoggerFromContext(c.Request.Context()).Debug("request.start",
+			zap.String("method", c.Request.Method),
+			zap.String("host", c.Request.Host),
+			zap.String("url", c.Request.URL.String()),
+			zap.String("userAgent", c.Request.UserAgent()),
+			zap.String("referer", c.Request.Referer()),
+		)
 		c.Next()
-		log := logger.LoggerFromContext(c.Request.Context())
-		log.Sugar().Debugw("request",
-			"status", fmt.Sprintf("%d", c.Writer.Status()),
-			"method", c.Request.Method,
-			"host", c.Request.Host,
-			"url", c.Request.URL.String(),
-			"referer", c.Request.Referer(),
-			"userAgent", c.Request.UserAgent(),
+		logger.LoggerFromContext(c.Request.Context()).Debug("request.end",
+			zap.Int("status", c.Writer.Status()),
+			zap.Int("size", c.Writer.Size()),
 		)
 	}
 }
