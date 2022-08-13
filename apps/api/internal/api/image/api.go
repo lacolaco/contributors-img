@@ -53,10 +53,10 @@ func (api *API) Get(c *gin.Context) {
 		return
 	}
 	span.SetAttributes(
-		attribute.String("api.image.params.repository", string(params.Repository)),
-		attribute.String("api.image.params.via", params.Via),
-		attribute.Int64("api.image.params.max", int64(params.MaxCount)),
-		attribute.Int64("api.image.params.columns", int64(params.Columns)),
+		attribute.String("/app/api/image/params/repository", string(params.Repository)),
+		attribute.String("/app/api/image/params/via", params.Via),
+		attribute.Int64("/app/api/image/params/max", int64(params.MaxCount)),
+		attribute.Int64("/app/api/image/params/columns", int64(params.Columns)),
 	)
 	log = log.With(logger.Label("repository", string(params.Repository)))
 	ctx = logger.ContextWithLogger(ctx, log)
