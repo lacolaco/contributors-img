@@ -15,13 +15,8 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-var configuredTracer trace.Tracer
-
 func Tracer() trace.Tracer {
-	if configuredTracer == nil {
-		return otel.Tracer("")
-	}
-	return configuredTracer
+	return otel.GetTracerProvider().Tracer("")
 }
 
 func installTraceProvider(cfg *config.Config) *sdktrace.TracerProvider {
@@ -50,7 +45,6 @@ func installPropagators() {
 func InitTraceProvider(cfg *config.Config) func() {
 	tp := installTraceProvider(cfg)
 	installPropagators()
-	configuredTracer = otel.Tracer("")
 	return func() {
 		tp.Shutdown(context.Background())
 	}
