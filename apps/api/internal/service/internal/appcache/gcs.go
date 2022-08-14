@@ -25,11 +25,17 @@ func newGCSCache(storageClient *storage.Client, bucketName string) *gcsCache {
 }
 
 func (s *gcsCache) Get(c context.Context, name string) (model.FileHandle, error) {
-	return getFile(s.bucket, c, name)
+	ctx, span := tracing.Tracer().Start(c, "appcache.Get")
+	defer span.End()
+
+	return getFile(s.bucket, ctx, name)
 }
 
 func (s *gcsCache) GetJSON(c context.Context, name string, v any) error {
-	o, err := getFile(s.bucket, c, name)
+	ctx, span := tracing.Tracer().Start(c, "appcache.GetJSON")
+	defer span.End()
+
+	o, err := getFile(s.bucket, ctx, name)
 	if err != nil {
 		return err
 	}
@@ -43,23 +49,29 @@ func (s *gcsCache) GetJSON(c context.Context, name string, v any) error {
 }
 
 func (s *gcsCache) Save(c context.Context, name string, data []byte, contentType string) error {
-	return saveFile(s.bucket, c, name, data, contentType)
+	ctx, span := tracing.Tracer().Start(c, "appcache.Save")
+	defer span.End()
+	return saveFile(s.bucket, ctx, name, data, contentType)
 }
 
 func (s *gcsCache) SaveJSON(c context.Context, name string, v any) error {
+	ctx, span := tracing.Tracer().Start(c, "appcache.SaveJSON")
+	defer span.End()
+
 	data, err := json.Marshal(v)
 	if err != nil {
 		return err
 	}
-	return saveFile(s.bucket, c, name, data, "application/json")
+	return saveFile(s.bucket, ctx, name, data, "application/json")
 }
 
 func getFile(bucket *storage.BucketHandle, c context.Context, name string) (model.FileHandle, error) {
 	if bucket == nil {
 		return nil, nil
 	}
-	ctx, span := tracing.Tracer().Start(c, "cache.Service.getFile")
+	ctx, span := tracing.Tracer().Start(c, "appcache.getFile")
 	defer span.End()
+
 	span.SetAttributes(attribute.String("cache.object.name", name))
 
 	obj := bucket.Object(name)
@@ -83,7 +95,7 @@ func saveFile(bucket *storage.BucketHandle, c context.Context, name string, data
 	if bucket == nil {
 		return nil
 	}
-	ctx, span := tracing.Tracer().Start(c, "cache.Service.saveFile")
+	ctx, span := tracing.Tracer().Start(c, "appcache.saveFile")
 	defer span.End()
 	span.SetAttributes(attribute.String("cache.object.name", name))
 
