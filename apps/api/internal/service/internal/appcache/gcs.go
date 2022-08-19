@@ -10,6 +10,7 @@ import (
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/model"
 	"go.opentelemetry.io/otel/attribute"
+	"golang.org/x/sync/errgroup"
 )
 
 var _ AppCache = &gcsCache{}
@@ -75,20 +76,37 @@ func getFile(bucket *storage.BucketHandle, c context.Context, name string) (mode
 	span.SetAttributes(attribute.String("cache.object.name", name))
 
 	obj := bucket.Object(name)
-	// TODO: concurrent read
-	attrs, err := obj.Attrs(ctx)
-	if err == storage.ErrObjectNotExist {
-		return nil, nil
-	}
+	file := &gcsFileHandle{}
+	// Context from errgroup will be canceled whether error is returned or not. But the GCS client need a context to run RPCs.
+	// So we use a separate context.
+	eg, _ := errgroup.WithContext(context.Background())
+	eg.Go(func() error {
+		attrs, err := obj.Attrs(ctx)
+		if err != nil {
+			return err
+		}
+		file.attrs = attrs
+		return nil
+	})
+	eg.Go(func() error {
+		r, err := obj.NewReader(ctx)
+		if err != nil {
+			return err
+		}
+		file.reader = r
+		return nil
+	})
+	err := eg.Wait()
 	if err != nil {
+		if file.reader != nil {
+			file.reader.Close()
+		}
+		if err == storage.ErrObjectNotExist {
+			return nil, nil
+		}
 		return nil, err
 	}
-	or, err := obj.NewReader(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return &gcsFileHandle{or, attrs}, nil
+	return file, nil
 }
 
 func saveFile(bucket *storage.BucketHandle, c context.Context, name string, data []byte, contentType string) error {
@@ -109,12 +127,12 @@ func saveFile(bucket *storage.BucketHandle, c context.Context, name string, data
 var _ model.FileHandle = &gcsFileHandle{}
 
 type gcsFileHandle struct {
-	r     *storage.Reader
-	attrs *storage.ObjectAttrs
+	reader *storage.Reader
+	attrs  *storage.ObjectAttrs
 }
 
 func (h *gcsFileHandle) Reader() io.ReadCloser {
-	return h.r
+	return h.reader
 }
 func (h *gcsFileHandle) Size() int64 {
 	return h.attrs.Size
