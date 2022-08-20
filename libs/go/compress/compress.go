@@ -20,13 +20,13 @@ func Compress() gin.HandlerFunc {
 	return (&compressHandler{
 		gzPool: sync.Pool{
 			New: func() any {
-				w, _ := gzip.NewWriterLevel(io.Discard, gzip.BestCompression)
+				w, _ := gzip.NewWriterLevel(io.Discard, gzip.DefaultCompression)
 				return w
 			},
 		},
 		brPool: sync.Pool{
 			New: func() any {
-				return brotli.NewWriterLevel(io.Discard, brotli.BestCompression)
+				return brotli.NewWriterLevel(io.Discard, brotli.DefaultCompression)
 			},
 		},
 	}).Handle
