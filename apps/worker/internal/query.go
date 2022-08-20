@@ -3,7 +3,7 @@ package app
 import (
 	"context"
 
-	"contrib.rocks/libs/goutils/apiclient"
+	"contrib.rocks/libs/go/apiclient"
 	"google.golang.org/api/iterator"
 )
 

@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"contrib.rocks/libs/goutils/env"
+	"contrib.rocks/libs/go/env"
 	"github.com/joho/godotenv"
 )
 

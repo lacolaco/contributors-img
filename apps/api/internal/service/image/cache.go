@@ -3,8 +3,8 @@ package image
 import (
 	"fmt"
 
-	"contrib.rocks/libs/goutils/model"
-	"contrib.rocks/libs/goutils/renderer"
+	"contrib.rocks/libs/go/model"
+	"contrib.rocks/libs/go/renderer"
 )
 
 func createImageCacheKey(r *model.Repository, options *renderer.RendererOptions, ext string) string {

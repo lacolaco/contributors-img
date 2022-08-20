@@ -7,10 +7,10 @@ import (
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/goutils/dataurl"
-	"contrib.rocks/libs/goutils/model"
-	"contrib.rocks/libs/goutils/renderer"
-	"contrib.rocks/libs/goutils/util"
+	"contrib.rocks/libs/go/dataurl"
+	"contrib.rocks/libs/go/model"
+	"contrib.rocks/libs/go/renderer"
+	"contrib.rocks/libs/go/util"
 	"golang.org/x/sync/errgroup"
 )
 

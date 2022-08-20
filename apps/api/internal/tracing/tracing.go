@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"contrib.rocks/apps/api/internal/config"
-	"contrib.rocks/libs/goutils/env"
+	"contrib.rocks/libs/go/env"
 	cloudtrace "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace"
 	gcppropagator "github.com/GoogleCloudPlatform/opentelemetry-operations-go/propagator"
 	octrace "go.opencensus.io/trace"

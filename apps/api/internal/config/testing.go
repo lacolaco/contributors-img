@@ -1,7 +1,7 @@
 package config
 
 import (
-	"contrib.rocks/libs/goutils/env"
+	"contrib.rocks/libs/go/env"
 	"golang.org/x/oauth2/google"
 )
 

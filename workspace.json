@@ -4,7 +4,7 @@
   "projects": {
     "api": "apps/api",
     "core": "libs/core",
-    "goutils": "libs/goutils",
+    "golib": "libs/go",
     "webapp": "apps/webapp",
     "worker": "apps/worker"
   }
