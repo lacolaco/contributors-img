@@ -38,7 +38,7 @@ func StartServer() error {
 	r.Use(logger.Middleware(cfg))
 	r.Use(errorHandler())
 	r.Use(requestLogger())
-	r.Use(gzip.Gzip(gzip.DefaultCompression))
+	r.Use(gzip.Gzip(gzip.BestCompression))
 
 	api.Setup(r, sp)
 
