@@ -3,7 +3,9 @@ package app
 import (
 	"compress/gzip"
 	"fmt"
+	"io"
 	"strings"
+	"sync"
 
 	"contrib.rocks/apps/api/internal/logger"
 	"github.com/andybalholm/brotli"
@@ -11,42 +13,69 @@ import (
 	"go.uber.org/zap"
 )
 
-func compress() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		log := logger.LoggerFromContext(c.Request.Context())
+type compressHandler struct {
+	gzPool sync.Pool
+	brPool sync.Pool
+}
 
-		if c.GetHeader("Accept-Encoding") == "" ||
-			strings.Contains(c.GetHeader("Connection"), "Upgrade") ||
-			strings.Contains(c.GetHeader("Accept"), "text/event-stream") {
-			// skip compression
-			return
-		}
+func compressionMiddleware() gin.HandlerFunc {
+	return (&compressHandler{
+		gzPool: sync.Pool{
+			New: func() any {
+				w, _ := gzip.NewWriterLevel(io.Discard, gzip.BestCompression)
+				return w
+			},
+		},
+		brPool: sync.Pool{
+			New: func() any {
+				return brotli.NewWriterLevel(io.Discard, brotli.BestCompression)
+			},
+		},
+	}).Handle
+}
 
-		if strings.Contains(c.GetHeader("Accept-Encoding"), "br") {
-			log.Debug("[compress] compressing with brotli")
-			w := brotli.NewWriterLevel(c.Writer, brotli.BestCompression)
-			c.Header("Content-Encoding", "br")
-			c.Header("Vary", "Accept-Encoding")
-			c.Writer = &brotliWriter{c.Writer, w}
-			defer func() {
-				w.Close()
-				c.Header("Content-Length", fmt.Sprint(c.Writer.Size()))
-			}()
-		} else if strings.Contains(c.GetHeader("Accept-Encoding"), "gzip") {
-			log.Debug("[compress] compressing with gzip")
-			w, _ := gzip.NewWriterLevel(c.Writer, gzip.BestCompression)
-			c.Header("Content-Encoding", "gzip")
-			c.Header("Vary", "Accept-Encoding")
-			c.Writer = &gzipWriter{c.Writer, w}
-			defer func() {
-				w.Close()
-				c.Header("Content-Length", fmt.Sprint(c.Writer.Size()))
-			}()
-		} else {
-			log.Info("[compress] unsupported encoding", zap.String("encoding", c.GetHeader("Accept-Encoding")))
-		}
-		c.Next()
+func (h *compressHandler) Handle(c *gin.Context) {
+	log := logger.LoggerFromContext(c.Request.Context())
+
+	if c.GetHeader("Accept-Encoding") == "" ||
+		strings.Contains(c.GetHeader("Connection"), "Upgrade") ||
+		strings.Contains(c.GetHeader("Accept"), "text/event-stream") {
+		// skip compression
+		return
 	}
+
+	if strings.Contains(c.GetHeader("Accept-Encoding"), "br") {
+		log.Debug("[compress] compressing with brotli")
+		w := h.brPool.Get().(*brotli.Writer)
+		defer h.brPool.Put(w)
+		defer w.Reset(io.Discard)
+		w.Reset(c.Writer)
+
+		c.Header("Content-Encoding", "br")
+		c.Header("Vary", "Accept-Encoding")
+		c.Writer = &brotliWriter{c.Writer, w}
+		defer func() {
+			w.Close()
+			c.Header("Content-Length", fmt.Sprint(c.Writer.Size()))
+		}()
+	} else if strings.Contains(c.GetHeader("Accept-Encoding"), "gzip") {
+		log.Debug("[compress] compressing with gzip")
+		w := h.gzPool.Get().(*gzip.Writer)
+		defer h.gzPool.Put(w)
+		defer w.Reset(io.Discard)
+		w.Reset(c.Writer)
+
+		c.Header("Content-Encoding", "gzip")
+		c.Header("Vary", "Accept-Encoding")
+		c.Writer = &gzipWriter{c.Writer, w}
+		defer func() {
+			w.Close()
+			c.Header("Content-Length", fmt.Sprint(c.Writer.Size()))
+		}()
+	} else {
+		log.Info("[compress] unsupported encoding", zap.String("encoding", c.GetHeader("Accept-Encoding")))
+	}
+	c.Next()
 }
 
 type brotliWriter struct {

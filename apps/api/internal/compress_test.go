@@ -13,7 +13,7 @@ import (
 func TestCompress(t *testing.T) {
 	t.Run("No compression with no accepted encoding", func(t *testing.T) {
 		r := gin.New()
-		r.Use(compress())
+		r.Use(compressionMiddleware())
 		r.GET("/test", func(c *gin.Context) {
 			c.String(http.StatusOK, "test")
 		})
@@ -30,7 +30,7 @@ func TestCompress(t *testing.T) {
 	t.Run("Support gzip compression", func(t *testing.T) {
 		r := gin.New()
 		r.Use(logger.Middleware(config.NewTestConfig()))
-		r.Use(compress())
+		r.Use(compressionMiddleware())
 		r.GET("/test", func(c *gin.Context) {
 			c.String(http.StatusOK, "test")
 		})
@@ -47,7 +47,7 @@ func TestCompress(t *testing.T) {
 	t.Run("Support brotli compression", func(t *testing.T) {
 		r := gin.New()
 		r.Use(logger.Middleware(config.NewTestConfig()))
-		r.Use(compress())
+		r.Use(compressionMiddleware())
 		r.GET("/test", func(c *gin.Context) {
 			c.String(http.StatusOK, "test")
 		})
@@ -64,7 +64,7 @@ func TestCompress(t *testing.T) {
 	t.Run("Brotli has higher priority than gzip", func(t *testing.T) {
 		r := gin.New()
 		r.Use(logger.Middleware(config.NewTestConfig()))
-		r.Use(compress())
+		r.Use(compressionMiddleware())
 		r.GET("/test", func(c *gin.Context) {
 			c.String(http.StatusOK, "test")
 		})

@@ -37,7 +37,7 @@ func StartServer() error {
 	r.Use(logger.Middleware(cfg))
 	r.Use(errorHandler())
 	r.Use(requestLogger())
-	r.Use(compress())
+	r.Use(compressionMiddleware())
 
 	api.Setup(r, sp)
 
