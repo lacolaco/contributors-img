@@ -8,22 +8,22 @@ import (
 	"net/http"
 	"net/url"
 
-	"contrib.rocks/libs/goutils/httptrace"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 )
 
-func ResolveImageDataURL(c context.Context, remoteURL string, imageSize int) (string, error) {
+var DefaultHTTPClient = &http.Client{
+	Transport: otelhttp.NewTransport(http.DefaultTransport),
+}
+
+func Convert(c context.Context, remoteURL string, extraParams map[string]string) (string, error) {
 	u, _ := url.Parse(remoteURL)
 	q := u.Query()
-	q.Set("size", fmt.Sprint(imageSize))
-	q.Set("s", fmt.Sprint(imageSize))
+	for k, v := range extraParams {
+		q.Set(k, v)
+	}
 	u.RawQuery = q.Encode()
 
-	client := httptrace.NewClient(http.DefaultTransport)
-	req, err := http.NewRequestWithContext(c, "GET", u.String(), nil)
-	if err != nil {
-		return "", err
-	}
-	resp, err := client.Do(req)
+	resp, err := DefaultHTTPClient.Get(u.String())
 	if err != nil {
 		return "", err
 	}

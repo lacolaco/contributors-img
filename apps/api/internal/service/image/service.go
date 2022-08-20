@@ -80,7 +80,10 @@ func (s *Service) normalizeContributors(ctx context.Context, base *model.Reposit
 		avatarURL := c.AvatarURL
 		eg.Go(func() error {
 			// ignore errors
-			d, _ := dataurl.ResolveImageDataURL(ctx, avatarURL, options.ItemSize)
+			d, _ := dataurl.Convert(ctx, avatarURL, map[string]string{
+				"size": fmt.Sprint(options.ItemSize),
+				"s":    fmt.Sprint(options.ItemSize),
+			})
 			results[index] = d
 			return nil
 		})

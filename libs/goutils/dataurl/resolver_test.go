@@ -10,14 +10,14 @@ import (
 	"github.com/bradleyjkemp/cupaloy"
 )
 
-func TestDataURLResolver(t *testing.T) {
+func TestConvert(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "image/svg+xml")
 		fmt.Fprint(w, "<svg></svg>")
 	}))
 	defer ts.Close()
 
-	ret, err := ResolveImageDataURL(context.Background(), ts.URL, 64)
+	ret, err := Convert(context.Background(), ts.URL, map[string]string{"s": "64"})
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
