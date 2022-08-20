@@ -9,6 +9,7 @@ import (
 
 	"github.com/andybalholm/brotli"
 	"github.com/gin-gonic/gin"
+	"go.opentelemetry.io/otel"
 )
 
 type compressHandler struct {
@@ -41,32 +42,49 @@ func (h *compressHandler) Handle(c *gin.Context) {
 	}
 
 	if strings.Contains(c.GetHeader("Accept-Encoding"), "br") {
-		w := h.brPool.Get().(*brotli.Writer)
-		defer h.brPool.Put(w)
-		defer w.Reset(io.Discard)
-		w.Reset(c.Writer)
-
-		c.Header("Content-Encoding", "br")
-		c.Header("Vary", "Accept-Encoding")
-		c.Writer = &brotliWriter{c.Writer, w}
-		defer func() {
-			w.Close()
-			c.Header("Content-Length", fmt.Sprint(c.Writer.Size()))
-		}()
+		h.handleBrotli(c)
 	} else if strings.Contains(c.GetHeader("Accept-Encoding"), "gzip") {
-		w := h.gzPool.Get().(*gzip.Writer)
-		defer h.gzPool.Put(w)
-		defer w.Reset(io.Discard)
-		w.Reset(c.Writer)
-
-		c.Header("Content-Encoding", "gzip")
-		c.Header("Vary", "Accept-Encoding")
-		c.Writer = &gzipWriter{c.Writer, w}
-		defer func() {
-			w.Close()
-			c.Header("Content-Length", fmt.Sprint(c.Writer.Size()))
-		}()
+		h.handleGzip(c)
 	}
+}
+
+func (h *compressHandler) handleBrotli(c *gin.Context) {
+	ctx, span := otel.Tracer("compress").Start(c.Request.Context(), "compress.handleBrotli")
+	defer span.End()
+	c.Request = c.Request.WithContext(ctx)
+
+	w := h.brPool.Get().(*brotli.Writer)
+	defer h.brPool.Put(w)
+	defer w.Reset(io.Discard)
+	w.Reset(c.Writer)
+
+	c.Header("Content-Encoding", "br")
+	c.Header("Vary", "Accept-Encoding")
+	c.Writer = &brotliWriter{c.Writer, w}
+	defer func() {
+		w.Close()
+		c.Header("Content-Length", fmt.Sprint(c.Writer.Size()))
+	}()
+	c.Next()
+}
+
+func (h *compressHandler) handleGzip(c *gin.Context) {
+	ctx, span := otel.Tracer("compress").Start(c.Request.Context(), "compress.handleGzip")
+	defer span.End()
+	c.Request = c.Request.WithContext(ctx)
+
+	w := h.gzPool.Get().(*gzip.Writer)
+	defer h.gzPool.Put(w)
+	defer w.Reset(io.Discard)
+	w.Reset(c.Writer)
+
+	c.Header("Content-Encoding", "gzip")
+	c.Header("Vary", "Accept-Encoding")
+	c.Writer = &gzipWriter{c.Writer, w}
+	defer func() {
+		w.Close()
+		c.Header("Content-Length", fmt.Sprint(c.Writer.Size()))
+	}()
 	c.Next()
 }
 
