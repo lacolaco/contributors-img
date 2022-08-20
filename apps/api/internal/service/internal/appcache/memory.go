@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"io"
 
-	"contrib.rocks/libs/goutils/model"
+	"contrib.rocks/libs/go/model"
 )
 
 var _ AppCache = &memoryCache{}

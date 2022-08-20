@@ -11,7 +11,7 @@
       "inputs": ["default"],
       "options": {
         "command": "go test ./...",
-        "cwd": "libs/goutils"
+        "cwd": "libs/go"
       }
     },
     "lint": {
@@ -19,7 +19,7 @@
       "inputs": ["default"],
       "options": {
         "command": "go vet ./...",
-        "cwd": "libs/goutils"
+        "cwd": "libs/go"
       }
     },
     "format": {
@@ -27,7 +27,7 @@
       "inputs": ["default"],
       "options": {
         "command": "gofmt -w .",
-        "cwd": "libs/goutils"
+        "cwd": "libs/go"
       }
     }
   }

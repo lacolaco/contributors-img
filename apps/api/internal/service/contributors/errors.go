@@ -1,6 +1,6 @@
 package contributors
 
-import "contrib.rocks/libs/goutils/model"
+import "contrib.rocks/libs/go/model"
 
 var _ error = &RepositoryNotFoundError{}
 

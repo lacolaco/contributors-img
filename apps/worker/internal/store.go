@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"contrib.rocks/libs/goutils/apiclient"
-	"contrib.rocks/libs/goutils/env"
+	"contrib.rocks/libs/go/apiclient"
+	"contrib.rocks/libs/go/env"
 )
 
 type FeaturedRepository struct {

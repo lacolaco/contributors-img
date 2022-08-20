@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"contrib.rocks/libs/goutils/env"
+	"contrib.rocks/libs/go/env"
 	"golang.org/x/oauth2/google"
 )
 

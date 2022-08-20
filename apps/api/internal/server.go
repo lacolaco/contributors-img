@@ -9,8 +9,8 @@ import (
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service"
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/goutils/compress"
-	"contrib.rocks/libs/goutils/env"
+	"contrib.rocks/libs/go/compress"
+	"contrib.rocks/libs/go/env"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )

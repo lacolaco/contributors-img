@@ -1,6 +1,6 @@
 package image
 
-import "contrib.rocks/libs/goutils/renderer"
+import "contrib.rocks/libs/go/renderer"
 
 const (
 	defaultMaxCount = 100
