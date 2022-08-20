@@ -7,6 +7,7 @@ import (
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/service/usage"
 	"contrib.rocks/libs/goutils/apiclient"
+	"contrib.rocks/libs/goutils/github"
 )
 
 type ServicePack struct {
@@ -16,7 +17,7 @@ type ServicePack struct {
 }
 
 func NewServicePack(cfg *config.Config) *ServicePack {
-	gh := apiclient.NewGitHubClient(cfg.GitHubAuthToken)
+	ghProvider := github.NewProvider(cfg.GitHubAuthToken)
 
 	var cache appcache.AppCache
 	if cfg.GoogleCredentials() != nil && cfg.CacheBucketName != "" {
@@ -27,7 +28,7 @@ func NewServicePack(cfg *config.Config) *ServicePack {
 	}
 
 	return &ServicePack{
-		ContributorsService: contributors.New(gh, cache),
+		ContributorsService: contributors.New(ghProvider, cache),
 		ImageService:        image.New(cache),
 		UsageService:        usage.New(),
 	}
