@@ -8,8 +8,8 @@ require (
 	cloud.google.com/go/logging v1.5.0
 	cloud.google.com/go/storage v1.24.0
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b
+	github.com/andybalholm/brotli v1.0.4
 	github.com/bradleyjkemp/cupaloy v2.3.0+incompatible
-	github.com/gin-contrib/gzip v0.0.6
 	github.com/gin-gonic/gin v1.8.1
 	github.com/google/go-github/v45 v45.2.0
 	go.ajitem.com/zapdriver v1.4.1
