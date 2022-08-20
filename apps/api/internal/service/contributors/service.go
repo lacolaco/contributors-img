@@ -11,13 +11,17 @@ import (
 	"github.com/google/go-github/v45/github"
 )
 
-func New(gh *github.Client, cache appcache.AppCache) *Service {
-	return &Service{gh, cache}
+type GitHubClientProvider interface {
+	Get() *github.Client
 }
 
 type Service struct {
-	githubClient *github.Client
-	cache        appcache.AppCache
+	ghProvider GitHubClientProvider
+	cache      appcache.AppCache
+}
+
+func New(ghProvider GitHubClientProvider, cache appcache.AppCache) *Service {
+	return &Service{ghProvider, cache}
 }
 
 func (s *Service) GetContributors(c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
@@ -38,7 +42,8 @@ func (s *Service) GetContributors(c context.Context, r *model.Repository) (*mode
 	}
 	s.sendCacheMissLog(ctx, cacheKey)
 	// get contributors from github
-	data, err := fetchRepositoryContributors(s.githubClient, ctx, r)
+	gh := s.ghProvider.Get()
+	data, err := fetchRepositoryContributors(gh, ctx, r)
 	if err != nil {
 		return nil, err
 	}

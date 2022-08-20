@@ -1,4 +1,4 @@
-package goutils
+package util
 
 import "golang.org/x/exp/constraints"
 

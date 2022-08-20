@@ -7,10 +7,10 @@ import (
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/goutils"
 	"contrib.rocks/libs/goutils/dataurl"
 	"contrib.rocks/libs/goutils/model"
 	"contrib.rocks/libs/goutils/renderer"
+	"contrib.rocks/libs/goutils/util"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -65,7 +65,7 @@ func (s *Service) RenderImage(c context.Context, data *model.RepositoryContribut
 
 func (s *Service) normalizeContributors(ctx context.Context, base *model.RepositoryContributors, options *renderer.RendererOptions) (*model.RepositoryContributors, error) {
 	// get formatted data
-	maxCount := goutils.Min(options.MaxCount, len(base.Contributors))
+	maxCount := util.Min(options.MaxCount, len(base.Contributors))
 	data := &model.RepositoryContributors{
 		Repository:      base.Repository,
 		StargazersCount: base.StargazersCount,
