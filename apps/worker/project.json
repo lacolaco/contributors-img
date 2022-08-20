@@ -5,7 +5,7 @@
     "app": ["!{projectRoot}/**/*_spec.go"]
   },
   "tags": ["app"],
-  "implicitDependencies": ["goutils"],
+  "implicitDependencies": ["golib"],
   "targets": {
     "serve": {
       "builder": "@nrwl/workspace:run-commands",

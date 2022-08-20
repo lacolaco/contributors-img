@@ -6,8 +6,8 @@ import (
 	"contrib.rocks/apps/api/internal/service/image"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/service/usage"
-	"contrib.rocks/libs/goutils/apiclient"
-	"contrib.rocks/libs/goutils/github"
+	"contrib.rocks/libs/go/apiclient"
+	"contrib.rocks/libs/go/github"
 )
 
 type ServicePack struct {

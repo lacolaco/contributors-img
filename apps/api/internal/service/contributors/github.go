@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/goutils/model"
+	"contrib.rocks/libs/go/model"
 	"github.com/google/go-github/v45/github"
 	"golang.org/x/sync/errgroup"
 )

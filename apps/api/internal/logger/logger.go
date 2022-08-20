@@ -2,7 +2,7 @@ package logger
 
 import (
 	"contrib.rocks/apps/api/internal/config"
-	"contrib.rocks/libs/goutils/env"
+	"contrib.rocks/libs/go/env"
 	"go.ajitem.com/zapdriver"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

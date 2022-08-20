@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"cloud.google.com/go/storage"
-	"contrib.rocks/libs/goutils/model"
+	"contrib.rocks/libs/go/model"
 )
 
 type AppCache interface {

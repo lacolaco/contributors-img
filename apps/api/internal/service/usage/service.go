@@ -6,7 +6,7 @@ import (
 
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/goutils/model"
+	"contrib.rocks/libs/go/model"
 	"go.uber.org/zap"
 )
 
