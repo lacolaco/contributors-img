@@ -1,19 +1,17 @@
-package app
+package compress
 
 import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
-	"contrib.rocks/apps/api/internal/config"
-	"contrib.rocks/apps/api/internal/logger"
 	"github.com/gin-gonic/gin"
 )
 
 func TestCompress(t *testing.T) {
 	t.Run("No compression with no accepted encoding", func(t *testing.T) {
 		r := gin.New()
-		r.Use(compressionMiddleware())
+		r.Use(Compress())
 		r.GET("/test", func(c *gin.Context) {
 			c.String(http.StatusOK, "test")
 		})
@@ -29,8 +27,7 @@ func TestCompress(t *testing.T) {
 	})
 	t.Run("Support gzip compression", func(t *testing.T) {
 		r := gin.New()
-		r.Use(logger.Middleware(config.NewTestConfig()))
-		r.Use(compressionMiddleware())
+		r.Use(Compress())
 		r.GET("/test", func(c *gin.Context) {
 			c.String(http.StatusOK, "test")
 		})
@@ -46,8 +43,7 @@ func TestCompress(t *testing.T) {
 	})
 	t.Run("Support brotli compression", func(t *testing.T) {
 		r := gin.New()
-		r.Use(logger.Middleware(config.NewTestConfig()))
-		r.Use(compressionMiddleware())
+		r.Use(Compress())
 		r.GET("/test", func(c *gin.Context) {
 			c.String(http.StatusOK, "test")
 		})
@@ -63,8 +59,7 @@ func TestCompress(t *testing.T) {
 	})
 	t.Run("Brotli has higher priority than gzip", func(t *testing.T) {
 		r := gin.New()
-		r.Use(logger.Middleware(config.NewTestConfig()))
-		r.Use(compressionMiddleware())
+		r.Use(Compress())
 		r.GET("/test", func(c *gin.Context) {
 			c.String(http.StatusOK, "test")
 		})

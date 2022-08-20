@@ -1,4 +1,4 @@
-package app
+package compress
 
 import (
 	"compress/gzip"
@@ -7,10 +7,8 @@ import (
 	"strings"
 	"sync"
 
-	"contrib.rocks/apps/api/internal/logger"
 	"github.com/andybalholm/brotli"
 	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
 )
 
 type compressHandler struct {
@@ -18,7 +16,7 @@ type compressHandler struct {
 	brPool sync.Pool
 }
 
-func compressionMiddleware() gin.HandlerFunc {
+func Compress() gin.HandlerFunc {
 	return (&compressHandler{
 		gzPool: sync.Pool{
 			New: func() any {
@@ -35,8 +33,6 @@ func compressionMiddleware() gin.HandlerFunc {
 }
 
 func (h *compressHandler) Handle(c *gin.Context) {
-	log := logger.LoggerFromContext(c.Request.Context())
-
 	if c.GetHeader("Accept-Encoding") == "" ||
 		strings.Contains(c.GetHeader("Connection"), "Upgrade") ||
 		strings.Contains(c.GetHeader("Accept"), "text/event-stream") {
@@ -45,7 +41,6 @@ func (h *compressHandler) Handle(c *gin.Context) {
 	}
 
 	if strings.Contains(c.GetHeader("Accept-Encoding"), "br") {
-		log.Debug("[compress] compressing with brotli")
 		w := h.brPool.Get().(*brotli.Writer)
 		defer h.brPool.Put(w)
 		defer w.Reset(io.Discard)
@@ -59,7 +54,6 @@ func (h *compressHandler) Handle(c *gin.Context) {
 			c.Header("Content-Length", fmt.Sprint(c.Writer.Size()))
 		}()
 	} else if strings.Contains(c.GetHeader("Accept-Encoding"), "gzip") {
-		log.Debug("[compress] compressing with gzip")
 		w := h.gzPool.Get().(*gzip.Writer)
 		defer h.gzPool.Put(w)
 		defer w.Reset(io.Discard)
@@ -72,8 +66,6 @@ func (h *compressHandler) Handle(c *gin.Context) {
 			w.Close()
 			c.Header("Content-Length", fmt.Sprint(c.Writer.Size()))
 		}()
-	} else {
-		log.Info("[compress] unsupported encoding", zap.String("encoding", c.GetHeader("Accept-Encoding")))
 	}
 	c.Next()
 }
