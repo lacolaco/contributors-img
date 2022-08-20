@@ -23,7 +23,11 @@ func Convert(c context.Context, remoteURL string, extraParams map[string]string)
 	}
 	u.RawQuery = q.Encode()
 
-	resp, err := DefaultHTTPClient.Get(u.String())
+	req, err := http.NewRequestWithContext(c, http.MethodGet, u.String(), nil)
+	if err != nil {
+		return "", err
+	}
+	resp, err := DefaultHTTPClient.Do(req)
 	if err != nil {
 		return "", err
 	}
