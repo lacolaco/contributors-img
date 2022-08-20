@@ -77,8 +77,12 @@ github.com/GoogleCloudPlatform/opentelemetry-operations-go v0.32.5 h1:jeGKZBCTH8
 github.com/GoogleCloudPlatform/opentelemetry-operations-go v0.32.5/go.mod h1:Dx0JQ78yNe7E7KO1T+KEUDNjrJipxk7hkNZBzcG/gMY=
 github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.8.4 h1:UlCxYSeY3a8FYR2Ni8SC8vxcb2MCTwBN8yDoy0AVGGU=
 github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.8.4/go.mod h1:d4ODYSOkLoLTyUyic8etLjC7Kzy13ZO2R+kdVi9ImQg=
+github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.8.6 h1:TOxk7n3PE2OkdNMgrXDtDr3ju4pIvwhY515tCoH0CpE=
+github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.8.6/go.mod h1:NE8dAwJ1VU4WFdJYTlO0tdobQFdy70z8wNDU1L3VAr4=
 github.com/GoogleCloudPlatform/opentelemetry-operations-go/internal/resourcemapping v0.32.4 h1:ZuSnzmTHyLCDJxeq5h785t8VcbRDX40+e5iVTSE4Y3Q=
 github.com/GoogleCloudPlatform/opentelemetry-operations-go/internal/resourcemapping v0.32.4/go.mod h1:0NODlmSHucFiEW4hSANp07vax2tfiCdf9Zv4KuMc/4w=
+github.com/GoogleCloudPlatform/opentelemetry-operations-go/internal/resourcemapping v0.32.6 h1:QHbRbU/HI7SuNVqP0rDHK5jAMcwzuAex2akl3p+7YTo=
+github.com/GoogleCloudPlatform/opentelemetry-operations-go/internal/resourcemapping v0.32.6/go.mod h1:/G0zPXsUx5gZUd6ryJakuDo4VR7EJScegf1ZNK8xIGs=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/ajstarks/deck v0.0.0-20200831202436-30c9fc6549a9/go.mod h1:JynElWSGnm/4RlzPXRlREEwqTHAN3T56Bv2ITsFT3gY=
 github.com/ajstarks/deck/generate v0.0.0-20210309230005-c3f852c02e19/go.mod h1:T13YZdzov6OU0A1+RfKZiZN9ca6VeKdBdyDV+BY97Tk=
