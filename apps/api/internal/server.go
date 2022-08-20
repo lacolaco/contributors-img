@@ -10,7 +10,6 @@ import (
 	"contrib.rocks/apps/api/internal/service"
 	"contrib.rocks/apps/api/internal/tracing"
 	"contrib.rocks/libs/goutils/env"
-	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -38,7 +37,7 @@ func StartServer() error {
 	r.Use(logger.Middleware(cfg))
 	r.Use(errorHandler())
 	r.Use(requestLogger())
-	r.Use(gzip.Gzip(gzip.BestCompression))
+	r.Use(compress())
 
 	api.Setup(r, sp)
 

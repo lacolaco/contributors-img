@@ -33,6 +33,9 @@ func ContextWithLogger(c context.Context, logger *zap.Logger) context.Context {
 // LoggerFromContext returns the logger for the given context.
 // The logger has been set a trace context if the request is traced.
 func LoggerFromContext(c context.Context) *zap.Logger {
-	logger := c.Value(loggerContextKey).(*zap.Logger)
+	logger, ok := c.Value(loggerContextKey).(*zap.Logger)
+	if !ok {
+		return zap.NewNop()
+	}
 	return logger.WithOptions(traceContext(c))
 }
