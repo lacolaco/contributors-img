@@ -9,11 +9,12 @@ import (
 )
 
 type GetImageParams struct {
-	Repository model.RepositoryString `form:"repo" binding:"required"`
-	MaxCount   int                    `form:"max"`
-	Columns    int                    `form:"columns"`
-	Preview    bool                   `form:"preview"`
-	Via        string
+	Repository       model.RepositoryString `form:"repo" binding:"required"`
+	MaxCount         int                    `form:"max"`
+	Columns          int                    `form:"columns"`
+	IncludeAnonymous bool                   `form:"anon"`
+	Preview          bool                   `form:"preview"`
+	Via              string
 }
 
 // MarshalLogObject implements zapcore.ObjectMarshaler
@@ -21,6 +22,7 @@ func (p GetImageParams) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 	enc.AddString("repository", string(p.Repository))
 	enc.AddInt("max", p.MaxCount)
 	enc.AddInt("columns", p.Columns)
+	enc.AddBool("anon", p.IncludeAnonymous)
 	enc.AddBool("preview", p.Preview)
 	enc.AddString("via", p.Via)
 	return nil
