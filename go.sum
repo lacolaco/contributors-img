@@ -75,6 +75,8 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/GoogleCloudPlatform/opentelemetry-operations-go v0.32.5 h1:jeGKZBCTH8Afyy8s/1fc+5bRRjkL0/D7sCM9lg+j/TQ=
 github.com/GoogleCloudPlatform/opentelemetry-operations-go v0.32.5/go.mod h1:Dx0JQ78yNe7E7KO1T+KEUDNjrJipxk7hkNZBzcG/gMY=
+github.com/GoogleCloudPlatform/opentelemetry-operations-go v0.32.6 h1:BY2NLogLEQn+mp7VS71wHN2UuliUFckFRkvxRPh0pp0=
+github.com/GoogleCloudPlatform/opentelemetry-operations-go v0.32.6/go.mod h1:S25ps7QJiCxSnNODhaCC1QZOaJy/mTi78yfVbxClRT0=
 github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.8.4 h1:UlCxYSeY3a8FYR2Ni8SC8vxcb2MCTwBN8yDoy0AVGGU=
 github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.8.4/go.mod h1:d4ODYSOkLoLTyUyic8etLjC7Kzy13ZO2R+kdVi9ImQg=
 github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.8.6 h1:TOxk7n3PE2OkdNMgrXDtDr3ju4pIvwhY515tCoH0CpE=
