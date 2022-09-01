@@ -97,7 +97,7 @@ func Test_GetImageParams_BingQuery_Anon_ZeroIsFalse(t *testing.T) {
 func Test_GetImageParams_BingQuery_Anon_FalseIsFalse(t *testing.T) {
 	uri := url.URL{Path: "/image"}
 	q := uri.Query()
-	q.Set("anon", "true")
+	q.Set("anon", "false")
 	uri.RawQuery = q.Encode()
 	c, _ := gin.CreateTestContext(httptest.NewRecorder())
 	c.Request, _ = http.NewRequest("GET", uri.String(), nil)
@@ -108,7 +108,7 @@ func Test_GetImageParams_BingQuery_Anon_FalseIsFalse(t *testing.T) {
 	if err == nil {
 		t.Fatalf(err.Error())
 	}
-	if !params.IncludeAnonymous {
+	if params.IncludeAnonymous {
 		t.Fatalf("Bound params: %v", params)
 	}
 }
