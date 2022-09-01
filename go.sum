@@ -39,6 +39,8 @@ cloud.google.com/go/bigquery v1.7.0/go.mod h1://okPTzCYNXSlb24MZs83e2Do+h+VXtc4g
 cloud.google.com/go/bigquery v1.8.0/go.mod h1:J5hqkt3O0uAFnINi6JXValWIb1v0goeZM77hZzJN/fQ=
 cloud.google.com/go/bigquery v1.37.0 h1:Ju2eUxfPuwUodxQiUAjZ2rQ/182KQMFhfehQ7fqnrTc=
 cloud.google.com/go/bigquery v1.37.0/go.mod h1:C3abDfeObLBF1Pw/R8XLLpikving5wpjneEpiqJ7OQ8=
+cloud.google.com/go/bigquery v1.39.0 h1:wANAPgtYKaT5rJ/4rVzYTMmke3VC0Fj4EXgQ83wZMg0=
+cloud.google.com/go/bigquery v1.39.0/go.mod h1:XVXHPWZICwGSvPcygubr2MeTF9SrNvU77dV2YYolyYQ=
 cloud.google.com/go/compute v0.1.0/go.mod h1:GAesmwr110a34z04OlxYkATPBEfVhkymfTBXtfbBFow=
 cloud.google.com/go/compute v1.3.0/go.mod h1:cCZiE1NHEtai4wiufUhW8I8S1JKkAnhnQJWM7YD99wM=
 cloud.google.com/go/compute v1.5.0/go.mod h1:9SMHyhJlzhlkJqrPAc839t2BZFTSk6Jdj6mkzQJeu0M=
@@ -654,6 +656,8 @@ google.golang.org/api v0.85.0/go.mod h1:AqZf8Ep9uZ2pyTvgL+x0D3Zt0eoT9b5E8fmzfu6F
 google.golang.org/api v0.86.0/go.mod h1:+Sem1dnrKlrXMR/X0bPnMWyluQe4RsNoYfmNLhOIkzw=
 google.golang.org/api v0.91.0 h1:731+JzuwaJoZXRQGmPoBiV+SrsAfUaIkdMCWTcQNPyA=
 google.golang.org/api v0.91.0/go.mod h1:+Sem1dnrKlrXMR/X0bPnMWyluQe4RsNoYfmNLhOIkzw=
+google.golang.org/api v0.93.0 h1:T2xt9gi0gHdxdnRkVQhT8mIvPaXKNsDNWz+L696M66M=
+google.golang.org/api v0.93.0/go.mod h1:+Sem1dnrKlrXMR/X0bPnMWyluQe4RsNoYfmNLhOIkzw=
 google.golang.org/appengine v1.1.0/go.mod h1:EbEs0AVv82hx2wNQdGPgUI5lhzA/G0D9YwlJXL52JkM=
 google.golang.org/appengine v1.4.0/go.mod h1:xpcJRLb0r/rnEns0DIKYYv+WjYCduHsrkT7/EB5XEv4=
 google.golang.org/appengine v1.5.0/go.mod h1:xpcJRLb0r/rnEns0DIKYYv+WjYCduHsrkT7/EB5XEv4=
@@ -747,6 +751,8 @@ google.golang.org/genproto v0.0.0-20220624142145-8cd45d7dbd1f/go.mod h1:KEWEmljW
 google.golang.org/genproto v0.0.0-20220628213854-d9e0b6570c03/go.mod h1:KEWEmljWE5zPzLBa/oHl6DaEt9LmfH6WtH1OHIvleBA=
 google.golang.org/genproto v0.0.0-20220805133916-01dd62135a58 h1:sRT5xdTkj1Kbk30qbYC7VyMj73N5pZYsw6v+Nrzdhno=
 google.golang.org/genproto v0.0.0-20220805133916-01dd62135a58/go.mod h1:iHe1svFLAZg9VWz891+QbRMwUv9O/1Ww+/mngYeThbc=
+google.golang.org/genproto v0.0.0-20220819153447-c7cd466b0e09 h1:iw8luj804hqA2C43tq4SXb4OQNgaJU0KzSZHOHfdA4U=
+google.golang.org/genproto v0.0.0-20220819153447-c7cd466b0e09/go.mod h1:dbqgFATTzChvnt+ujMdZwITVAJHFtfyN1qUhDqEiIlk=
 google.golang.org/grpc v1.19.0/go.mod h1:mqu4LbDTu4XGKhr4mRzUsmM4RtVoemTSY81AxZiDr8c=
 google.golang.org/grpc v1.20.1/go.mod h1:10oTOabMzJvdu6/UiuZezV6QK5dSlG84ov/aaiqXj38=
 google.golang.org/grpc v1.21.1/go.mod h1:oYelfM1adQP15Ek0mdvEgi9Df8B9CZIaU1084ijfRaM=
