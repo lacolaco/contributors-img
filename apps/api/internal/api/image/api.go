@@ -20,8 +20,8 @@ const (
 )
 
 type ImageService interface {
-	GetImage(ctx context.Context, repo *model.Repository, options *renderer.RendererOptions) (model.FileHandle, error)
-	RenderImage(ctx context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error)
+	GetImage(ctx context.Context, repo *model.Repository, options *renderer.RendererOptions, includeAnonymous bool) (model.FileHandle, error)
+	RenderImage(ctx context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions, includeAnonymous bool) (model.FileHandle, error)
 }
 
 type ContributorsService interface {
@@ -71,7 +71,7 @@ func (api *API) Get(c *gin.Context) {
 	}
 
 	// get image
-	image, err := api.is.GetImage(ctx, params.Repository.Object(), rendererOptions)
+	image, err := api.is.GetImage(ctx, params.Repository.Object(), rendererOptions, params.IncludeAnonymous)
 	if err != nil {
 		c.Error(err).SetType(gin.ErrorTypePublic)
 		return
@@ -93,7 +93,7 @@ func (api *API) Get(c *gin.Context) {
 	}
 
 	// render image
-	image, err = api.is.RenderImage(ctx, data, rendererOptions)
+	image, err = api.is.RenderImage(ctx, data, rendererOptions, params.IncludeAnonymous)
 	if err != nil {
 		c.Error(err).SetType(gin.ErrorTypePublic)
 		return

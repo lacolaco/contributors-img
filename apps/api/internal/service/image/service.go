@@ -22,13 +22,13 @@ type Service struct {
 	cache appcache.AppCache
 }
 
-func (s *Service) GetImage(c context.Context, repo *model.Repository, options *renderer.RendererOptions) (model.FileHandle, error) {
+func (s *Service) GetImage(c context.Context, repo *model.Repository, options *renderer.RendererOptions, includeAnonymous bool) (model.FileHandle, error) {
 	ctx, span := tracing.Tracer().Start(c, "image.Service.GetImage")
 	defer span.End()
 	log := logger.LoggerFromContext(ctx)
 
 	options = normalizeRendererOptions(options)
-	cacheKey := createImageCacheKey(repo, options, "svg")
+	cacheKey := createImageCacheKey(repo, options, "svg", includeAnonymous)
 
 	cache, err := s.cache.Get(ctx, cacheKey)
 	if err != nil {
@@ -42,14 +42,14 @@ func (s *Service) GetImage(c context.Context, repo *model.Repository, options *r
 	return cache, nil
 }
 
-func (s *Service) RenderImage(c context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions) (model.FileHandle, error) {
+func (s *Service) RenderImage(c context.Context, data *model.RepositoryContributors, options *renderer.RendererOptions, includeAnonymous bool) (model.FileHandle, error) {
 	ctx, span := tracing.Tracer().Start(c, "image.Service.RenderImage")
 	defer span.End()
 
 	options = normalizeRendererOptions(options)
-	cacheKey := createImageCacheKey(data.Repository, options, "svg")
+	cacheKey := createImageCacheKey(data.Repository, options, "svg", includeAnonymous)
 
-	data, err := s.normalizeContributors(ctx, data, options)
+	data, err := s.normalizeContributors(ctx, data, options, includeAnonymous)
 	if err != nil {
 		return nil, err
 	}
@@ -63,15 +63,24 @@ func (s *Service) RenderImage(c context.Context, data *model.RepositoryContribut
 	return image, nil
 }
 
-func (s *Service) normalizeContributors(ctx context.Context, base *model.RepositoryContributors, options *renderer.RendererOptions) (*model.RepositoryContributors, error) {
+func (s *Service) normalizeContributors(ctx context.Context, base *model.RepositoryContributors, options *renderer.RendererOptions, includeAnonymous bool) (*model.RepositoryContributors, error) {
+	// filter by includeAnonymous
+	contributors := make([]*model.Contributor, 0, len(base.Contributors))
+	for _, c := range base.Contributors {
+		if !includeAnonymous && c.ID == 0 {
+			// skip anonymous contributors
+			continue
+		}
+		contributors = append(contributors, c)
+	}
 	// get formatted data
-	maxCount := util.Min(options.MaxCount, len(base.Contributors))
+	maxCount := util.Min(options.MaxCount, len(contributors))
 	data := &model.RepositoryContributors{
 		Repository:      base.Repository,
 		StargazersCount: base.StargazersCount,
 		Contributors:    make([]*model.Contributor, maxCount),
 	}
-	copy(data.Contributors, base.Contributors)
+	copy(data.Contributors, contributors)
 	// convert avatar images to data urls
 	eg, ctx := errgroup.WithContext(ctx)
 	results := make([]string, len(data.Contributors))
