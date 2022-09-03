@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/bigquery v1.39.0
 	cloud.google.com/go/firestore v1.6.1
 	cloud.google.com/go/logging v1.5.0
-	cloud.google.com/go/storage v1.24.0
+	cloud.google.com/go/storage v1.26.0
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b
 	github.com/andybalholm/brotli v1.0.4
 	github.com/bradleyjkemp/cupaloy v2.3.0+incompatible
@@ -15,7 +15,7 @@ require (
 	go.ajitem.com/zapdriver v1.4.1
 	golang.org/x/exp v0.0.0-20220827204233-334a2380cb91
 	golang.org/x/oauth2 v0.0.0-20220822191816-0ebed06d0094
-	google.golang.org/api v0.93.0
+	google.golang.org/api v0.94.0
 )
 
 require (
