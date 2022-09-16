@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FeaturedRepository } from '@lib/core';
+import { FeaturedRepository } from '../../../../shared/model/repository';
 
 @Component({
   selector: 'app-repository-gallery',

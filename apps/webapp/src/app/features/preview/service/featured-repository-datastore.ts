@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FeaturedRepository } from '@lib/core';
 import { Observable } from 'rxjs';
+import { FeaturedRepository } from '../../../shared/model/repository';
 
 @Injectable()
 export abstract class FeaturedRepositoryDatastore {

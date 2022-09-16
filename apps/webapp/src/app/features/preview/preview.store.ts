@@ -1,6 +1,5 @@
-import { state } from '@angular/animations';
 import { Store } from '@lacolaco/reactive-store';
-import { Repository } from '@lib/core';
+import { Repository } from '../../shared/model/repository';
 
 export interface State {
   repository: Repository | null;

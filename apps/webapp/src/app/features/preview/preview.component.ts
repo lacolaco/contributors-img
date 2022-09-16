@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Repository } from '@lib/core';
-import { Subject, finalize, map, switchMap, takeUntil } from 'rxjs';
+import { finalize, map, Subject, switchMap, takeUntil } from 'rxjs';
 import { ContributorsImageApi } from '../../shared/api/contributors-image';
+import { Repository } from '../../shared/model/repository';
 import { PreviewStore } from './preview.store';
 
 @Component({
