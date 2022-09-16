@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { FeaturedRepository } from '@lib/core';
 import { filter, map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { FeaturedRepository } from '../../../shared/model/repository';
 import { FeaturedRepositoryDatastore } from './featured-repository-datastore';
 
 type FeaturedRepositoryDocument = {

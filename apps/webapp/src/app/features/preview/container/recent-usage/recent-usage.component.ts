@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FeaturedRepository } from '@lib/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { FeaturedRepository } from '../../../../shared/model/repository';
 import { FeaturedRepositoryDatastore } from '../../service/featured-repository-datastore';
 
 @Component({

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Repository } from '@lib/core';
+import { Repository } from '../../../../shared/model/repository';
 
 @Component({
   selector: 'app-image-snippet',

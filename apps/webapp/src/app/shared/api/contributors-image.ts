@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Repository } from '@lib/core';
+import { Repository } from '../../shared/model/repository';
 
 @Injectable({ providedIn: 'root' })
 export class ContributorsImageApi {
