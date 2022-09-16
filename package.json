@@ -44,7 +44,7 @@
     "@angular/platform-browser-dynamic": "14.1.1",
     "@angular/router": "14.1.1",
     "@lacolaco/reactive-store": "4.0.0",
-    "core-js": "3.25.0",
+    "core-js": "3.25.1",
     "firebase": "9.9.1",
     "normalize.css": "8.0.1",
     "rxfire": "6.0.3",
