@@ -1,4 +1,4 @@
-import { Repository } from '@lib/core';
+import { Repository } from '../../shared/model/repository';
 import { PreviewStore } from './preview.store';
 
 describe('PreviewStore', () => {
