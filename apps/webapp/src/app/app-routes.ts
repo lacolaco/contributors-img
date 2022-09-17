@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { PreviewComponent } from './features/preview/preview.component';
+import { PreviewPageComponent } from './pages/preview/preview.component';
 
 export const routes: Routes = [
   {
@@ -9,6 +9,6 @@ export const routes: Routes = [
   },
   {
     path: 'preview',
-    component: PreviewComponent,
+    component: PreviewPageComponent,
   },
 ];

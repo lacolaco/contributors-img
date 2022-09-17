@@ -2,7 +2,7 @@ import { Injectable, Provider } from '@angular/core';
 import { doc, docData, DocumentReference, Firestore } from '@angular/fire/firestore';
 import { filter, map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { FeaturedRepository } from '../model';
+import { FeaturedRepository } from '../../models';
 import { FeaturedRepositoryDatasource, FeaturedRepositoryDatasourceToken } from './index';
 
 type FeaturedRepositoryDocument = {

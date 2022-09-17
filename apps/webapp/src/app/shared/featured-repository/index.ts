@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FeaturedRepository } from '../model';
+import { FeaturedRepository } from '../../models';
 
 export const FeaturedRepositoryDatasourceToken = new InjectionToken<FeaturedRepositoryDatasource>(
   'FeaturedRepositoryDatasource',

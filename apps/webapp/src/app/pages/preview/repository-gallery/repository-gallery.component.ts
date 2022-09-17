@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
-import { RepositoryOwnerPipe } from '../../../../shared/repository-owner.pipe';
-import { FeaturedRepository } from '../../../../shared/model/repository';
+import { FeaturedRepository } from '../../../models/repository';
+import { RepositoryOwnerPipe } from './repository-owner.pipe';
 
 @Component({
   selector: 'app-repository-gallery',
