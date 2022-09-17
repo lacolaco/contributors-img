@@ -8,8 +8,7 @@ describe('RepositoryGalleryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [RepositoryGalleryComponent],
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, RepositoryGalleryComponent],
     }).compileComponents();
   }));
 

@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -15,6 +15,8 @@ import { DomSanitizer } from '@angular/platform-browser';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [NgIf],
 })
 export class SvgViewComponent {
   @Input() content: string | null = null;
@@ -28,10 +30,3 @@ export class SvgViewComponent {
 
   constructor(private readonly domSanitizer: DomSanitizer) {}
 }
-
-@NgModule({
-  imports: [CommonModule],
-  declarations: [SvgViewComponent],
-  exports: [SvgViewComponent],
-})
-export class SvgViewModule {}

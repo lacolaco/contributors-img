@@ -10,7 +10,7 @@ describe('RecentUsageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RecentUsageComponent, RepositoryGalleryComponent],
+      imports: [RecentUsageComponent, RepositoryGalleryComponent],
       providers: [
         {
           provide: FeaturedRepositoryDatastore,

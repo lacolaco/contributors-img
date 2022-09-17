@@ -3,6 +3,7 @@ import { Repository } from './model/repository';
 
 @Pipe({
   name: 'repositoryOwner',
+  standalone: true,
 })
 export class RepositoryOwnerPipe implements PipeTransform {
   transform(value: string): string {
