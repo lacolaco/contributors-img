@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { FeaturedRepositoryDatastore } from '../../service/featured-repository-datastore';
+import { provideNoopFeaturedRepositoryDatasource } from '../../../../shared/featured-repository/noop';
 import { RepositoryGalleryComponent } from '../../component/repository-gallery/repository-gallery.component';
 import { RecentUsageComponent } from './recent-usage.component';
 
@@ -11,14 +10,7 @@ describe('RecentUsageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RecentUsageComponent, RepositoryGalleryComponent],
-      providers: [
-        {
-          provide: FeaturedRepositoryDatastore,
-          useValue: {
-            repositories$: of([]),
-          },
-        },
-      ],
+      providers: [provideNoopFeaturedRepositoryDatasource()],
     }).compileComponents();
   });
 
