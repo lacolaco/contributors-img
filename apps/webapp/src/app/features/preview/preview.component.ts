@@ -1,14 +1,33 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, map, Subject, switchMap, takeUntil } from 'rxjs';
 import { ContributorsImageApi } from '../../shared/api/contributors-image';
 import { Repository } from '../../shared/model/repository';
+import { SvgViewComponent } from '../../shared/svg-view/svg-view.component';
+import { FooterComponent } from './component/footer/footer.component';
+import { HeaderComponent } from './component/header/header.component';
+import { ImageSnippetComponent } from './component/image-snippet/image-snippet.component';
+import { RepositoryFormComponent } from './component/repository-form/repository-form.component';
+import { RecentUsageComponent } from './container/recent-usage/recent-usage.component';
 import { PreviewStore } from './preview.store';
 
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    HeaderComponent,
+    FooterComponent,
+    ImageSnippetComponent,
+    RepositoryFormComponent,
+    SvgViewComponent,
+    RecentUsageComponent,
+  ],
   providers: [PreviewStore],
 })
 export class PreviewComponent implements OnInit, OnDestroy {

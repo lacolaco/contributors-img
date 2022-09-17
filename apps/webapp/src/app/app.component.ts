@@ -1,13 +1,14 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  standalone: true,
+  template: `<router-outlet (activate)="onRouteActivate()"></router-outlet>`,
   styleUrls: ['./app.component.scss'],
+  imports: [RouterOutlet],
 })
 export class AppComponent {
-  constructor(private cdRef: ChangeDetectorRef) {}
-
   onRouteActivate() {
     // this.cdRef.detectChanges();
   }

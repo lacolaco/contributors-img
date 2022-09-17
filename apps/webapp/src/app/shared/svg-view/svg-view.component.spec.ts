@@ -8,7 +8,7 @@ describe('SvgViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SvgViewComponent],
+      imports: [SvgViewComponent],
     }).compileComponents();
   });
 
