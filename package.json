@@ -43,7 +43,7 @@
     "@angular/platform-browser": "14.2.2",
     "@angular/platform-browser-dynamic": "14.2.2",
     "@angular/router": "14.2.2",
-    "@lacolaco/reactive-store": "4.0.0",
+    "@lacolaco/reactive-store": "5.0.0",
     "firebase": "9.9.1",
     "normalize.css": "8.0.1",
     "rxjs": "7.5.6",
