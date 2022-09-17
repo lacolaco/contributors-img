@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { FeaturedRepositoryDatasourceToken } from '../../../../shared/featured-repository';
-import { FeaturedRepository } from '../../../../shared/model/repository';
-import { RepositoryGalleryComponent } from '../../component/repository-gallery/repository-gallery.component';
+import { FeaturedRepositoryDatasourceToken } from '../../../shared/featured-repository';
+import { FeaturedRepository } from '../../../models/repository';
+import { RepositoryGalleryComponent } from '../repository-gallery/repository-gallery.component';
 
 @Component({
   selector: 'app-recent-usage',

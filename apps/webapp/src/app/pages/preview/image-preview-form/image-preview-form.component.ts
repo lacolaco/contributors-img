@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Repository } from '../../../../shared/model/repository';
+import { Repository } from '../../../models/repository';
+import { PreviewStore } from '../preview.store';
 
 @Component({
-  selector: 'app-repository-form',
+  selector: 'app-image-preview-form',
   template: `
     <div class="controlPane">
       <form class="repositoryForm" [formGroup]="form">
@@ -20,18 +21,16 @@ import { Repository } from '../../../../shared/model/repository';
       </form>
     </div>
   `,
-  styleUrls: ['./repository-form.component.scss'],
+  styleUrls: ['./image-preview-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
 })
-export class RepositoryFormComponent {
+export class ImagePreviewFormComponent {
   @Input()
   set repository(value: Repository | null) {
     this.form.patchValue({ repository: value ? value.toString() : null });
   }
-
-  @Output() valueChange = new EventEmitter<string>();
 
   readonly form = new FormGroup({
     repository: new FormControl('', {
@@ -39,8 +38,13 @@ export class RepositoryFormComponent {
     }),
   });
 
+  private readonly store = inject(PreviewStore);
+
   generateImage() {
     const repoName = this.form.value.repository;
-    this.valueChange.emit(repoName ?? '');
+
+    this.store.updateImageParams({
+      repository: repoName ? Repository.fromString(repoName) : null,
+    });
   }
 }

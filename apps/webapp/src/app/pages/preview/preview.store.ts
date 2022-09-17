@@ -1,5 +1,5 @@
 import { Store } from '@lacolaco/reactive-store';
-import { Repository } from '../../shared/model/repository';
+import { Repository } from '../../models/repository';
 
 export interface State {
   repository: Repository | null;
@@ -56,17 +56,17 @@ export class PreviewStore extends Store<State> {
     }));
   }
 
-  showImageSnippet() {
-    this.update((state) => ({
-      ...state,
-      showImageSnippet: true,
-    }));
-  }
-
   closeImageSnippet() {
     this.update((state) => ({
       ...state,
       showImageSnippet: false,
+    }));
+  }
+
+  updateImageParams(params: { repository: Repository | null }) {
+    this.update((state) => ({
+      ...state,
+      repository: params.repository,
     }));
   }
 }

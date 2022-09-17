@@ -2,28 +2,9 @@
 
 :host {
   display: block;
-  height: 100%;
-  width: 100%;
 }
 
-main {
-  height: 100%;
-  padding: 32px 5%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  > :not(:last-child) {
-    margin-bottom: 16px;
-  }
-
-  @media (min-width: 768px) {
-    padding: 64px 10%;
-  }
-}
-
-.generatedResult {
+.pane {
   @include mat.elevation(4);
 
   min-width: 50vw;

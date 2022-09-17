@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Repository } from './model/repository';
+import { Repository } from '../../../models/repository';
 
 @Pipe({
   name: 'repositoryOwner',
