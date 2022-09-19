@@ -1,8 +1,8 @@
-import { RepositoryOwnerPipe } from './repository-owner.pipe';
+import { RepositoryImageUrlPipe } from './repository-image-url.pipe';
 
 describe('RepositoryOwnerPipe', () => {
   it('create an instance', () => {
-    const pipe = new RepositoryOwnerPipe();
+    const pipe = new RepositoryImageUrlPipe();
     expect(pipe).toBeTruthy();
   });
 });
