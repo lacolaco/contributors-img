@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ImageParams } from '../../../models/image-params';
 import { Repository } from '../../../models/repository';
-import { PreviewStore } from '../preview.store';
+import { PreviewState } from '../state';
 
 @Component({
   selector: 'app-image-preview-form',
@@ -28,23 +29,24 @@ import { PreviewStore } from '../preview.store';
 })
 export class ImagePreviewFormComponent {
   @Input()
-  set repository(value: Repository | null) {
-    this.form.patchValue({ repository: value ? value.toString() : null });
+  set value(value: ImageParams) {
+    this.form.patchValue({ repository: value.repository.toString() });
   }
 
-  readonly form = new FormGroup({
-    repository: new FormControl('', {
+  private readonly store = inject(PreviewState);
+  private readonly fb = inject(FormBuilder).nonNullable;
+
+  readonly form = this.fb.group({
+    repository: this.fb.control('', {
       validators: [Validators.required],
     }),
   });
 
-  private readonly store = inject(PreviewStore);
-
   generateImage() {
-    const repoName = this.form.value.repository;
+    const repoName = this.form.getRawValue().repository;
 
-    this.store.updateImageParams({
-      repository: repoName ? Repository.fromString(repoName) : null,
+    this.store.patchImageParams({
+      repository: Repository.fromString(repoName),
     });
   }
 }

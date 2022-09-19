@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PreviewStore } from '../preview.store';
+import { PreviewState } from '../state';
 
 import { ImagePreviewComponent } from './image-preview.component';
 
@@ -10,7 +10,7 @@ describe('ImagePreviewComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ImagePreviewComponent],
-      providers: [PreviewStore],
+      providers: [PreviewState],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ImagePreviewComponent);
