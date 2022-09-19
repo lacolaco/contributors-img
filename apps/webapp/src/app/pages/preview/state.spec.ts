@@ -1,4 +1,4 @@
-import { PreviewState } from './state';
+import { defaultImageParams, PreviewState } from './state';
 
 describe('PreviewState', () => {
   let state: PreviewState;
@@ -11,7 +11,7 @@ describe('PreviewState', () => {
 
   it('should has initial value', () => {
     expect(state.get()).toBeDefined();
-    expect(state.get().imageParams.repository).toBeNull();
+    expect(state.get().imageParams).toBe(defaultImageParams);
     expect(state.get().result).toEqual(null);
     expect(state.get().fetchingCount).toEqual(0);
   });
