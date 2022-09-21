@@ -14,10 +14,10 @@ type FeaturedRepository struct {
 	Contributors int64  `firestore:"contributors"`
 }
 
-func SaveFeaturedRepositories(ctx context.Context, appEnv env.Environment, usages []*RepositoryUsage, updatedAt time.Time) error {
+func SaveFeaturedRepositories(ctx context.Context, appEnv env.Environment, usageRows []*RepositoryUsageRow, updatedAt time.Time) error {
 	fs := apiclient.NewFirestoreClient()
-	items := make([]FeaturedRepository, len(usages))
-	for i, repository := range usages {
+	items := make([]FeaturedRepository, len(usageRows))
+	for i, repository := range usageRows {
 		items[i] = FeaturedRepository{
 			Repository:   repository.Repository,
 			Stargazers:   repository.Stargazers,
@@ -29,6 +29,24 @@ func SaveFeaturedRepositories(ctx context.Context, appEnv env.Environment, usage
 		UpdatedAt time.Time            `firestore:"updatedAt"`
 	}{
 		items, updatedAt,
+	})
+	return err
+}
+
+type UsageStats struct {
+	Owners       int64 `firestore:"owners"`
+	Repositories int64 `firestore:"repositories"`
+}
+
+func SaveUsageStats(ctx context.Context, appEnv env.Environment, usageRow *UsageStatsRow, updatedAt time.Time) error {
+	fs := apiclient.NewFirestoreClient()
+
+	_, err := fs.Collection(string(appEnv)).Doc("usage_stats").Set(ctx, struct {
+		Owners       int64     `firestore:"owners"`
+		Repositories int64     `firestore:"repositories"`
+		UpdatedAt    time.Time `firestore:"updatedAt"`
+	}{
+		usageRow.Owners, usageRow.Repositories, updatedAt,
 	})
 	return err
 }

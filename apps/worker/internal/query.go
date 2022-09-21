@@ -7,7 +7,7 @@ import (
 	"google.golang.org/api/iterator"
 )
 
-type RepositoryUsage struct {
+type RepositoryUsageRow struct {
 	Owner        string `json:"owner"`
 	Repository   string `json:"repository"`
 	Days         int64  `json:"days"`
@@ -15,7 +15,7 @@ type RepositoryUsage struct {
 	Contributors int64  `json:"contributors"`
 }
 
-func QueryFeaturedRepositories(ctx context.Context) ([]*RepositoryUsage, error) {
+func QueryFeaturedRepositories(ctx context.Context) ([]*RepositoryUsageRow, error) {
 	bq := apiclient.NewBigQueryClient()
 	q := bq.Query(`
   SELECT 
@@ -36,9 +36,9 @@ func QueryFeaturedRepositories(ctx context.Context) ([]*RepositoryUsage, error) 
 	if err != nil {
 		return nil, err
 	}
-	rows := make([]*RepositoryUsage, 0, it.TotalRows)
+	rows := make([]*RepositoryUsageRow, 0, it.TotalRows)
 	for {
-		var row RepositoryUsage
+		var row RepositoryUsageRow
 		err := it.Next(&row)
 		if err == iterator.Done {
 			break
@@ -49,4 +49,38 @@ func QueryFeaturedRepositories(ctx context.Context) ([]*RepositoryUsage, error) 
 		rows = append(rows, &row)
 	}
 	return rows, nil
+}
+
+type UsageStatsRow struct {
+	Owners       int64 `json:"owners"`
+	Repositories int64 `json:"repositories"`
+}
+
+func QueryUsageStats(ctx context.Context) (*UsageStatsRow, error) {
+	bq := apiclient.NewBigQueryClient()
+	q := bq.Query(`
+  SELECT 
+  	count(DISTINCT owner) owners,
+  	count(DISTINCT repository) repositories,
+  FROM
+	` + "`contributors-img.repository_usage.weekly_repository_usage`" + `
+  WHERE
+    days >= 5`)
+	it, err := q.Read(ctx)
+	if err != nil {
+		return nil, err
+	}
+	rows := make([]*UsageStatsRow, 0, it.TotalRows)
+	for {
+		var row UsageStatsRow
+		err := it.Next(&row)
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return nil, err
+		}
+		rows = append(rows, &row)
+	}
+	return rows[0], nil
 }
