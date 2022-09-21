@@ -1,11 +1,15 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Clipboard, ClipboardModule } from '@angular/cdk/clipboard';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Repository } from '../../../models/repository';
 
 @Component({
   selector: 'app-image-snippet',
   template: `
-    <div class="heading">Copy & Paste in README.md</div>
-    <textarea class="snippet" readonly rows="5" style="padding: 8px">{{ imageSnippet }}</textarea>
+    <div class="heading">Copy & Paste to README.md</div>
+    <textarea class="snippet" readonly rows="5" (click)="copyToClipboard()">{{
+      imageSnippet
+    }}</textarea>
     <div>
       <span class="">Available options (Add to image URL query params)</span>
       <dl style="margin: 4px 0">
@@ -21,8 +25,12 @@ import { Repository } from '../../../models/repository';
   styleUrls: ['./image-snippet.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
+  imports: [ClipboardModule, MatSnackBarModule],
 })
 export class ImageSnippetComponent {
+  private readonly clipboard = inject(Clipboard);
+  private readonly snackBar = inject(MatSnackBar);
+
   @Input() repository: Repository;
 
   get imageSnippet(): string {
@@ -33,5 +41,10 @@ export class ImageSnippetComponent {
 </a>
 
 Made with [contrib.rocks](${location.origin}).`.trim();
+  }
+
+  copyToClipboard() {
+    this.clipboard.copy(this.imageSnippet);
+    this.snackBar.open('Copied to clipboard!', undefined, { duration: 2000 });
   }
 }
