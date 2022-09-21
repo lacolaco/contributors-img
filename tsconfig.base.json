@@ -18,10 +18,7 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "skipLibCheck": true,
-    "paths": {
-      "@lib/core": ["./libs/core/src/index.ts"],
-      "@lib/core/testing": ["./libs/core/src/testing/index.ts"]
-    },
+    "paths": {},
     "rootDir": "."
   },
   "angularCompilerOptions": {

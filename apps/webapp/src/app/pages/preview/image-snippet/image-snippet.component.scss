@@ -1,0 +1,16 @@
+:host {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  font-weight: bold;
+  padding-bottom: 8px;
+}
+
+.snippet {
+  margin-bottom: 8px;
+  padding: 8px;
+  font-family: monospace;
+}

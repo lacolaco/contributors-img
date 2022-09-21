@@ -5,6 +5,7 @@
     "github>lacolaco/renovate-config:ng-update"
   ],
   "stabilityDays": 5,
+  "postUpdateOptions": ["yarnDedupeHighest", "gomodTidy"],
   "packageRules": [
     {
       "depTypeList": ["devDependencies"],

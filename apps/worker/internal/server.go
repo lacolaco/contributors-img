@@ -1,7 +1,6 @@
 package app
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
@@ -22,20 +21,35 @@ func StartServer() error {
 
 	http.HandleFunc("/update-featured-repositories", func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		repositories, err := QueryFeaturedRepositories(ctx)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(err.Error()))
-			return
+		{
+			repositories, err := QueryFeaturedRepositories(ctx)
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte(err.Error()))
+				return
+			}
+			err = SaveFeaturedRepositories(ctx, appEnv, repositories, time.Now())
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte(err.Error()))
+				return
+			}
 		}
-		err = SaveFeaturedRepositories(ctx, appEnv, repositories, time.Now())
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(err.Error()))
-			return
+		{
+			stats, err := QueryUsageStats(ctx)
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte(err.Error()))
+				return
+			}
+			err = SaveUsageStats(ctx, appEnv, stats, time.Now())
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte(err.Error()))
+				return
+			}
 		}
-		body, _ := json.MarshalIndent(repositories, "", "  ")
-		w.Write(body)
+		w.Write([]byte("OK"))
 	})
 
 	fmt.Printf("Listening on http://localhost:%s\n", port)

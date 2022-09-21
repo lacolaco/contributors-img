@@ -1,0 +1,23 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: block;
+}
+
+.pane {
+  @include mat.elevation(4);
+
+  min-width: 50vw;
+  padding: 16px;
+  border-radius: 8px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > :not(:last-child) {
+    margin-bottom: 16px;
+  }
+
+  transition: height 300ms;
+}
