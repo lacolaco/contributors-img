@@ -31,6 +31,9 @@
     "firebase": "firebase"
   },
   "private": true,
+  "engines": {
+    "node": "^16.17.0"
+  },
   "dependencies": {
     "@angular/animations": "14.2.2",
     "@angular/cdk": "14.2.2",
