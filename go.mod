@@ -14,7 +14,7 @@ require (
 	github.com/google/go-github/v45 v45.2.0
 	go.ajitem.com/zapdriver v1.4.1
 	golang.org/x/exp v0.0.0-20220916125017-b168a2c6b86b
-	golang.org/x/oauth2 v0.0.0-20220909003341-f21342109be1
+	golang.org/x/oauth2 v0.0.0-20221014153046-6fdb5e3db783
 	google.golang.org/api v0.96.0
 )
 
