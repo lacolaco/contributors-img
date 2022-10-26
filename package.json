@@ -72,7 +72,7 @@
     "@nrwl/workspace": "14.8.6",
     "@types/jest": "28.1.8",
     "@types/jsdom": "20.0.0",
-    "@types/node": "18.0.0",
+    "@types/node": "18.11.3",
     "@typescript-eslint/eslint-plugin": "5.38.1",
     "@typescript-eslint/parser": "5.38.1",
     "eslint": "8.23.1",
