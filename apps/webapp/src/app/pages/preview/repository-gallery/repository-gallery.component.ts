@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { RouterLinkWithHref } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { FeaturedRepository } from '../../../models/repository';
 import { RepositoryImageUrlPipe } from './repository-image-url.pipe';
 
@@ -10,7 +10,7 @@ import { RepositoryImageUrlPipe } from './repository-image-url.pipe';
   styleUrls: ['./repository-gallery.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, RouterLinkWithHref, RepositoryImageUrlPipe],
+  imports: [CommonModule, RouterLink, RepositoryImageUrlPipe],
 })
 export class RepositoryGalleryComponent {
   @Input()
