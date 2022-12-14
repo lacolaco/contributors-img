@@ -1,17 +1,17 @@
 {
+  "name": "webapp",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "namedInputs": {
     "default": ["{projectRoot}/**/*"],
     "prod": ["!{projectRoot}/**/*.spec.ts"]
   },
   "tags": ["app"],
-  "root": "apps/webapp",
   "sourceRoot": "apps/webapp/src",
   "projectType": "application",
   "prefix": "app",
   "targets": {
     "build": {
-      "builder": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:browser",
       "options": {
         "outputPath": "dist/apps/webapp",
         "index": "apps/webapp/src/index.html",
@@ -78,7 +78,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "builder": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
         "proxyConfig": "apps/webapp/proxy.conf.json",
         "browserTarget": "webapp:build:development"
@@ -90,26 +90,26 @@
       }
     },
     "extract-i18n": {
-      "builder": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
         "browserTarget": "webapp:build"
       }
     },
     "lint": {
-      "builder": "@nrwl/linter:eslint",
+      "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": ["apps/webapp/**/*.ts", "apps/webapp/**/*.html"]
       }
     },
     "test": {
-      "builder": "@nrwl/jest:jest",
+      "executor": "@nrwl/jest:jest",
       "options": {
         "jestConfig": "apps/webapp/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "format": {
-      "builder": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "inputs": ["default"],
       "options": {
         "command": "yarn prettier -w '.'",

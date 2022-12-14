@@ -26,6 +26,9 @@
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"]
+    },
+    "test": {
+      "inputs": ["default", "^default"]
     }
   },
   "cli": {
