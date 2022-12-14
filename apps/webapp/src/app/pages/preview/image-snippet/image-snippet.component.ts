@@ -1,15 +1,16 @@
 import { Clipboard, ClipboardModule } from '@angular/cdk/clipboard';
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarModule as MatSnackBarModule,
+} from '@angular/material/legacy-snack-bar';
 import { Repository } from '../../../models/repository';
 
 @Component({
   selector: 'app-image-snippet',
   template: `
     <div class="heading">Copy & Paste to README.md</div>
-    <textarea class="snippet" readonly rows="5" (click)="copyToClipboard()">{{
-      imageSnippet
-    }}</textarea>
+    <textarea class="snippet" readonly rows="5" (click)="copyToClipboard()">{{ imageSnippet }}</textarea>
     <div>
       <span class="">Available options (Add to image URL query params)</span>
       <dl style="margin: 4px 0">

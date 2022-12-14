@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { SvgViewComponent } from '../../../components/svg-view/svg-view.component';
 import { Repository } from '../../../models';
 import { ImageSnippetComponent } from '../image-snippet/image-snippet.component';
