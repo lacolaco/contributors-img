@@ -3,7 +3,7 @@ module contrib.rocks
 go 1.19
 
 require (
-	cloud.google.com/go/bigquery v1.43.0
+	cloud.google.com/go/bigquery v1.44.0
 	cloud.google.com/go/firestore v1.6.1
 	cloud.google.com/go/logging v1.6.1
 	cloud.google.com/go/storage v1.28.1
