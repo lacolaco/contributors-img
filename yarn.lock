@@ -6604,7 +6604,7 @@ esbuild-windows-arm64@0.15.13:
   resolved "https://registry.yarnpkg.com/esbuild-windows-arm64/-/esbuild-windows-arm64-0.15.13.tgz#4ffd01b6b2888603f1584a2fe96b1f6a6f2b3dd8"
   integrity sha512-3bv7tqntThQC9SWLRouMDmZnlOukBhOCTlkzNqzGCmrkCJI7io5LLjwJBOVY6kOUlIvdxbooNZwjtBvj+7uuVg==
 
-esbuild@0.15.13, esbuild@>=0.13.8, esbuild@^0.15.7:
+esbuild@0.15.13, esbuild@>=0.13.8:
   version "0.15.13"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.15.13.tgz#7293480038feb2bafa91d3f6a20edab3ba6c108a"
   integrity sha512-Cu3SC84oyzzhrK/YyN4iEVy2jZu5t2fz66HEOShHURcjSkOSAVL8C/gfUT+lDJxkVHpg8GZ10DD0rMHRPqMFaQ==
@@ -7219,10 +7219,10 @@ find-up@^5.0.0:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
 
-firebase-tools@11.17.0:
-  version "11.17.0"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-11.17.0.tgz#d433ba61ccf183145599087b29aadf4ececcd228"
-  integrity sha512-ho0O57W9kEBCUCz/q5xScV0NE9dkSYZHQI3qTKb3Pc1ELvjcQChz9KRbLZc8pPjaxmRNeSwSFn2mOYetq33VDg==
+firebase-tools@11.19.0:
+  version "11.19.0"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-11.19.0.tgz#a12ddbad34f64567a4002c812d5d23b7545ed22a"
+  integrity sha512-J1gM10/KwWUIfR59PgkPnsDWAqyqQP9BDb6/3lOPMaYF9IMgV59lDpLaHRBt8V8NOvfbxhyFt66erRH6KsDPuw==
   dependencies:
     "@google-cloud/pubsub" "^3.0.1"
     abort-controller "^3.0.0"
@@ -7284,8 +7284,6 @@ firebase-tools@11.17.0:
     winston "^3.0.0"
     winston-transport "^4.4.0"
     ws "^7.2.3"
-  optionalDependencies:
-    esbuild "^0.15.7"
 
 firebase@9.9.1, firebase@^9.8.0:
   version "9.9.1"
