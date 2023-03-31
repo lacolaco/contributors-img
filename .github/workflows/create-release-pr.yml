@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: pull-request-action
-        uses: vsoch/pull-request-action@1.0.23
+        uses: vsoch/pull-request-action@1.0.24
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH_PREFIX: 'main'
