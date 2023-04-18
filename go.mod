@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	cloud.google.com/go/bigquery v1.44.0
-	cloud.google.com/go/firestore v1.6.1
+	cloud.google.com/go/firestore v1.9.0
 	cloud.google.com/go/logging v1.6.1
 	cloud.google.com/go/storage v1.28.1
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b
@@ -30,6 +30,7 @@ require (
 	go.opentelemetry.io/otel/metric v0.34.0 // indirect
 	go.opentelemetry.io/otel/sdk/metric v0.34.0 // indirect
 	golang.org/x/arch v0.0.0-20210923205945-b76863e36670 // indirect
+	golang.org/x/time v0.1.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
