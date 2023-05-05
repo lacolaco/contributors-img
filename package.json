@@ -49,7 +49,7 @@
     "@rx-angular/state": "1.7.0",
     "firebase": "9.9.1",
     "normalize.css": "8.0.1",
-    "rxjs": "7.8.0",
+    "rxjs": "7.8.1",
     "tslib": "2.5.0",
     "zone.js": "0.11.5"
   },
