@@ -13,7 +13,7 @@ require (
 	github.com/gin-gonic/gin v1.9.0
 	github.com/google/go-github/v45 v45.2.0
 	go.ajitem.com/zapdriver v1.4.1
-	golang.org/x/exp v0.0.0-20230321023759-10a507213a29
+	golang.org/x/exp v0.0.0-20230425010034-47ecfdc1ba53
 	golang.org/x/oauth2 v0.6.0
 	google.golang.org/api v0.114.0
 )
