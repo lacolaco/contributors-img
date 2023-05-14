@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	imageMaxAge = 60 * 60 * 24 // 24 hours
+	imageMaxAge = 60 * 60 * 24 * 3 // 3 days
 )
 
 type ImageService interface {
