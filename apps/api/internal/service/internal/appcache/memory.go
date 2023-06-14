@@ -36,9 +36,9 @@ func (cache *memoryCache) GetJSON(c context.Context, name string, v any) error {
 	}
 	return json.Unmarshal(cached, &v)
 }
-func (cache *memoryCache) Save(c context.Context, name string, data []byte, contentType string) error {
+func (cache *memoryCache) Save(c context.Context, name string, data []byte, contentType string) (model.FileHandle, error) {
 	cache.fileCache[name] = &memoryFileHandle{data, contentType}
-	return nil
+	return cache.fileCache[name], nil
 }
 func (cache *memoryCache) SaveJSON(c context.Context, name string, v any) error {
 	data, err := json.Marshal(v)
@@ -70,4 +70,8 @@ func (f *memoryFileHandle) Reader() io.ReadCloser {
 
 func (f *memoryFileHandle) Size() int64 {
 	return int64(len(f.data))
+}
+
+func (f *memoryFileHandle) DownloadURL() string {
+	return ""
 }

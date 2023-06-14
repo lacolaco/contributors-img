@@ -7,4 +7,5 @@ type FileHandle interface {
 	ContentType() string
 	Size() int64
 	ETag() string
+	DownloadURL() string
 }

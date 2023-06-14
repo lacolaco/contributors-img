@@ -1,8 +1,11 @@
 package renderer
 
-import "contrib.rocks/libs/go/model"
+import "io"
 
 type Image interface {
-	model.FileHandle
+	Reader() io.ReadCloser
+	ContentType() string
+	Size() int64
+	ETag() string
 	Bytes() []byte
 }

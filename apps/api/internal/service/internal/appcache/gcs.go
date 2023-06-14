@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"time"
 
 	"cloud.google.com/go/storage"
 	"contrib.rocks/apps/api/internal/tracing"
@@ -49,7 +50,21 @@ func (s *gcsCache) GetJSON(c context.Context, name string, v any) error {
 	return json.NewDecoder(r).Decode(&v)
 }
 
-func (s *gcsCache) Save(c context.Context, name string, data []byte, contentType string) error {
+func (s *gcsCache) GetSignedURL(c context.Context, name string) (string, error) {
+	_, span := tracing.Tracer().Start(c, "appcache.Get")
+	defer span.End()
+
+	url, err := s.bucket.SignedURL(name, &storage.SignedURLOptions{
+		Method:  "GET",
+		Expires: time.Now().Add(24 * time.Hour),
+	})
+	if err != nil {
+		return "", err
+	}
+	return url, nil
+}
+
+func (s *gcsCache) Save(c context.Context, name string, data []byte, contentType string) (model.FileHandle, error) {
 	ctx, span := tracing.Tracer().Start(c, "appcache.Save")
 	defer span.End()
 	return saveFile(s.bucket, ctx, name, data, contentType)
@@ -63,7 +78,8 @@ func (s *gcsCache) SaveJSON(c context.Context, name string, v any) error {
 	if err != nil {
 		return err
 	}
-	return saveFile(s.bucket, ctx, name, data, "application/json")
+	_, err = saveFile(s.bucket, ctx, name, data, "application/json")
+	return err
 }
 
 func getFile(bucket *storage.BucketHandle, c context.Context, name string) (model.FileHandle, error) {
@@ -96,6 +112,17 @@ func getFile(bucket *storage.BucketHandle, c context.Context, name string) (mode
 		file.reader = r
 		return nil
 	})
+	eg.Go(func() error {
+		url, err := bucket.SignedURL(name, &storage.SignedURLOptions{
+			Method:  "GET",
+			Expires: time.Now().Add(24 * time.Hour),
+		})
+		if err != nil {
+			return err
+		}
+		file.signedURL = url
+		return nil
+	})
 	err := eg.Wait()
 	if err != nil {
 		if file.reader != nil {
@@ -106,12 +133,13 @@ func getFile(bucket *storage.BucketHandle, c context.Context, name string) (mode
 		}
 		return nil, err
 	}
+
 	return file, nil
 }
 
-func saveFile(bucket *storage.BucketHandle, c context.Context, name string, data []byte, contentType string) error {
+func saveFile(bucket *storage.BucketHandle, c context.Context, name string, data []byte, contentType string) (model.FileHandle, error) {
 	if bucket == nil {
-		return nil
+		return nil, nil
 	}
 	ctx, span := tracing.Tracer().Start(c, "appcache.saveFile")
 	defer span.End()
@@ -121,14 +149,18 @@ func saveFile(bucket *storage.BucketHandle, c context.Context, name string, data
 	defer w.Close()
 	w.ContentType = contentType
 	_, err := w.Write(data)
-	return err
+	if err != nil {
+		return nil, err
+	}
+	return getFile(bucket, ctx, name)
 }
 
 var _ model.FileHandle = &gcsFileHandle{}
 
 type gcsFileHandle struct {
-	reader *storage.Reader
-	attrs  *storage.ObjectAttrs
+	reader    *storage.Reader
+	attrs     *storage.ObjectAttrs
+	signedURL string
 }
 
 func (h *gcsFileHandle) Reader() io.ReadCloser {
@@ -142,4 +174,7 @@ func (h *gcsFileHandle) ContentType() string {
 }
 func (h *gcsFileHandle) ETag() string {
 	return fmt.Sprintf("%x", h.attrs.MD5)
+}
+func (h *gcsFileHandle) DownloadURL() string {
+	return h.signedURL
 }
