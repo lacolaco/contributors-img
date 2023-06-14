@@ -56,11 +56,12 @@ func (s *Service) RenderImage(c context.Context, data *model.RepositoryContribut
 
 	image := renderer.NewRenderer(options).Render(data)
 
-	err = s.cache.Save(c, cacheKey, image.Bytes(), image.ContentType())
+	file, err := s.cache.Save(c, cacheKey, image.Bytes(), image.ContentType())
 	if err != nil {
 		return nil, err
 	}
-	return image, nil
+
+	return file, nil
 }
 
 func (s *Service) normalizeContributors(ctx context.Context, base *model.RepositoryContributors, options *renderer.RendererOptions, includeAnonymous bool) (*model.RepositoryContributors, error) {
