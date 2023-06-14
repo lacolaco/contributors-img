@@ -2,7 +2,6 @@ package renderer
 
 import (
 	"bytes"
-	"crypto/md5"
 	"fmt"
 	"io"
 	"math"
@@ -29,17 +28,8 @@ var _ Image = &svgImage{}
 
 type svgImage []byte
 
-func (i svgImage) Reader() io.ReadCloser {
-	return io.NopCloser(bytes.NewReader(i))
-}
-func (i svgImage) Size() int64 {
-	return int64(len(i))
-}
 func (i svgImage) ContentType() string {
 	return "image/svg+xml"
-}
-func (i svgImage) ETag() string {
-	return fmt.Sprintf("%x", md5.Sum(i.Bytes()))
 }
 func (i svgImage) Bytes() []byte {
 	return i
