@@ -1,6 +1,8 @@
 package renderer
 
 import (
+	"crypto/md5"
+	"fmt"
 	"strings"
 	"testing"
 
@@ -41,11 +43,27 @@ func TestRender_Title(t *testing.T) {
 	}
 }
 
+func TestSvgImage_Size(t *testing.T) {
+	img := svgImage([]byte("<svg></svg>"))
+	if img.Size() != 11 {
+		t.Fatalf("size not correct: %d", img.Size())
+	}
+}
+
 func TestSvgImage_ContentType(t *testing.T) {
 	t.Run("should be image/svg+xml", func(tt *testing.T) {
 		img := svgImage([]byte("<svg></svg>"))
 		if img.ContentType() != "image/svg+xml" {
 			tt.Fatalf("content type not correct: %s", img.ContentType())
+		}
+	})
+}
+
+func TestSvgImage_ETag(t *testing.T) {
+	t.Run("should be a MD5 hash", func(tt *testing.T) {
+		img := svgImage([]byte("<svg></svg>"))
+		if img.ETag() != fmt.Sprintf("%x", md5.Sum([]byte("<svg></svg>"))) {
+			tt.Fatalf("etag not correct: %s", img.ETag())
 		}
 	})
 }

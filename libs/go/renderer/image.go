@@ -1,6 +1,8 @@
 package renderer
 
+import "contrib.rocks/libs/go/model"
+
 type Image interface {
-	ContentType() string
+	model.FileHandle
 	Bytes() []byte
 }
