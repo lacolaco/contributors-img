@@ -16,7 +16,7 @@ import (
 )
 
 const (
-// imageMaxAge = 60 * 60 * 24 * 3 // 3 days
+	imageMaxAge = 60 * 60 * 24 * 3 // 3 days
 )
 
 type ImageService interface {
@@ -103,6 +103,15 @@ func (api *API) Get(c *gin.Context) {
 }
 
 func sendImage(c *gin.Context, image model.FileHandle) {
-	c.Status(http.StatusFound)
-	c.Header("Location", image.DownloadURL())
+	if c.GetHeader("If-None-Match") == image.ETag() {
+		c.Status(http.StatusNotModified)
+		c.Header("cache-control", fmt.Sprintf("public, max-age=%d", imageMaxAge))
+		return
+	}
+	r := image.Reader()
+	defer r.Close()
+	c.DataFromReader(http.StatusOK, image.Size(), image.ContentType(), r, map[string]string{
+		"cache-control": fmt.Sprintf(`public, max-age=%d`, imageMaxAge),
+		"etag":          image.ETag(),
+	})
 }
