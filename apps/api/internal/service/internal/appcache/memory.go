@@ -1,8 +1,12 @@
 package appcache
 
 import (
+	"bytes"
 	"context"
+	"crypto/md5"
 	"encoding/json"
+	"fmt"
+	"io"
 
 	"contrib.rocks/libs/go/model"
 )
@@ -32,9 +36,9 @@ func (cache *memoryCache) GetJSON(c context.Context, name string, v any) error {
 	}
 	return json.Unmarshal(cached, &v)
 }
-func (cache *memoryCache) Save(c context.Context, name string, data []byte, contentType string) (model.FileHandle, error) {
-	cache.fileCache[name] = &memoryFileHandle{name}
-	return cache.fileCache[name], nil
+func (cache *memoryCache) Save(c context.Context, name string, data []byte, contentType string) error {
+	cache.fileCache[name] = &memoryFileHandle{data, contentType}
+	return nil
 }
 func (cache *memoryCache) SaveJSON(c context.Context, name string, v any) error {
 	data, err := json.Marshal(v)
@@ -48,9 +52,22 @@ func (cache *memoryCache) SaveJSON(c context.Context, name string, v any) error 
 var _ model.FileHandle = &memoryFileHandle{}
 
 type memoryFileHandle struct {
-	name string
+	data        []byte
+	contentType string
 }
 
-func (f *memoryFileHandle) DownloadURL() string {
-	return f.name
+func (f *memoryFileHandle) ContentType() string {
+	return f.contentType
+}
+
+func (f *memoryFileHandle) ETag() string {
+	return fmt.Sprintf("%x", md5.Sum(f.data))
+}
+
+func (f *memoryFileHandle) Reader() io.ReadCloser {
+	return io.NopCloser(bytes.NewBuffer(f.data))
+}
+
+func (f *memoryFileHandle) Size() int64 {
+	return int64(len(f.data))
 }

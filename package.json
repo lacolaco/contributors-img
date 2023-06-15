@@ -32,7 +32,7 @@
   },
   "private": true,
   "engines": {
-    "node": "^18.x"
+    "node": "^16.17.0"
   },
   "dependencies": {
     "@angular/animations": "15.0.3",
