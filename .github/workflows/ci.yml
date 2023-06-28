@@ -1,9 +1,8 @@
 name: 'CI'
 
 on:
-  push:
-    branches-ignore:
-      - 'production'
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   install-deps:
