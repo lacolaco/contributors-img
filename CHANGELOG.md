@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/lacolaco/contributors-img/compare/v1.0.0...v1.0.1) (2023-06-28)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/gin-gonic/gin to v1.9.1 [security] ([#1468](https://github.com/lacolaco/contributors-img/issues/1468)) ([a7bfd12](https://github.com/lacolaco/contributors-img/commit/a7bfd12e679bbf6593b8dcd89aed0c76e4231f02))
+
 ## 1.0.0 (2023-06-28)
 
 
