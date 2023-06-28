@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       release_created: ${{ steps.release-please.outputs.release_created }}
+      release_ref: ${{ steps.release-please.outputs.sha }}
     permissions:
       contents: write
       pull-requests: write
@@ -29,5 +30,5 @@ jobs:
       id-token: 'write'
     uses: ./.github/workflows/deploy-production.yml
     with:
-      ref: ${{ github.sha }}
+      ref: ${{ needs.release-please.outputs.release_ref }}
     secrets: inherit
