@@ -36,14 +36,14 @@ jobs:
         uses: peter-evans/find-comment@v2
         id: fc
         with:
-          issue-number: ${{ needs.release-please.outputs.release_pr.number }}
+          issue-number: ${{ fromJSON(needs.release-please.outputs.release_pr).number }}
           comment-author: 'github-actions[bot]'
           body-includes: 'Preview:'
       - name: Create preview comment
         uses: peter-evans/create-or-update-comment@v3
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
-          issue-number: ${{ needs.release-please.outputs.release_pr.number }}
+          issue-number: ${{ fromJSON(needs.release-please.outputs.release_pr).number }}
           body: |
             Preview: ![](https://stg.contrib.rocks/image?repo=angular/angular-ja)
           edit-mode: replace
