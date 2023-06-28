@@ -45,8 +45,8 @@ jobs:
       - uses: ./.github/actions/setup-go
       - uses: imjasonh/setup-ko@v0.6
       - run: ko build --push=false ./apps/api
-        env: 
-          KO_DOCKER_REPO: ""
+        env:
+          KO_DOCKER_REPO: ''
 
   build-worker:
     runs-on: ubuntu-latest
@@ -56,8 +56,8 @@ jobs:
       - uses: ./.github/actions/setup-go
       - uses: imjasonh/setup-ko@v0.6
       - run: ko build --push=false ./apps/worker
-        env: 
-          KO_DOCKER_REPO: ""
+        env:
+          KO_DOCKER_REPO: ''
 
   test:
     runs-on: ubuntu-latest
