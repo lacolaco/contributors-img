@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       release_created: ${{ steps.release-please.outputs.release_created }}
+      release_pr: ${{ steps.release-please.outputs.pr }}
       release_ref: ${{ steps.release-please.outputs.sha }}
     permissions:
       contents: write
@@ -20,6 +21,31 @@ jobs:
         with:
           release-type: node
           package-name: contrib.rocks
+
+  create-preview-comment:
+    needs:
+      - release-please
+    if: ${{ needs.release-please.outputs.release_pr }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Find Comment
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ needs.release-please.outputs.release_pr.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: 'Preview:'
+      - name: Create preview comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ needs.release-please.outputs.release_pr.number }}
+          body: |
+            Preview: ![](https://stg.contrib.rocks/image?repo=angular/angular-ja)
+          edit-mode: replace
 
   run-deploy:
     needs:
