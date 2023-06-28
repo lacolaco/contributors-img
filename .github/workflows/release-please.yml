@@ -21,20 +21,11 @@ jobs:
           release-type: node
           package-name: contrib.rocks
 
-  install-deps:
-    runs-on: ubuntu-latest
+  run-deploy:
     needs:
       - release-please
     if: ${{ needs.release-please.outputs.release_created }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: 'package.json'
-          cache: yarn
-      - uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install --frozen-lockfile
-      - uses: ./.github/actions/setup-go
+    uses: ./.github/workflows/deploy-production.yml
+    with:
+      ref: ${{ github.sha }}
+    secrets: inherit

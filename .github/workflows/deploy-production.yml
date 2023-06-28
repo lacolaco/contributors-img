@@ -1,15 +1,21 @@
 name: 'Deploy (production)'
 
 on:
-  push:
-    branches:
-      - production
-
-env:
-  CLOUD_RUN_SERVICE_ACCOUNT: production-api@contributors-img.iam.gserviceaccount.com
-  CLOUD_RUN_SERVICE_NAME_API: production-api
-  CLOUD_RUN_SERVICE_NAME_WORKER: production-worker
-  APP_CACHE_BUCKET: cache.storage.contrib.rocks
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        description: 'Git ref to deploy (e.g. main, v1.0.0, c91ee3c, etc.)'
+        required: true
+    secrets:
+      GH_AUTH_TOKEN:
+        required: true
+  workflow_dispatch:
+    inputs:
+      ref:
+        type: string
+        description: 'Git ref to deploy (e.g. main, v1.0.0, c91ee3c, etc.)'
+        required: true
 
 permissions:
   contents: 'read'
@@ -20,6 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v3
         with:
           node-version-file: 'package.json'
@@ -32,15 +40,18 @@ jobs:
       - uses: ./.github/actions/setup-go
 
   deploy-api:
+    environment: production
     runs-on: ubuntu-latest
     needs: [install-deps]
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.ref }}
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
-          workload_identity_provider: 'projects/484218711641/locations/global/workloadIdentityPools/deploy-github-actions/providers/deploy-github-actions-provider'
-          service_account: 'deploy-service@contributors-img.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ vars.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GOOGLE_DEPLOY_SERVICE_ACCOUNT }}
       - uses: google-github-actions/setup-gcloud@v0
       - uses: ./.github/actions/setup-go
       - uses: imjasonh/setup-ko@v0.6
@@ -51,25 +62,28 @@ jobs:
         run: echo "::set-output name=image::$(ko build ./apps/api)"
       - name: Deploy to Cloud Run (api)
         run: |
-          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_API} \
+          gcloud --quiet beta run deploy ${{ vars.CLOUD_RUN_SERVICE_NAME_API }} \
           --image ${{ steps.build-api.outputs.image }} \
           --labels environment=production \
-          --service-account ${CLOUD_RUN_SERVICE_ACCOUNT} \
+          --service-account ${{ vars.CLOUD_RUN_SERVICE_ACCOUNT }} \
           --execution-environment gen1 --region us-central1 --platform managed --memory 512Mi --allow-unauthenticated \
           --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
-          --set-env-vars CACHE_STORAGE_BUCKET="${APP_CACHE_BUCKET}" \
+          --set-env-vars CACHE_STORAGE_BUCKET="${{ vars.APP_CACHE_BUCKET }}" \
           --set-env-vars APP_ENV="production"
 
   deploy-worker:
+    environment: production
     runs-on: ubuntu-latest
     needs: [install-deps]
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.ref }}
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
-          workload_identity_provider: 'projects/484218711641/locations/global/workloadIdentityPools/deploy-github-actions/providers/deploy-github-actions-provider'
-          service_account: 'deploy-service@contributors-img.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ vars.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GOOGLE_DEPLOY_SERVICE_ACCOUNT }}
       - uses: google-github-actions/setup-gcloud@v0
       - uses: ./.github/actions/setup-go
       - uses: imjasonh/setup-ko@v0.6
@@ -80,23 +94,26 @@ jobs:
         run: echo "::set-output name=image::$(ko build ./apps/worker)"
       - name: Deploy to Cloud Run (worker)
         run: |
-          gcloud --quiet beta run deploy ${CLOUD_RUN_SERVICE_NAME_WORKER} \
+          gcloud --quiet beta run deploy ${{ vars.CLOUD_RUN_SERVICE_NAME_WORKER }} \
           --image ${{ steps.build-worker.outputs.image }} \
           --labels environment=production \
-          --service-account ${CLOUD_RUN_SERVICE_ACCOUNT} \
+          --service-account ${{ vars.CLOUD_RUN_SERVICE_ACCOUNT }} \
           --execution-environment gen1 --region us-central1 --platform managed --memory 512Mi \
           --set-env-vars APP_ENV="production"
 
   deploy-webapp:
+    environment: production
     runs-on: ubuntu-latest
     needs: [deploy-api]
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.ref }}
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
-          workload_identity_provider: 'projects/484218711641/locations/global/workloadIdentityPools/deploy-github-actions/providers/deploy-github-actions-provider'
-          service_account: 'deploy-service@contributors-img.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ vars.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GOOGLE_DEPLOY_SERVICE_ACCOUNT }}
       - uses: actions/setup-node@v3
         with:
           node-version-file: 'package.json'
