@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/lacolaco/contributors-img/compare/v1.0.1...v1.0.2) (2023-07-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency firebase to v9.23.0 ([#1234](https://github.com/lacolaco/contributors-img/issues/1234)) ([b0cce0f](https://github.com/lacolaco/contributors-img/commit/b0cce0fe8a324370a977f3cfc4fb02807f710a22))
+* **deps:** update module cloud.google.com/go/bigquery to v1.52.0 ([#1471](https://github.com/lacolaco/contributors-img/issues/1471)) ([e0c656e](https://github.com/lacolaco/contributors-img/commit/e0c656ecb85cbdc23931335c51be510b9ec892f4))
+
 ## [1.0.1](https://github.com/lacolaco/contributors-img/compare/v1.0.0...v1.0.1) (2023-06-28)
 
 
