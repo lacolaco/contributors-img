@@ -34,6 +34,7 @@
   "engines": {
     "node": "18"
   },
+  "packageManager": "yarn@1.22.19",
   "dependencies": {
     "@angular/animations": "15.0.3",
     "@angular/cdk": "15.0.2",
