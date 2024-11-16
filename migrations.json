@@ -1,128 +1,69 @@
 {
   "migrations": [
     {
-      "version": "14.8.0-beta.0",
-      "description": "Migrates from @nrwl/workspace:run-commands to nx:run-commands",
       "cli": "nx",
-      "implementation": "./src/migrations/update-14-8-0/change-run-commands-executor",
-      "package": "@nrwl/workspace",
-      "name": "14-8-0-change-run-commands-executor"
+      "version": "16.2.0-beta.0",
+      "description": "Remove outputPath from run commands",
+      "implementation": "./src/migrations/update-16-2-0/remove-run-commands-output-path",
+      "package": "nx",
+      "name": "16.2.0-remove-output-path-from-run-commands"
     },
     {
       "cli": "nx",
-      "version": "15.0.0-beta.0",
-      "description": "Rename @nrwl/angular:webpack-server executor to @nrwl/angular:webpack-dev-server",
-      "factory": "./src/migrations/update-14-8-0/rename-webpack-server",
-      "package": "@nrwl/angular",
-      "name": "rename-webpack-server-executor"
+      "version": "16.6.0-beta.6",
+      "description": "Prefix outputs with {workspaceRoot}/{projectRoot} if needed",
+      "implementation": "./src/migrations/update-15-0-0/prefix-outputs",
+      "package": "nx",
+      "name": "16.6.0-prefix-outputs"
     },
     {
       "cli": "nx",
-      "version": "15.0.0-beta.0",
-      "description": "Update the usages of @nrwl/angular/testing to import jasmine-marbles symbols from jasmine-marbles itself.",
-      "factory": "./src/migrations/update-15-0-0/switch-to-jasmine-marbles",
-      "package": "@nrwl/angular",
-      "name": "switch-to-jasmine-marbles"
+      "version": "16.8.0-beta.3",
+      "description": "Escape $ in env variables",
+      "implementation": "./src/migrations/update-16-8-0/escape-dollar-sign-env-variables",
+      "package": "nx",
+      "name": "16.8.0-escape-dollar-sign-env"
     },
     {
       "cli": "nx",
-      "version": "15.0.0-beta.1",
-      "description": "Stop hashing karma spec files and config files for build targets and dependent tasks",
-      "factory": "./src/migrations/update-15-0-0/add-karma-inputs",
-      "package": "@nrwl/angular",
-      "name": "add-karma-inputs"
+      "version": "16.3.1-beta.0",
+      "description": "Replace @nrwl/node:webpack and @nx/node:webpack with @nx/webpack:webpack for all project targets",
+      "implementation": "./src/migrations/update-16-3-1/update-webpack-executor",
+      "package": "@nx/node",
+      "name": "update-16-3-1-update-executor"
     },
     {
       "cli": "nx",
-      "version": "15.2.0-beta.0",
-      "description": "Update the @angular/cli package version to ~15.0.0.",
-      "factory": "./src/migrations/update-15-2-0/update-angular-cli",
-      "package": "@nrwl/angular",
-      "name": "update-angular-cli-version-15-0-0"
+      "version": "16.4.0-beta.8",
+      "description": "Replace @nx/node:node with @nx/js:node for all project targets",
+      "implementation": "./src/migrations/update-16-4-0/replace-node-executor",
+      "package": "@nx/node",
+      "name": "update-16-4-0-replace-node-executor"
     },
     {
       "cli": "nx",
-      "version": "15.2.0-beta.0",
-      "description": "Remove browserlist config as it's handled by build-angular",
-      "factory": "./src/migrations/update-15-2-0/remove-browserlist-config",
-      "package": "@nrwl/angular",
-      "name": "remove-browserlist-config"
+      "version": "16.5.0-beta.2",
+      "description": "Add test-setup.ts to ignored files in production input",
+      "implementation": "./src/migrations/update-16-5-0/add-test-setup-to-inputs-ignore",
+      "package": "@nx/jest",
+      "name": "add-test-setup-to-inputs-ignore"
     },
     {
       "cli": "nx",
-      "version": "15.2.0-beta.0",
-      "description": "Update typescript target to ES2022",
-      "factory": "./src/migrations/update-15-2-0/update-typescript-target",
-      "package": "@nrwl/angular",
-      "name": "update-typescript-target"
-    },
-    {
-      "cli": "nx",
-      "version": "15.2.0-beta.0",
-      "description": "Remove bundleDependencies from server targets",
-      "factory": "./src/migrations/update-15-2-0/update-workspace-config",
-      "package": "@nrwl/angular",
-      "name": "update-workspace-config"
-    },
-    {
-      "cli": "ng",
-      "version": "15.2.0-beta.0",
+      "version": "16.1.0-beta.1",
+      "requires": { "@angular/core": ">=15.0.0" },
       "description": "Remove exported `@angular/platform-server` `renderModule` method. The `renderModule` method is now exported by the Angular CLI.",
-      "factory": "./src/migrations/update-15-2-0/remove-platform-server-exports",
-      "package": "@nrwl/angular",
-      "name": "update-platform-server-exports"
-    },
-    {
-      "cli": "ng",
-      "version": "15.2.0-beta.0",
-      "description": "Remove no longer needed require calls in Karma builder main file.",
-      "factory": "./src/migrations/update-15-2-0/update-karma-main-file",
-      "package": "@nrwl/angular",
-      "name": "update-karma-main-file"
-    },
-    {
-      "version": "15.0.0-beta",
-      "description": "Since Angular v15, the `RouterLink` contains the logic of the `RouterLinkWithHref` directive. This migration replaces all `RouterLinkWithHref` references with `RouterLink`.",
-      "factory": "./migrations/router-link-with-href/index",
-      "package": "@angular/core",
-      "name": "migration-v15-router-link-with-href"
-    },
-    {
-      "version": "15.0.0-beta",
-      "description": "In Angular version 15, the deprecated `relativeLinkResolution` config parameter of the Router is removed. This migration removes all `relativeLinkResolution` fields from the Router config objects.",
-      "factory": "./migrations/relative-link-resolution/index",
-      "package": "@angular/core",
-      "name": "migration-v15-relative-link-resolution"
-    },
-    {
-      "version": "15.0.0-0",
-      "description": "Updates the Angular Material to v15",
-      "factory": "./ng-update/index_bundled#updateToV15",
-      "package": "@angular/material",
-      "name": "migration-v15"
-    },
-    {
-      "version": "15.0.0-0",
-      "description": "Updates the Angular CDK to v15",
-      "factory": "./ng-update/index#updateToV15",
-      "package": "@angular/cdk",
-      "name": "migration-v15"
-    },
-    {
-      "version": "15.0.0-beta.0",
-      "cli": "nx",
-      "description": "Stop hashing jest spec files and config files for build targets and dependent tasks",
-      "factory": "./src/migrations/update-15-0-0/add-jest-inputs",
-      "package": "@nrwl/jest",
-      "name": "add-jest-inputs"
+      "factory": "./src/migrations/update-16-1-0/remove-render-module-platform-server-exports",
+      "package": "@nx/angular",
+      "name": "remove-render-module-platform-server-exports"
     },
     {
       "cli": "nx",
-      "version": "14.7.6-beta.1",
-      "description": "Update usages of webpack executors to @nrwl/webpack",
-      "factory": "./src/migrations/update-14-7-6/update-webpack-executor",
-      "package": "@nrwl/node",
-      "name": "update-webpack-executor"
+      "version": "16.6.0-beta.0",
+      "description": "Explicitly set 'updateBuildableProjectDepsInPackageJson' to 'true' in targets that rely on that value as the default.",
+      "factory": "./src/migrations/update-16-6-0/explicitly-set-projects-to-update-buildable-deps",
+      "package": "@nx/angular",
+      "name": "explicitly-set-projects-to-update-buildable-deps"
     }
   ]
 }

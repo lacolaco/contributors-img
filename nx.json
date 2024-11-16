@@ -1,19 +1,18 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "contributors-img",
   "affected": {
     "defaultBase": "main"
   },
-  "implicitDependencies": {
-    "workspace.json": "*",
-    "package.json": "*",
-    "tsconfig.json": "*",
-    "tsconfig.base.json": "*",
-    ".eslintrc.json": "*",
-    "nx.json": "*"
-  },
   "namedInputs": {
-    "default": ["{projectRoot}/**/*"]
+    "default": [
+      "{projectRoot}/**/*",
+      "{workspaceRoot}/tsconfig.base.json",
+      "{workspaceRoot}/tsconfig.json",
+      "{workspaceRoot}/nx.json",
+      "{workspaceRoot}/package.json",
+      "{workspaceRoot}/workspace.json",
+      "{workspaceRoot}/.eslintrc.json"
+    ]
   },
   "tasksRunnerOptions": {
     "default": {
@@ -31,20 +30,17 @@
       "inputs": ["default", "^default"]
     }
   },
-  "cli": {
-    "defaultCollection": "@nrwl/angular"
-  },
   "generators": {
-    "@nrwl/angular:application": {
+    "@nx/angular:application": {
       "unitTestRunner": "jest",
       "e2eTestRunner": "none",
       "strict": true
     },
-    "@nrwl/angular:library": {
+    "@nx/angular:library": {
       "unitTestRunner": "jest",
       "strict": true
     },
-    "@nrwl/angular:component": {
+    "@nx/angular:component": {
       "style": "scss",
       "changeDetection": "OnPush"
     },
