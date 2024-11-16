@@ -14,12 +14,12 @@ require (
 	github.com/google/go-github/v45 v45.2.0
 	go.ajitem.com/zapdriver v1.4.1
 	golang.org/x/exp v0.0.0-20230626212559-97b1e661b5df
-	golang.org/x/oauth2 v0.9.0
+	golang.org/x/oauth2 v0.24.0
 	google.golang.org/api v0.126.0
 )
 
 require (
-	cloud.google.com/go/compute/metadata v0.2.3 // indirect
+	cloud.google.com/go/compute/metadata v0.3.0 // indirect
 	cloud.google.com/go/longrunning v0.4.2 // indirect
 	github.com/apache/arrow/go/v12 v12.0.0 // indirect
 	github.com/apache/thrift v0.16.0 // indirect
@@ -53,7 +53,6 @@ require (
 
 require (
 	cloud.google.com/go v0.110.2 // indirect
-	cloud.google.com/go/compute v1.19.3 // indirect
 	cloud.google.com/go/iam v1.1.0 // indirect
 	cloud.google.com/go/trace v1.9.0 // indirect
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go v1.8.0
