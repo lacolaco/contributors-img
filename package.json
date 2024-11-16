@@ -31,9 +31,6 @@
     "firebase": "firebase"
   },
   "private": true,
-  "engines": {
-    "node": "18"
-  },
   "packageManager": "yarn@1.22.22",
   "dependencies": {
     "@angular/animations": "17.1.3",
