@@ -1,19 +1,18 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "contributors-img",
   "affected": {
     "defaultBase": "main"
   },
-  "implicitDependencies": {
-    "workspace.json": "*",
-    "package.json": "*",
-    "tsconfig.json": "*",
-    "tsconfig.base.json": "*",
-    ".eslintrc.json": "*",
-    "nx.json": "*"
-  },
   "namedInputs": {
-    "default": ["{projectRoot}/**/*"]
+    "default": [
+      "{projectRoot}/**/*",
+      "{workspaceRoot}/tsconfig.base.json",
+      "{workspaceRoot}/tsconfig.json",
+      "{workspaceRoot}/nx.json",
+      "{workspaceRoot}/package.json",
+      "{workspaceRoot}/workspace.json",
+      "{workspaceRoot}/.eslintrc.json"
+    ]
   },
   "tasksRunnerOptions": {
     "default": {
@@ -30,9 +29,6 @@
     "test": {
       "inputs": ["default", "^default"]
     }
-  },
-  "cli": {
-    "defaultCollection": "@nx/angular"
   },
   "generators": {
     "@nx/angular:application": {
