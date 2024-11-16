@@ -7,7 +7,7 @@ toolchain go1.23.3
 require (
 	cloud.google.com/go/bigquery v1.52.0
 	cloud.google.com/go/firestore v1.9.0
-	cloud.google.com/go/logging v1.7.0
+	cloud.google.com/go/logging v1.12.0
 	cloud.google.com/go/storage v1.30.1
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b
 	github.com/andybalholm/brotli v1.0.5
