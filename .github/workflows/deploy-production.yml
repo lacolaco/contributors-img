@@ -116,7 +116,7 @@ jobs:
           service_account: ${{ vars.GOOGLE_DEPLOY_SERVICE_ACCOUNT }}
       - uses: actions/setup-node@v4
         with:
-          node-version-file: 'package.json'
+          node-version-file: '.node-version'
           cache: yarn
       - uses: actions/cache@v3
         with:
