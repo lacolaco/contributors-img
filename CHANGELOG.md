@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.3](https://github.com/lacolaco/contributors-img/compare/v1.0.2...v1.0.3) (2024-11-16)
+
+
+### Bug Fixes
+
+* **deps:** update module golang.org/x/oauth2 to v0.24.0 ([#1505](https://github.com/lacolaco/contributors-img/issues/1505)) ([95873fd](https://github.com/lacolaco/contributors-img/commit/95873fd4238993afd47985f00a7e6743416226a2))
+* **deps:** update module golang.org/x/sync to v0.9.0 ([#1506](https://github.com/lacolaco/contributors-img/issues/1506)) ([f602cf9](https://github.com/lacolaco/contributors-img/commit/f602cf9bd0b34968d01287fff8a2ef9b0c8421f7))
+* upgrade Angular to v16 ([#1500](https://github.com/lacolaco/contributors-img/issues/1500)) ([9988e6a](https://github.com/lacolaco/contributors-img/commit/9988e6aa80d132d1354419402f6e9363ccf8d621))
+
 ## [1.0.2](https://github.com/lacolaco/contributors-img/compare/v1.0.1...v1.0.2) (2023-07-02)
 
 ### Bug Fixes
