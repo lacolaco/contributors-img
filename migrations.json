@@ -2,112 +2,164 @@
   "migrations": [
     {
       "cli": "nx",
-      "version": "15.5.0-beta.0",
-      "requires": { "@angular/core": ">=15.1.0" },
-      "description": "Update the @angular/cli package version to ~15.1.0.",
-      "factory": "./src/migrations/update-15-5-0/update-angular-cli",
-      "package": "@nx/angular",
-      "name": "update-angular-cli-version-15-1-0"
+      "version": "17.0.0-beta.1",
+      "description": "Updates the default cache directory to .nx/cache",
+      "implementation": "./src/migrations/update-17-0-0/move-cache-directory",
+      "package": "nx",
+      "name": "17.0.0-move-cache-directory"
     },
     {
       "cli": "nx",
-      "version": "15.8.0-beta.4",
-      "requires": { "@angular/core": ">=15.2.0" },
-      "description": "Update the @angular/cli package version to ~15.2.0.",
-      "factory": "./src/migrations/update-15-8-0/update-angular-cli",
-      "package": "@nx/angular",
-      "name": "update-angular-cli-version-15-2-0"
+      "version": "17.0.0-beta.3",
+      "description": "Use minimal config for tasksRunnerOptions",
+      "implementation": "./src/migrations/update-17-0-0/use-minimal-config-for-tasks-runner-options",
+      "package": "nx",
+      "name": "17.0.0-use-minimal-config-for-tasks-runner-options"
+    },
+    {
+      "version": "17.0.0-rc.1",
+      "description": "Migration for v17.0.0-rc.1",
+      "implementation": "./src/migrations/update-17-0-0/rm-default-collection-npm-scope",
+      "package": "nx",
+      "name": "rm-default-collection-npm-scope"
     },
     {
       "cli": "nx",
-      "version": "16.1.0-beta.1",
-      "requires": { "@angular/core": ">=16.0.0-rc.4" },
-      "description": "Remove 'ngcc' invocation if exists from the 'postinstall' script in package.json.",
-      "factory": "./src/migrations/update-16-1-0/remove-ngcc-invocation",
-      "package": "@nx/angular",
-      "name": "remove-ngcc-invocation"
+      "version": "17.3.0-beta.6",
+      "description": "Updates the nx wrapper.",
+      "implementation": "./src/migrations/update-17-3-0/update-nxw",
+      "package": "nx",
+      "name": "17.3.0-update-nx-wrapper"
     },
     {
       "cli": "nx",
-      "version": "16.1.0-beta.1",
-      "requires": { "@angular/core": ">=16.0.0-rc.4" },
-      "description": "Extract the app config for standalone apps",
-      "factory": "./src/migrations/update-16-1-0/extract-standalone-config-from-bootstrap",
-      "package": "@nx/angular",
-      "name": "extract-app-config-for-standalone"
+      "version": "17-2-6-beta.1",
+      "description": "Rename workspace rules from @nx/workspace/name to @nx/workspace-name",
+      "implementation": "./src/migrations/update-17-2-6-rename-workspace-rules/rename-workspace-rules",
+      "package": "@nx/eslint-plugin",
+      "name": "update-17-2-6-rename-workspace-rules"
+    },
+    {
+      "version": "17.1.0-beta.2",
+      "description": "Move jest executor options to nx.json targetDefaults",
+      "implementation": "./src/migrations/update-17-1-0/move-options-to-target-defaults",
+      "package": "@nx/jest",
+      "name": "move-options-to-target-defaults"
     },
     {
       "cli": "nx",
-      "version": "16.1.0-beta.1",
-      "requires": { "@angular/core": ">=16.0.0-rc.4" },
-      "description": "Update server executors' configuration to disable 'buildOptimizer' for non optimized builds.",
-      "factory": "./src/migrations/update-16-1-0/update-server-executor-config",
+      "version": "17.1.0-beta.5",
+      "requires": { "@angular/core": ">=17.0.0" },
+      "description": "Update the @angular/cli package version to ~17.0.0.",
+      "factory": "./src/migrations/update-17-1-0/update-angular-cli",
       "package": "@nx/angular",
-      "name": "update-server-executor-config"
+      "name": "update-angular-cli-version-17-0-0"
     },
     {
       "cli": "nx",
-      "version": "16.1.0-beta.1",
-      "requires": { "@angular/core": ">=16.0.0" },
-      "description": "Update the @angular/cli package version to ~16.0.0.",
-      "factory": "./src/migrations/update-16-1-0/update-angular-cli",
+      "version": "17.1.0-beta.5",
+      "requires": { "@angular/core": ">=17.0.0" },
+      "description": "Rename 'browserTarget' to 'buildTarget'.",
+      "factory": "./src/migrations/update-17-1-0/browser-target-to-build-target",
       "package": "@nx/angular",
-      "name": "update-angular-cli-version-16-0-0"
+      "name": "rename-browser-target-to-build-target"
     },
     {
       "cli": "nx",
-      "version": "16.4.0-beta.6",
-      "requires": { "@angular-eslint/eslint-plugin-template": ">=16.0.0" },
-      "description": "Remove the 'accessibility-' prefix from '@angular-eslint/eslint-plugin-template' rules.",
-      "factory": "./src/migrations/update-16-4-0/rename-angular-eslint-accesibility-rules",
+      "version": "17.1.0-beta.5",
+      "requires": { "@angular/core": ">=17.0.0" },
+      "description": "Replace usages of '@nguniversal/builders' with '@angular-devkit/build-angular'.",
+      "factory": "./src/migrations/update-17-1-0/replace-nguniversal-builders",
       "package": "@nx/angular",
-      "name": "rename-angular-eslint-accesibility-rules"
+      "name": "replace-nguniversal-builders"
     },
     {
       "cli": "nx",
-      "version": "16.4.0-beta.11",
-      "requires": { "@angular/core": ">=16.1.0" },
-      "description": "Update the @angular/cli package version to ~16.1.0.",
-      "factory": "./src/migrations/update-16-4-0/update-angular-cli",
+      "version": "17.1.0-beta.5",
+      "requires": { "@angular/core": ">=17.0.0" },
+      "description": "Replace usages of '@nguniversal/' packages with '@angular/ssr'.",
+      "factory": "./src/migrations/update-17-1-0/replace-nguniversal-engines",
       "package": "@nx/angular",
-      "name": "update-angular-cli-version-16-1-0"
+      "name": "replace-nguniversal-engines"
     },
     {
       "cli": "nx",
-      "version": "16.7.0-beta.6",
-      "requires": { "@angular/core": ">=16.2.0" },
-      "description": "Update the @angular/cli package version to ~16.2.0.",
-      "factory": "./src/migrations/update-16-7-0/update-angular-cli",
+      "version": "17.1.0-beta.5",
+      "requires": { "@angular/core": ">=17.0.0" },
+      "description": "Replace the deep imports from 'zone.js/dist/zone' and 'zone.js/dist/zone-testing' with 'zone.js' and 'zone.js/testing'.",
+      "factory": "./src/migrations/update-17-1-0/update-zone-js-deep-import",
       "package": "@nx/angular",
-      "name": "update-angular-cli-version-16-2-0"
+      "name": "update-zone-js-deep-import"
     },
     {
-      "version": "16.0.0",
-      "description": "As of Angular v16, the `moduleId` property of `@Component` is deprecated as it no longer has any effect.",
-      "factory": "./migrations/remove-module-id/bundle",
+      "cli": "nx",
+      "version": "17.2.0-beta.2",
+      "description": "Rename '@nx/angular:webpack-dev-server' executor to '@nx/angular:dev-server'",
+      "factory": "./src/migrations/update-17-2-0/rename-webpack-dev-server",
+      "package": "@nx/angular",
+      "name": "rename-webpack-dev-server-executor"
+    },
+    {
+      "cli": "nx",
+      "version": "17.3.0-beta.10",
+      "requires": { "@angular/core": ">=17.1.0" },
+      "description": "Update the @angular/cli package version to ~17.1.0.",
+      "factory": "./src/migrations/update-17-3-0/update-angular-cli",
+      "package": "@nx/angular",
+      "name": "update-angular-cli-version-17-1-0"
+    },
+    {
+      "cli": "nx",
+      "version": "17.3.0-beta.10",
+      "requires": { "@angular/core": ">=17.1.0" },
+      "description": "Add 'browser-sync' as dev dependency when '@angular-devkit/build-angular:ssr-dev-server' or '@nx/angular:module-federation-dev-ssr' is used.",
+      "factory": "./src/migrations/update-17-3-0/add-browser-sync-dependency",
+      "package": "@nx/angular",
+      "name": "add-browser-sync-dependency"
+    },
+    {
+      "cli": "nx",
+      "version": "17.3.0-beta.10",
+      "requires": { "@angular/core": ">=17.1.0" },
+      "description": "Add 'autoprefixer' as dev dependency when '@nx/angular:ng-packagr-lite' or '@nx/angular:package` is used.",
+      "factory": "./src/migrations/update-17-3-0/add-autoprefixer-dependency",
+      "package": "@nx/angular",
+      "name": "add-autoprefixer-dependency"
+    },
+    {
+      "version": "17.0.0",
+      "description": "Angular v17 introduces a new control flow syntax that uses the @ and } characters. This migration replaces the existing usages with their corresponding HTML entities.",
+      "factory": "./migrations/block-template-entities/bundle",
       "package": "@angular/core",
-      "name": "migration-v16-remove-module-id"
+      "name": "block-template-entities"
     },
     {
-      "version": "16.0.0",
-      "description": "In Angular version 15.2, the guard and resolver interfaces (CanActivate, Resolve, etc) were deprecated. This migration removes imports and 'implements' clauses that contain them.",
-      "factory": "./migrations/guard-and-resolve-interfaces/bundle",
+      "version": "17.0.0",
+      "description": "CompilerOption.useJit and CompilerOption.missingTranslation are unused under Ivy. This migration removes their usage",
+      "factory": "./migrations/compiler-options/bundle",
       "package": "@angular/core",
-      "name": "migration-v16-guard-and-resolve-interfaces"
+      "name": "migration-v17-compiler-options"
     },
     {
-      "version": "16.0.0-0",
-      "description": "Updates the Angular Material to v16",
-      "factory": "./ng-update/index_bundled#updateToV16",
+      "version": "17.0.0",
+      "description": "Updates `TransferState`, `makeStateKey`, `StateKey` imports from `@angular/platform-browser` to `@angular/core`.",
+      "factory": "./migrations/transfer-state/bundle",
+      "package": "@angular/core",
+      "name": "migration-transfer-state"
+    },
+    {
+      "version": "17.0.0-0",
+      "description": "Updates Angular Material to v17",
+      "factory": "./ng-update/index_bundled#updateToV17",
       "package": "@angular/material",
-      "name": "migration-v16"
+      "name": "migration-v17"
     },
     {
-      "version": "16.0.0-0",
-      "description": "Updates the Angular CDK to v16",
-      "factory": "./ng-update/index#updateToV16",
+      "version": "17.0.0-0",
+      "description": "Updates the Angular CDK to v17",
+      "factory": "./ng-update/index#updateToV17",
       "package": "@angular/cdk",
-      "name": "migration-v16"
+      "name": "migration-v17"
     }
   ]
 }

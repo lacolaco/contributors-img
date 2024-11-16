@@ -81,22 +81,22 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
         "proxyConfig": "apps/webapp/proxy.conf.json",
-        "browserTarget": "webapp:build:development"
+        "buildTarget": "webapp:build:development"
       },
       "configurations": {
         "production": {
-          "browserTarget": "webapp:build:production"
+          "buildTarget": "webapp:build:production"
         }
       }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "webapp:build"
+        "buildTarget": "webapp:build"
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": ["apps/webapp/**/*.ts", "apps/webapp/**/*.html"]
       }
@@ -104,8 +104,7 @@
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "apps/webapp/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/webapp/jest.config.ts"
       }
     },
     "format": {
