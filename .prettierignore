@@ -1,3 +1,5 @@
 dist
 coverage
 target
+
+/.nx/cache

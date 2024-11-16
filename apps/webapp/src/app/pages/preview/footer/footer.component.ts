@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: `
     <div class="container">
       <span>
-        &copy; 2019 - Suguru Inatomi @
+        &copy; 2019 - Suguru Inatomi &#64;
         <a target="_blank" rel="noopener" href="https://twitter.com/laco2net">lacolaco</a>
       </span>
       <div>

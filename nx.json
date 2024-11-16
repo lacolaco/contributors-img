@@ -16,18 +16,33 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "options": {
-        "cacheableOperations": ["build", "test", "lint"],
-        "parallel": 1
-      }
+      "options": {}
     }
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "cache": true
     },
     "test": {
-      "inputs": ["default", "^default"]
+      "inputs": ["default", "^default"],
+      "cache": true
+    },
+    "lint": {
+      "cache": true
+    },
+    "@nx/jest:jest": {
+      "inputs": ["default", "^default"],
+      "cache": true,
+      "options": {
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
     }
   },
   "generators": {
@@ -47,5 +62,6 @@
     "@schematics/angular:component": {
       "style": "scss"
     }
-  }
+  },
+  "parallel": 1
 }
