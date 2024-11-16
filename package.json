@@ -23,10 +23,8 @@
     "affected:dep-graph": "nx affected:dep-graph",
     "affected": "nx affected",
     "update": "nx migrate @nx/workspace",
-    "update:check": "ng update",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "postinstall": "node decorate-angular-cli.js",
     "workspace-generator": "nx workspace-generator",
     "firebase": "firebase"
   },
