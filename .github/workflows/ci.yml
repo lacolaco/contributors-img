@@ -13,7 +13,7 @@ jobs:
         with:
           node-version-file: '.node-version'
           cache: yarn
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
@@ -29,7 +29,7 @@ jobs:
         with:
           node-version-file: '.node-version'
           cache: yarn
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
@@ -67,7 +67,7 @@ jobs:
         with:
           node-version-file: '.node-version'
           cache: yarn
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
@@ -84,7 +84,7 @@ jobs:
         with:
           node-version-file: '.node-version'
           cache: yarn
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
