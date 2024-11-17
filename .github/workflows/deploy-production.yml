@@ -52,7 +52,7 @@ jobs:
         with:
           workload_identity_provider: ${{ vars.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GOOGLE_DEPLOY_SERVICE_ACCOUNT }}
-      - uses: google-github-actions/setup-gcloud@v0
+      - uses: google-github-actions/setup-gcloud@v2
       - uses: ./.github/actions/setup-go
       - uses: imjasonh/setup-ko@v0.6
         env:
@@ -84,7 +84,7 @@ jobs:
         with:
           workload_identity_provider: ${{ vars.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GOOGLE_DEPLOY_SERVICE_ACCOUNT }}
-      - uses: google-github-actions/setup-gcloud@v0
+      - uses: google-github-actions/setup-gcloud@v2
       - uses: ./.github/actions/setup-go
       - uses: imjasonh/setup-ko@v0.6
         env:
