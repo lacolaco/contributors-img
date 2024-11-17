@@ -17,8 +17,9 @@
       "enabled": false
     },
     {
+      "description": "Automerge devDependencies patch updates",
       "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": ["patch", "pin", "digest"],
       "automerge": true
     }
   ]
