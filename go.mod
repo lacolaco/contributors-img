@@ -11,7 +11,7 @@ require (
 	cloud.google.com/go/storage v1.47.0
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/propagator v0.49.0
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b
-	github.com/andybalholm/brotli v1.0.5
+	github.com/andybalholm/brotli v1.1.1
 	github.com/bradleyjkemp/cupaloy v2.3.0+incompatible
 	github.com/gin-gonic/gin v1.9.1
 	github.com/google/go-github/v45 v45.2.0
