@@ -42,7 +42,7 @@
     "@angular/platform-browser": "17.2.4",
     "@angular/platform-browser-dynamic": "17.2.4",
     "@angular/router": "17.2.4",
-    "@rx-angular/state": "16.0.0",
+    "@rx-angular/state": "16.3.0",
     "firebase": "9.23.0",
     "normalize.css": "8.0.1",
     "rxjs": "7.8.1",
