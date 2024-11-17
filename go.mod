@@ -7,8 +7,9 @@ toolchain go1.23.3
 require (
 	cloud.google.com/go/bigquery v1.63.1
 	cloud.google.com/go/firestore v1.17.0
-	cloud.google.com/go/logging v1.11.0
+	cloud.google.com/go/logging v1.12.0
 	cloud.google.com/go/storage v1.46.0
+	github.com/GoogleCloudPlatform/opentelemetry-operations-go/propagator v0.49.0
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b
 	github.com/andybalholm/brotli v1.0.5
 	github.com/bradleyjkemp/cupaloy v2.3.0+incompatible
@@ -25,10 +26,10 @@ require (
 	cloud.google.com/go/auth v0.10.0 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.5 // indirect
 	cloud.google.com/go/compute/metadata v0.5.2 // indirect
-	cloud.google.com/go/longrunning v0.6.1 // indirect
-	cloud.google.com/go/monitoring v1.21.1 // indirect
+	cloud.google.com/go/longrunning v0.6.2 // indirect
+	cloud.google.com/go/monitoring v1.21.2 // indirect
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/detectors/gcp v1.24.1 // indirect
-	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/metric v0.48.1 // indirect
+	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/metric v0.49.0 // indirect
 	github.com/apache/arrow/go/v15 v15.0.2 // indirect
 	github.com/bytedance/sonic v1.9.1 // indirect
 	github.com/census-instrumentation/opencensus-proto v0.4.1 // indirect
@@ -65,10 +66,9 @@ require (
 require (
 	cloud.google.com/go v0.116.0 // indirect
 	cloud.google.com/go/iam v1.2.1 // indirect
-	cloud.google.com/go/trace v1.11.1 // indirect
-	github.com/GoogleCloudPlatform/opentelemetry-operations-go v1.8.0
-	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.13.1
-	github.com/GoogleCloudPlatform/opentelemetry-operations-go/internal/resourcemapping v0.48.1 // indirect
+	cloud.google.com/go/trace v1.11.2 // indirect
+	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.25.0
+	github.com/GoogleCloudPlatform/opentelemetry-operations-go/internal/resourcemapping v0.49.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
@@ -78,7 +78,6 @@ require (
 	github.com/go-playground/validator/v10 v10.14.0 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
-	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.4 // indirect
