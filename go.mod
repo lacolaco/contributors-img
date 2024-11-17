@@ -15,7 +15,7 @@ require (
 	github.com/bradleyjkemp/cupaloy v2.3.0+incompatible
 	github.com/gin-gonic/gin v1.9.1
 	github.com/google/go-github/v45 v45.2.0
-	go.ajitem.com/zapdriver v1.4.1
+	go.ajitem.com/zapdriver v1.5.3
 	golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f
 	golang.org/x/oauth2 v0.24.0
 	google.golang.org/api v0.205.0
@@ -45,6 +45,7 @@ require (
 	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
 	github.com/pierrec/lz4/v4 v4.1.18 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/planetscale/vtprotobuf v0.6.1-0.20240319094008-0393e58bdf10 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/zeebo/xxh3 v1.0.2 // indirect
@@ -96,7 +97,7 @@ require (
 	go.opentelemetry.io/otel/bridge/opencensus v1.32.0
 	go.opentelemetry.io/otel/sdk v1.32.0
 	go.opentelemetry.io/otel/trace v1.32.0
-	go.uber.org/multierr v1.10.0 // indirect
+	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.29.0 // indirect
 	golang.org/x/net v0.31.0 // indirect
