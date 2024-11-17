@@ -5,7 +5,7 @@ go 1.22.0
 toolchain go1.23.3
 
 require (
-	cloud.google.com/go/bigquery v1.63.1
+	cloud.google.com/go/bigquery v1.64.0
 	cloud.google.com/go/firestore v1.17.0
 	cloud.google.com/go/logging v1.12.0
 	cloud.google.com/go/storage v1.47.0
