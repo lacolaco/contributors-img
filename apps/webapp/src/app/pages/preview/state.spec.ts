@@ -1,9 +1,14 @@
+import { TestBed } from '@angular/core/testing';
 import { defaultImageParams, PreviewState } from './state';
 
 describe('PreviewState', () => {
   let state: PreviewState;
 
-  beforeEach(() => (state = new PreviewState()));
+  beforeEach(() => {
+    TestBed.runInInjectionContext(() => {
+      state = new PreviewState();
+    });
+  });
 
   it('should be created', () => {
     expect(state).toBeTruthy();
