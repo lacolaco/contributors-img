@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@angular-devkit/architect": "0.1703.9",
-    "@angular-devkit/build-angular": "17.3.9",
+    "@angular-devkit/build-angular": "17.3.11",
     "@angular-eslint/eslint-plugin": "17.3.0",
     "@angular-eslint/eslint-plugin-template": "17.3.0",
     "@angular-eslint/template-parser": "17.3.0",
