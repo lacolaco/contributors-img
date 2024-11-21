@@ -1,9 +1,6 @@
 import { Clipboard, ClipboardModule } from '@angular/cdk/clipboard';
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
-import {
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarModule as MatSnackBarModule,
-} from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Repository } from '../../../models/repository';
 
 @Component({

@@ -2,21 +2,20 @@
 
 ## [1.0.4](https://github.com/lacolaco/contributors-img/compare/v1.0.3...v1.0.4) (2024-11-17)
 
-
 ### Bug Fixes
 
-* **deps:** update dependency @rx-angular/state to v16.3.0 ([#1537](https://github.com/lacolaco/contributors-img/issues/1537)) ([7b3ab04](https://github.com/lacolaco/contributors-img/commit/7b3ab042af74db455f3b742047b3cd87951dc26d))
-* **deps:** update golang.org/x/exp digest to 2d47ceb ([#1513](https://github.com/lacolaco/contributors-img/issues/1513)) ([b5f1467](https://github.com/lacolaco/contributors-img/commit/b5f1467374c6655ea5941d3ef86dd88a835cf4bb))
-* **deps:** update module cloud.google.com/go/bigquery to v1.64.0 ([#1522](https://github.com/lacolaco/contributors-img/issues/1522)) ([d7a1e51](https://github.com/lacolaco/contributors-img/commit/d7a1e51af29d64a2bb0b29bc9883634f6b3cc7b8))
-* **deps:** update module cloud.google.com/go/storage to v1.47.0 ([#1525](https://github.com/lacolaco/contributors-img/issues/1525)) ([b27f311](https://github.com/lacolaco/contributors-img/commit/b27f31160c3e6765e0fe206e1a131109d2b414f2))
-* **deps:** update module github.com/andybalholm/brotli to v1.1.1 ([#1538](https://github.com/lacolaco/contributors-img/issues/1538)) ([482ee2f](https://github.com/lacolaco/contributors-img/commit/482ee2f0e67eb1a854078d0b31d1acc9b118d645))
-* **deps:** update module github.com/gin-gonic/gin to v1.10.0 ([#1541](https://github.com/lacolaco/contributors-img/issues/1541)) ([1c59455](https://github.com/lacolaco/contributors-img/commit/1c59455ddd211c5c551ee8079f0f1e6cbc2981fb))
-* **deps:** update module github.com/google/go-github/v45 to v66 ([#1543](https://github.com/lacolaco/contributors-img/issues/1543)) ([8e5e57e](https://github.com/lacolaco/contributors-img/commit/8e5e57e44b955c0e2b772ae9b071b5d854f6f8e9))
-* **deps:** update module go.ajitem.com/zapdriver to v1.5.3 ([#1540](https://github.com/lacolaco/contributors-img/issues/1540)) ([df4342f](https://github.com/lacolaco/contributors-img/commit/df4342fe5542ffd7349db0d697c954262d0c5024))
-* **deps:** update module go.uber.org/zap to v1.27.0 ([#1539](https://github.com/lacolaco/contributors-img/issues/1539)) ([448bd73](https://github.com/lacolaco/contributors-img/commit/448bd7386905e01f34252b88094dc876ed617316))
-* **deps:** update module google.golang.org/api to v0.205.0 ([#1528](https://github.com/lacolaco/contributors-img/issues/1528)) ([daf7e0c](https://github.com/lacolaco/contributors-img/commit/daf7e0c142537bcf5d5ef5061a14ae1507897b7f))
-* **deps:** update otel packages ([#1530](https://github.com/lacolaco/contributors-img/issues/1530)) ([83eb939](https://github.com/lacolaco/contributors-img/commit/83eb939738f7ee568f24fafdecc6964e44e75141))
-* upgrade nx to v17 ([#1508](https://github.com/lacolaco/contributors-img/issues/1508)) ([726ac8c](https://github.com/lacolaco/contributors-img/commit/726ac8c579b2d023539e03e8c5251f61fd63ba2c))
+- **deps:** update dependency @rx-angular/state to v16.3.0 ([#1537](https://github.com/lacolaco/contributors-img/issues/1537)) ([7b3ab04](https://github.com/lacolaco/contributors-img/commit/7b3ab042af74db455f3b742047b3cd87951dc26d))
+- **deps:** update golang.org/x/exp digest to 2d47ceb ([#1513](https://github.com/lacolaco/contributors-img/issues/1513)) ([b5f1467](https://github.com/lacolaco/contributors-img/commit/b5f1467374c6655ea5941d3ef86dd88a835cf4bb))
+- **deps:** update module cloud.google.com/go/bigquery to v1.64.0 ([#1522](https://github.com/lacolaco/contributors-img/issues/1522)) ([d7a1e51](https://github.com/lacolaco/contributors-img/commit/d7a1e51af29d64a2bb0b29bc9883634f6b3cc7b8))
+- **deps:** update module cloud.google.com/go/storage to v1.47.0 ([#1525](https://github.com/lacolaco/contributors-img/issues/1525)) ([b27f311](https://github.com/lacolaco/contributors-img/commit/b27f31160c3e6765e0fe206e1a131109d2b414f2))
+- **deps:** update module github.com/andybalholm/brotli to v1.1.1 ([#1538](https://github.com/lacolaco/contributors-img/issues/1538)) ([482ee2f](https://github.com/lacolaco/contributors-img/commit/482ee2f0e67eb1a854078d0b31d1acc9b118d645))
+- **deps:** update module github.com/gin-gonic/gin to v1.10.0 ([#1541](https://github.com/lacolaco/contributors-img/issues/1541)) ([1c59455](https://github.com/lacolaco/contributors-img/commit/1c59455ddd211c5c551ee8079f0f1e6cbc2981fb))
+- **deps:** update module github.com/google/go-github/v45 to v66 ([#1543](https://github.com/lacolaco/contributors-img/issues/1543)) ([8e5e57e](https://github.com/lacolaco/contributors-img/commit/8e5e57e44b955c0e2b772ae9b071b5d854f6f8e9))
+- **deps:** update module go.ajitem.com/zapdriver to v1.5.3 ([#1540](https://github.com/lacolaco/contributors-img/issues/1540)) ([df4342f](https://github.com/lacolaco/contributors-img/commit/df4342fe5542ffd7349db0d697c954262d0c5024))
+- **deps:** update module go.uber.org/zap to v1.27.0 ([#1539](https://github.com/lacolaco/contributors-img/issues/1539)) ([448bd73](https://github.com/lacolaco/contributors-img/commit/448bd7386905e01f34252b88094dc876ed617316))
+- **deps:** update module google.golang.org/api to v0.205.0 ([#1528](https://github.com/lacolaco/contributors-img/issues/1528)) ([daf7e0c](https://github.com/lacolaco/contributors-img/commit/daf7e0c142537bcf5d5ef5061a14ae1507897b7f))
+- **deps:** update otel packages ([#1530](https://github.com/lacolaco/contributors-img/issues/1530)) ([83eb939](https://github.com/lacolaco/contributors-img/commit/83eb939738f7ee568f24fafdecc6964e44e75141))
+- upgrade nx to v17 ([#1508](https://github.com/lacolaco/contributors-img/issues/1508)) ([726ac8c](https://github.com/lacolaco/contributors-img/commit/726ac8c579b2d023539e03e8c5251f61fd63ba2c))
 
 ## [1.0.3](https://github.com/lacolaco/contributors-img/compare/v1.0.2...v1.0.3) (2024-11-16)
 
