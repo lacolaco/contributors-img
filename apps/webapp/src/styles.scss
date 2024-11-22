@@ -8,22 +8,11 @@ body {
 
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
-$custom-typography: mat.define-legacy-typography-config(
+$custom-typography: mat.m2-define-legacy-typography-config(
   $font-family: "'Montserrat', sans-serif",
-  $headline: mat.define-typography-level(32px, 48px, 700),
-  $body-1: mat.define-typography-level(16px, 24px, 500),
+  $headline: mat.m2-define-typography-level(32px, 48px, 700),
+  $body-1: mat.m2-define-typography-level(16px, 24px, 500),
 );
-
-// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
-//  The following line adds:
-//    1. Default typography styles for all components
-//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
-//  If you specify typography styles for the components you use elsewhere, you should delete this line.
-//  If you don't need the default component typographies but still want the hierarchy styles,
-//  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy($custom-typography);`
-@include mat.all-legacy-component-typographies($custom-typography);
-@include mat.legacy-core();
 
 .mat-form-field.--no-hint {
   .mat-form-field-wrapper {

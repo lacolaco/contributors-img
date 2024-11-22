@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { getAnalytics, provideAnalytics } from '@angular/fire/analytics';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -13,7 +13,7 @@ import { provideFeaturedRepositoryDatasource } from './shared/featured-repositor
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
-    importProvidersFrom(HttpClientModule),
+    provideHttpClient(),
     provideRouter(routes),
     importProvidersFrom(provideFirebaseApp(() => initializeApp(environment.firebaseConfig))),
     importProvidersFrom(provideFirestore(() => getFirestore())),
