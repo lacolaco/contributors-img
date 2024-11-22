@@ -43,7 +43,7 @@
     "@angular/platform-browser-dynamic": "18.0.7",
     "@angular/router": "18.0.7",
     "@rx-angular/state": "16.3.0",
-    "firebase": "9.23.0",
+    "firebase": "10.9.0",
     "normalize.css": "8.0.1",
     "rxjs": "7.8.1",
     "tslib": "2.5.3",
