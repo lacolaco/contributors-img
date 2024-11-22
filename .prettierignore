@@ -3,3 +3,4 @@ coverage
 target
 
 /.nx/cache
+/.nx/workspace-data
