@@ -6329,10 +6329,10 @@ commander@^2.19.0, commander@^2.20.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
-commander@^4.0.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
-  integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
+commander@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
+  integrity sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==
 
 commander@^7.2.0:
   version "7.2.0"
@@ -8093,10 +8093,10 @@ find-up@^6.3.0:
     locate-path "^7.1.0"
     path-exists "^5.0.0"
 
-firebase-tools@13.25.0:
-  version "13.25.0"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-13.25.0.tgz#a91e2f229b5216b1fbf6fc15f4316d049226aee4"
-  integrity sha512-mrd3czF1cXV1X98czoanIvqOzceQpiBSBaf3B6O67ziXgh3ZsIKDjNk+8dSJIMfUj66DN018s4uX0/1EU+h6Fg==
+firebase-tools@13.27.0:
+  version "13.27.0"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-13.27.0.tgz#210083f614e8b8fba05cef8717605542f318430a"
+  integrity sha512-/G6Ga+vEByYV2NnEBwfg2jvh7IgQiwy00fxxkZzXRvMAsx/2CpxoDByYVXsA/Q95k3VuUwi02nrm8qEgJaJrMA==
   dependencies:
     "@electric-sql/pglite" "^0.2.0"
     "@google-cloud/cloud-sql-connector" "^1.3.3"
@@ -8110,7 +8110,7 @@ firebase-tools@13.25.0:
     cjson "^0.3.1"
     cli-table "0.3.11"
     colorette "^2.0.19"
-    commander "^4.0.1"
+    commander "^5.1.0"
     configstore "^5.0.1"
     cors "^2.8.5"
     cross-env "^5.1.3"
