@@ -6329,10 +6329,10 @@ commander@^2.19.0, commander@^2.20.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
-commander@^4.0.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
-  integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
+commander@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
+  integrity sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==
 
 commander@^7.2.0:
   version "7.2.0"
@@ -8093,10 +8093,10 @@ find-up@^6.3.0:
     locate-path "^7.1.0"
     path-exists "^5.0.0"
 
-firebase-tools@13.25.0:
-  version "13.25.0"
-  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-13.25.0.tgz#a91e2f229b5216b1fbf6fc15f4316d049226aee4"
-  integrity sha512-mrd3czF1cXV1X98czoanIvqOzceQpiBSBaf3B6O67ziXgh3ZsIKDjNk+8dSJIMfUj66DN018s4uX0/1EU+h6Fg==
+firebase-tools@13.28.0:
+  version "13.28.0"
+  resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-13.28.0.tgz#3f1b09361bb5b8e65392c65dc472468860b34cf9"
+  integrity sha512-5s5G54tTQADw4Wf+OwIbcUmCubHbHJjM6MmfnEyDYQLYkWW5YwFTGiLkeFKAy/6WYkIR5YYPlPyFKoNAy1E/5g==
   dependencies:
     "@electric-sql/pglite" "^0.2.0"
     "@google-cloud/cloud-sql-connector" "^1.3.3"
@@ -8110,7 +8110,7 @@ firebase-tools@13.25.0:
     cjson "^0.3.1"
     cli-table "0.3.11"
     colorette "^2.0.19"
-    commander "^4.0.1"
+    commander "^5.1.0"
     configstore "^5.0.1"
     cors "^2.8.5"
     cross-env "^5.1.3"
@@ -8129,6 +8129,7 @@ firebase-tools@13.25.0:
     google-auth-library "^9.11.0"
     inquirer "^8.2.6"
     inquirer-autocomplete-prompt "^2.0.1"
+    js-yaml "^3.14.1"
     jsonwebtoken "^9.0.0"
     leven "^3.1.0"
     libsodium-wrappers "^0.7.10"
@@ -8152,7 +8153,7 @@ firebase-tools@13.25.0:
     sql-formatter "^15.3.0"
     stream-chain "^2.2.4"
     stream-json "^1.7.3"
-    superstatic "^9.0.3"
+    superstatic "^9.1.0"
     tar "^6.1.11"
     tcp-port-used "^1.0.2"
     tmp "^0.2.3"
@@ -9456,6 +9457,11 @@ is-potential-custom-element-name@^1.0.1:
   resolved "https://registry.yarnpkg.com/is-potential-custom-element-name/-/is-potential-custom-element-name-1.0.1.tgz#171ed6f19e3ac554394edf78caa05784a45bebb5"
   integrity sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==
 
+is-promise@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/is-promise/-/is-promise-4.0.0.tgz#42ff9f84206c1991d26debf520dd5c01042dd2f3"
+  integrity sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==
+
 is-regex@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/is-regex/-/is-regex-1.1.4.tgz#eef5663cd59fa4c0ae339505323df6854bb15958"
@@ -10106,7 +10112,7 @@ js-tokens@^4.0.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-js-yaml@^3.10.0, js-yaml@^3.13.1:
+js-yaml@^3.10.0, js-yaml@^3.13.1, js-yaml@^3.14.1:
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.14.1.tgz#dae812fdb3825fa306609a8717383c50c36a0537"
   integrity sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==
@@ -12025,17 +12031,17 @@ path-to-regexp@0.1.10:
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.10.tgz#67e9108c5c0551b9e5326064387de4763c4d5f8b"
   integrity sha512-7lf7qcQidTku0Gu3YDPc8DJ1q7OOucfa/BSsIwjuh56VU7katFvuM8hULfkwB3Fns/rsVF7PwPKVw1sl5KQS9w==
 
-path-to-regexp@0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
-  integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
-
 path-to-regexp@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.8.0.tgz#887b3ba9d84393e87a0a0b9f4cb756198b53548a"
   integrity sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==
   dependencies:
     isarray "0.0.1"
+
+path-to-regexp@^8.0.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-8.2.0.tgz#73990cc29e57a3ff2a0d914095156df5db79e8b4"
+  integrity sha512-TdrF7fW9Rphjq4RjrW0Kp2AW0Ahwu9sRGTkS6bvDi0SCwZlEZYmcfDbEsTz8RVk0EHIS/Vd1bv3JhG+1xZuAyQ==
 
 path-type@^4.0.0:
   version "4.0.0"
@@ -13077,16 +13083,16 @@ rollup@^4.20.0:
     "@rollup/rollup-win32-x64-msvc" "4.27.3"
     fsevents "~2.3.2"
 
-router@^1.3.1:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/router/-/router-1.3.5.tgz#cb2f47f74fd99a77fb3bc01cc947f46b79b1790f"
-  integrity sha512-kozCJZUhuSJ5VcLhSb3F8fsmGXy+8HaDbKCAerR1G6tq3mnMZFMuSohbFvGv1c5oMFipijDjRZuuN/Sq5nMf3g==
+router@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/router/-/router-2.0.0.tgz#8692720b95de83876870d7bc638dd3c7e1ae8a27"
+  integrity sha512-dIM5zVoG8xhC6rnSN8uoAgFARwTE7BQs8YwHEvK0VCmfxQXMaOuA1uiR1IPwsW7JyK5iTt7Od/TC9StasS2NPQ==
   dependencies:
     array-flatten "3.0.0"
-    debug "2.6.9"
+    is-promise "4.0.0"
     methods "~1.1.2"
     parseurl "~1.3.3"
-    path-to-regexp "0.1.7"
+    path-to-regexp "^8.0.0"
     setprototypeof "1.2.0"
     utils-merge "1.0.1"
 
@@ -13924,10 +13930,10 @@ stylus@^0.59.0:
     sax "~1.2.4"
     source-map "^0.7.3"
 
-superstatic@^9.0.3:
-  version "9.0.3"
-  resolved "https://registry.yarnpkg.com/superstatic/-/superstatic-9.0.3.tgz#eb271841e971d9c3760f6d4b3adca5db00f29f18"
-  integrity sha512-e/tmW0bsnQ/33ivK6y3CapJT0Ovy4pk/ohNPGhIAGU2oasoNLRQ1cv6enua09NU9w6Y0H/fBu07cjzuiWvLXxw==
+superstatic@^9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/superstatic/-/superstatic-9.1.0.tgz#ef046c3bd4e8756e004168428a0c72f420491aba"
+  integrity sha512-1PcxGREb5My6iX/DL9x+3+XFY5lM2nOiPBQV45RwbpM5bHGsStz+Lduts7y8W+xo68pHa7F8atTF52+dwfwxcw==
   dependencies:
     basic-auth-connect "^1.0.0"
     commander "^10.0.0"
@@ -13945,7 +13951,7 @@ superstatic@^9.0.3:
     on-finished "^2.2.0"
     on-headers "^1.0.0"
     path-to-regexp "^1.8.0"
-    router "^1.3.1"
+    router "^2.0.0"
     update-notifier-cjs "^5.1.6"
   optionalDependencies:
     re2 "^1.17.7"
