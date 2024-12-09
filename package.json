@@ -68,7 +68,7 @@
     "@nx/workspace": "19.6.6",
     "@types/jest": "29.5.14",
     "@types/jsdom": "21.1.7",
-    "@types/node": "18.19.66",
+    "@types/node": "18.19.67",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
     "@typescript-eslint/utils": "7.18.0",
