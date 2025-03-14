@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.5](https://github.com/lacolaco/contributors-img/compare/v1.0.4...v1.0.5) (2025-03-14)
+
+
+### Bug Fixes
+
+* **deps:** update angular monorepo to v17.3.12 ([#1552](https://github.com/lacolaco/contributors-img/issues/1552)) ([02f51df](https://github.com/lacolaco/contributors-img/commit/02f51dfffc46bb431d4a49b7b125f61b1c9d03ab))
+* **deps:** update dependency firebase to v10 [security] ([#1556](https://github.com/lacolaco/contributors-img/issues/1556)) ([c1ea75c](https://github.com/lacolaco/contributors-img/commit/c1ea75c34ef58158739c75ae7c6eba84650e9c95))
+* **deps:** update module google.golang.org/api to v0.206.0 ([#1563](https://github.com/lacolaco/contributors-img/issues/1563)) ([e2b405b](https://github.com/lacolaco/contributors-img/commit/e2b405b7cfeabce250ad9ba865d3d2f9c03c8996))
+* update nx to 19.1 ([#1558](https://github.com/lacolaco/contributors-img/issues/1558)) ([1b44239](https://github.com/lacolaco/contributors-img/commit/1b442391ee975b18938def3b76b190986426dd62))
+* update nx to 19.2 ([#1559](https://github.com/lacolaco/contributors-img/issues/1559)) ([f2d7a1a](https://github.com/lacolaco/contributors-img/commit/f2d7a1ad5a4cd75a6441c3b857af2241cdeeb00e))
+* update nx to 19.3 ([#1560](https://github.com/lacolaco/contributors-img/issues/1560)) ([a86e2fb](https://github.com/lacolaco/contributors-img/commit/a86e2fb37ef2524b1b291d47c4747ed1be50af7c))
+* update nx to 19.6 ([#1561](https://github.com/lacolaco/contributors-img/issues/1561)) ([c825133](https://github.com/lacolaco/contributors-img/commit/c825133e191f3dfa8c6a4c97fe2255e0b9ce77e0))
+* update nx to v18.2 ([#1544](https://github.com/lacolaco/contributors-img/issues/1544)) ([931a5aa](https://github.com/lacolaco/contributors-img/commit/931a5aa055c82e8397f97f43395ab9dad63031cf))
+* update nx to v19.0 ([#1557](https://github.com/lacolaco/contributors-img/issues/1557)) ([eaeecfe](https://github.com/lacolaco/contributors-img/commit/eaeecfe796c725552e89964cb0b29fb4846534ac))
+
 ## [1.0.4](https://github.com/lacolaco/contributors-img/compare/v1.0.3...v1.0.4) (2024-11-17)
 
 ### Bug Fixes
