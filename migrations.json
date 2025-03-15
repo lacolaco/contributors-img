@@ -1,12 +1,27 @@
 {
   "migrations": [
     {
+      "version": "20.2.0-beta.5",
+      "description": "Update TypeScript ESLint packages to v8.13.0 if they are already on v8",
+      "implementation": "./src/migrations/update-20-2-0/update-typescript-eslint-v8-13-0",
+      "package": "@nx/eslint",
+      "name": "update-typescript-eslint-v8.13.0"
+    },
+    {
       "cli": "nx",
-      "version": "20.0.0-beta.5",
-      "description": "replace getJestProjects with getJestProjectsAsync",
-      "implementation": "./src/migrations/update-20-0-0/replace-getJestProjects-with-getJestProjectsAsync",
-      "package": "@nx/jest",
-      "name": "replace-getJestProjects-with-getJestProjectsAsync"
+      "version": "20.2.0-beta.2",
+      "description": "Update the ModuleFederationConfig import use @nx/module-federation.",
+      "factory": "./src/migrations/update-20-2-0/migrate-mf-imports-to-new-package",
+      "package": "@nx/angular",
+      "name": "update-20-2-0-update-module-federation-config-import"
+    },
+    {
+      "cli": "nx",
+      "version": "20.2.0-beta.2",
+      "description": "Update the withModuleFederation import use @nx/module-federation/angular.",
+      "factory": "./src/migrations/update-20-2-0/migrate-with-mf-import-to-new-package",
+      "package": "@nx/angular",
+      "name": "update-20-2-0-update-with-module-federation-import"
     }
   ]
 }
