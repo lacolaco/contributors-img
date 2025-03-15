@@ -2,17 +2,24 @@
   "name": "worker",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "namedInputs": {
-    "default": ["{workspaceRoot}/go.mod", "{projectRoot}/**/*"],
-    "app": ["!{projectRoot}/**/*_spec.go"]
+    "default": ["{projectRoot}/**/*"],
+    "app": ["!{projectRoot}/**/*.spec.ts"]
   },
   "tags": ["app"],
-  "implicitDependencies": ["golib"],
   "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "inputs": ["default", "app"],
+      "options": {
+        "command": "esbuild src/main.ts --outfile=dist/main.js --tsconfig=tsconfig.app.json --platform=node --bundle --packages=external",
+        "cwd": "apps/worker"
+      }
+    },
     "serve": {
       "executor": "nx:run-commands",
       "inputs": ["default", "app"],
       "options": {
-        "command": "go run .",
+        "command": "tsx src/main.ts",
         "cwd": "apps/worker"
       }
     },
@@ -20,7 +27,7 @@
       "executor": "nx:run-commands",
       "inputs": ["default"],
       "options": {
-        "command": "go test ./...",
+        "command": "tsx --test ./**/*.spec.ts",
         "cwd": "apps/worker"
       }
     },
@@ -28,7 +35,7 @@
       "executor": "nx:run-commands",
       "inputs": ["default"],
       "options": {
-        "command": "go vet ./...",
+        "command": "echo 'No linting available for worker'",
         "cwd": "apps/worker"
       }
     },
@@ -36,7 +43,7 @@
       "executor": "nx:run-commands",
       "inputs": ["default"],
       "options": {
-        "command": "gofmt -w .",
+        "command": "npx prettier -w '.'",
         "cwd": "apps/worker"
       }
     }

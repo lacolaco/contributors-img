@@ -8,7 +8,7 @@
   ],
   "minimumReleaseAge": "5 days",
   "prConcurrentLimit": 5,
-  "postUpdateOptions": ["yarnDedupeHighest", "gomodTidy"],
+  "postUpdateOptions": ["gomodTidy", "pnpmDedupe"],
   "packageRules": [
     {
       "description": "Disable nx package updates except for patch",

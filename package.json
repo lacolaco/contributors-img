@@ -6,10 +6,10 @@
     "start": "nx serve",
     "build": "nx build",
     "build:all": "nx run-many --target build --projects webapp --parallel",
-    "build:all:staging": "yarn build:all --configuration staging",
-    "build:all:production": "yarn build:all --configuration production",
+    "build:all:staging": "pnpm build:all --configuration staging",
+    "build:all:production": "pnpm build:all --configuration production",
     "test": "nx test",
-    "test:u": "UPDATE_SNAPSHOTS=true yarn test",
+    "test:u": "UPDATE_SNAPSHOTS=true pnpm test",
     "test:ci": "nx run-many --target test --all --parallel",
     "format": "nx run-many --target format --parallel",
     "lint": "nx run-many --target lint --parallel",
@@ -29,7 +29,6 @@
     "firebase": "firebase"
   },
   "private": true,
-  "packageManager": "yarn@1.22.22",
   "dependencies": {
     "@angular/animations": "18.2.9",
     "@angular/cdk": "18.2.9",
@@ -72,6 +71,7 @@
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
     "@typescript-eslint/utils": "7.18.0",
+    "esbuild": "0.25.1",
     "eslint": "8.57.1",
     "eslint-config-prettier": "8.10.0",
     "eslint-plugin-import": "2.31.0",
@@ -83,6 +83,8 @@
     "jest-preset-angular": "14.3.1",
     "prettier": "2.8.8",
     "ts-node": "10.9.2",
+    "tsx": "4.19.3",
     "typescript": "5.5.4"
-  }
+  },
+  "packageManager": "pnpm@10.6.3"
 }
