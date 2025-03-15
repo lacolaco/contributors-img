@@ -1,6 +1,6 @@
 module contrib.rocks
 
-go 1.22.0
+go 1.23.0
 
 toolchain go1.24.1
 
@@ -17,7 +17,7 @@ require (
 	github.com/google/go-github/v45 v45.2.0
 	go.ajitem.com/zapdriver v1.5.3
 	golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f
-	golang.org/x/oauth2 v0.24.0
+	golang.org/x/oauth2 v0.28.0
 	google.golang.org/api v0.206.0
 )
 
