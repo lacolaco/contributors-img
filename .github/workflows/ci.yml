@@ -9,15 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
-          cache: yarn
-      - uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install --frozen-lockfile
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - uses: ./.github/actions/setup-go
 
   build-webapp:
@@ -25,16 +22,13 @@ jobs:
     needs: [install-deps]
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
-          cache: yarn
-      - uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install --frozen-lockfile
-      - run: yarn build:all:production
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build:all:production
 
   build-api:
     runs-on: ubuntu-latest
@@ -52,42 +46,38 @@ jobs:
     needs: [install-deps]
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-go
-      - uses: imjasonh/setup-ko@v0.7
-      - run: ko build --push=false ./apps/worker
-        env:
-          KO_DOCKER_REPO: ''
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build worker
 
   test:
     runs-on: ubuntu-latest
     needs: [install-deps]
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
-          cache: yarn
-      - uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install --frozen-lockfile
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - uses: ./.github/actions/setup-go
-      - run: yarn test:ci
+      - run: pnpm test:ci
 
   lint:
     runs-on: ubuntu-latest
     needs: [install-deps]
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
-          cache: yarn
-      - uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install --frozen-lockfile
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - uses: ./.github/actions/setup-go
-      - run: yarn lint
+      - run: pnpm lint

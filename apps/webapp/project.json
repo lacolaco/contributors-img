@@ -111,7 +111,7 @@
       "executor": "nx:run-commands",
       "inputs": ["default"],
       "options": {
-        "command": "yarn prettier -w '.'",
+        "command": "npx prettier -w '.'",
         "cwd": "apps/webapp"
       }
     }

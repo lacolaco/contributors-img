@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "target": "ES2022",
+    "module": "preserve"
+  },
+  "files": ["src/main.ts"],
+  "include": ["src/**/*.d.ts"]
+}
