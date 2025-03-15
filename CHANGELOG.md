@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.7](https://github.com/lacolaco/contributors-img/compare/v1.0.6...v1.0.7) (2025-03-15)
+
+
+### Bug Fixes
+
+* **deps:** update angularmaterial monorepo to v18.2.14 ([#1578](https://github.com/lacolaco/contributors-img/issues/1578)) ([e490b78](https://github.com/lacolaco/contributors-img/commit/e490b78424c7c0bca31973e0fe0754887620d917))
+
 ## [1.0.6](https://github.com/lacolaco/contributors-img/compare/v1.0.5...v1.0.6) (2025-03-15)
 
 
