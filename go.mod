@@ -2,7 +2,7 @@ module contrib.rocks
 
 go 1.22.0
 
-toolchain go1.23.3
+toolchain go1.24.1
 
 require (
 	cloud.google.com/go/bigquery v1.64.0
