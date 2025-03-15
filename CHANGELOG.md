@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.6](https://github.com/lacolaco/contributors-img/compare/v1.0.5...v1.0.6) (2025-03-15)
+
+
+### Bug Fixes
+
+* **deps:** update angular monorepo to v18.2.13 ([#1573](https://github.com/lacolaco/contributors-img/issues/1573)) ([c36beb8](https://github.com/lacolaco/contributors-img/commit/c36beb81f60a37976b2ee93bf50b787c96232f8d))
+* **worker:** restructure worker app with TypeScript and remove Go implementation ([#1581](https://github.com/lacolaco/contributors-img/issues/1581)) ([167d9cb](https://github.com/lacolaco/contributors-img/commit/167d9cb0e79bfb8c3f5d73f4a8ee49e076fa08c0))
+
 ## [1.0.5](https://github.com/lacolaco/contributors-img/compare/v1.0.4...v1.0.5) (2025-03-14)
 
 
