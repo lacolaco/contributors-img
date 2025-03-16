@@ -1,24 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
+import { render, screen } from '@testing-library/angular';
 import { RepositoryGalleryComponent } from './repository-gallery.component';
 
 describe('RepositoryGalleryComponent', () => {
-  let component: RepositoryGalleryComponent;
-  let fixture: ComponentFixture<RepositoryGalleryComponent>;
+  it('should render', async () => {
+    await render(RepositoryGalleryComponent, {
+      providers: [provideRouter([])],
+      componentInputs: {
+        repositories: [{ repository: 'test/repo', stargazers: 123 }],
+      },
+    });
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, RepositoryGalleryComponent],
-    }).compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RepositoryGalleryComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(screen.getByText('test/repo')).toBeTruthy();
   });
 });
