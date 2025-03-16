@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PreviewState } from '../state';
 
 import { ImagePreviewComponent } from './image-preview.component';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 describe('ImagePreviewComponent', () => {
   let component: ImagePreviewComponent;
@@ -10,7 +11,7 @@ describe('ImagePreviewComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ImagePreviewComponent],
-      providers: [PreviewState],
+      providers: [PreviewState, provideNoopAnimations()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ImagePreviewComponent);

@@ -27,29 +27,16 @@
     },
     "lint": {
       "cache": true
-    },
-    "@nx/jest:jest": {
-      "inputs": ["default", "^default"],
-      "cache": true,
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
     }
   },
   "generators": {
     "@nx/angular:application": {
-      "unitTestRunner": "jest",
+      "unitTestRunner": "karma",
       "e2eTestRunner": "none",
       "strict": true
     },
     "@nx/angular:library": {
-      "unitTestRunner": "jest",
+      "unitTestRunner": "karma",
       "strict": true
     },
     "@nx/angular:component": {

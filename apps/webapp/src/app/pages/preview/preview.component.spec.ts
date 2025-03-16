@@ -1,5 +1,5 @@
 xdescribe('PreviewComponent', () => {
-  test('should create', () => {
+  it('should create', () => {
     expect(true).toBeTruthy();
   });
 });
