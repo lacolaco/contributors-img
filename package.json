@@ -64,6 +64,7 @@
     "@nx/web": "20.6.0",
     "@nx/workspace": "20.6.0",
     "@tailwindcss/postcss": "4.0.14",
+    "@testing-library/angular": "^17.3.6",
     "@types/jasmine": "5.1.7",
     "@types/node": "22.13.10",
     "@typescript-eslint/eslint-plugin": "8.26.1",

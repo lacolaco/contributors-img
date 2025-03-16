@@ -1,24 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { render, screen } from '@testing-library/angular';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+  it('should render', async () => {
+    await render(HeaderComponent);
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HeaderComponent],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(screen.getByText('contrib.rocks')).toBeTruthy();
   });
 });

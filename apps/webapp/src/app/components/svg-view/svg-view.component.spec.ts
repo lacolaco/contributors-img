@@ -1,24 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { render, screen } from '@testing-library/angular';
 import { SvgViewComponent } from './svg-view.component';
 
 describe('SvgViewComponent', () => {
-  let component: SvgViewComponent;
-  let fixture: ComponentFixture<SvgViewComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [SvgViewComponent],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SvgViewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should render', async () => {
+    await render(SvgViewComponent, {
+      componentInputs: {
+        content: 'test svg',
+      },
+    });
+    expect(screen.getByText('test svg')).toBeTruthy();
   });
 });

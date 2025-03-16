@@ -1,25 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ImagePreviewResultComponent } from './image-preview-result.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { render, screen } from '@testing-library/angular';
 import { Repository } from '../../../models';
+import { ImagePreviewResultComponent } from './image-preview-result.component';
 
 describe('ImagePreviewResultComponent', () => {
-  let component: ImagePreviewResultComponent;
-  let fixture: ComponentFixture<ImagePreviewResultComponent>;
+  it('should render', async () => {
+    await render(ImagePreviewResultComponent, {
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+      componentInputs: {
+        repository: Repository.fromString('foo/bar'),
+        imageSvg: 'foo',
+      },
+    });
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ImagePreviewResultComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(ImagePreviewResultComponent);
-    fixture.componentRef.setInput('repository', Repository.fromString('foo/bar'));
-    fixture.componentRef.setInput('imageSvg', 'foo');
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(screen.getByText('foo')).toBeTruthy();
   });
 });
