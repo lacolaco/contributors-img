@@ -110,7 +110,8 @@
           "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
           "apps/webapp/src/styles.scss"
         ],
-        "browsers": "ChromeHeadless"
+        "browsers": "ChromeHeadless",
+        "watch": false
       }
     },
     "format": {
