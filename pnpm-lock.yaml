@@ -42,8 +42,8 @@ importers:
         specifier: 19.2.2
         version: 19.2.2(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8)))(rxjs@7.8.1)
       '@rx-angular/state':
-        specifier: 16.3.0
-        version: 16.3.0(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1)
+        specifier: 19.0.3
+        version: 19.0.3(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8))(@rx-angular/cdk@19.1.0(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(rxjs@7.8.1)
       firebase:
         specifier: 11.4.0
         version: 11.4.0
@@ -2858,10 +2858,17 @@ packages:
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
-  '@rx-angular/state@16.3.0':
-    resolution: {integrity: sha512-bdV71umTRIximfTAlBOrL4m5fflInjK2O/kYj6mmAvKig0+F/NxF11psa8AyEXCieZFzKlukvGuUV//ulKAn9A==}
+  '@rx-angular/cdk@19.1.0':
+    resolution: {integrity: sha512-4Q6AZebAakLKLZkgntAWLyV02Hwu9pqSE7wL5sgflW8mS63kUXi3YrGuFjdxjJA2oHGj4LTNGOhB0udy+X58gA==}
     peerDependencies:
-      '@angular/core': ^16.0.0
+      '@angular/core': ^19.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+
+  '@rx-angular/state@19.0.3':
+    resolution: {integrity: sha512-INYUKH7xic+QvVinx5bQZOSNgBbQ1sV+Sxy2iM99WnsjF4jE+O10ddZv/Qydrw3dIEQ4qXBrW2bkp+ZLBYkzXQ==}
+    peerDependencies:
+      '@angular/core': ^19.0.0
+      '@rx-angular/cdk': ^19.1.0
       rxjs: ^6.5.3 || ^7.4.0
 
   '@schematics/angular@17.3.13':
@@ -2927,8 +2934,8 @@ packages:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
 
-  '@ts-morph/common@0.20.0':
-    resolution: {integrity: sha512-7uKjByfbPpwuzkstL3L5MQyuXPSKdoNG93Fmi2JoDcTf3pEP731JdRFAduRVkOs8oqxPsXKA+ScrWkdQ8t/I+Q==}
+  '@ts-morph/common@0.24.0':
+    resolution: {integrity: sha512-c1xMmNHWpNselmpIqursHeOHHBTIsJLbB+NuovbTTRCNiTLEr/U9dbJ8qy0jd/O2x5pc3seWuOUN5R2IoOTp8A==}
 
   '@tsconfig/node10@1.0.11':
     resolution: {integrity: sha512-DcRjDCujK/kCk/cUe8Xz8ZSpm8mS3mNNpta+jGCA6USEDfktlNvm1+IuZ9eTcDbNk41BHwpHHeW+N1lKCz4zOw==}
@@ -3810,8 +3817,8 @@ packages:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
 
-  code-block-writer@12.0.0:
-    resolution: {integrity: sha512-q4dMFMlXtKR3XNBHyMHt/3pwYNA69EDk00lloMOaaUMKPUXBw6lpXtbu3MMVG6/uOihGnRDOlkyqsONEUj60+w==}
+  code-block-writer@13.0.3:
+    resolution: {integrity: sha512-Oofo0pq3IKnsFtuHqSF7TqBfr71aeyZDVJ0HpmqB7FBM2qEigL0iPONSCZSO9pE9dZTAxANe5XHG9Uy0YMv8cg==}
 
   collect-v8-coverage@1.0.2:
     resolution: {integrity: sha512-lHl4d5/ONEbLlJvaJNtsF/Lz+WvB07u2ycqTYbdrq7UypDXailES4valYb2eWiJFxZlVmpGekfqoxQhzyFdT4Q==}
@@ -6157,10 +6164,6 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  lru-cache@6.0.0:
-    resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
-    engines: {node: '>=10'}
-
   lru-cache@7.18.3:
     resolution: {integrity: sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==}
     engines: {node: '>=12'}
@@ -6301,6 +6304,10 @@ packages:
   minimalistic-assert@1.0.1:
     resolution: {integrity: sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==}
 
+  minimatch@10.0.1:
+    resolution: {integrity: sha512-ethXTt3SGGR+95gudmqJ1eNhRO7eGEGIgYA9vnPatK4/etz2MEVDno5GMCibdMTuBMyElzIlgxMna3K94XDIDQ==}
+    engines: {node: 20 || >=22}
+
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
 
@@ -6311,14 +6318,6 @@ packages:
   minimatch@6.2.0:
     resolution: {integrity: sha512-sauLxniAmvnhhRjFwPNnJKaPFYyddAgbYdeUpHULtCT/GhzdCx/MDNy+Y40lBxTQUrMzDE8e0S43Z5uqfO0REg==}
     engines: {node: '>=10'}
-
-  minimatch@7.4.6:
-    resolution: {integrity: sha512-sBz8G/YjVniEz6lKPNpKxXwazJe4c19fEfV2GDMX6AjFz+MX9uDWIZW8XreVhkFW3fkIdTv/gxWr/Kks5FFAVw==}
-    engines: {node: '>=10'}
-
-  minimatch@9.0.1:
-    resolution: {integrity: sha512-0jWhJpD/MdhPXwPuiRkCbfYfSKp2qnn2eOc279qI7f+osl/l+prKSrvhg157zSYvx/1nmgn2NqdT6k2Z7zSH9w==}
-    engines: {node: '>=16 || 14 >=14.17'}
 
   minimatch@9.0.3:
     resolution: {integrity: sha512-RHiac9mvaRw0x3AYRgDC1CxAP7HTcNrrECeA8YYJeWnpo+2Q5CegtZjaotWTWxDG3UeGA1coE05iH1mPjT/2mg==}
@@ -6381,11 +6380,6 @@ packages:
 
   mkdirp@1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
-    engines: {node: '>=10'}
-    hasBin: true
-
-  mkdirp@2.1.6:
-    resolution: {integrity: sha512-+hEnITedc8LAtIP9u3HJDFIdcLV2vXP33sqLLIzkv1Db1zO/1OxbvYf0Y1OC/S/Qo5dxHXepofhmxL02PsKe+A==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -6482,12 +6476,12 @@ packages:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
     engines: {node: '>= 0.4.0'}
 
-  ng-morph@3.0.0:
-    resolution: {integrity: sha512-JfkBTkH0H05EtoGSRH2azeUARtDN2JXaZCoNJmtNmdZmI62TVSNs+QH7D/iD/kp+iyCxlZ5S7tUpiL4YdEmfaw==}
+  ng-morph@4.8.4:
+    resolution: {integrity: sha512-XwL53wCOhyaAxvoekN74ONbWUK30huzp+GpZYyC01RfaG2AX9l7YlC1mGG/l7Rx7YXtFAk85VFnNJqn2e46K8g==}
     peerDependencies:
-      '@angular-devkit/core': '>=11.0.0'
-      '@angular-devkit/schematics': '>=11.0.0'
-      tslib: 2.5.3
+      '@angular-devkit/core': '>=16.0.0'
+      '@angular-devkit/schematics': '>=16.0.0'
+      tslib: ^2.7.0
 
   node-abort-controller@3.1.1:
     resolution: {integrity: sha512-AGK2yQKIjRuqnc6VkX2Xj5d+QW8xZ87pa1UK6yA6ouUyuxfHuMP6umE5QK7UmTeOAymo+Zx1Fxiuw9rVx8taHQ==}
@@ -7765,11 +7759,6 @@ packages:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
 
-  semver@7.4.0:
-    resolution: {integrity: sha512-RgOxM8Mw+7Zus0+zcLEUn8+JfoLpj/huFTItQy2hsM4khuC1HYRDp0cU482Ewn/Fcy6bCjufD8vAj7voC66KQw==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   semver@7.6.3:
     resolution: {integrity: sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==}
     engines: {node: '>=10'}
@@ -8205,11 +8194,6 @@ packages:
       uglify-js:
         optional: true
 
-  terser@5.31.6:
-    resolution: {integrity: sha512-PQ4DAriWzKj+qgehQ7LK5bQqCFNMmlhjR2PFFLuqGCpuCAauxemVBWwWOxo3UIwWQx8+Pr61Df++r76wDmkQBg==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   terser@5.39.0:
     resolution: {integrity: sha512-LBAhFyLho16harJoWMg/nZsQYgTrg5jXOn2nCYjRUcZZEdE3qa2zb8QEDRUGVZBW4rlazf2fxkg8tztybTaqWw==}
     engines: {node: '>=10'}
@@ -8324,8 +8308,8 @@ packages:
       typescript: '*'
       webpack: ^5.0.0
 
-  ts-morph@19.0.0:
-    resolution: {integrity: sha512-D6qcpiJdn46tUqV45vr5UGM2dnIEuTGNxVhg0sk5NX11orcouwj6i1bMqZIz2mZTZB1Hcgy7C3oEVhAT+f6mbQ==}
+  ts-morph@23.0.0:
+    resolution: {integrity: sha512-FcvFx7a9E8TUe6T3ShihXJLiJOiqyafzFKUO4aqIHDUCIvADdGNShcbc2W5PMr3LerXRv7mafvFZ9lRENxJmug==}
 
   ts-node@10.9.1:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
@@ -12680,10 +12664,21 @@ snapshots:
 
   '@rtsao/scc@1.1.0': {}
 
-  '@rx-angular/state@16.3.0(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1)':
+  '@rx-angular/cdk@19.1.0(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1)':
     dependencies:
       '@angular/core': 19.2.2(rxjs@7.8.1)(zone.js@0.14.8)
-      ng-morph: 3.0.0(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(tslib@2.5.3)
+      ng-morph: 4.8.4(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(tslib@2.5.3)
+      rxjs: 7.8.1
+      tslib: 2.5.3
+    transitivePeerDependencies:
+      - '@angular-devkit/core'
+      - '@angular-devkit/schematics'
+
+  '@rx-angular/state@19.0.3(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8))(@rx-angular/cdk@19.1.0(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(rxjs@7.8.1)':
+    dependencies:
+      '@angular/core': 19.2.2(rxjs@7.8.1)(zone.js@0.14.8)
+      '@rx-angular/cdk': 19.1.0(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(@angular/core@19.2.2(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1)
+      ng-morph: 4.8.4(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(tslib@2.5.3)
       rxjs: 7.8.1
       tslib: 2.5.3
     transitivePeerDependencies:
@@ -12760,11 +12755,11 @@ snapshots:
 
   '@trysound/sax@0.2.0': {}
 
-  '@ts-morph/common@0.20.0':
+  '@ts-morph/common@0.24.0':
     dependencies:
       fast-glob: 3.3.3
-      minimatch: 7.4.6
-      mkdirp: 2.1.6
+      minimatch: 9.0.5
+      mkdirp: 3.0.1
       path-browserify: 1.0.1
 
   '@tsconfig/node10@1.0.11': {}
@@ -13830,7 +13825,7 @@ snapshots:
 
   co@4.6.0: {}
 
-  code-block-writer@12.0.0: {}
+  code-block-writer@13.0.3: {}
 
   collect-v8-coverage@1.0.2: {}
 
@@ -16874,10 +16869,6 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lru-cache@6.0.0:
-    dependencies:
-      yallist: 4.0.0
-
   lru-cache@7.18.3: {}
 
   lsofi@1.0.0:
@@ -17023,6 +17014,10 @@ snapshots:
 
   minimalistic-assert@1.0.1: {}
 
+  minimatch@10.0.1:
+    dependencies:
+      brace-expansion: 2.0.1
+
   minimatch@3.1.2:
     dependencies:
       brace-expansion: 1.1.11
@@ -17032,14 +17027,6 @@ snapshots:
       brace-expansion: 2.0.1
 
   minimatch@6.2.0:
-    dependencies:
-      brace-expansion: 2.0.1
-
-  minimatch@7.4.6:
-    dependencies:
-      brace-expansion: 2.0.1
-
-  minimatch@9.0.1:
     dependencies:
       brace-expansion: 2.0.1
 
@@ -17109,8 +17096,6 @@ snapshots:
       minimist: 1.2.8
 
   mkdirp@1.0.4: {}
-
-  mkdirp@2.1.6: {}
 
   mkdirp@3.0.1: {}
 
@@ -17206,15 +17191,14 @@ snapshots:
 
   netmask@2.0.2: {}
 
-  ng-morph@3.0.0(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(tslib@2.5.3):
+  ng-morph@4.8.4(@angular-devkit/core@19.2.3(chokidar@4.0.3))(@angular-devkit/schematics@19.2.3(chokidar@4.0.3))(tslib@2.5.3):
     dependencies:
       '@angular-devkit/core': 19.2.3(chokidar@4.0.3)
       '@angular-devkit/schematics': 19.2.3(chokidar@4.0.3)
-      jsonc-parser: 3.2.0
-      minimatch: 9.0.1
+      jsonc-parser: 3.3.1
+      minimatch: 10.0.1
       multimatch: 5.0.0
-      semver: 7.4.0
-      ts-morph: 19.0.0
+      ts-morph: 23.0.0
       tslib: 2.5.3
 
   node-abort-controller@3.1.1: {}
@@ -18600,10 +18584,6 @@ snapshots:
 
   semver@6.3.1: {}
 
-  semver@7.4.0:
-    dependencies:
-      lru-cache: 6.0.0
-
   semver@7.6.3: {}
 
   semver@7.7.1: {}
@@ -19171,17 +19151,10 @@ snapshots:
       jest-worker: 27.5.1
       schema-utils: 4.3.0
       serialize-javascript: 6.0.2
-      terser: 5.31.6
+      terser: 5.39.0
       webpack: 5.98.0(esbuild@0.25.1)
     optionalDependencies:
       esbuild: 0.25.1
-
-  terser@5.31.6:
-    dependencies:
-      '@jridgewell/source-map': 0.3.6
-      acorn: 8.14.1
-      commander: 2.20.3
-      source-map-support: 0.5.21
 
   terser@5.39.0:
     dependencies:
@@ -19297,10 +19270,10 @@ snapshots:
       typescript: 5.5.4
       webpack: 5.98.0(esbuild@0.25.1)
 
-  ts-morph@19.0.0:
+  ts-morph@23.0.0:
     dependencies:
-      '@ts-morph/common': 0.20.0
-      code-block-writer: 12.0.0
+      '@ts-morph/common': 0.24.0
+      code-block-writer: 13.0.3
 
   ts-node@10.9.1(@types/node@22.13.10)(typescript@5.5.4):
     dependencies:
