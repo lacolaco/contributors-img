@@ -15,6 +15,7 @@ require (
 	github.com/bradleyjkemp/cupaloy v2.3.0+incompatible
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/go-github/v45 v45.2.0
+	github.com/google/go-github/v69 v69.2.0
 	go.ajitem.com/zapdriver v1.5.3
 	golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f
 	golang.org/x/oauth2 v0.28.0
