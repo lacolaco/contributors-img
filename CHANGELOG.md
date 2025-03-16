@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.8](https://github.com/lacolaco/contributors-img/compare/v1.0.7...v1.0.8) (2025-03-16)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @rx-angular/state to v19 ([#1594](https://github.com/lacolaco/contributors-img/issues/1594)) ([b75f0d0](https://github.com/lacolaco/contributors-img/commit/b75f0d03f54221a4643bd7820daf23513a2fcb69))
+
 ## [1.0.7](https://github.com/lacolaco/contributors-img/compare/v1.0.6...v1.0.7) (2025-03-16)
 
 
