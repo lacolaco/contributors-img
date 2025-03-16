@@ -1,6 +1,6 @@
 <div class="heading">Used by</div>
 <ul class="gallery">
-  <ng-container *ngFor="let repo of repositories">
+  @for (repo of repositories(); track repo) {
     <li class="gallery-item">
       <div class="repo">
         <img class="repo-image" height="32" width="32" src="{{ repo | repositoryImageUrl }}" />
@@ -11,14 +11,12 @@
               <span>{{ repo.repository }}</span>
             </div>
           </a>
-
           <div class="repo-numbers">
             <div>{{ repo.stargazers | number }} stars</div>
-
             <a style="font-weight: bold" routerLink [queryParams]="{ repo: repo.repository }">View rocks</a>
           </div>
         </div>
       </div>
     </li>
-  </ng-container>
+  }
 </ul>

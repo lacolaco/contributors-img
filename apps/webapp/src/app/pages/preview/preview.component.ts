@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { delay, firstValueFrom, Subject, takeUntil } from 'rxjs';
@@ -18,9 +17,16 @@ type PreviewPageParams = {
 };
 
 @Component({
-  templateUrl: './preview.component.html',
+  template: `
+    <main>
+      <app-header />
+      <app-image-preview />
+      <app-recent-usage />
+      <app-footer />
+    </main>
+  `,
   styleUrls: ['./preview.component.scss'],
-  imports: [CommonModule, HeaderComponent, FooterComponent, ImagePreviewComponent, RecentUsageComponent],
+  imports: [HeaderComponent, FooterComponent, ImagePreviewComponent, RecentUsageComponent],
   providers: [PreviewState],
 })
 export class PreviewPageComponent implements OnInit, OnDestroy {

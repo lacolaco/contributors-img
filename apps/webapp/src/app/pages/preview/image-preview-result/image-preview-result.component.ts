@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnChanges, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { SvgViewComponent } from '../../../components/svg-view/svg-view.component';
 import { Repository } from '../../../models';
@@ -9,20 +8,22 @@ import { ImageSnippetComponent } from '../image-snippet/image-snippet.component'
   selector: 'app-image-preview-result',
   template: `
     <div class="pane">
-      <app-svg-view [content]="imageSvg"></app-svg-view>
-      <app-image-snippet *ngIf="snippetOpen" [repository]="repository"> </app-image-snippet>
-      <button *ngIf="!snippetOpen" mat-stroked-button color="primary" (click)="showImageSnippet()">
-        Get Image URL!
-      </button>
+      <app-svg-view [content]="imageSvg()" />
+      @if (snippetOpen) {
+        <app-image-snippet [repository]="repository()" />
+      }
+      @if (!snippetOpen) {
+        <button mat-stroked-button color="primary" (click)="showImageSnippet()">Get Image URL!</button>
+      }
     </div>
   `,
   styleUrls: ['./image-preview-result.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatButtonModule, SvgViewComponent, ImageSnippetComponent],
+  imports: [MatButtonModule, SvgViewComponent, ImageSnippetComponent],
 })
 export class ImagePreviewResultComponent implements OnChanges {
-  @Input() repository: Repository;
-  @Input() imageSvg: string;
+  readonly repository = input.required<Repository>();
+  readonly imageSvg = input.required<string>();
 
   snippetOpen = false;
 

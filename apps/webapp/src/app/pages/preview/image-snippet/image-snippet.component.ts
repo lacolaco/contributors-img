@@ -1,5 +1,5 @@
 import { Clipboard, ClipboardModule } from '@angular/cdk/clipboard';
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Repository } from '../../../models/repository';
 
@@ -28,10 +28,10 @@ export class ImageSnippetComponent {
   private readonly clipboard = inject(Clipboard);
   private readonly snackBar = inject(MatSnackBar);
 
-  @Input() repository: Repository;
+  readonly repository = input.required<Repository>();
 
   get imageSnippet(): string {
-    const repoString = this.repository.toString();
+    const repoString = this.repository().toString();
     return `
 <a href="https://github.com/${repoString}/graphs/contributors">
   <img src="${location.origin}/image?repo=${repoString}" />

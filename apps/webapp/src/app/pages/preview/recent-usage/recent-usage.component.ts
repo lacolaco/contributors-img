@@ -8,9 +8,9 @@ import { RepositoryGalleryComponent } from '../repository-gallery/repository-gal
 @Component({
   selector: 'app-recent-usage',
   template: `
-    <ng-container *ngIf="repositories$ | async as repositories">
-      <app-repository-gallery [repositories]="repositories"></app-repository-gallery>
-    </ng-container>
+    @if (repositories$ | async; as repositories) {
+      <app-repository-gallery [repositories]="repositories" />
+    }
   `,
   styles: [
     `

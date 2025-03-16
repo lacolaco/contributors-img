@@ -1,4 +1,4 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable, Provider, inject } from '@angular/core';
 import { doc, docData, DocumentReference, Firestore } from '@angular/fire/firestore';
 import { filter, map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -13,7 +13,9 @@ type FeaturedRepositoryDocument = {
 export class FirebaseFeaturedRepositoryDatasource implements FeaturedRepositoryDatasource {
   readonly repositories$: Observable<FeaturedRepository[]>;
 
-  constructor(firestore: Firestore) {
+  constructor() {
+    const firestore = inject(Firestore);
+
     this.repositories$ = docData(
       doc(
         firestore,
