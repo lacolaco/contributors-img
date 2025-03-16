@@ -2,6 +2,7 @@ dist
 coverage
 target
 CHANGELOG.md
+pnpm-lock.yaml
 
 /.nx/cache
 /.nx/workspace-data

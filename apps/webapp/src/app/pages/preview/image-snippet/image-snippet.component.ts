@@ -22,7 +22,6 @@ import { Repository } from '../../../models/repository';
   `,
   styleUrls: ['./image-snippet.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [ClipboardModule, MatSnackBarModule],
 })
 export class ImageSnippetComponent {

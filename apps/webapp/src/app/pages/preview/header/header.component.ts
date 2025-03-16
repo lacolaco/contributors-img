@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
   `,
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatButtonModule],
 })
 export class HeaderComponent {}

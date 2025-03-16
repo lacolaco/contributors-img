@@ -9,7 +9,6 @@ import { RepositoryImageUrlPipe } from './repository-image-url.pipe';
   templateUrl: './repository-gallery.component.html',
   styleUrls: ['./repository-gallery.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CommonModule, RouterLink, RepositoryImageUrlPipe],
 })
 export class RepositoryGalleryComponent {

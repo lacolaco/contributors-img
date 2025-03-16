@@ -27,7 +27,6 @@ import { PreviewState } from '../state';
   `,
   styleUrls: ['./image-preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CommonModule, ImagePreviewFormComponent, ImagePreviewResultComponent],
 })
 export class ImagePreviewComponent {

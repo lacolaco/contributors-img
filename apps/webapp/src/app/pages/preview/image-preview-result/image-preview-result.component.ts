@@ -18,7 +18,6 @@ import { ImageSnippetComponent } from '../image-snippet/image-snippet.component'
   `,
   styleUrls: ['./image-preview-result.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CommonModule, MatButtonModule, SvgViewComponent, ImageSnippetComponent],
 })
 export class ImagePreviewResultComponent implements OnChanges {

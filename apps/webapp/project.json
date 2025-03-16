@@ -11,12 +11,11 @@
   "prefix": "app",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular/build:application",
       "options": {
         "outputPath": "dist/apps/webapp",
         "index": "apps/webapp/src/index.html",
-        "main": "apps/webapp/src/main.ts",
-        "polyfills": "apps/webapp/src/polyfills.ts",
+        "polyfills": ["apps/webapp/src/polyfills.ts"],
         "tsConfig": "apps/webapp/tsconfig.app.json",
         "assets": ["apps/webapp/src/favicon.ico", "apps/webapp/src/assets"],
         "styles": [
@@ -25,7 +24,8 @@
           "apps/webapp/src/styles.scss"
         ],
         "scripts": [],
-        "outputHashing": "all"
+        "outputHashing": "all",
+        "browser": "apps/webapp/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -67,9 +67,7 @@
           ]
         },
         "development": {
-          "vendorChunk": true,
           "extractLicenses": false,
-          "buildOptimizer": false,
           "sourceMap": true,
           "optimization": false,
           "namedChunks": true
@@ -78,7 +76,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "options": {
         "proxyConfig": "apps/webapp/proxy.conf.json",
         "buildTarget": "webapp:build:development"
@@ -90,7 +88,7 @@
       }
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "webapp:build"
       }
