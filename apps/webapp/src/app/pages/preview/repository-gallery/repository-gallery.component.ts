@@ -1,28 +1,37 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FeaturedRepository } from '../../../models/repository';
-import { RepositoryImageUrlPipe } from './repository-image-url.pipe';
+import { FeaturedRepository, Repository } from '../../../models/repository';
 
 @Component({
   selector: 'app-repository-gallery',
   template: `
-    <div class="heading">Used by</div>
-    <ul class="gallery">
+    <div class="mb-4 text-xl font-bold text-left w-full">Used by</div>
+    <ul class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 list-none w-full pl-0">
       @for (repo of repositories(); track repo) {
-        <li class="gallery-item">
-          <div class="repo">
-            <img class="repo-image" height="32" width="32" src="{{ repo | repositoryImageUrl }}" />
-            <div class="repo-body">
-              <a href="https://github.com/{{ repo.repository }}" target="_blank" rel="noopener">
-                <div class="repo-name">
-                  <img style="display: flex" height="20" width="20" src="assets/images/github-64px.png" />
-                  <span>{{ repo.repository }}</span>
+        <li class="box-border h-32">
+          <div class="box-border w-full h-full p-4 border border-gray-300 rounded-lg flex flex-row">
+            <img class="w-auto h-full aspect-square mr-4" height="32" width="32" [src]="getRepositoryImageUrl(repo)" />
+            <div class="flex-1 flex flex-col justify-center">
+              <a
+                [href]="getRepositoryPageUrl(repo)"
+                target="_blank"
+                rel="noopener"
+                class="text-black no-underline hover:underline"
+              >
+                <div class="flex items-center font-bold mb-4 text-base">
+                  <img class="flex" height="20" width="20" src="assets/images/github-64px.png" />
+                  <span class="ml-1">{{ repo.repository }}</span>
                 </div>
               </a>
-              <div class="repo-numbers">
+              <div class="flex justify-between">
                 <div>{{ repo.stargazers | number }} stars</div>
-                <a style="font-weight: bold" routerLink [queryParams]="{ repo: repo.repository }">View rocks</a>
+                <a
+                  class="font-bold text-black no-underline hover:underline"
+                  routerLink
+                  [queryParams]="{ repo: repo.repository }"
+                  >View rocks</a
+                >
               </div>
             </div>
           </div>
@@ -30,10 +39,17 @@ import { RepositoryImageUrlPipe } from './repository-image-url.pipe';
       }
     </ul>
   `,
-  styleUrls: ['./repository-gallery.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, RepositoryImageUrlPipe],
+  imports: [CommonModule, RouterLink],
 })
 export class RepositoryGalleryComponent {
   readonly repositories = input<FeaturedRepository[]>([]);
+
+  getRepositoryImageUrl(repo: FeaturedRepository): string {
+    return `https://github.com/${Repository.fromString(repo.repository).owner}.png?w=64`;
+  }
+
+  getRepositoryPageUrl(repo: FeaturedRepository): string {
+    return `https://github.com/${repo.repository}`;
+  }
 }
