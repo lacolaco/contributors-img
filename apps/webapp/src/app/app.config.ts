@@ -1,5 +1,5 @@
 import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { getAnalytics, provideAnalytics } from '@angular/fire/analytics';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
@@ -15,10 +15,10 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(),
     provideRouter(routes),
-    importProvidersFrom(provideFirebaseApp(() => initializeApp(environment.firebaseConfig))),
-    importProvidersFrom(provideFirestore(() => getFirestore())),
-    importProvidersFrom(provideAnalytics(() => getAnalytics())),
-    importProvidersFrom(providePerformance(() => getPerformance())),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore(() => getFirestore()),
+    provideAnalytics(() => getAnalytics()),
+    providePerformance(() => getPerformance()),
     provideFeaturedRepositoryDatasource(),
   ],
 };

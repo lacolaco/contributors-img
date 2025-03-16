@@ -35,7 +35,7 @@
     "@angular/common": "19.2.2",
     "@angular/compiler": "19.2.2",
     "@angular/core": "19.2.2",
-    "@angular/fire": "17.0.0",
+    "@angular/fire": "19.0.0",
     "@angular/forms": "19.2.2",
     "@angular/material": "18.2.14",
     "@angular/platform-browser": "19.2.2",
