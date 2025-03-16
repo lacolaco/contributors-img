@@ -2,7 +2,7 @@
   "hosting": [
     {
       "target": "production",
-      "public": "dist/apps/webapp",
+      "public": "dist/apps/webapp/browser",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "headers": [
         {
@@ -38,7 +38,7 @@
     },
     {
       "target": "staging",
-      "public": "dist/apps/webapp",
+      "public": "dist/apps/webapp/browser",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "headers": [
         {
