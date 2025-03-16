@@ -18,11 +18,7 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/webapp/tsconfig.app.json",
         "assets": ["apps/webapp/src/favicon.ico", "apps/webapp/src/assets"],
-        "styles": [
-          "./node_modules/normalize.css/normalize.css",
-          "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-          "apps/webapp/src/styles.scss"
-        ],
+        "styles": ["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css", "apps/webapp/src/styles.scss"],
         "scripts": [],
         "outputHashing": "all",
         "browser": "apps/webapp/src/main.ts"
@@ -105,11 +101,7 @@
         "polyfills": ["zone.js", "zone.js/testing"],
         "tsConfig": "apps/webapp/tsconfig.spec.json",
         "assets": ["apps/webapp/src/favicon.ico", "apps/webapp/src/assets"],
-        "styles": [
-          "./node_modules/normalize.css/normalize.css",
-          "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-          "apps/webapp/src/styles.scss"
-        ],
+        "styles": ["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css", "apps/webapp/src/styles.scss"],
         "browsers": "ChromeHeadless",
         "watch": false
       }
