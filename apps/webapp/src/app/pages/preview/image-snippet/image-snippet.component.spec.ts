@@ -1,7 +1,7 @@
 describe('ImageSnippetComponent', () => {
   //   let spectator: Spectator<ImageSnippetComponent>;
   //   const createComponent = createComponentFactory(ImageSnippetComponent);
-  test('should create', () => {
+  it('should create', () => {
     expect(true).toBeTruthy();
   });
   //   test('should generate image snippet', () => {
