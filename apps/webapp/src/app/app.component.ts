@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   template: `<router-outlet (activate)="onRouteActivate()"></router-outlet>`,
   styleUrls: ['./app.component.scss'],
   imports: [RouterOutlet],

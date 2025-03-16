@@ -8,6 +8,7 @@
     "declaration": false,
     "module": "es2020",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "strict": true,

@@ -20,7 +20,6 @@ type PreviewPageParams = {
 @Component({
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],
-  standalone: true,
   imports: [CommonModule, HeaderComponent, FooterComponent, ImagePreviewComponent, RecentUsageComponent],
   providers: [PreviewState],
 })

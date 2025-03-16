@@ -15,7 +15,6 @@ import { DomSanitizer } from '@angular/platform-browser';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [NgIf],
 })
 export class SvgViewComponent {

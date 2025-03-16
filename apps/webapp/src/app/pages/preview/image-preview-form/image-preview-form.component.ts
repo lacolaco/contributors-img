@@ -24,7 +24,6 @@ import { PreviewState } from '../state';
   `,
   styleUrls: ['./image-preview-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
 })
 export class ImagePreviewFormComponent {

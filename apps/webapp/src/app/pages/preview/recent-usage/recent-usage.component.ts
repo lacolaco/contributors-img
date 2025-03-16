@@ -20,7 +20,6 @@ import { RepositoryGalleryComponent } from '../repository-gallery/repository-gal
       }
     `,
   ],
-  standalone: true,
   imports: [CommonModule, RepositoryGalleryComponent],
 })
 export class RecentUsageComponent implements OnDestroy {
