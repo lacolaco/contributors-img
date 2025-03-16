@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.7](https://github.com/lacolaco/contributors-img/compare/v1.0.6...v1.0.7) (2025-03-16)
+
+
+### Bug Fixes
+
+* **deps:** update angularmaterial monorepo to v18.2.14 ([#1578](https://github.com/lacolaco/contributors-img/issues/1578)) ([e490b78](https://github.com/lacolaco/contributors-img/commit/e490b78424c7c0bca31973e0fe0754887620d917))
+* **deps:** update dependency firebase to v11 ([#1588](https://github.com/lacolaco/contributors-img/issues/1588)) ([581e05b](https://github.com/lacolaco/contributors-img/commit/581e05bd6ed118a11f6c7e4d9a84d3689b9187e5))
+* **deps:** update module github.com/google/go-github/v45 to v69 ([#1589](https://github.com/lacolaco/contributors-img/issues/1589)) ([cb34612](https://github.com/lacolaco/contributors-img/commit/cb346121e3c6a5a19e6ae4a1b8060086e81fd47e))
+* **deps:** update module golang.org/x/oauth2 to v0.28.0 ([#1586](https://github.com/lacolaco/contributors-img/issues/1586)) ([90d9a2f](https://github.com/lacolaco/contributors-img/commit/90d9a2f36e49b1a037c910ebb49a1ceb9e9ca594))
+* **deps:** upgrade Angular to v19 ([#1593](https://github.com/lacolaco/contributors-img/issues/1593)) ([3b7a391](https://github.com/lacolaco/contributors-img/commit/3b7a391f260facb7e6d095910a9a4fe235fddac5))
+
 ## [1.0.6](https://github.com/lacolaco/contributors-img/compare/v1.0.5...v1.0.6) (2025-03-15)
 
 
