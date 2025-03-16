@@ -1,10 +1,11 @@
-import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-svg-view',
-  template: `<div *ngIf="sanitizedSvg" [innerHtml]="sanitizedSvg"></div>`,
+  template: `@if (sanitizedSvg) {
+    <div [innerHtml]="sanitizedSvg"></div>
+  }`,
   styles: [
     `
       app-svg-view svg {
@@ -15,17 +16,18 @@ import { DomSanitizer } from '@angular/platform-browser';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [NgIf],
+  imports: [],
 })
 export class SvgViewComponent {
-  @Input() content: string | null = null;
+  private readonly domSanitizer = inject(DomSanitizer);
+
+  readonly content = input<string | null>(null);
 
   get sanitizedSvg() {
-    if (this.content === null) {
+    const content = this.content();
+    if (content === null) {
       return null;
     }
-    return this.domSanitizer.bypassSecurityTrustHtml(this.content);
+    return this.domSanitizer.bypassSecurityTrustHtml(content);
   }
-
-  constructor(private readonly domSanitizer: DomSanitizer) {}
 }

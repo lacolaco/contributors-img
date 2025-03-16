@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FeaturedRepository } from '../../../models/repository';
 import { RepositoryImageUrlPipe } from './repository-image-url.pipe';
@@ -12,6 +12,5 @@ import { RepositoryImageUrlPipe } from './repository-image-url.pipe';
   imports: [CommonModule, RouterLink, RepositoryImageUrlPipe],
 })
 export class RepositoryGalleryComponent {
-  @Input()
-  repositories: FeaturedRepository[] = [];
+  readonly repositories = input<FeaturedRepository[]>([]);
 }
