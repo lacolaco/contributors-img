@@ -35,7 +35,7 @@ jobs:
           service_account: ${{ vars.GOOGLE_DEPLOY_SERVICE_ACCOUNT }}
       - uses: google-github-actions/setup-gcloud@v2
       - uses: ./.github/actions/setup-go
-      - uses: imjasonh/setup-ko@v0.7
+      - uses: imjasonh/setup-ko@v0.8
         env:
           KO_DOCKER_REPO: us-central1-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/cloud-run-builds
       - name: Build Docker image of api

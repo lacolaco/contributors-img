@@ -36,7 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-go
-      - uses: imjasonh/setup-ko@v0.7
+      - uses: imjasonh/setup-ko@v0.8
       - run: ko build --push=false ./apps/api
         env:
           KO_DOCKER_REPO: ''
