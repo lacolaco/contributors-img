@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/lacolaco/contributors-img/compare/v1.0.8...v1.1.0) (2025-03-17)
+
+
+### Features
+
+* **api:** add referer parameter to image retrieval logging and parameters ([#1605](https://github.com/lacolaco/contributors-img/issues/1605)) ([7105e5b](https://github.com/lacolaco/contributors-img/commit/7105e5b201152f585556bddc69c8f2b6a34c95c4))
+
+
+### Bug Fixes
+
+* **deps:** update dependency rxjs to v7.8.2 ([#1608](https://github.com/lacolaco/contributors-img/issues/1608)) ([df6f1b5](https://github.com/lacolaco/contributors-img/commit/df6f1b5fab62ac35046e984ea2979526cec7cbc0))
+* **deps:** update golang.org/x/exp digest to 054e65f ([#1607](https://github.com/lacolaco/contributors-img/issues/1607)) ([40f4ff5](https://github.com/lacolaco/contributors-img/commit/40f4ff593b81cab29e105a4301884dc288c2b750))
+
 ## [1.0.8](https://github.com/lacolaco/contributors-img/compare/v1.0.7...v1.0.8) (2025-03-16)
 
 
