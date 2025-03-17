@@ -55,10 +55,12 @@ func (api *API) Get(c *gin.Context) {
 	span.SetAttributes(
 		attribute.String("/app/api/image/params/repository", string(params.Repository)),
 		attribute.String("/app/api/image/params/via", params.Via),
+		attribute.String("/app/api/image/params/referer", params.Referer),
 		attribute.Int64("/app/api/image/params/max", int64(params.MaxCount)),
 		attribute.Int64("/app/api/image/params/columns", int64(params.Columns)),
 	)
-	log = log.With(logger.Label("repository", string(params.Repository)))
+	log = log.With(logger.Label("repository", string(params.Repository)),
+		logger.Label("referer", params.Referer))
 	ctx = logger.ContextWithLogger(ctx, log)
 
 	log.Info(fmt.Sprintf("[api.image.Get] start: %s", params.Repository), zap.Object("params", params))

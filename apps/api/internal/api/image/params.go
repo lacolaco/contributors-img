@@ -15,6 +15,7 @@ type GetImageParams struct {
 	IncludeAnonymous bool                   `form:"anon"`
 	Preview          bool                   `form:"preview"`
 	Via              string
+	Referer          string
 }
 
 // MarshalLogObject implements zapcore.ObjectMarshaler
@@ -25,6 +26,7 @@ func (p GetImageParams) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 	enc.AddBool("anon", p.IncludeAnonymous)
 	enc.AddBool("preview", p.Preview)
 	enc.AddString("via", p.Via)
+	enc.AddString("referer", p.Via)
 	return nil
 }
 
@@ -42,5 +44,6 @@ func (p *GetImageParams) bind(ctx *gin.Context) error {
 	} else if strings.HasSuffix(ctx.Request.Host, "contrib.rocks") {
 		p.Via = "preview"
 	}
+	p.Referer = ctx.Request.Referer()
 	return nil
 }
