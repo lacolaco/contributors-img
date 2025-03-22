@@ -26,7 +26,7 @@ func (p GetImageParams) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 	enc.AddBool("anon", p.IncludeAnonymous)
 	enc.AddBool("preview", p.Preview)
 	enc.AddString("via", p.Via)
-	enc.AddString("referer", p.Via)
+	enc.AddString("referer", p.Referer)
 	return nil
 }
 

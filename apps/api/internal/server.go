@@ -1,6 +1,7 @@
 package app
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -67,6 +68,9 @@ func requestLogger() gin.HandlerFunc {
 			zap.String("userAgent", c.Request.UserAgent()),
 			zap.String("referer", c.Request.Referer()),
 		)
+		// log all headers
+		headers, _ := json.Marshal(c.Request.Header)
+		logger.LoggerFromContext(c.Request.Context()).Debug("request.headers", zap.String("headers", string(headers)))
 		c.Next()
 		logger.LoggerFromContext(c.Request.Context()).Debug("request.end",
 			zap.Int("status", c.Writer.Status()),
