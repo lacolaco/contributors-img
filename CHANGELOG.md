@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/lacolaco/contributors-img/compare/v1.1.0...v1.1.1) (2025-03-22)
+
+
+### Bug Fixes
+
+* **api:** log all http headers ([f79cbeb](https://github.com/lacolaco/contributors-img/commit/f79cbeb96b55b2f599ba04aa0027030125467084))
+
 ## [1.1.0](https://github.com/lacolaco/contributors-img/compare/v1.0.8...v1.1.0) (2025-03-17)
 
 
