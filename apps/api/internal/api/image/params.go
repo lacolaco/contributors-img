@@ -12,6 +12,7 @@ type GetImageParams struct {
 	Repository       model.RepositoryString `form:"repo" binding:"required"`
 	MaxCount         int                    `form:"max"`
 	Columns          int                    `form:"columns"`
+	ItemSize         int                    `form:"itemSize"`
 	IncludeAnonymous bool                   `form:"anon"`
 	Preview          bool                   `form:"preview"`
 	Via              string
@@ -23,6 +24,7 @@ func (p GetImageParams) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 	enc.AddString("repository", string(p.Repository))
 	enc.AddInt("max", p.MaxCount)
 	enc.AddInt("columns", p.Columns)
+	enc.AddInt("itemSize", p.ItemSize)
 	enc.AddBool("anon", p.IncludeAnonymous)
 	enc.AddBool("preview", p.Preview)
 	enc.AddString("via", p.Via)
