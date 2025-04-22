@@ -10,11 +10,11 @@ import { ImagePreviewComponent } from './image-preview/image-preview.component';
 import { RecentUsageComponent } from './recent-usage/recent-usage.component';
 import { defaultImageParams, PreviewState } from './state';
 
-type PreviewPageParams = {
+interface PreviewPageParams {
   repo?: string;
   max?: string;
   columns?: string;
-};
+}
 
 @Component({
   template: `
