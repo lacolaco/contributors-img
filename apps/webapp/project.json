@@ -90,9 +90,10 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
+      "executor": "nx:run-commands",
       "options": {
-        "lintFilePatterns": ["apps/webapp/**/*.ts", "apps/webapp/**/*.html"]
+        "command": "npx eslint . --ext .ts,.html",
+        "cwd": "apps/webapp"
       }
     },
     "test": {

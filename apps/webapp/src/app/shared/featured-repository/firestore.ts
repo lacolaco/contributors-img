@@ -5,9 +5,9 @@ import { environment } from '../../../environments/environment';
 import { FeaturedRepository } from '../../models';
 import { FeaturedRepositoryDatasource, FeaturedRepositoryDatasourceToken } from './index';
 
-type FeaturedRepositoryDocument = {
+interface FeaturedRepositoryDocument {
   items: FeaturedRepository[];
-};
+}
 
 @Injectable()
 export class FirebaseFeaturedRepositoryDatasource implements FeaturedRepositoryDatasource {

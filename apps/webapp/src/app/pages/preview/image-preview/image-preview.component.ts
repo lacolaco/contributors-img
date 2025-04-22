@@ -11,7 +11,7 @@ import { PreviewState } from '../state';
     @if (state$ | async; as state) {
       <app-image-preview-form [value]="state.imageParams" />
       @if (state.loading) {
-        <img height="100" src="assets/images/loading.gif" />
+        <img height="100" src="assets/images/loading.gif" alt="Loading..." />
       } @else {
         @if (state.result) {
           <app-image-preview-result [repository]="state.imageParams.repository" [imageSvg]="state.result.data" />

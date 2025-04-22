@@ -11,7 +11,13 @@ import { FeaturedRepository, Repository } from '../../../models/repository';
       @for (repo of repositories(); track repo) {
         <li class="box-border h-32">
           <div class="box-border w-full h-full p-4 border border-gray-300 rounded-lg flex flex-row">
-            <img class="w-auto h-full aspect-square mr-4" height="32" width="32" [src]="getRepositoryImageUrl(repo)" />
+            <img
+              class="w-auto h-full aspect-square mr-4"
+              height="32"
+              width="32"
+              [src]="getRepositoryImageUrl(repo)"
+              alt="Repository contributors image for {{ repo.repository }}"
+            />
             <div class="flex-1 flex flex-col justify-center">
               <a
                 [href]="getRepositoryPageUrl(repo)"
@@ -20,7 +26,7 @@ import { FeaturedRepository, Repository } from '../../../models/repository';
                 class="text-black no-underline hover:underline"
               >
                 <div class="flex items-center font-bold mb-4 text-base">
-                  <img class="flex" height="20" width="20" src="assets/images/github-64px.png" />
+                  <img class="flex" height="20" width="20" src="assets/images/github-64px.png" alt="GitHub logo" />
                   <span class="ml-1">{{ repo.repository }}</span>
                 </div>
               </a>
