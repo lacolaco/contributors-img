@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
+	"contrib.rocks/apps/api/go/model"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/go/model"
 	"go.uber.org/zap"
 )
 

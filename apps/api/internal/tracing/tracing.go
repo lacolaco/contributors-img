@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
+	"contrib.rocks/apps/api/go/env"
 	"contrib.rocks/apps/api/internal/config"
-	"contrib.rocks/libs/go/env"
 	cloudtrace "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace"
 	gcppropagator "github.com/GoogleCloudPlatform/opentelemetry-operations-go/propagator"
 	"go.opentelemetry.io/otel"

@@ -4,13 +4,13 @@ import (
 	"context"
 	"fmt"
 
+	"contrib.rocks/apps/api/go/dataurl"
+	"contrib.rocks/apps/api/go/model"
+	"contrib.rocks/apps/api/go/renderer"
+	"contrib.rocks/apps/api/go/util"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/go/dataurl"
-	"contrib.rocks/libs/go/model"
-	"contrib.rocks/libs/go/renderer"
-	"contrib.rocks/libs/go/util"
 	"golang.org/x/sync/errgroup"
 )
 

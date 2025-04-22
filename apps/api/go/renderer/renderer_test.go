@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"contrib.rocks/libs/go/model"
+	"contrib.rocks/apps/api/go/model"
 	"github.com/bradleyjkemp/cupaloy"
 )
 

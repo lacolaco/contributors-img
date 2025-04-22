@@ -11,24 +11,24 @@
       "executor": "nx:run-commands",
       "inputs": ["default"],
       "options": {
-        "command": "go test ./...",
-        "cwd": "libs/go"
+        "command": "go test ./..."
+        // "cwd": "libs/go"
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "inputs": ["default"],
       "options": {
-        "command": "go vet ./...",
-        "cwd": "libs/go"
+        "command": "go vet ./..."
+        // "cwd": "libs/go"
       }
     },
     "format": {
       "executor": "nx:run-commands",
       "inputs": ["default"],
       "options": {
-        "command": "gofmt -w .",
-        "cwd": "libs/go"
+        "command": "gofmt -w ."
+        // "cwd": "libs/go"
       }
     }
   }

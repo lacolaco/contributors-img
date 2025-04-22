@@ -1,13 +1,13 @@
 package service
 
 import (
+	"contrib.rocks/apps/api/go/apiclient"
+	"contrib.rocks/apps/api/go/github"
 	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/service/contributors"
 	"contrib.rocks/apps/api/internal/service/image"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/service/usage"
-	"contrib.rocks/libs/go/apiclient"
-	"contrib.rocks/libs/go/github"
 )
 
 type ServicePack struct {

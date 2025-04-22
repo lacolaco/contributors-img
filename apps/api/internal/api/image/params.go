@@ -3,7 +3,7 @@ package image
 import (
 	"strings"
 
-	"contrib.rocks/libs/go/model"
+	"contrib.rocks/apps/api/go/model"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap/zapcore"
 )

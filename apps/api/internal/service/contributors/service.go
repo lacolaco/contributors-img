@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
+	"contrib.rocks/apps/api/go/model"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/go/model"
 	"github.com/google/go-github/v45/github"
 )
 

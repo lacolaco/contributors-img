@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"contrib.rocks/libs/go/model"
+	"contrib.rocks/apps/api/go/model"
 	"github.com/google/go-github/v45/github"
 )
 

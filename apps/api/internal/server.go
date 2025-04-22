@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"net/http"
 
+	"contrib.rocks/apps/api/go/compress"
+	"contrib.rocks/apps/api/go/env"
 	"contrib.rocks/apps/api/internal/api"
 	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service"
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/go/compress"
-	"contrib.rocks/libs/go/env"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
