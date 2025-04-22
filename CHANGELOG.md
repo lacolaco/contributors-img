@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.1](https://github.com/lacolaco/contributors-img/compare/v1.1.0...v1.1.1) (2025-04-21)
+
+
+### Bug Fixes
+
+* **api:** log all http headers ([f79cbeb](https://github.com/lacolaco/contributors-img/commit/f79cbeb96b55b2f599ba04aa0027030125467084))
+* **deps:** update dependency firebase to v11.6.0 ([#1614](https://github.com/lacolaco/contributors-img/issues/1614)) ([d89c37f](https://github.com/lacolaco/contributors-img/commit/d89c37f23d001b428b319aef636488be0781f75c))
+* **deps:** update golang.org/x/exp digest to 7e4ce0a ([#1615](https://github.com/lacolaco/contributors-img/issues/1615)) ([1621245](https://github.com/lacolaco/contributors-img/commit/162124565785c3121510ccda9722550cec5556e8))
+
 ## [1.1.0](https://github.com/lacolaco/contributors-img/compare/v1.0.8...v1.1.0) (2025-03-17)
 
 
