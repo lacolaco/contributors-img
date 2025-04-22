@@ -75,6 +75,9 @@ importers:
       '@angular/language-service':
         specifier: 19.2.2
         version: 19.2.2
+      '@eslint/js':
+        specifier: ^9.25.1
+        version: 9.25.1
       '@nx/angular':
         specifier: 20.6.1
         version: 20.6.1(4880c0d2f587d4d36d1e8abbb606f153)
