@@ -3,7 +3,7 @@ package contributors
 import (
 	"fmt"
 
-	"contrib.rocks/libs/go/model"
+	"contrib.rocks/apps/api/go/model"
 )
 
 func createContributorsJSONCacheKey(r *model.Repository) string {

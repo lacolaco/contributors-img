@@ -7,8 +7,8 @@ import (
 	"io"
 
 	"cloud.google.com/go/storage"
+	"contrib.rocks/apps/api/go/model"
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/go/model"
 	"go.opentelemetry.io/otel/attribute"
 	"golang.org/x/sync/errgroup"
 )

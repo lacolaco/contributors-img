@@ -3,7 +3,6 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
-    "golib": "libs/go",
     "webapp": "apps/webapp",
     "worker": "apps/worker"
   }

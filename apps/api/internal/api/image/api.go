@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"net/http"
 
+	"contrib.rocks/apps/api/go/model"
+	"contrib.rocks/apps/api/go/renderer"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/contributors"
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/go/model"
-	"contrib.rocks/libs/go/renderer"
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"

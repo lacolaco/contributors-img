@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strings"
 
+	"contrib.rocks/apps/api/go/model"
 	"contrib.rocks/apps/api/internal/tracing"
-	"contrib.rocks/libs/go/model"
 	"github.com/google/go-github/v45/github"
 	"golang.org/x/sync/errgroup"
 )

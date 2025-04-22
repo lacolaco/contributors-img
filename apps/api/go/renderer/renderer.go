@@ -7,7 +7,7 @@ import (
 	"io"
 	"math"
 
-	"contrib.rocks/libs/go/model"
+	"contrib.rocks/apps/api/go/model"
 	svg "github.com/ajstarks/svgo"
 )
 

@@ -1,6 +1,6 @@
 package contributors
 
-import "contrib.rocks/libs/go/model"
+import "contrib.rocks/apps/api/go/model"
 
 var _ error = &RepositoryNotFoundError{}
 

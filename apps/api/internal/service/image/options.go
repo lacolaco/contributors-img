@@ -1,6 +1,6 @@
 package image
 
-import "contrib.rocks/libs/go/renderer"
+import "contrib.rocks/apps/api/go/renderer"
 
 const (
 	defaultMaxCount = 100
