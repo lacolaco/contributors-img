@@ -45,6 +45,10 @@ func isConnectionRefusedError(err error) bool {
 	return false
 }
 
+func isNotFoundError(resp *github.Response) bool {
+	return resp != nil && resp.StatusCode == http.StatusNotFound
+}
+
 func getGitHubRetryOptions(ctx context.Context, repo *model.Repository) []retry.Option {
 	return []retry.Option{
 		retry.Attempts(3),
@@ -64,7 +68,13 @@ func getGitHubRetryOptions(ctx context.Context, repo *model.Repository) []retry.
 			if errors.As(err, &rateLimitErr) && rateLimitErr.Rate.Reset.Time.After(time.Now()) {
 				waitTime := time.Until(rateLimitErr.Rate.Reset.Time)
 				if waitTime > 0 {
-					time.Sleep(waitTime)
+					select {
+					case <-time.After(waitTime):
+						// Wait time elapsed, proceed with retry
+					case <-ctx.Done():
+						// Context canceled, exit early
+						return
+					}
 				}
 			}
 		}),
@@ -72,15 +82,22 @@ func getGitHubRetryOptions(ctx context.Context, repo *model.Repository) []retry.
 	}
 }
 
-func fetchRepositoryContributors(client *github.Client, c context.Context, r *model.Repository) (*model.RepositoryContributors, error) {
-	ctx, span := tracing.Tracer().Start(c, "contributors.fetchRepositoryContributors")
+// sendToChannel safely sends data to a channel if it exists and has capacity
+func sendToChannel[T any](ch chan<- T, data T) {
+	if ch != nil && cap(ch) > 0 {
+		ch <- data
+	}
+}
+
+func fetchRepositoryContributors(client *github.Client, ctx context.Context, repo *model.Repository) (*model.RepositoryContributors, error) {
+	ctx, span := tracing.Tracer().Start(ctx, "contributors.fetchRepositoryContributors")
 	defer span.End()
 
 	repositoryResultOut := make(chan *github.Repository, 1)
 	contributorsResultOut := make(chan []*github.Contributor, 1)
 	eg, ctx := errgroup.WithContext(ctx)
-	eg.Go(makeFetchRepositoryFn(client, ctx, r, repositoryResultOut))
-	eg.Go(makeFetchContributorsFn(client, ctx, r, contributorsResultOut))
+	eg.Go(makeFetchRepositoryFn(client, ctx, repo, repositoryResultOut))
+	eg.Go(makeFetchContributorsFn(client, ctx, repo, contributorsResultOut))
 
 	if err := eg.Wait(); err != nil {
 		return nil, err
@@ -91,7 +108,17 @@ func fetchRepositoryContributors(client *github.Client, c context.Context, r *mo
 	return buildRepositoryContributors(repositoryResult, contributorsResult), nil
 }
 
-func makeFetchRepositoryFn(client *github.Client, c context.Context, repo *model.Repository, out chan<- *github.Repository) func() error {
+func handleGitHubError(err error, resp *github.Response, repo *model.Repository) error {
+	if err != nil {
+		if isNotFoundError(resp) {
+			return retry.Unrecoverable(&RepositoryNotFoundError{repo})
+		}
+		return err
+	}
+	return nil
+}
+
+func makeFetchRepositoryFn(client *github.Client, ctx context.Context, repo *model.Repository, out chan<- *github.Repository) func() error {
 	return func() error {
 		var data *github.Repository
 		var resp *github.Response
@@ -99,30 +126,22 @@ func makeFetchRepositoryFn(client *github.Client, c context.Context, repo *model
 		err := retry.Do(
 			func() error {
 				var err error
-				data, resp, err = client.Repositories.Get(c, repo.Owner, repo.RepoName)
-				if err != nil {
-					if resp != nil && resp.StatusCode == http.StatusNotFound {
-						return retry.Unrecoverable(&RepositoryNotFoundError{repo})
-					}
-					return err
-				}
-				return nil
+				data, resp, err = client.Repositories.Get(ctx, repo.Owner, repo.RepoName)
+				return handleGitHubError(err, resp, repo)
 			},
-			getGitHubRetryOptions(c, repo)...,
+			getGitHubRetryOptions(ctx, repo)...,
 		)
 
 		if err != nil {
 			return err
 		}
 
-		if out != nil && cap(out) > 0 {
-			out <- data
-		}
+		sendToChannel(out, data)
 		return nil
 	}
 }
 
-func makeFetchContributorsFn(client *github.Client, c context.Context, repo *model.Repository, out chan<- []*github.Contributor) func() error {
+func makeFetchContributorsFn(client *github.Client, ctx context.Context, repo *model.Repository, out chan<- []*github.Contributor) func() error {
 	return func() error {
 		options := &github.ListContributorsOptions{
 			Anon:        "true",
@@ -137,16 +156,10 @@ func makeFetchContributorsFn(client *github.Client, c context.Context, repo *mod
 			err := retry.Do(
 				func() error {
 					var err error
-					data, resp, err = client.Repositories.ListContributors(c, repo.Owner, repo.RepoName, options)
-					if err != nil {
-						if resp != nil && resp.StatusCode == http.StatusNotFound {
-							return retry.Unrecoverable(&RepositoryNotFoundError{repo})
-						}
-						return err
-					}
-					return nil
+					data, resp, err = client.Repositories.ListContributors(ctx, repo.Owner, repo.RepoName, options)
+					return handleGitHubError(err, resp, repo)
 				},
-				getGitHubRetryOptions(c, repo)...,
+				getGitHubRetryOptions(ctx, repo)...,
 			)
 
 			if err != nil {
@@ -160,9 +173,7 @@ func makeFetchContributorsFn(client *github.Client, c context.Context, repo *mod
 			options.Page = resp.NextPage
 		}
 
-		if out != nil && cap(out) > 0 {
-			out <- items
-		}
+		sendToChannel(out, items)
 		return nil
 	}
 }
