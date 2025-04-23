@@ -82,10 +82,15 @@ func getGitHubRetryOptions(ctx context.Context, repo *model.Repository) []retry.
 	}
 }
 
-// sendToChannel safely sends data to a channel if it exists and has capacity
+// sendToChannel safely sends data to a channel if it exists
 func sendToChannel[T any](ch chan<- T, data T) {
-	if ch != nil && cap(ch) > 0 {
-		ch <- data
+	if ch != nil {
+		select {
+		case ch <- data:
+			// Data sent successfully
+		default:
+			// Drop the data if the channel is full or unbuffered and no receiver is ready
+		}
 	}
 }
 
