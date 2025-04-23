@@ -4,7 +4,7 @@
   "scripts": {
     "start": "node dist/main.js"
   },
-  "packageManager": "pnpm@10.7.0",
+  "packageManager": "pnpm@10.8.1",
   "dependencies": {
     "@google-cloud/bigquery": "7.9.2",
     "@google-cloud/firestore": "7.11.0",
