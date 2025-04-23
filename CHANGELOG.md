@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.2](https://github.com/lacolaco/contributors-img/compare/v1.1.1...v1.1.2) (2025-04-23)
+
+
+### Bug Fixes
+
+* **deps:** update module golang.org/x/oauth2 to v0.29.0 ([#1630](https://github.com/lacolaco/contributors-img/issues/1630)) ([ecb7d61](https://github.com/lacolaco/contributors-img/commit/ecb7d61ad278140f4e0bb70da83ae9f321f7033d))
+* **deps:** update opentelemetry-go monorepo to v1.35.0 ([#1625](https://github.com/lacolaco/contributors-img/issues/1625)) ([df73f15](https://github.com/lacolaco/contributors-img/commit/df73f159bdb4d160f8f851e5607e6ffabe424ac6))
+* upgrade go-github to v69 ([#1631](https://github.com/lacolaco/contributors-img/issues/1631)) ([d41b717](https://github.com/lacolaco/contributors-img/commit/d41b717a2bb892950694518d3da76ef4d13d4b7f))
+
 ## [1.1.1](https://github.com/lacolaco/contributors-img/compare/v1.1.0...v1.1.1) (2025-04-21)
 
 
