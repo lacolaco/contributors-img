@@ -12,9 +12,10 @@ require (
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/propagator v0.49.0
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b
 	github.com/andybalholm/brotli v1.1.1
+	github.com/avast/retry-go/v4 v4.6.1
 	github.com/bradleyjkemp/cupaloy v2.3.0+incompatible
 	github.com/gin-gonic/gin v1.10.0
-	github.com/google/go-github/v45 v45.2.0
+	github.com/google/go-github/v69 v69.2.0
 	go.ajitem.com/zapdriver v1.5.3
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0
 	golang.org/x/oauth2 v0.28.0
@@ -58,7 +59,7 @@ require (
 	go.opentelemetry.io/otel/sdk/metric v1.35.0 // indirect
 	golang.org/x/arch v0.8.0 // indirect
 	golang.org/x/mod v0.24.0 // indirect
-	golang.org/x/time v0.8.0 // indirect
+	golang.org/x/time v0.11.0 // indirect
 	golang.org/x/tools v0.32.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241104194629-dd2ea8efbc28 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241104194629-dd2ea8efbc28 // indirect

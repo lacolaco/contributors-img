@@ -2,6 +2,8 @@ package contributors
 
 import (
 	"context"
+	"errors"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -9,8 +11,20 @@ import (
 	"testing"
 
 	"contrib.rocks/apps/api/go/model"
-	"github.com/google/go-github/v45/github"
+	"github.com/google/go-github/v69/github"
 )
+
+func unwrapError(err error) error {
+	if err == nil {
+		return nil
+	}
+
+	if unwrapped := errors.Unwrap(err); unwrapped != nil {
+		return unwrapped
+	}
+
+	return err
+}
 
 func setup(t *testing.T, handler http.Handler) (*github.Client, *httptest.Server) {
 	server := httptest.NewServer(handler)
@@ -74,8 +88,11 @@ func Test_fetchRepository(t *testing.T) {
 		if err == nil {
 			t.Fatal("expected error, got nil")
 		}
-		if _, ok := err.(*RepositoryNotFoundError); !ok {
-			t.Fatalf("expected RepositoryNotFoundError, got %T", err)
+
+		err = unwrapError(err)
+		var repoNotFoundErr *RepositoryNotFoundError
+		if !errors.As(err, &repoNotFoundErr) {
+			t.Fatalf("expected RepositoryNotFoundError, got %T: %v", err, err)
 		}
 	})
 }
@@ -135,8 +152,11 @@ func Test_fetchContributors(t *testing.T) {
 		if err == nil {
 			t.Fatal("expected error, got nil")
 		}
-		if _, ok := err.(*RepositoryNotFoundError); !ok {
-			t.Fatalf("expected RepositoryNotFoundError, got %T", err)
+
+		err = unwrapError(err)
+		var repoNotFoundErr *RepositoryNotFoundError
+		if !errors.As(err, &repoNotFoundErr) {
+			t.Fatalf("expected RepositoryNotFoundError, got %T: %v", err, err)
 		}
 	})
 }
@@ -219,4 +239,152 @@ func Test_buildRepositoryContributors(t *testing.T) {
 			t.Fatalf("unexpected contributor avatar url, got %s", got.Contributors[0].AvatarURL)
 		}
 	})
+}
+
+func Test_getGitHubRetryOptions(t *testing.T) {
+	repo := &model.Repository{Owner: "test", RepoName: "test-repo"}
+	ctx := context.Background()
+	options := getGitHubRetryOptions(ctx, repo)
+
+	if len(options) != 5 {
+		t.Fatalf("expected 5 retry options, got %d", len(options))
+	}
+}
+
+func Test_isTimeoutError(t *testing.T) {
+	// 標準ライブラリの実際のネットワークエラー型を使用
+	tests := []struct {
+		name     string
+		err      error
+		expected bool
+	}{
+		{
+			name:     "nil error",
+			err:      nil,
+			expected: false,
+		},
+		{
+			name:     "regular error",
+			err:      errors.New("regular error"),
+			expected: false,
+		},
+		{
+			name:     "net error with timeout",
+			err:      &net.DNSError{IsTimeout: true},
+			expected: true,
+		},
+		{
+			name:     "net error without timeout",
+			err:      &net.DNSError{IsTimeout: false},
+			expected: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := isTimeoutError(tt.err); got != tt.expected {
+				t.Errorf("isTimeoutError() = %v, want %v", got, tt.expected)
+			}
+		})
+	}
+}
+
+func Test_isServerError(t *testing.T) {
+	tests := []struct {
+		name       string
+		err        error
+		statusCode int
+		expected   bool
+	}{
+		{
+			name:     "nil error",
+			err:      nil,
+			expected: false,
+		},
+		{
+			name:     "regular error",
+			err:      errors.New("regular error"),
+			expected: false,
+		},
+		{
+			name:       "500 server error",
+			err:        &github.ErrorResponse{Response: &http.Response{StatusCode: 500}},
+			statusCode: 500,
+			expected:   true,
+		},
+		{
+			name:       "503 server error",
+			err:        &github.ErrorResponse{Response: &http.Response{StatusCode: 503}},
+			statusCode: 503,
+			expected:   true,
+		},
+		{
+			name:       "400 client error",
+			err:        &github.ErrorResponse{Response: &http.Response{StatusCode: 400}},
+			statusCode: 400,
+			expected:   false,
+		},
+		{
+			name:       "404 not found error",
+			err:        &github.ErrorResponse{Response: &http.Response{StatusCode: 404}},
+			statusCode: 404,
+			expected:   false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := isServerError(tt.err); got != tt.expected {
+				t.Errorf("isServerError() = %v, want %v", got, tt.expected)
+			}
+		})
+	}
+}
+
+func Test_isConnectionRefusedError(t *testing.T) {
+	// Create test cases with different error types
+	tests := []struct {
+		name     string
+		err      error
+		expected bool
+	}{
+		{
+			name:     "nil error",
+			err:      nil,
+			expected: false,
+		},
+		{
+			name:     "regular error",
+			err:      errors.New("regular error"),
+			expected: false,
+		},
+		{
+			name:     "net.OpError dial connection refused",
+			err:      &net.OpError{Op: "dial", Err: errors.New("connection refused")},
+			expected: true,
+		},
+		{
+			name:     "net.OpError read not connection refused",
+			err:      &net.OpError{Op: "read", Err: errors.New("connection reset")},
+			expected: false,
+		},
+		{
+			name:     "url.Error with connection refused",
+			err:      &url.Error{Op: "get", URL: "http://example.com", Err: errors.New("connection refused")},
+			expected: true,
+		},
+		{
+			name:     "url.Error without connection refused",
+			err:      &url.Error{Op: "get", URL: "http://example.com", Err: errors.New("timeout")},
+			expected: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := isConnectionRefusedError(tt.err); got != tt.expected {
+				t.Errorf("isConnectionRefusedError() = %v, want %v", got, tt.expected)
+			}
+		})
+	}
 }

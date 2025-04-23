@@ -8,7 +8,7 @@ import (
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/tracing"
-	"github.com/google/go-github/v45/github"
+	"github.com/google/go-github/v69/github"
 )
 
 type GitHubClientProvider interface {
