@@ -25,7 +25,7 @@ importers:
         version: 19.2.2(rxjs@7.8.2)(zone.js@0.14.8)
       '@angular/fire':
         specifier: 19.0.0
-        version: 19.0.0(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser-dynamic@19.2.2(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/compiler@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(chokidar@4.0.3)(firebase-tools@13.33.0(encoding@0.1.13))(rxjs@7.8.2)
+        version: 19.0.0(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser-dynamic@19.2.2(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/compiler@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(chokidar@4.0.3)(firebase-tools@14.2.0(encoding@0.1.13))(rxjs@7.8.2)
       '@angular/forms':
         specifier: 19.2.2
         version: 19.2.2(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(rxjs@7.8.2)
@@ -130,8 +130,8 @@ importers:
         specifier: 1.2.3
         version: 1.2.3(eslint@9.25.1(jiti@2.4.2))
       firebase-tools:
-        specifier: 13.33.0
-        version: 13.33.0(encoding@0.1.13)
+        specifier: 14.2.0
+        version: 14.2.0(encoding@0.1.13)
       karma-chrome-launcher:
         specifier: 3.2.0
         version: 3.2.0
@@ -4802,9 +4802,9 @@ packages:
     resolution: {integrity: sha512-v2ZsoEuVHYy8ZIlYqwPe/39Cy+cFDzp4dXPaxNvkEuouymu+2Jbz0PxpKarJHYJTmv2HWT3O382qY8l4jMWthw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  firebase-tools@13.33.0:
-    resolution: {integrity: sha512-CtGaon+WlAGBCABB3UhzCr+crD3qOE0WUt8c0itPzvB619RbtG/jom6QaM9RvBsY9s4VH5ZqcH+/6g1jz0EXTg==}
-    engines: {node: '>=18.0.0 || >=20.0.0 || >=22.0.0'}
+  firebase-tools@14.2.0:
+    resolution: {integrity: sha512-dMYtB+1Tc4rAcmuZ9krfhrywYQAEWQk7CV6BTTllObhTTIhuFB256eLuiGmOP3RrmopZ6MDRGFIQ7I3drNF3Yw==}
+    engines: {node: '>=20.0.0 || >=22.0.0'}
     hasBin: true
 
   firebase@11.6.0:
@@ -9432,7 +9432,7 @@ snapshots:
       tslib: 2.5.3
       zone.js: 0.14.8
 
-  '@angular/fire@19.0.0(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser-dynamic@19.2.2(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/compiler@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(chokidar@4.0.3)(firebase-tools@13.33.0(encoding@0.1.13))(rxjs@7.8.2)':
+  '@angular/fire@19.0.0(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser-dynamic@19.2.2(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/compiler@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(chokidar@4.0.3)(firebase-tools@14.2.0(encoding@0.1.13))(rxjs@7.8.2)':
     dependencies:
       '@angular-devkit/schematics': 19.2.7(chokidar@4.0.3)
       '@angular/common': 19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2)
@@ -9445,7 +9445,7 @@ snapshots:
       rxjs: 7.8.2
       tslib: 2.5.3
     optionalDependencies:
-      firebase-tools: 13.33.0(encoding@0.1.13)
+      firebase-tools: 14.2.0(encoding@0.1.13)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - chokidar
@@ -14935,7 +14935,7 @@ snapshots:
       locate-path: 7.2.0
       path-exists: 5.0.0
 
-  firebase-tools@13.33.0(encoding@0.1.13):
+  firebase-tools@14.2.0(encoding@0.1.13):
     dependencies:
       '@electric-sql/pglite': 0.2.17
       '@google-cloud/cloud-sql-connector': 1.6.1(encoding@0.1.13)

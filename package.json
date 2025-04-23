@@ -72,7 +72,7 @@
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jsdoc": "50.5.0",
     "eslint-plugin-prefer-arrow": "1.2.3",
-    "firebase-tools": "13.33.0",
+    "firebase-tools": "14.2.0",
     "karma-chrome-launcher": "3.2.0",
     "karma-coverage": "2.2.1",
     "karma-jasmine": "5.1.0",
