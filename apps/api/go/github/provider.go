@@ -5,7 +5,7 @@ import (
 	"sync"
 
 	"contrib.rocks/apps/api/go/httptrace"
-	"github.com/google/go-github/v45/github"
+	"github.com/google/go-github/v69/github"
 	"golang.org/x/oauth2"
 )
 

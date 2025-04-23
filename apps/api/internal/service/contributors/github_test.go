@@ -2,6 +2,7 @@ package contributors
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -9,8 +10,20 @@ import (
 	"testing"
 
 	"contrib.rocks/apps/api/go/model"
-	"github.com/google/go-github/v45/github"
+	"github.com/google/go-github/v69/github"
 )
+
+func unwrapError(err error) error {
+	if err == nil {
+		return nil
+	}
+
+	if unwrapped := errors.Unwrap(err); unwrapped != nil {
+		return unwrapped
+	}
+
+	return err
+}
 
 func setup(t *testing.T, handler http.Handler) (*github.Client, *httptest.Server) {
 	server := httptest.NewServer(handler)
@@ -74,8 +87,11 @@ func Test_fetchRepository(t *testing.T) {
 		if err == nil {
 			t.Fatal("expected error, got nil")
 		}
-		if _, ok := err.(*RepositoryNotFoundError); !ok {
-			t.Fatalf("expected RepositoryNotFoundError, got %T", err)
+
+		err = unwrapError(err)
+		var repoNotFoundErr *RepositoryNotFoundError
+		if !errors.As(err, &repoNotFoundErr) {
+			t.Fatalf("expected RepositoryNotFoundError, got %T: %v", err, err)
 		}
 	})
 }
@@ -135,8 +151,11 @@ func Test_fetchContributors(t *testing.T) {
 		if err == nil {
 			t.Fatal("expected error, got nil")
 		}
-		if _, ok := err.(*RepositoryNotFoundError); !ok {
-			t.Fatalf("expected RepositoryNotFoundError, got %T", err)
+
+		err = unwrapError(err)
+		var repoNotFoundErr *RepositoryNotFoundError
+		if !errors.As(err, &repoNotFoundErr) {
+			t.Fatalf("expected RepositoryNotFoundError, got %T: %v", err, err)
 		}
 	})
 }
@@ -219,4 +238,14 @@ func Test_buildRepositoryContributors(t *testing.T) {
 			t.Fatalf("unexpected contributor avatar url, got %s", got.Contributors[0].AvatarURL)
 		}
 	})
+}
+
+func Test_getGitHubRetryOptions(t *testing.T) {
+	repo := &model.Repository{Owner: "test", RepoName: "test-repo"}
+	ctx := context.Background()
+	options := getGitHubRetryOptions(ctx, repo)
+
+	if len(options) != 5 {
+		t.Fatalf("expected 5 retry options, got %d", len(options))
+	}
 }
