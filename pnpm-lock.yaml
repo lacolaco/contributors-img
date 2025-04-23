@@ -54,8 +54,8 @@ importers:
         specifier: 7.8.2
         version: 7.8.2
       tslib:
-        specifier: 2.5.3
-        version: 2.5.3
+        specifier: 2.8.1
+        version: 2.8.1
       zone.js:
         specifier: 0.14.8
         version: 0.14.8
@@ -8411,9 +8411,6 @@ packages:
     resolution: {integrity: sha512-NoZ4roiN7LnbKn9QqE1amc9DJfzvZXxF4xDavcOWt1BPkdx+m+0gJuPM+S0vCe7zTJMYUP0R8pO2XMr+Y8oLIg==}
     engines: {node: '>=6'}
 
-  tslib@2.5.3:
-    resolution: {integrity: sha512-mSxlJJwl3BMEQCUNnxXBU9jP4JBktcEGhURcPR6VQVlnP0FdDEsIaz0C35dXNGLyRfrATNofF0F5p2KPxQgB+w==}
-
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
@@ -9264,7 +9261,7 @@ snapshots:
   '@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))':
     dependencies:
       '@angular/core': 19.2.2(rxjs@7.8.2)(zone.js@0.14.8)
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@angular/build@19.2.3(@angular/compiler-cli@19.2.2(@angular/compiler@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(typescript@5.5.4))(@angular/compiler@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@types/node@22.13.10)(chokidar@4.0.3)(jiti@2.4.2)(karma@6.4.4)(less@4.2.2)(lightningcss@1.29.2)(postcss@8.5.2)(sass-embedded@1.85.1)(stylus@0.64.0)(tailwindcss@4.0.14)(terser@5.39.0)(tsx@4.19.3)(typescript@5.5.4)(yaml@2.7.0)':
     dependencies:
@@ -9371,7 +9368,7 @@ snapshots:
       '@angular/common': 19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2)
       '@angular/core': 19.2.2(rxjs@7.8.2)(zone.js@0.14.8)
       rxjs: 7.8.2
-      tslib: 2.5.3
+      tslib: 2.8.1
     optionalDependencies:
       parse5: 7.2.1
 
@@ -9403,7 +9400,7 @@ snapshots:
     dependencies:
       '@angular/core': 19.2.2(rxjs@7.8.2)(zone.js@0.14.8)
       rxjs: 7.8.2
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@angular/compiler-cli@19.2.2(@angular/compiler@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(typescript@5.5.4)':
     dependencies:
@@ -9414,7 +9411,7 @@ snapshots:
       convert-source-map: 1.9.0
       reflect-metadata: 0.2.2
       semver: 7.7.1
-      tslib: 2.5.3
+      tslib: 2.8.1
       typescript: 5.5.4
       yargs: 17.7.2
     transitivePeerDependencies:
@@ -9422,14 +9419,14 @@ snapshots:
 
   '@angular/compiler@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))':
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
     optionalDependencies:
       '@angular/core': 19.2.2(rxjs@7.8.2)(zone.js@0.14.8)
 
   '@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)':
     dependencies:
       rxjs: 7.8.2
-      tslib: 2.5.3
+      tslib: 2.8.1
       zone.js: 0.14.8
 
   '@angular/fire@19.0.0(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser-dynamic@19.2.2(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/compiler@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(chokidar@4.0.3)(firebase-tools@14.2.0(encoding@0.1.13))(rxjs@7.8.2)':
@@ -9443,7 +9440,7 @@ snapshots:
       firebase: 11.6.0
       rxfire: 6.1.0(firebase@11.6.0)(rxjs@7.8.2)
       rxjs: 7.8.2
-      tslib: 2.5.3
+      tslib: 2.8.1
     optionalDependencies:
       firebase-tools: 14.2.0(encoding@0.1.13)
     transitivePeerDependencies:
@@ -9456,7 +9453,7 @@ snapshots:
       '@angular/core': 19.2.2(rxjs@7.8.2)(zone.js@0.14.8)
       '@angular/platform-browser': 19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))
       rxjs: 7.8.2
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@angular/language-service@19.2.2': {}
 
@@ -9469,7 +9466,7 @@ snapshots:
       '@angular/forms': 19.2.2(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(rxjs@7.8.2)
       '@angular/platform-browser': 19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))
       rxjs: 7.8.2
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@angular/platform-browser-dynamic@19.2.2(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/compiler@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))':
     dependencies:
@@ -9477,13 +9474,13 @@ snapshots:
       '@angular/compiler': 19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))
       '@angular/core': 19.2.2(rxjs@7.8.2)(zone.js@0.14.8)
       '@angular/platform-browser': 19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))':
     dependencies:
       '@angular/common': 19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2)
       '@angular/core': 19.2.2(rxjs@7.8.2)(zone.js@0.14.8)
-      tslib: 2.5.3
+      tslib: 2.8.1
     optionalDependencies:
       '@angular/animations': 19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))
 
@@ -9493,7 +9490,7 @@ snapshots:
       '@angular/core': 19.2.2(rxjs@7.8.2)(zone.js@0.14.8)
       '@angular/platform-browser': 19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))
       rxjs: 7.8.2
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@apidevtools/json-schema-ref-parser@9.1.2':
     dependencies:
@@ -10339,15 +10336,15 @@ snapshots:
   '@emnapi/core@1.3.1':
     dependencies:
       '@emnapi/wasi-threads': 1.0.1
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@emnapi/runtime@1.3.1':
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@emnapi/wasi-threads@1.0.1':
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@es-joy/jsdoccomment@0.49.0':
     dependencies:
@@ -10481,7 +10478,7 @@ snapshots:
       '@firebase/app-compat': 0.2.53
       '@firebase/component': 0.6.13
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@firebase/app'
 
@@ -10494,7 +10491,7 @@ snapshots:
       '@firebase/installations': 0.6.13(@firebase/app@0.11.4)
       '@firebase/logger': 0.4.4
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/app-check-compat@0.3.20(@firebase/app-compat@0.2.53)(@firebase/app@0.11.4)':
     dependencies:
@@ -10504,7 +10501,7 @@ snapshots:
       '@firebase/component': 0.6.13
       '@firebase/logger': 0.4.4
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@firebase/app'
 
@@ -10518,7 +10515,7 @@ snapshots:
       '@firebase/component': 0.6.13
       '@firebase/logger': 0.4.4
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/app-compat@0.2.53':
     dependencies:
@@ -10526,7 +10523,7 @@ snapshots:
       '@firebase/component': 0.6.13
       '@firebase/logger': 0.4.4
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/app-types@0.9.3': {}
 
@@ -10536,7 +10533,7 @@ snapshots:
       '@firebase/logger': 0.4.4
       '@firebase/util': 1.11.0
       idb: 7.1.1
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/auth-compat@0.5.20(@firebase/app-compat@0.2.53)(@firebase/app-types@0.9.3)(@firebase/app@0.11.4)':
     dependencies:
@@ -10545,7 +10542,7 @@ snapshots:
       '@firebase/auth-types': 0.13.0(@firebase/app-types@0.9.3)(@firebase/util@1.11.0)
       '@firebase/component': 0.6.13
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@firebase/app'
       - '@firebase/app-types'
@@ -10564,12 +10561,12 @@ snapshots:
       '@firebase/component': 0.6.13
       '@firebase/logger': 0.4.4
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/component@0.6.13':
     dependencies:
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/data-connect@0.3.3(@firebase/app@0.11.4)':
     dependencies:
@@ -10578,7 +10575,7 @@ snapshots:
       '@firebase/component': 0.6.13
       '@firebase/logger': 0.4.4
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/database-compat@2.0.5':
     dependencies:
@@ -10587,7 +10584,7 @@ snapshots:
       '@firebase/database-types': 1.0.10
       '@firebase/logger': 0.4.4
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/database-types@1.0.10':
     dependencies:
@@ -10602,7 +10599,7 @@ snapshots:
       '@firebase/logger': 0.4.4
       '@firebase/util': 1.11.0
       faye-websocket: 0.11.4
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/firestore-compat@0.3.45(@firebase/app-compat@0.2.53)(@firebase/app-types@0.9.3)(@firebase/app@0.11.4)':
     dependencies:
@@ -10611,7 +10608,7 @@ snapshots:
       '@firebase/firestore': 4.7.10(@firebase/app@0.11.4)
       '@firebase/firestore-types': 3.0.3(@firebase/app-types@0.9.3)(@firebase/util@1.11.0)
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@firebase/app'
       - '@firebase/app-types'
@@ -10630,7 +10627,7 @@ snapshots:
       '@firebase/webchannel-wrapper': 1.0.3
       '@grpc/grpc-js': 1.9.15
       '@grpc/proto-loader': 0.7.13
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/functions-compat@0.3.20(@firebase/app-compat@0.2.53)(@firebase/app@0.11.4)':
     dependencies:
@@ -10639,7 +10636,7 @@ snapshots:
       '@firebase/functions': 0.12.3(@firebase/app@0.11.4)
       '@firebase/functions-types': 0.6.3
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@firebase/app'
 
@@ -10653,7 +10650,7 @@ snapshots:
       '@firebase/component': 0.6.13
       '@firebase/messaging-interop-types': 0.2.3
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/installations-compat@0.2.13(@firebase/app-compat@0.2.53)(@firebase/app-types@0.9.3)(@firebase/app@0.11.4)':
     dependencies:
@@ -10662,7 +10659,7 @@ snapshots:
       '@firebase/installations': 0.6.13(@firebase/app@0.11.4)
       '@firebase/installations-types': 0.5.3(@firebase/app-types@0.9.3)
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@firebase/app'
       - '@firebase/app-types'
@@ -10677,11 +10674,11 @@ snapshots:
       '@firebase/component': 0.6.13
       '@firebase/util': 1.11.0
       idb: 7.1.1
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/logger@0.4.4':
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/messaging-compat@0.2.17(@firebase/app-compat@0.2.53)(@firebase/app@0.11.4)':
     dependencies:
@@ -10689,7 +10686,7 @@ snapshots:
       '@firebase/component': 0.6.13
       '@firebase/messaging': 0.12.17(@firebase/app@0.11.4)
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@firebase/app'
 
@@ -10703,7 +10700,7 @@ snapshots:
       '@firebase/messaging-interop-types': 0.2.3
       '@firebase/util': 1.11.0
       idb: 7.1.1
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/performance-compat@0.2.15(@firebase/app-compat@0.2.53)(@firebase/app@0.11.4)':
     dependencies:
@@ -10713,7 +10710,7 @@ snapshots:
       '@firebase/performance': 0.7.2(@firebase/app@0.11.4)
       '@firebase/performance-types': 0.2.3
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@firebase/app'
 
@@ -10726,7 +10723,7 @@ snapshots:
       '@firebase/installations': 0.6.13(@firebase/app@0.11.4)
       '@firebase/logger': 0.4.4
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
       web-vitals: 4.2.4
 
   '@firebase/remote-config-compat@0.2.13(@firebase/app-compat@0.2.53)(@firebase/app@0.11.4)':
@@ -10737,7 +10734,7 @@ snapshots:
       '@firebase/remote-config': 0.6.0(@firebase/app@0.11.4)
       '@firebase/remote-config-types': 0.4.0
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@firebase/app'
 
@@ -10750,7 +10747,7 @@ snapshots:
       '@firebase/installations': 0.6.13(@firebase/app@0.11.4)
       '@firebase/logger': 0.4.4
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/storage-compat@0.3.17(@firebase/app-compat@0.2.53)(@firebase/app-types@0.9.3)(@firebase/app@0.11.4)':
     dependencies:
@@ -10759,7 +10756,7 @@ snapshots:
       '@firebase/storage': 0.13.7(@firebase/app@0.11.4)
       '@firebase/storage-types': 0.8.3(@firebase/app-types@0.9.3)(@firebase/util@1.11.0)
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@firebase/app'
       - '@firebase/app-types'
@@ -10774,11 +10771,11 @@ snapshots:
       '@firebase/app': 0.11.4
       '@firebase/component': 0.6.13
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/util@1.11.0':
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/vertexai@1.2.1(@firebase/app-types@0.9.3)(@firebase/app@0.11.4)':
     dependencies:
@@ -10788,7 +10785,7 @@ snapshots:
       '@firebase/component': 0.6.13
       '@firebase/logger': 0.4.4
       '@firebase/util': 1.11.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@firebase/webchannel-wrapper@1.0.3': {}
 
@@ -11214,21 +11211,21 @@ snapshots:
 
   '@jsdevtools/ono@7.1.3': {}
 
-  '@jsonjoy.com/base64@1.1.2(tslib@2.5.3)':
+  '@jsonjoy.com/base64@1.1.2(tslib@2.8.1)':
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
 
-  '@jsonjoy.com/json-pack@1.2.0(tslib@2.5.3)':
+  '@jsonjoy.com/json-pack@1.2.0(tslib@2.8.1)':
     dependencies:
-      '@jsonjoy.com/base64': 1.1.2(tslib@2.5.3)
-      '@jsonjoy.com/util': 1.5.0(tslib@2.5.3)
+      '@jsonjoy.com/base64': 1.1.2(tslib@2.8.1)
+      '@jsonjoy.com/util': 1.5.0(tslib@2.8.1)
       hyperdyperid: 1.2.0
-      thingies: 1.21.0(tslib@2.5.3)
-      tslib: 2.5.3
+      thingies: 1.21.0(tslib@2.8.1)
+      tslib: 2.8.1
 
-  '@jsonjoy.com/util@1.5.0(tslib@2.5.3)':
+  '@jsonjoy.com/util@1.5.0(tslib@2.8.1)':
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@leichtgewicht/ip-codec@2.0.5': {}
 
@@ -11792,7 +11789,7 @@ snapshots:
       piscina: 4.8.0
       rxjs: 7.8.2
       semver: 7.7.1
-      tslib: 2.5.3
+      tslib: 2.8.1
       webpack-merge: 5.10.0
     transitivePeerDependencies:
       - '@babel/traverse'
@@ -11842,7 +11839,7 @@ snapshots:
       nx: 20.6.1
       semver: 7.7.1
       tmp: 0.2.3
-      tslib: 2.5.3
+      tslib: 2.8.1
       yargs-parser: 21.1.1
 
   '@nx/eslint-plugin@20.6.1(@babel/traverse@7.27.0)(@types/node@22.13.10)(@typescript-eslint/parser@8.31.0(eslint@9.25.1(jiti@2.4.2))(typescript@5.5.4))(eslint-config-prettier@8.10.0(eslint@9.25.1(jiti@2.4.2)))(eslint@9.25.1(jiti@2.4.2))(nx@20.6.1)(typescript@5.5.4)':
@@ -11857,7 +11854,7 @@ snapshots:
       globals: 15.15.0
       jsonc-eslint-parser: 2.4.0
       semver: 7.7.1
-      tslib: 2.5.3
+      tslib: 2.8.1
     optionalDependencies:
       eslint-config-prettier: 8.10.0(eslint@9.25.1(jiti@2.4.2))
     transitivePeerDependencies:
@@ -11879,7 +11876,7 @@ snapshots:
       '@nx/js': 20.6.1(@babel/traverse@7.27.0)(@types/node@22.13.10)(nx@20.6.1)(typescript@5.7.3)
       eslint: 9.25.1(jiti@2.4.2)
       semver: 7.7.1
-      tslib: 2.5.3
+      tslib: 2.8.1
       typescript: 5.7.3
     optionalDependencies:
       '@zkochan/js-yaml': 0.0.7
@@ -11909,7 +11906,7 @@ snapshots:
       picocolors: 1.1.1
       resolve.exports: 2.0.3
       semver: 7.7.1
-      tslib: 2.5.3
+      tslib: 2.8.1
       yargs-parser: 21.1.1
     transitivePeerDependencies:
       - '@babel/traverse'
@@ -11958,7 +11955,7 @@ snapshots:
       tinyglobby: 0.2.12
       ts-node: 10.9.1(@types/node@22.13.10)(typescript@5.5.4)
       tsconfig-paths: 4.2.0
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -12002,7 +11999,7 @@ snapshots:
       tinyglobby: 0.2.12
       ts-node: 10.9.1(@types/node@22.13.10)(typescript@5.7.3)
       tsconfig-paths: 4.2.0
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -12026,7 +12023,7 @@ snapshots:
       express: 4.21.2
       http-proxy-middleware: 3.0.3
       picocolors: 1.1.1
-      tslib: 2.5.3
+      tslib: 2.8.1
       webpack: 5.98.0(esbuild@0.25.1)
     transitivePeerDependencies:
       - '@babel/traverse'
@@ -12055,7 +12052,7 @@ snapshots:
       '@nx/eslint': 20.6.1(@babel/traverse@7.27.0)(@types/node@22.13.10)(@zkochan/js-yaml@0.0.7)(eslint@9.25.1(jiti@2.4.2))(nx@20.6.1)
       '@nx/jest': 20.6.1(@babel/traverse@7.27.0)(@types/node@22.13.10)(babel-plugin-macros@3.1.0)(nx@20.6.1)(ts-node@10.9.2(@types/node@22.13.10)(typescript@5.5.4))(typescript@5.5.4)
       '@nx/js': 20.6.1(@babel/traverse@7.27.0)(@types/node@22.13.10)(nx@20.6.1)(typescript@5.5.4)
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -12134,7 +12131,7 @@ snapshots:
       source-map-loader: 5.0.0(webpack@5.98.0(esbuild@0.25.1))
       style-loader: 3.3.4(webpack@5.98.0(esbuild@0.25.1))
       ts-checker-rspack-plugin: 1.1.1(@rspack/core@1.2.8)(typescript@5.5.4)
-      tslib: 2.5.3
+      tslib: 2.8.1
       webpack: 5.98.0(esbuild@0.25.1)
       webpack-node-externals: 3.0.0
     transitivePeerDependencies:
@@ -12171,7 +12168,7 @@ snapshots:
       detect-port: 1.6.1
       http-server: 14.1.1
       picocolors: 1.1.1
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -12219,7 +12216,7 @@ snapshots:
       terser-webpack-plugin: 5.3.14(esbuild@0.25.1)(webpack@5.98.0(esbuild@0.25.1))
       ts-loader: 9.5.2(typescript@5.5.4)(webpack@5.98.0(esbuild@0.25.1))
       tsconfig-paths-webpack-plugin: 4.0.0
-      tslib: 2.5.3
+      tslib: 2.8.1
       webpack: 5.98.0(esbuild@0.25.1)
       webpack-dev-server: 5.2.0(webpack@5.98.0(esbuild@0.25.1))
       webpack-node-externals: 3.0.0
@@ -12258,7 +12255,7 @@ snapshots:
       enquirer: 2.3.6
       nx: 20.6.1
       picomatch: 4.0.2
-      tslib: 2.5.3
+      tslib: 2.8.1
       yargs-parser: 21.1.1
     transitivePeerDependencies:
       - '@swc-node/register'
@@ -12510,9 +12507,9 @@ snapshots:
   '@rx-angular/cdk@19.1.0(@angular-devkit/core@19.2.7(chokidar@4.0.3))(@angular-devkit/schematics@19.2.7(chokidar@4.0.3))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2)':
     dependencies:
       '@angular/core': 19.2.2(rxjs@7.8.2)(zone.js@0.14.8)
-      ng-morph: 4.8.4(@angular-devkit/core@19.2.7(chokidar@4.0.3))(@angular-devkit/schematics@19.2.7(chokidar@4.0.3))(tslib@2.5.3)
+      ng-morph: 4.8.4(@angular-devkit/core@19.2.7(chokidar@4.0.3))(@angular-devkit/schematics@19.2.7(chokidar@4.0.3))(tslib@2.8.1)
       rxjs: 7.8.2
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@angular-devkit/core'
       - '@angular-devkit/schematics'
@@ -12521,9 +12518,9 @@ snapshots:
     dependencies:
       '@angular/core': 19.2.2(rxjs@7.8.2)(zone.js@0.14.8)
       '@rx-angular/cdk': 19.1.0(@angular-devkit/core@19.2.7(chokidar@4.0.3))(@angular-devkit/schematics@19.2.7(chokidar@4.0.3))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2)
-      ng-morph: 4.8.4(@angular-devkit/core@19.2.7(chokidar@4.0.3))(@angular-devkit/schematics@19.2.7(chokidar@4.0.3))(tslib@2.5.3)
+      ng-morph: 4.8.4(@angular-devkit/core@19.2.7(chokidar@4.0.3))(@angular-devkit/schematics@19.2.7(chokidar@4.0.3))(tslib@2.8.1)
       rxjs: 7.8.2
-      tslib: 2.5.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - '@angular-devkit/core'
       - '@angular-devkit/schematics'
@@ -12654,7 +12651,7 @@ snapshots:
       '@angular/platform-browser': 19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))
       '@angular/router': 19.2.2(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.14.8)))(rxjs@7.8.2)
       '@testing-library/dom': 10.4.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@testing-library/dom@10.4.0':
     dependencies:
@@ -12697,7 +12694,7 @@ snapshots:
 
   '@tybys/wasm-util@0.9.0':
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@types/aria-query@5.0.4': {}
 
@@ -13048,7 +13045,7 @@ snapshots:
   '@yarnpkg/parsers@3.0.2':
     dependencies:
       js-yaml: 3.14.1
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   '@zkochan/js-yaml@0.0.7':
     dependencies:
@@ -13292,7 +13289,7 @@ snapshots:
 
   ast-types@0.13.4:
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   async-function@1.0.0: {}
 
@@ -16597,7 +16594,7 @@ snapshots:
     dependencies:
       copy-anything: 2.0.6
       parse-node-version: 1.0.1
-      tslib: 2.5.3
+      tslib: 2.8.1
     optionalDependencies:
       errno: 0.1.8
       graceful-fs: 4.2.11
@@ -16611,7 +16608,7 @@ snapshots:
     dependencies:
       copy-anything: 2.0.6
       parse-node-version: 1.0.1
-      tslib: 2.5.3
+      tslib: 2.8.1
     optionalDependencies:
       errno: 0.1.8
       graceful-fs: 4.2.11
@@ -16914,10 +16911,10 @@ snapshots:
 
   memfs@4.17.0:
     dependencies:
-      '@jsonjoy.com/json-pack': 1.2.0(tslib@2.5.3)
-      '@jsonjoy.com/util': 1.5.0(tslib@2.5.3)
-      tree-dump: 1.0.2(tslib@2.5.3)
-      tslib: 2.5.3
+      '@jsonjoy.com/json-pack': 1.2.0(tslib@2.8.1)
+      '@jsonjoy.com/util': 1.5.0(tslib@2.8.1)
+      tree-dump: 1.0.2(tslib@2.8.1)
+      tslib: 2.8.1
 
   merge-descriptors@1.0.3: {}
 
@@ -17138,7 +17135,7 @@ snapshots:
 
   netmask@2.0.2: {}
 
-  ng-morph@4.8.4(@angular-devkit/core@19.2.7(chokidar@4.0.3))(@angular-devkit/schematics@19.2.7(chokidar@4.0.3))(tslib@2.5.3):
+  ng-morph@4.8.4(@angular-devkit/core@19.2.7(chokidar@4.0.3))(@angular-devkit/schematics@19.2.7(chokidar@4.0.3))(tslib@2.8.1):
     dependencies:
       '@angular-devkit/core': 19.2.7(chokidar@4.0.3)
       '@angular-devkit/schematics': 19.2.7(chokidar@4.0.3)
@@ -17146,7 +17143,7 @@ snapshots:
       minimatch: 10.0.1
       multimatch: 5.0.0
       ts-morph: 23.0.0
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   node-abort-controller@3.1.1: {}
 
@@ -17325,7 +17322,7 @@ snapshots:
       tar-stream: 2.2.0
       tmp: 0.2.3
       tsconfig-paths: 4.2.0
-      tslib: 2.5.3
+      tslib: 2.8.1
       yaml: 2.7.0
       yargs: 17.7.2
       yargs-parser: 21.1.1
@@ -18338,11 +18335,11 @@ snapshots:
 
   rxjs@7.8.1:
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   rxjs@7.8.2:
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   safe-array-concat@1.1.3:
     dependencies:
@@ -19138,9 +19135,9 @@ snapshots:
     dependencies:
       any-promise: 1.3.0
 
-  thingies@1.21.0(tslib@2.5.3):
+  thingies@1.21.0(tslib@2.8.1):
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   through2@2.0.5:
     dependencies:
@@ -19189,9 +19186,9 @@ snapshots:
       punycode: 2.3.1
     optional: true
 
-  tree-dump@1.0.2(tslib@2.5.3):
+  tree-dump@1.0.2(tslib@2.8.1):
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.8.1
 
   tree-kill@1.2.2: {}
 
@@ -19301,8 +19298,6 @@ snapshots:
       json5: 2.2.3
       minimist: 1.2.8
       strip-bom: 3.0.0
-
-  tslib@2.5.3: {}
 
   tslib@2.8.1: {}
 
