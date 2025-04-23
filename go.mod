@@ -12,9 +12,10 @@ require (
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/propagator v0.49.0
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b
 	github.com/andybalholm/brotli v1.1.1
+	github.com/avast/retry-go/v4 v4.6.1
 	github.com/bradleyjkemp/cupaloy v2.3.0+incompatible
 	github.com/gin-gonic/gin v1.10.0
-	github.com/google/go-github/v45 v45.2.0
+	github.com/google/go-github/v69 v69.2.0
 	go.ajitem.com/zapdriver v1.5.3
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0
 	golang.org/x/oauth2 v0.28.0
@@ -31,7 +32,6 @@ require (
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/detectors/gcp v1.24.1 // indirect
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/metric v0.49.0 // indirect
 	github.com/apache/arrow/go/v15 v15.0.2 // indirect
-	github.com/avast/retry-go/v4 v4.6.1 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/census-instrumentation/opencensus-proto v0.4.1 // indirect
@@ -44,7 +44,6 @@ require (
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/google/flatbuffers v23.5.26+incompatible // indirect
-	github.com/google/go-github/v69 v69.2.0 // indirect
 	github.com/google/s2a-go v0.1.8 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
