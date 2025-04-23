@@ -32,6 +32,15 @@
 - Tests: Write unit tests for all new functionality
 - Commits: Use conventional commit format
 - Documentation: All code comments and inline documentation must be written in English, regardless of the language used in instructions
+- Code Comments:
+  - Keep comments minimal and focused on "why" rather than "what" or "how"
+  - Only add comments when:
+    - The code involves complex logic that's not immediately obvious
+    - The code handles edge cases or uses non-standard approaches
+    - The implementation deviates from common patterns for a specific reason
+  - Avoid redundant comments that merely repeat what the code clearly expresses
+  - Use meaningful variable and function names instead of comments when possible
+  - For public APIs, ensure proper documentation of parameters and return values
 
 ## Dependencies Management
 

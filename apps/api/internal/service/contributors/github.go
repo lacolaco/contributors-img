@@ -5,7 +5,9 @@ import (
 	"crypto/md5"
 	"errors"
 	"fmt"
+	"net"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -15,6 +17,33 @@ import (
 	"github.com/google/go-github/v69/github"
 	"golang.org/x/sync/errgroup"
 )
+
+func isTimeoutError(err error) bool {
+	var netErr net.Error
+	return errors.As(err, &netErr) && netErr.Timeout()
+}
+
+func isServerError(err error) bool {
+	var githubErr *github.ErrorResponse
+	if errors.As(err, &githubErr) && githubErr.Response != nil {
+		return githubErr.Response.StatusCode >= 500 && githubErr.Response.StatusCode < 600
+	}
+	return false
+}
+
+func isConnectionRefusedError(err error) bool {
+	var opErr *net.OpError
+	if errors.As(err, &opErr) {
+		return opErr.Op == "dial" && strings.Contains(opErr.Error(), "connection refused")
+	}
+
+	var urlErr *url.Error
+	if errors.As(err, &urlErr) {
+		return strings.Contains(urlErr.Error(), "connection refused")
+	}
+
+	return false
+}
 
 func getGitHubRetryOptions(ctx context.Context, repo *model.Repository) []retry.Option {
 	return []retry.Option{
@@ -26,9 +55,9 @@ func getGitHubRetryOptions(ctx context.Context, repo *model.Repository) []retry.
 
 			return errors.As(err, &rateLimitErr) ||
 				errors.As(err, &abuseErr) ||
-				strings.Contains(err.Error(), "internal server error") ||
-				strings.Contains(err.Error(), "timeout") ||
-				strings.Contains(err.Error(), "connection refused")
+				isServerError(err) ||
+				isTimeoutError(err) ||
+				isConnectionRefusedError(err)
 		}),
 		retry.OnRetry(func(n uint, err error) {
 			var rateLimitErr *github.RateLimitError
@@ -143,10 +172,8 @@ func buildRepositoryContributors(rawRepository *github.Repository, rawContributo
 	for _, item := range rawContributors {
 		switch strings.ToLower(item.GetType()) {
 		case "bot":
-			// NOTE: bots should be ignored
 			continue
 		case "anonymous":
-			// NOTE: Anonymous contributor has only these fields: name, email, and contributions
 			contributors = append(contributors, &model.Contributor{
 				Login:         item.GetName(),
 				AvatarURL:     fmt.Sprintf("https://www.gravatar.com/avatar/%x?d=mp", md5.Sum([]byte(item.GetEmail()))),
