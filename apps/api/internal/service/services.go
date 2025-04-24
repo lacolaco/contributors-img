@@ -2,8 +2,8 @@ package service
 
 import (
 	"contrib.rocks/apps/api/go/apiclient"
-	"contrib.rocks/apps/api/go/github"
 	"contrib.rocks/apps/api/internal/config"
+	"contrib.rocks/apps/api/internal/github"
 	"contrib.rocks/apps/api/internal/service/contributors"
 	"contrib.rocks/apps/api/internal/service/image"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"

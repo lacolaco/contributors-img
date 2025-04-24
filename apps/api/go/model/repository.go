@@ -23,6 +23,15 @@ func (r Repository) String() string {
 	return r.Owner + "/" + r.RepoName
 }
 
+// RepositoryNotFoundError is returned when a repository is not found
+type RepositoryNotFoundError struct {
+	Repository *Repository
+}
+
+func (e *RepositoryNotFoundError) Error() string {
+	return "Repository not found: " + e.Repository.String()
+}
+
 func ValidateRepositoryName(s string) error {
 	if s == "" {
 		return fmt.Errorf("repository name cannot be empty")
