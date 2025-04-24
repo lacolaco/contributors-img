@@ -72,14 +72,15 @@ func getFile(bucket *storage.BucketHandle, c context.Context, name string) (mode
 	}
 	ctx, span := tracing.Tracer().Start(c, "appcache.getFile")
 	defer span.End()
-
 	span.SetAttributes(attribute.String("cache.object.name", name))
 
 	obj := bucket.Object(name)
 	file := &gcsFileHandle{}
-	// Context from errgroup will be canceled whether error is returned or not. But the GCS client need a context to run RPCs.
-	// So we use a separate context.
-	eg, _ := errgroup.WithContext(context.Background())
+
+	// Using Background context to prevent cancellation during fetching operations
+	bgCtx := context.Background()
+	eg, _ := errgroup.WithContext(bgCtx)
+
 	eg.Go(func() error {
 		attrs, err := obj.Attrs(ctx)
 		if err != nil {
@@ -88,6 +89,7 @@ func getFile(bucket *storage.BucketHandle, c context.Context, name string) (mode
 		file.attrs = attrs
 		return nil
 	})
+
 	eg.Go(func() error {
 		r, err := obj.NewReader(ctx)
 		if err != nil {
@@ -96,8 +98,8 @@ func getFile(bucket *storage.BucketHandle, c context.Context, name string) (mode
 		file.reader = r
 		return nil
 	})
-	err := eg.Wait()
-	if err != nil {
+
+	if err := eg.Wait(); err != nil {
 		if file.reader != nil {
 			file.reader.Close()
 		}
@@ -106,6 +108,7 @@ func getFile(bucket *storage.BucketHandle, c context.Context, name string) (mode
 		}
 		return nil, err
 	}
+
 	return file, nil
 }
 
