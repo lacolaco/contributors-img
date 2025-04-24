@@ -8,6 +8,7 @@ import (
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
 	"contrib.rocks/apps/api/internal/service/internal/cachekey"
+	"contrib.rocks/apps/api/internal/service/internal/cacheutil"
 	"contrib.rocks/apps/api/internal/tracing"
 	"github.com/google/go-github/v69/github"
 )
@@ -41,7 +42,8 @@ func (s *Service) GetContributors(c context.Context, r *model.Repository) (*mode
 		log.Debug(fmt.Sprintf("restored contributors-json from cache: %s", cacheKey))
 		return cache, nil
 	}
-	s.sendCacheMissLog(ctx, cacheKey)
+	cacheutil.LogCacheMiss(ctx, "contributors-json", cacheKey)
+
 	// get contributors from github
 	gh := s.ghProvider.Get()
 	data, err := fetchRepositoryContributors(gh, ctx, r)
@@ -54,10 +56,4 @@ func (s *Service) GetContributors(c context.Context, r *model.Repository) (*mode
 		return nil, err
 	}
 	return data, nil
-}
-
-func (s *Service) sendCacheMissLog(c context.Context, key string) {
-	logger.LoggerFromContext(c).With(logger.LogGroup("contributors-json-cache-miss")).Info(
-		fmt.Sprintf("contributors-json-cache-miss: %s", key),
-	)
 }
