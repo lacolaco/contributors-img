@@ -8,7 +8,6 @@ import (
 	"contrib.rocks/apps/api/go/model"
 	"contrib.rocks/apps/api/go/renderer"
 	"contrib.rocks/apps/api/internal/logger"
-	"contrib.rocks/apps/api/internal/service/contributors"
 	"contrib.rocks/apps/api/internal/tracing"
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
@@ -85,7 +84,7 @@ func (api *API) Get(c *gin.Context) {
 
 	// get data
 	data, err := api.cs.GetContributors(ctx, params.Repository.Object())
-	if notfound, ok := err.(*contributors.RepositoryNotFoundError); ok {
+	if notfound, ok := err.(*model.RepositoryNotFoundError); ok {
 		log.Error(err.Error())
 		c.String(http.StatusNotFound, notfound.Error())
 		return
