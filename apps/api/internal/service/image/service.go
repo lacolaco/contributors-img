@@ -15,6 +15,12 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
+// DataURLConverterFunc defines the function signature for converting URLs to data URLs
+type DataURLConverterFunc func(ctx context.Context, remoteURL string, extraParams map[string]string) (string, error)
+
+// Default implementation uses the dataurl package
+var dataURLConverter DataURLConverterFunc = dataurl.Convert
+
 func New(cache appcache.AppCache) *Service {
 	return &Service{cache}
 }
@@ -85,7 +91,7 @@ func (s *Service) normalizeContributors(ctx context.Context, base *model.Reposit
 	for i, c := range data.Contributors {
 		index, avatarURL := i, c.AvatarURL
 		eg.Go(func() error {
-			dataURL, err := dataurl.Convert(ctx, avatarURL, map[string]string{
+			dataURL, err := dataURLConverter(ctx, avatarURL, map[string]string{
 				"size": fmt.Sprint(options.ItemSize),
 				"s":    fmt.Sprint(options.ItemSize),
 			})

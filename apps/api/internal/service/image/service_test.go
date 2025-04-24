@@ -44,7 +44,19 @@ func (m *mockCache) SaveJSON(ctx context.Context, key string, v any) error {
 	return nil
 }
 
+// mockDataURLConverter is a helper function for testing that avoids making real HTTP requests
+func mockDataURLConverter(_ context.Context, avatarURL string, _ map[string]string) (string, error) {
+	return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=", nil
+}
+
 func TestService_normalizeContributors(t *testing.T) {
+	// Store the original converter to restore it after the test
+	originalConverter := dataURLConverter
+	// Set the mock converter for testing
+	dataURLConverter = mockDataURLConverter
+	// Restore the original converter after the test
+	defer func() { dataURLConverter = originalConverter }()
+
 	service := &Service{
 		cache: &mockCache{},
 	}
@@ -84,6 +96,11 @@ func TestService_normalizeContributors(t *testing.T) {
 
 		if result.Contributors[0].ID != 1 {
 			t.Errorf("Expected first contributor ID to be 1, got %d", result.Contributors[0].ID)
+		}
+
+		// Verify data URL conversion was applied
+		if result.Contributors[0].AvatarURL == "https://avatar1.com" {
+			t.Errorf("Avatar URL should have been converted to a data URL")
 		}
 	})
 
