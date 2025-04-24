@@ -85,10 +85,13 @@ func (s *Service) normalizeContributors(ctx context.Context, base *model.Reposit
 	for i, c := range data.Contributors {
 		index, avatarURL := i, c.AvatarURL
 		eg.Go(func() error {
-			dataURL, _ := dataurl.Convert(ctx, avatarURL, map[string]string{
+			dataURL, err := dataurl.Convert(ctx, avatarURL, map[string]string{
 				"size": fmt.Sprint(options.ItemSize),
 				"s":    fmt.Sprint(options.ItemSize),
 			})
+			if err != nil {
+				return fmt.Errorf("failed to convert avatar URL for contributor %d: %w", index, err)
+			}
 			data.Contributors[index].AvatarURL = dataURL
 			return nil
 		})

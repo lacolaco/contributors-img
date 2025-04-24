@@ -266,6 +266,24 @@ func Test_getGitHubErrorType(t *testing.T) {
 			expected: ErrorTypeConnectionRefused,
 		},
 		{
+			name:     "unauthorized error (401)",
+			err:      &github.ErrorResponse{Response: &http.Response{StatusCode: 401}},
+			resp:     nil,
+			expected: ErrorTypeUnauthorized,
+		},
+		{
+			name:     "forbidden error (403)",
+			err:      &github.ErrorResponse{Response: &http.Response{StatusCode: 403}},
+			resp:     nil,
+			expected: ErrorTypeForbidden,
+		},
+		{
+			name:     "client error (422)",
+			err:      &github.ErrorResponse{Response: &http.Response{StatusCode: 422}},
+			resp:     nil,
+			expected: ErrorTypeClientError,
+		},
+		{
 			name:     "other error",
 			err:      errors.New("some other error"),
 			resp:     nil,

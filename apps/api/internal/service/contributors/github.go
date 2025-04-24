@@ -28,6 +28,9 @@ const (
 	ErrorTypeNotFound
 	ErrorTypeRateLimit
 	ErrorTypeAbuseRateLimit
+	ErrorTypeUnauthorized
+	ErrorTypeForbidden
+	ErrorTypeClientError
 )
 
 func getGitHubErrorType(err error, resp *github.Response) GitHubErrorType {
@@ -50,6 +53,15 @@ func getGitHubErrorType(err error, resp *github.Response) GitHubErrorType {
 		}
 		if githubErr.Response.StatusCode == http.StatusNotFound {
 			return ErrorTypeNotFound
+		}
+		if githubErr.Response.StatusCode == http.StatusUnauthorized {
+			return ErrorTypeUnauthorized
+		}
+		if githubErr.Response.StatusCode == http.StatusForbidden {
+			return ErrorTypeForbidden
+		}
+		if githubErr.Response.StatusCode >= 400 && githubErr.Response.StatusCode < 500 {
+			return ErrorTypeClientError
 		}
 	}
 
