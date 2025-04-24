@@ -9,6 +9,6 @@
     "@google-cloud/bigquery": "7.9.2",
     "@google-cloud/firestore": "7.11.0",
     "@hono/node-server": "1.14.1",
-    "hono": "4.7.4"
+    "hono": "4.7.7"
   }
 }
