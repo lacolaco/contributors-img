@@ -10,6 +10,7 @@ import (
 	"contrib.rocks/apps/api/go/util"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
+	"contrib.rocks/apps/api/internal/service/internal/cachekey"
 	"contrib.rocks/apps/api/internal/tracing"
 	"golang.org/x/sync/errgroup"
 )
@@ -28,7 +29,7 @@ func (s *Service) GetImage(c context.Context, repo *model.Repository, options *r
 	log := logger.LoggerFromContext(ctx)
 
 	options = normalizeRendererOptions(options)
-	cacheKey := createImageCacheKey(repo, options, "svg", includeAnonymous)
+	cacheKey := cachekey.ForImage(repo, options, "svg", includeAnonymous)
 
 	cache, err := s.cache.Get(ctx, cacheKey)
 	if err != nil {
@@ -47,7 +48,7 @@ func (s *Service) RenderImage(c context.Context, data *model.RepositoryContribut
 	defer span.End()
 
 	options = normalizeRendererOptions(options)
-	cacheKey := createImageCacheKey(data.Repository, options, "svg", includeAnonymous)
+	cacheKey := cachekey.ForImage(data.Repository, options, "svg", includeAnonymous)
 
 	data, err := s.normalizeContributors(ctx, data, options, includeAnonymous)
 	if err != nil {
@@ -64,44 +65,36 @@ func (s *Service) RenderImage(c context.Context, data *model.RepositoryContribut
 }
 
 func (s *Service) normalizeContributors(ctx context.Context, base *model.RepositoryContributors, options *renderer.RendererOptions, includeAnonymous bool) (*model.RepositoryContributors, error) {
-	// filter by includeAnonymous
 	contributors := make([]*model.Contributor, 0, len(base.Contributors))
 	for _, c := range base.Contributors {
 		if !includeAnonymous && c.ID == 0 {
-			// skip anonymous contributors
 			continue
 		}
 		contributors = append(contributors, c)
 	}
-	// get formatted data
+
 	maxCount := util.Min(options.MaxCount, len(contributors))
 	data := &model.RepositoryContributors{
 		Repository:      base.Repository,
 		StargazersCount: base.StargazersCount,
 		Contributors:    make([]*model.Contributor, maxCount),
 	}
-	copy(data.Contributors, contributors)
-	// convert avatar images to data urls
+	copy(data.Contributors, contributors[:maxCount])
+
 	eg, ctx := errgroup.WithContext(ctx)
-	results := make([]string, len(data.Contributors))
 	for i, c := range data.Contributors {
-		index := i
-		avatarURL := c.AvatarURL
+		index, avatarURL := i, c.AvatarURL
 		eg.Go(func() error {
-			// ignore errors
-			d, _ := dataurl.Convert(ctx, avatarURL, map[string]string{
+			dataURL, _ := dataurl.Convert(ctx, avatarURL, map[string]string{
 				"size": fmt.Sprint(options.ItemSize),
 				"s":    fmt.Sprint(options.ItemSize),
 			})
-			results[index] = d
+			data.Contributors[index].AvatarURL = dataURL
 			return nil
 		})
 	}
-	eg.Wait()
-	for i, result := range results {
-		data.Contributors[i].AvatarURL = result
-	}
-	return data, nil
+
+	return data, eg.Wait()
 }
 
 func (s *Service) sendCacheMissLog(c context.Context, key string) {

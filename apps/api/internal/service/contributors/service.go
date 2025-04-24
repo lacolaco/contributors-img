@@ -7,6 +7,7 @@ import (
 	"contrib.rocks/apps/api/go/model"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service/internal/appcache"
+	"contrib.rocks/apps/api/internal/service/internal/cachekey"
 	"contrib.rocks/apps/api/internal/tracing"
 	"github.com/google/go-github/v69/github"
 )
@@ -29,7 +30,7 @@ func (s *Service) GetContributors(c context.Context, r *model.Repository) (*mode
 	defer span.End()
 	log := logger.LoggerFromContext(ctx)
 
-	cacheKey := createContributorsJSONCacheKey(r)
+	cacheKey := cachekey.ForContributors(r, "json")
 	// restore cache
 	var cache *model.RepositoryContributors
 	err := s.cache.GetJSON(ctx, cacheKey, &cache)

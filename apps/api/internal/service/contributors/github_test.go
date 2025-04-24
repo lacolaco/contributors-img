@@ -36,119 +36,66 @@ func setup(t *testing.T, handler http.Handler) (*github.Client, *httptest.Server
 	return ghclient, server
 }
 
-func Test_fetchRepository(t *testing.T) {
-	t.Run("should send a request to GitHub endpoint", func(t *testing.T) {
-		var req *http.Request
-		ghclient, _ := setup(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			req = r
-			w.WriteHeader(http.StatusOK)
-			w.Write([]byte(`{"id": 1}`))
-		}))
+func Test_fetchRepositoryContributors(t *testing.T) {
+	t.Run("should fetch repository and contributors data", func(t *testing.T) {
+		handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.URL.Path == "/repos/foo/bar" {
+				w.WriteHeader(http.StatusOK)
+				w.Header().Set("Content-Type", "application/json")
+				w.Write([]byte(`{"id": 1, "name": "bar", "owner": {"login": "foo"}, "stargazers_count": 100}`))
+				return
+			}
+
+			if r.URL.Path == "/repos/foo/bar/contributors" {
+				w.WriteHeader(http.StatusOK)
+				w.Header().Set("Content-Type", "application/json")
+				w.Write([]byte(`[{"id": 1, "login": "user1"}, {"id": 2, "login": "user2"}]`))
+				return
+			}
+
+			t.Fatalf("unexpected request to %s", r.URL.Path)
+		})
+
+		ghclient, _ := setup(t, handler)
 		repository := &model.Repository{Owner: "foo", RepoName: "bar"}
-		err := makeFetchRepositoryFn(ghclient, context.Background(), repository, nil)()
+
+		result, err := fetchRepositoryContributors(ghclient, context.Background(), repository)
 		if err != nil {
-			t.Fatal(err)
+			t.Fatalf("unexpected error: %v", err)
 		}
-		if req.Method != "GET" {
-			t.Fatalf("expected GET, got %s", req.Method)
+
+		// Verify repository data
+		if result.Owner != "foo" {
+			t.Errorf("expected owner to be foo, got %s", result.Owner)
 		}
-		if req.URL.Path != "/repos/foo/bar" {
-			t.Fatalf("expected request to be sent to %s, got %s", "/repos/owner/repo", req.URL.String())
+		if result.RepoName != "bar" {
+			t.Errorf("expected repo name to be bar, got %s", result.RepoName)
+		}
+		if result.StargazersCount != 100 {
+			t.Errorf("expected stargazers to be 100, got %d", result.StargazersCount)
+		}
+
+		// Verify contributors data
+		if len(result.Contributors) != 2 {
+			t.Fatalf("expected 2 contributors, got %d", len(result.Contributors))
+		}
+		if result.Contributors[0].ID != 1 {
+			t.Errorf("expected contributor ID to be 1, got %d", result.Contributors[0].ID)
+		}
+		if result.Contributors[1].ID != 2 {
+			t.Errorf("expected contributor ID to be 2, got %d", result.Contributors[1].ID)
 		}
 	})
 
-	t.Run("should return fetched repository result", func(t *testing.T) {
-		ghclient, _ := setup(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			t.Logf("%s %s", r.Method, r.URL.String())
-			w.WriteHeader(http.StatusOK)
-			w.Header().Set("Content-Type", "application/json")
-			w.Write([]byte(`{"id":1}`))
-		}))
-		out := make(chan *github.Repository, 1)
-		repository := &model.Repository{Owner: "foo", RepoName: "bar"}
-		err := makeFetchRepositoryFn(ghclient, context.Background(), repository, out)()
-		if err != nil {
-			t.Fatal(err)
-		}
-		result, ok := <-out
-		if !ok {
-			t.Fatal("expected result to be available")
-		}
-		if result.GetID() != 1 {
-			t.Fatalf("expected repository id to be 1, got %d", result.GetID())
-		}
-	})
-
-	t.Run("should throw not found error on 404", func(t *testing.T) {
-		ghclient, _ := setup(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	t.Run("should handle not found error", func(t *testing.T) {
+		handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
-		}))
-		repository := &model.Repository{Owner: "foo", RepoName: "bar"}
-		err := makeFetchRepositoryFn(ghclient, context.Background(), repository, nil)()
-		if err == nil {
-			t.Fatal("expected error, got nil")
-		}
+		})
 
-		err = unwrapError(err)
-		var repoNotFoundErr *RepositoryNotFoundError
-		if !errors.As(err, &repoNotFoundErr) {
-			t.Fatalf("expected RepositoryNotFoundError, got %T: %v", err, err)
-		}
-	})
-}
-
-func Test_fetchContributors(t *testing.T) {
-	t.Run("should send a request to GitHub endpoint", func(t *testing.T) {
-		var req *http.Request
-		ghclient, _ := setup(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			req = r
-			w.WriteHeader(http.StatusOK)
-			w.Write([]byte(`[{"id": 1}]`))
-		}))
+		ghclient, _ := setup(t, handler)
 		repository := &model.Repository{Owner: "foo", RepoName: "bar"}
-		err := makeFetchContributorsFn(ghclient, context.Background(), repository, nil)()
-		if err != nil {
-			t.Fatal(err)
-		}
-		if req.Method != "GET" {
-			t.Fatalf("expected GET, got %s", req.Method)
-		}
-		if req.URL.Path != "/repos/foo/bar/contributors" {
-			t.Fatalf("expected request to be sent to %s, got %s", "/repos/owner/repo/contributors", req.URL.String())
-		}
-	})
 
-	t.Run("should return fetched contributors result", func(t *testing.T) {
-		ghclient, _ := setup(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			t.Logf("%s %s", r.Method, r.URL.String())
-			w.WriteHeader(http.StatusOK)
-			w.Header().Set("Content-Type", "application/json")
-			w.Write([]byte(`[{"id": 1}]`))
-		}))
-		out := make(chan []*github.Contributor, 1)
-		repository := &model.Repository{Owner: "foo", RepoName: "bar"}
-		err := makeFetchContributorsFn(ghclient, context.Background(), repository, out)()
-		if err != nil {
-			t.Fatal(err)
-		}
-		result, ok := <-out
-		if !ok {
-			t.Fatal("expected result to be available")
-		}
-		if len(result) != 1 {
-			t.Fatalf("expected 1 contributor, got %v", result)
-		}
-		if result[0].GetID() != 1 {
-			t.Fatalf("expected contributor id to be 1, got %d", result[0].GetID())
-		}
-	})
-
-	t.Run("should throw not found error on 404", func(t *testing.T) {
-		ghclient, _ := setup(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			w.WriteHeader(http.StatusNotFound)
-		}))
-		repository := &model.Repository{Owner: "foo", RepoName: "bar"}
-		err := makeFetchContributorsFn(ghclient, context.Background(), repository, nil)()
+		_, err := fetchRepositoryContributors(ghclient, context.Background(), repository)
 		if err == nil {
 			t.Fatal("expected error, got nil")
 		}
@@ -251,8 +198,92 @@ func Test_getGitHubRetryOptions(t *testing.T) {
 	}
 }
 
-func Test_isTimeoutError(t *testing.T) {
-	// 標準ライブラリの実際のネットワークエラー型を使用
+func Test_getGitHubErrorType(t *testing.T) {
+	tests := []struct {
+		name     string
+		err      error
+		resp     *github.Response
+		expected GitHubErrorType
+	}{
+		{
+			name:     "nil error and nil response",
+			err:      nil,
+			resp:     nil,
+			expected: ErrorTypeUnknown,
+		},
+		{
+			name:     "nil error with NotFound response",
+			err:      nil,
+			resp:     &github.Response{Response: &http.Response{StatusCode: http.StatusNotFound}},
+			expected: ErrorTypeNotFound,
+		},
+		{
+			name:     "timeout error",
+			err:      &net.DNSError{IsTimeout: true},
+			resp:     nil,
+			expected: ErrorTypeTimeout,
+		},
+		{
+			name:     "server error (500)",
+			err:      &github.ErrorResponse{Response: &http.Response{StatusCode: 500}},
+			resp:     nil,
+			expected: ErrorTypeServer,
+		},
+		{
+			name:     "server error (503)",
+			err:      &github.ErrorResponse{Response: &http.Response{StatusCode: 503}},
+			resp:     nil,
+			expected: ErrorTypeServer,
+		},
+		{
+			name:     "not found error via ErrorResponse",
+			err:      &github.ErrorResponse{Response: &http.Response{StatusCode: 404}},
+			resp:     nil,
+			expected: ErrorTypeNotFound,
+		},
+		{
+			name:     "rate limit error",
+			err:      &github.RateLimitError{},
+			resp:     nil,
+			expected: ErrorTypeRateLimit,
+		},
+		{
+			name:     "abuse rate limit error",
+			err:      &github.AbuseRateLimitError{},
+			resp:     nil,
+			expected: ErrorTypeAbuseRateLimit,
+		},
+		{
+			name:     "connection refused error via OpError",
+			err:      &net.OpError{Op: "dial", Err: errors.New("connection refused")},
+			resp:     nil,
+			expected: ErrorTypeConnectionRefused,
+		},
+		{
+			name:     "connection refused error via url.Error",
+			err:      &url.Error{Op: "get", URL: "http://example.com", Err: errors.New("connection refused")},
+			resp:     nil,
+			expected: ErrorTypeConnectionRefused,
+		},
+		{
+			name:     "other error",
+			err:      errors.New("some other error"),
+			resp:     nil,
+			expected: ErrorTypeUnknown,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := getGitHubErrorType(tt.err, tt.resp)
+			if got != tt.expected {
+				t.Errorf("getGitHubErrorType() = %v, want %v", got, tt.expected)
+			}
+		})
+	}
+}
+
+func Test_isRetryableError(t *testing.T) {
 	tests := []struct {
 		name     string
 		err      error
@@ -264,126 +295,90 @@ func Test_isTimeoutError(t *testing.T) {
 			expected: false,
 		},
 		{
-			name:     "regular error",
-			err:      errors.New("regular error"),
-			expected: false,
-		},
-		{
-			name:     "net error with timeout",
+			name:     "timeout error",
 			err:      &net.DNSError{IsTimeout: true},
 			expected: true,
 		},
 		{
-			name:     "net error without timeout",
-			err:      &net.DNSError{IsTimeout: false},
-			expected: false,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := isTimeoutError(tt.err); got != tt.expected {
-				t.Errorf("isTimeoutError() = %v, want %v", got, tt.expected)
-			}
-		})
-	}
-}
-
-func Test_isServerError(t *testing.T) {
-	tests := []struct {
-		name       string
-		err        error
-		statusCode int
-		expected   bool
-	}{
-		{
-			name:     "nil error",
-			err:      nil,
-			expected: false,
+			name:     "server error",
+			err:      &github.ErrorResponse{Response: &http.Response{StatusCode: 500}},
+			expected: true,
 		},
 		{
-			name:     "regular error",
-			err:      errors.New("regular error"),
-			expected: false,
-		},
-		{
-			name:       "500 server error",
-			err:        &github.ErrorResponse{Response: &http.Response{StatusCode: 500}},
-			statusCode: 500,
-			expected:   true,
-		},
-		{
-			name:       "503 server error",
-			err:        &github.ErrorResponse{Response: &http.Response{StatusCode: 503}},
-			statusCode: 503,
-			expected:   true,
-		},
-		{
-			name:       "400 client error",
-			err:        &github.ErrorResponse{Response: &http.Response{StatusCode: 400}},
-			statusCode: 400,
-			expected:   false,
-		},
-		{
-			name:       "404 not found error",
-			err:        &github.ErrorResponse{Response: &http.Response{StatusCode: 404}},
-			statusCode: 404,
-			expected:   false,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := isServerError(tt.err); got != tt.expected {
-				t.Errorf("isServerError() = %v, want %v", got, tt.expected)
-			}
-		})
-	}
-}
-
-func Test_isConnectionRefusedError(t *testing.T) {
-	// Create test cases with different error types
-	tests := []struct {
-		name     string
-		err      error
-		expected bool
-	}{
-		{
-			name:     "nil error",
-			err:      nil,
-			expected: false,
-		},
-		{
-			name:     "regular error",
-			err:      errors.New("regular error"),
-			expected: false,
-		},
-		{
-			name:     "net.OpError dial connection refused",
+			name:     "connection refused error",
 			err:      &net.OpError{Op: "dial", Err: errors.New("connection refused")},
 			expected: true,
 		},
 		{
-			name:     "net.OpError read not connection refused",
-			err:      &net.OpError{Op: "read", Err: errors.New("connection reset")},
-			expected: false,
-		},
-		{
-			name:     "url.Error with connection refused",
-			err:      &url.Error{Op: "get", URL: "http://example.com", Err: errors.New("connection refused")},
+			name:     "rate limit error",
+			err:      &github.RateLimitError{},
 			expected: true,
 		},
 		{
-			name:     "url.Error without connection refused",
-			err:      &url.Error{Op: "get", URL: "http://example.com", Err: errors.New("timeout")},
+			name:     "abuse rate limit error",
+			err:      &github.AbuseRateLimitError{},
+			expected: true,
+		},
+		{
+			name:     "not found error",
+			err:      &github.ErrorResponse{Response: &http.Response{StatusCode: 404}},
+			expected: false,
+		},
+		{
+			name:     "other error",
+			err:      errors.New("some other error"),
 			expected: false,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := isConnectionRefusedError(tt.err); got != tt.expected {
-				t.Errorf("isConnectionRefusedError() = %v, want %v", got, tt.expected)
+			got := isRetryableError(tt.err)
+			if got != tt.expected {
+				t.Errorf("isRetryableError() = %v, want %v", got, tt.expected)
+			}
+		})
+	}
+}
+
+func Test_isNotFoundError(t *testing.T) {
+	tests := []struct {
+		name     string
+		err      error
+		resp     *github.Response
+		expected bool
+	}{
+		{
+			name:     "nil error and nil response",
+			err:      nil,
+			resp:     nil,
+			expected: false,
+		},
+		{
+			name:     "nil error with NotFound response",
+			err:      nil,
+			resp:     &github.Response{Response: &http.Response{StatusCode: http.StatusNotFound}},
+			expected: true,
+		},
+		{
+			name:     "not found error via ErrorResponse",
+			err:      &github.ErrorResponse{Response: &http.Response{StatusCode: 404}},
+			resp:     nil,
+			expected: true,
+		},
+		{
+			name:     "other error",
+			err:      errors.New("some other error"),
+			resp:     nil,
+			expected: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := isNotFoundError(tt.err, tt.resp)
+			if got != tt.expected {
+				t.Errorf("isNotFoundError() = %v, want %v", got, tt.expected)
 			}
 		})
 	}
