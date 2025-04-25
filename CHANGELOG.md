@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.3](https://github.com/lacolaco/contributors-img/compare/v1.1.2...v1.1.3) (2025-04-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @hono/node-server to v1.14.1 ([#1632](https://github.com/lacolaco/contributors-img/issues/1632)) ([7e3efe2](https://github.com/lacolaco/contributors-img/commit/7e3efe21ce390cc73c2557f3a4abe4cea1354eea))
+* **deps:** update dependency hono to v4.7.7 ([#1635](https://github.com/lacolaco/contributors-img/issues/1635)) ([baa93ec](https://github.com/lacolaco/contributors-img/commit/baa93ecc211964563672bbebbefbc23e8dd6fc78))
+* **deps:** update dependency tslib to v2.8.1 ([#1633](https://github.com/lacolaco/contributors-img/issues/1633)) ([260e950](https://github.com/lacolaco/contributors-img/commit/260e9501f3f724d842f58ca8d5c49a78055e1113))
+
 ## [1.1.2](https://github.com/lacolaco/contributors-img/compare/v1.1.1...v1.1.2) (2025-04-23)
 
 
