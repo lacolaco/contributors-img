@@ -19,7 +19,7 @@ require (
 	go.ajitem.com/zapdriver v1.5.3
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0
 	golang.org/x/oauth2 v0.29.0
-	google.golang.org/api v0.206.0
+	google.golang.org/api v0.231.0
 )
 
 require (
