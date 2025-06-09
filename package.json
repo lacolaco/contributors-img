@@ -51,7 +51,7 @@
   "devDependencies": {
     "@angular-devkit/architect": "0.1902.13",
     "@angular/build": "^19.2.3",
-    "@angular/cli": "19.2.13",
+    "@angular/cli": "19.2.14",
     "@angular/compiler-cli": "19.2.2",
     "@angular/language-service": "19.2.2",
     "@eslint/js": "^9.25.1",
