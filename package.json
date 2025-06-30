@@ -64,7 +64,7 @@
     "@tailwindcss/postcss": "4.1.4",
     "@testing-library/angular": "^17.3.6",
     "@types/jasmine": "5.1.8",
-    "@types/node": "22.15.31",
+    "@types/node": "22.15.33",
     "angular-eslint": "^19.3.0",
     "esbuild": "0.25.2",
     "eslint": "9.25.1",
