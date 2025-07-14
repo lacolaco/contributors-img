@@ -6,7 +6,7 @@
   },
   "packageManager": "pnpm@10.8.1",
   "dependencies": {
-    "@google-cloud/bigquery": "7.9.2",
+    "@google-cloud/bigquery": "7.9.4",
     "@google-cloud/firestore": "7.11.0",
     "@hono/node-server": "1.14.1",
     "hono": "4.7.7"
