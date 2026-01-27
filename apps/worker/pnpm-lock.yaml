@@ -16,10 +16,10 @@ importers:
         version: 7.11.0
       '@hono/node-server':
         specifier: 1.14.1
-        version: 1.14.1(hono@4.7.7)
+        version: 1.14.1(hono@4.11.7)
       hono:
-        specifier: 4.7.7
-        version: 4.7.7
+        specifier: 4.11.7
+        version: 4.11.7
 
 packages:
 
@@ -301,8 +301,8 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
-  hono@4.7.7:
-    resolution: {integrity: sha512-2PCpQRbN87Crty8/L/7akZN3UyZIAopSoRxCwRbJgUuV1+MHNFHzYFxZTg4v/03cXUm+jce/qa2VSBZpKBm3Qw==}
+  hono@4.11.7:
+    resolution: {integrity: sha512-l7qMiNee7t82bH3SeyUCt9UF15EVmaBvsppY2zQtrbIhl/yzBTny+YUxsVjSjQ6gaqaeVtZmGocom8TzBlA4Yw==}
     engines: {node: '>=16.9.0'}
 
   html-entities@2.5.2:
@@ -533,9 +533,9 @@ snapshots:
       protobufjs: 7.4.0
       yargs: 17.7.2
 
-  '@hono/node-server@1.14.1(hono@4.7.7)':
+  '@hono/node-server@1.14.1(hono@4.11.7)':
     dependencies:
-      hono: 4.7.7
+      hono: 4.11.7
 
   '@js-sdsl/ordered-map@4.4.2': {}
 
@@ -790,7 +790,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  hono@4.7.7: {}
+  hono@4.11.7: {}
 
   html-entities@2.5.2: {}
 
