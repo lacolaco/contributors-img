@@ -2,8 +2,12 @@ package image
 
 import (
 	"context"
+	"crypto/md5"
+	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"contrib.rocks/apps/api/go/model"
 	"contrib.rocks/apps/api/go/renderer"
@@ -78,19 +82,34 @@ func (api *API) Get(c *gin.Context) {
 		return
 	}
 	if image != nil {
-		sendImage(c, image)
+		sendImage(c, image, "")
 		return
 	}
 
 	// get data
 	data, err := api.cs.GetContributors(ctx, params.Repository.Object())
-	if notfound, ok := err.(*model.RepositoryNotFoundError); ok {
+	var notfound *model.RepositoryNotFoundError
+	if errors.As(err, &notfound) {
 		log.Error(err.Error())
+		// Cache the 404 for 1 hour to prevent GitHub API exhaustion
+		c.Header("Cache-Control", "public, max-age=3600, s-maxage=3600")
 		c.String(http.StatusNotFound, notfound.Error())
 		return
 	} else if err != nil {
 		c.Error(err).SetType(gin.ErrorTypePublic)
 		return
+	}
+
+	var dataETag string
+	if jsonData, err := json.Marshal(data); err == nil {
+		hash := md5.Sum(jsonData)
+		dataETag = fmt.Sprintf(`"%x"`, hash)
+
+		if strings.Contains(c.GetHeader("If-None-Match"), fmt.Sprintf("%x", hash)) {
+			c.Status(http.StatusNotModified)
+			c.Header("Cache-Control", "public, max-age=43200, s-maxage=43200, stale-while-revalidate=86400")
+			return
+		}
 	}
 
 	// render image
@@ -100,19 +119,24 @@ func (api *API) Get(c *gin.Context) {
 		return
 	}
 	api.us.CollectUsage(ctx, data, params.Via)
-	sendImage(c, image)
+	sendImage(c, image, dataETag)
 }
 
-func sendImage(c *gin.Context, image model.FileHandle) {
-	if c.GetHeader("If-None-Match") == image.ETag() {
+func sendImage(c *gin.Context, image model.FileHandle, etag string) {
+	if etag == "" {
+		etag = image.ETag()
+	}
+
+	// Handle Weak ETags (W/"...") and comma-separated lists
+	if strings.Contains(c.GetHeader("If-None-Match"), strings.Trim(etag, `W/"`)) {
 		c.Status(http.StatusNotModified)
-		c.Header("cache-control", fmt.Sprintf("public, max-age=%d", imageMaxAge))
+		c.Header("Cache-Control", "public, max-age=43200, s-maxage=43200, stale-while-revalidate=86400")
 		return
 	}
 	r := image.Reader()
 	defer r.Close()
 	c.DataFromReader(http.StatusOK, image.Size(), image.ContentType(), r, map[string]string{
-		"cache-control": fmt.Sprintf(`public, max-age=%d`, imageMaxAge),
-		"etag":          image.ETag(),
+		"Cache-Control": "public, max-age=43200, s-maxage=43200, stale-while-revalidate=86400",
+		"ETag":          etag,
 	})
 }

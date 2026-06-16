@@ -34,6 +34,13 @@ func (p *GetImageParams) bind(ctx *gin.Context) error {
 	if err := ctx.ShouldBindQuery(p); err != nil {
 		return err
 	}
+
+	repoStr := string(p.Repository)
+	if idx := strings.IndexAny(repoStr, "?&"); idx != -1 {
+		repoStr = repoStr[:idx]
+	}
+	p.Repository = model.RepositoryString(repoStr)
+
 	// validate repository name format
 	if err := model.ValidateRepositoryName(string(p.Repository)); err != nil {
 		return err
