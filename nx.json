@@ -30,21 +30,9 @@
     }
   },
   "generators": {
-    "@nx/angular:application": {
-      "unitTestRunner": "karma",
-      "e2eTestRunner": "none",
-      "strict": true
-    },
-    "@nx/angular:library": {
-      "unitTestRunner": "karma",
-      "strict": true
-    },
-    "@nx/angular:component": {
+    "@schematics/angular:component": {
       "style": "scss",
       "changeDetection": "OnPush"
-    },
-    "@schematics/angular:component": {
-      "style": "scss"
     }
   },
   "parallel": 1,
