@@ -11,7 +11,7 @@
   "postUpdateOptions": ["gomodTidy", "pnpmDedupe"],
   "packageRules": [
     {
-      "description": "Disable nx package updates except for patch",
+      "description": "Disable nx package updates except for patch. Nx major/minor bumps need `nx migrate` to run migration scripts, which Renovate cannot do; a plain version bump would leave the workspace config stale.",
       "matchPackageNames": ["@nrwl/*", "@nx/*"],
       "matchUpdateTypes": ["major", "minor"],
       "enabled": false
