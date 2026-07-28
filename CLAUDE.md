@@ -133,6 +133,32 @@ collections world-readable and client-write-denied.
 
 Conventional commits are required — release-please derives versions and CHANGELOG from them.
 
+## Dependency updates
+
+**Renovate is the only bot that opens dependency PRs.** Dependabot security updates are switched off in the
+repository settings. A PR authored by `app/dependabot` means that setting was turned back on.
+
+Dependabot **alerts** and the dependency graph stay enabled, and must not be disabled: Renovate's
+`vulnerabilityAlerts` feature reads GitHub's alerts, so turning them off would silently stop the security PRs
+rather than move them elsewhere.
+
+Renovate won because `.github/renovate.json` holds the whole operating policy — weekly schedule, five-day
+`minimumReleaseAge`, `prConcurrentLimit`, `gomodTidy` + `pnpmDedupe`, devDependency patch automerge, and the
+shared `github>lacolaco/renovate-config` presets — while Dependabot had no config file at all. Everything it
+opened was a security update to the _minimum_ patched version for a _single_ advisory, which is how PR #1663
+came to raise `golang.org/x/crypto` to 0.45.0 while the alerts needed 0.52.0. Merging a dependency PR is
+therefore not the same as closing an alert; check the alert itself.
+
+Two consequences of the Renovate config worth knowing before touching it:
+
+- Angular, the Angular CLI and devkit, Material and TypeScript major/minor updates are disabled by the
+  `:ng-update` preset, along with rxjs majors; `@nrwl/*` / `@nx/*` major/minor by a local rule. Those are raised
+  by hand with `ng update` / `nx migrate`, which run migration scripts a version bump alone would skip. The local
+  rule matches only the scoped names, so the unscoped `nx` package is not covered by it.
+- Security PRs ignore all of that. Renovate injects `vulnerabilityAlerts` config with `force`, which overrides
+  every `packageRules` entry, and its defaults set `schedule: []` and `minimumReleaseAge: null` — so a security
+  PR can arrive off-schedule, unaged, and for a package the rules above disable.
+
 ## Conventions
 
 `.github/copilot-instructions.md` also exists, but do not adopt it wholesale. Its coding rules hold (English
