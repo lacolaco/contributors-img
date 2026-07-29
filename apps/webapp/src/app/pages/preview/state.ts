@@ -27,10 +27,6 @@ export class PreviewState {
   readonly #state = signal<State>(initialValue);
   readonly state = this.#state.asReadonly();
 
-  get(): State {
-    return this.#state();
-  }
-
   startFetchingImage() {
     this.#state.update((state) => ({
       ...state,
