@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { RxState } from '@rx-angular/state';
+import { Injectable, signal } from '@angular/core';
 import { ImageParams } from '../../models/image-params';
 import { Repository } from '../../models/repository';
 
@@ -24,14 +23,16 @@ export const initialValue: State = {
 };
 
 @Injectable()
-export class PreviewState extends RxState<State> {
-  constructor() {
-    super();
-    this.set(initialValue);
+export class PreviewState {
+  readonly #state = signal<State>(initialValue);
+  readonly state = this.#state.asReadonly();
+
+  get(): State {
+    return this.#state();
   }
 
   startFetchingImage() {
-    this.set((state) => ({
+    this.#state.update((state) => ({
       ...state,
       fetchingCount: state.fetchingCount + 1,
       result: null,
@@ -39,7 +40,7 @@ export class PreviewState extends RxState<State> {
   }
 
   finishFetchingImage(result: { data: string } | null) {
-    this.set((state) => ({
+    this.#state.update((state) => ({
       ...state,
       fetchingCount: state.fetchingCount - 1,
       result,
@@ -47,7 +48,7 @@ export class PreviewState extends RxState<State> {
   }
 
   patchImageParams(params: Partial<ImageParams>) {
-    this.set((state) => ({
+    this.#state.update((state) => ({
       ...state,
       imageParams: {
         ...state.imageParams,

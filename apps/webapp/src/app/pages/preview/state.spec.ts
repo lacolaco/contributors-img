@@ -32,11 +32,7 @@ describe('PreviewState', () => {
 
   describe('finishFetchingContributors()', () => {
     it('should update value', () => {
-      state.set((state) => ({
-        ...state,
-        fetchingCount: 1,
-        result: null,
-      }));
+      state.startFetchingImage();
 
       state.finishFetchingImage(null);
 

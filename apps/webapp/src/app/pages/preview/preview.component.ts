@@ -1,4 +1,5 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { delay, firstValueFrom, Subject, takeUntil } from 'rxjs';
 import { ImageParams } from '../../models/image-params';
@@ -31,10 +32,11 @@ interface PreviewPageParams {
 })
 export class PreviewPageComponent implements OnInit, OnDestroy {
   private readonly onDestroy$ = new Subject<void>();
-  private readonly state = inject(PreviewState);
+  private readonly store = inject(PreviewState);
   private readonly router = inject(Router);
   private readonly imageApi = inject(ContributorsImageApi);
   private readonly queryParams$ = inject(ActivatedRoute).queryParams.pipe(takeUntil(this.onDestroy$));
+  private readonly imageParams$ = toObservable(computed(() => this.store.state().imageParams));
 
   ngOnInit() {
     this.updateStateOnQueryParamsChange();
@@ -48,7 +50,7 @@ export class PreviewPageComponent implements OnInit, OnDestroy {
   private updateStateOnQueryParamsChange() {
     this.queryParams$.subscribe((params) => {
       const { repo = null, max = null, columns = null } = params;
-      this.state.patchImageParams({
+      this.store.patchImageParams({
         repository: repo ? Repository.fromString(repo) : defaultImageParams.repository,
         max: Number(max) || defaultImageParams.max,
         columns: Number(columns) || defaultImageParams.columns,
@@ -57,20 +59,17 @@ export class PreviewPageComponent implements OnInit, OnDestroy {
   }
 
   private refreshOnStateChange() {
-    this.state
-      .select('imageParams')
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(async (imageParams) => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        this.updateQueryParams(imageParams);
-        try {
-          this.state.startFetchingImage();
-          const image = await firstValueFrom(this.imageApi.getImage(imageParams).pipe(delay(100)));
-          this.state.finishFetchingImage({ data: image });
-        } catch {
-          this.state.finishFetchingImage(null);
-        }
-      });
+    this.imageParams$.pipe(takeUntil(this.onDestroy$)).subscribe(async (imageParams) => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      this.updateQueryParams(imageParams);
+      try {
+        this.store.startFetchingImage();
+        const image = await firstValueFrom(this.imageApi.getImage(imageParams).pipe(delay(100)));
+        this.store.finishFetchingImage({ data: image });
+      } catch {
+        this.store.finishFetchingImage(null);
+      }
+    });
   }
 
   private async updateQueryParams(params: ImageParams) {
