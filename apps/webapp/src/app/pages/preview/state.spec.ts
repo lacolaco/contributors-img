@@ -15,32 +15,28 @@ describe('PreviewState', () => {
   });
 
   it('should has initial value', () => {
-    expect(state.get()).toBeDefined();
-    expect(state.get().imageParams).toBe(defaultImageParams);
-    expect(state.get().result).toEqual(null);
-    expect(state.get().fetchingCount).toEqual(0);
+    expect(state.state()).toBeDefined();
+    expect(state.state().imageParams).toBe(defaultImageParams);
+    expect(state.state().result).toEqual(null);
+    expect(state.state().fetchingCount).toEqual(0);
   });
 
   describe('startFetchingContributors()', () => {
     it('should update value', () => {
       state.startFetchingImage();
 
-      expect(state.get().result).toEqual(null);
-      expect(state.get().fetchingCount).toEqual(1);
+      expect(state.state().result).toEqual(null);
+      expect(state.state().fetchingCount).toEqual(1);
     });
   });
 
   describe('finishFetchingContributors()', () => {
     it('should update value', () => {
-      state.set((state) => ({
-        ...state,
-        fetchingCount: 1,
-        result: null,
-      }));
+      state.startFetchingImage();
 
       state.finishFetchingImage(null);
 
-      expect(state.get().fetchingCount).toEqual(0);
+      expect(state.state().fetchingCount).toEqual(0);
     });
   });
 });
