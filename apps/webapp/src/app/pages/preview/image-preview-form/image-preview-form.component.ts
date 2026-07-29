@@ -3,7 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ImageParams } from '../../../models/image-params';
+import type { ImageParams } from '../../../models/image-params';
 import { Repository } from '../../../models/repository';
 import { PreviewState } from '../state';
 

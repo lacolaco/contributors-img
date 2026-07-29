@@ -2,9 +2,13 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "module": "commonjs",
+    "target": "ES2022",
+    "useDefineForClassFields": false,
+    "module": "preserve",
     "types": ["jasmine", "node"],
-    "emitDecoratorMetadata": true
+    "moduleResolution": "bundler",
+    "lib": ["dom", "es2022"],
+    "isolatedModules": true
   },
   "include": ["**/*.spec.ts", "**/*.test.ts", "**/*.d.ts"]
 }

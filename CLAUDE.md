@@ -60,11 +60,11 @@ instead of GCS. That is the normal local configuration.
 
 Three deployables, one Nx workspace:
 
-| Project  | Path           | Stack                        | Deploy target                        |
-| -------- | -------------- | ---------------------------- | ------------------------------------ |
-| `api`    | `apps/api`     | Go 1.23, Gin, OpenTelemetry  | Cloud Run (image built by `ko`)      |
-| `webapp` | `apps/webapp`  | Angular 19 standalone + Material | Firebase Hosting                 |
-| `worker` | `apps/worker`  | Node, Hono, BigQuery→Firestore | Cloud Run (`--source`, buildpacks) |
+| Project  | Path          | Stack                            | Deploy target                      |
+| -------- | ------------- | -------------------------------- | ---------------------------------- |
+| `api`    | `apps/api`    | Go 1.23, Gin, OpenTelemetry      | Cloud Run (image built by `ko`)    |
+| `webapp` | `apps/webapp` | Angular 21 standalone + Material | Firebase Hosting                   |
+| `worker` | `apps/worker` | Node, Hono, BigQuery→Firestore   | Cloud Run (`--source`, buildpacks) |
 
 `apps/api/go/` is a separate Nx project named **`golib`** (tag `lib`), holding `apiclient`, `compress`, `dataurl`,
 `env`, `httptrace`, `model`, `renderer`, `util`. The boundary is Gin and app config — **not** cloud SDKs:
@@ -86,7 +86,7 @@ Every avatar is inlined as a base64 data URL rather than referenced by URL, so t
 makes rendering expensive — one HTTP request per contributor, parallelised with `errgroup` — which is why the
 cache is load-bearing rather than an optimisation. Keep this in mind before adding work to the render path.
 
-Handlers depend on service *interfaces* declared in the consuming package (`api/image/api.go`), not on the
+Handlers depend on service _interfaces_ declared in the consuming package (`api/image/api.go`), not on the
 concrete service structs. Wiring happens in `internal/service/services.go`.
 
 ### Caching
@@ -157,3 +157,25 @@ Additionally:
   `@testing-library/angular`.
 - `.npmrc` sets `shared-workspace-lockfile=false`, so `apps/worker/pnpm-lock.yaml` exists separately. It must stay
   self-contained — production deploys `--source ./apps/worker` and resolves dependencies there.
+- **`@nx/angular` builds nothing here and must not be "cleaned up".** No target in `apps/webapp/project.json`
+  invokes it — they all use `@angular/build:*`. It is a devDependency solely because `nx migrate` discovers
+  Angular's `packageJsonUpdates` ladder _through_ it, and that ladder is the only thing that moves
+  `@angular/*`, `@angular/material`, `@angular/cdk`, `zone.js` and `angular-eslint` together. `ng update` is not
+  an alternative: it refuses to run without an `angular.json`, which this workspace does not have. #1677 deleted
+  it on the "no executor references it" reasoning above and Angular silently stopped tracking its companions;
+  restoring it cost a full redo. It pulls ~270 transitive packages via
+  `@nx/angular → @nx/module-federation → @nx/web → @nx/webpack`, including all ten `@rspack/binding-*` platform
+  packages. pnpm extracts every one of them — `du -sch node_modules/.pnpm/@rspack+binding-*` measures 424 MB,
+  against 2.4 GB for the whole of `node_modules` — even though only the 38 MB `binding-darwin-arm64` is linked
+  on this machine. `main`'s lockfile has no `@rspack` entries at all. Every `pnpm install` in every CI job pays
+  that. The price buys the migration ladder, nothing else.
+- **Upgrading Angular means running `nx migrate`, and `@nx/angular` must already be declared at the version the
+  workspace is on.** `nx migrate` discards every `packageJsonUpdates` entry below the declared version of the
+  package it is migrating, so adding `@nx/angular` at the target version installs it inert — the ladder is
+  skipped and the companions stay put. Its `@schematics/angular` peer also caps how far Angular can go:
+  23.0.0 covers Angular 19–21, and reaching 22 needs `@nx/angular` 23.1.0 or later.
+- **The webapp is not zoneless.** Angular 21 defaults `ZONELESS_ENABLED` to true, and `app.config.ts` opts back
+  in with `provideZoneChangeDetection()` because `shared/featured-repository/firestore.ts` registers its
+  Firestore listener with `NgZone.runOutsideAngular()` and re-enters via `NgZone.run()`. Removing that provider
+  changes the change-detection mode with no error, and the Karma builder synthesizes its own zone provider from
+  `project.json`'s `polyfills`, so no test would fail.

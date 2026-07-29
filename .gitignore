@@ -55,3 +55,9 @@ Thumbs.db
 # Added by cargo
 
 target
+
+.claude/worktrees
+
+# `nx migrate` writes this as a transient to-do list and `nx migrate --run-migrations`
+# consumes it. Committing it claims migrations are pending that have already been applied.
+/migrations.json

@@ -4,7 +4,11 @@
     "outDir": "../../dist/out-tsc",
     "types": [],
     "target": "ES2022",
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "moduleResolution": "bundler",
+    "module": "preserve",
+    "isolatedModules": true,
+    "lib": ["dom", "es2022"]
   },
   "files": ["src/main.ts"],
   "include": ["src/**/*.d.ts"]

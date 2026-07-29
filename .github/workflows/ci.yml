@@ -81,3 +81,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - uses: ./.github/actions/setup-go
       - run: pnpm lint
+      # Repo-root Markdown/JSON sits outside every project's `format` target, so nothing else checks it.
+      - run: pnpm format:check:root
