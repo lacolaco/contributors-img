@@ -23,14 +23,19 @@ export class FirebaseFeaturedRepositoryDatasource implements FeaturedRepositoryD
       `${environment.firestoreRootCollectionName}/featured_repositories`,
     ) as DocumentReference<FeaturedRepositoryDocument>;
 
-    this.repositories$ = new Observable<FeaturedRepositoryDocument | undefined>((subscriber) => {
-      const unsubscribe = onSnapshot(
-        docRef,
-        (snapshot) => ngZone.run(() => subscriber.next(snapshot.data())),
-        (error) => ngZone.run(() => subscriber.error(error)),
-      );
-      return unsubscribe;
-    }).pipe(
+    // The listener is registered outside the Angular zone: zone.js patches the transport,
+    // so a listener opened inside the zone would make every long-poll keep-alive and retry
+    // timer schedule a change-detection pass for the life of the page. Only actual snapshot
+    // deliveries re-enter the zone, via the `run` calls below.
+    this.repositories$ = new Observable<FeaturedRepositoryDocument | undefined>((subscriber) =>
+      ngZone.runOutsideAngular(() =>
+        onSnapshot(
+          docRef,
+          (snapshot) => ngZone.run(() => subscriber.next(snapshot.data())),
+          (error) => ngZone.run(() => subscriber.error(error)),
+        ),
+      ),
+    ).pipe(
       filter((doc): doc is FeaturedRepositoryDocument => doc != null),
       map((doc) => doc.items),
     );
