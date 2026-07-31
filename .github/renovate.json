@@ -12,7 +12,13 @@
   "packageRules": [
     {
       "description": "Disable nx package updates except for patch. Nx major/minor bumps need `nx migrate` to run migration scripts, which Renovate cannot do; a plain version bump would leave the workspace config stale.",
-      "matchPackageNames": ["@nrwl/*", "@nx/*"],
+      "matchPackageNames": ["@nrwl/*", "@nx/*", "nx"],
+      "matchUpdateTypes": ["major", "minor"],
+      "enabled": false
+    },
+    {
+      "description": "Disable angular-eslint major/minor updates for the same reason as nx above. It is published from github.com/angular-eslint/angular-eslint, not angular/angular, so the shared ng-update preset's source-prefix match does not cover it.",
+      "matchPackageNames": ["angular-eslint", "@angular-eslint/*"],
       "matchUpdateTypes": ["major", "minor"],
       "enabled": false
     },
