@@ -111,8 +111,7 @@
       "executor": "nx:run-commands",
       "inputs": ["default"],
       "options": {
-        "command": "npx prettier -w '.'",
-        "cwd": "apps/webapp"
+        "command": "npx prettier -w 'apps/webapp'"
       }
     }
   }
