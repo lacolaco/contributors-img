@@ -43,8 +43,7 @@
       "executor": "nx:run-commands",
       "inputs": ["default"],
       "options": {
-        "command": "npx prettier -w '.'",
-        "cwd": "apps/worker"
+        "command": "npx prettier -w 'apps/worker'"
       }
     }
   }
