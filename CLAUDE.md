@@ -63,8 +63,36 @@ Three deployables, one Nx workspace:
 | Project  | Path           | Stack                        | Deploy target                        |
 | -------- | -------------- | ---------------------------- | ------------------------------------ |
 | `api`    | `apps/api`     | Go 1.23, Gin, OpenTelemetry  | Cloud Run (image built by `ko`)      |
-| `webapp` | `apps/webapp`  | Angular 19 standalone + Material | Firebase Hosting                 |
+| `webapp` | `apps/webapp`  | Angular 20 standalone + Material | Firebase Hosting                 |
 | `worker` | `apps/worker`  | Node, Hono, BigQuery→Firestore | Cloud Run (`--source`, buildpacks) |
+
+`@nx/angular` has no imports anywhere in this repo and generates nothing here — but it must stay a devDependency
+regardless. `nx migrate` reads a package's `packageJsonUpdates` ladder only from a package that is already in
+`package.json`; if `@nx/angular` is missing, none of its Angular-version-lockstep entries run, and `@angular/material`,
+`@angular/cdk`, `zone.js`, and `angular-eslint` silently stop tracking `@angular/core`. Re-adding it after the fact
+with `nx add` does not backfill the skipped ladder — it must already be declared, at the version the workspace is
+actually on, before `nx migrate` runs. The price of keeping it: roughly 550 additional `.pnpm` store entries and
+~240 MB more in `node_modules` (measured with `du -sk`, comparing installs with and without the package.json line,
+at this Nx version — the number moves as the dependency graph does, so re-measure rather than reuse this figure),
+including one `@rspack/binding-<platform>` native binary for the current platform — pnpm installs only that one
+platform's binary, not all of npm's published targets.
+
+TypeScript's version is a separate trap: it looks unmanaged, but `@nx/workspace`'s own `packageJsonUpdates` owns
+it as a four-entry chain (`typescript >=5.5 <5.6` → sets `~5.6.2`, `>=5.6 <5.7` → `~5.7.2`, `>=5.7 <5.8` → `~5.8.2`,
+`>=5.8 <5.9` → `~5.9.2`), each gated on the workspace's current version already sitting inside the preceding
+entry's range. Every entry carries an `x-prompt`, which makes it optional, and optional entries are collected only
+under `nx migrate --interactive` — a flag that is force-disabled whenever `isCI()` is true and, even run by hand
+outside CI, does not work headlessly: it hangs waiting on a real TTY, and forcing input through a pseudo-terminal
+produced actively wrong results (stopped mid-chain at an intermediate version, and answered an unrelated Nx Cloud
+telemetry consent prompt it happened to also raise). So TypeScript has to be set by hand, to the version the chain
+names — currently `~5.9.2` from the `>=5.8 <5.9` entry. Read the exact chain out of
+`node_modules/@nx/workspace/migrations.json` (`packageJsonUpdates`, package `typescript`) rather than deriving it
+from `@angular/compiler-cli`'s peer range; the peer range is only a lower bound the ladder happens to satisfy, not
+the ladder's own destination. This workspace sat at `5.5.4` — outside every entry's range except the first — which
+is why none of the chain fires on its own without a human declaring the jump.
+
+At this Angular version the app is not zoneless: it still boots through the default `zone.js`-based change
+detection. No migration here added `provideZonelessChangeDetection` or removed `zone.js`.
 
 `apps/api/go/` is a separate Nx project named **`golib`** (tag `lib`), holding `apiclient`, `compress`, `dataurl`,
 `env`, `httptrace`, `model`, `renderer`, `util`. The boundary is Gin and app config — **not** cloud SDKs:

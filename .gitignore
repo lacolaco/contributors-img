@@ -55,3 +55,8 @@ Thumbs.db
 # Added by cargo
 
 target
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
+
+# nx migrate's transient to-do list — not a historical record
+/migrations.json
