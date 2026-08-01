@@ -60,3 +60,5 @@ target
 
 # nx migrate's transient to-do list — not a historical record
 /migrations.json
+
+.claude/worktrees

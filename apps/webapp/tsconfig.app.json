@@ -5,7 +5,9 @@
     "types": [],
     "target": "ES2022",
     "useDefineForClassFields": false,
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "module": "preserve",
+    "lib": ["dom", "es2022"]
   },
   "files": ["src/main.ts"],
   "include": ["src/**/*.d.ts"]

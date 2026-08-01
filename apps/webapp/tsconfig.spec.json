@@ -3,10 +3,12 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "types": ["jasmine", "node"],
-    "emitDecoratorMetadata": true,
     "moduleResolution": "bundler",
     "target": "ES2022",
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "module": "preserve",
+    "lib": ["dom", "es2022"],
+    "isolatedModules": true
   },
   "include": ["**/*.spec.ts", "**/*.test.ts", "**/*.d.ts"]
 }
