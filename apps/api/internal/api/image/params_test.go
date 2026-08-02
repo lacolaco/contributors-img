@@ -25,7 +25,7 @@ func Test_GetImageParams_BindQuery_AllParams(t *testing.T) {
 	err := params.bind(c)
 
 	if err != nil {
-		t.Fatalf(err.Error())
+		t.Fatal(err)
 	}
 	if params.Repository != "angular/angular-ja" {
 		t.Fatalf("Bound params: %v", params)
@@ -55,7 +55,7 @@ func Test_GetImageParams_BingQuery_NoRepository(t *testing.T) {
 	err := params.bind(c)
 
 	if err == nil {
-		t.Fatalf(err.Error())
+		t.Fatal("expected error, got nil")
 	}
 }
 
@@ -71,7 +71,7 @@ func Test_GetImageParams_BingQuery_InvalidRepository(t *testing.T) {
 	err := params.bind(c)
 
 	if err == nil {
-		t.Fatalf(err.Error())
+		t.Fatal("expected error, got nil")
 	}
 }
 
@@ -87,7 +87,7 @@ func Test_GetImageParams_BingQuery_Anon_ZeroIsFalse(t *testing.T) {
 	err := params.bind(c)
 
 	if err == nil {
-		t.Fatalf(err.Error())
+		t.Fatal("expected error, got nil")
 	}
 	if params.IncludeAnonymous {
 		t.Fatalf("Bound params: %v", params)
@@ -106,7 +106,7 @@ func Test_GetImageParams_BingQuery_Anon_FalseIsFalse(t *testing.T) {
 	err := params.bind(c)
 
 	if err == nil {
-		t.Fatalf(err.Error())
+		t.Fatal("expected error, got nil")
 	}
 	if params.IncludeAnonymous {
 		t.Fatalf("Bound params: %v", params)

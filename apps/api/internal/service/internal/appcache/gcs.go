@@ -3,6 +3,7 @@ package appcache
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 
@@ -66,6 +67,13 @@ func (s *gcsCache) SaveJSON(c context.Context, name string, v any) error {
 	return saveFile(s.bucket, ctx, name, data, "application/json")
 }
 
+// isNotExistErr reports whether err means the object is absent, which this
+// cache treats as a miss rather than a failure. storage wraps
+// ErrObjectNotExist rather than returning it bare, so equality does not work.
+func isNotExistErr(err error) bool {
+	return errors.Is(err, storage.ErrObjectNotExist)
+}
+
 func getFile(bucket *storage.BucketHandle, c context.Context, name string) (model.FileHandle, error) {
 	if bucket == nil {
 		return nil, nil
@@ -103,7 +111,7 @@ func getFile(bucket *storage.BucketHandle, c context.Context, name string) (mode
 		if file.reader != nil {
 			file.reader.Close()
 		}
-		if err == storage.ErrObjectNotExist {
+		if isNotExistErr(err) {
 			return nil, nil
 		}
 		return nil, err
