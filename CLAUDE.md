@@ -63,7 +63,7 @@ Three deployables, one Nx workspace:
 | Project  | Path           | Stack                        | Deploy target                        |
 | -------- | -------------- | ---------------------------- | ------------------------------------ |
 | `api`    | `apps/api`     | Go 1.23, Gin, OpenTelemetry  | Cloud Run (image built by `ko`)      |
-| `webapp` | `apps/webapp`  | Angular 21 standalone + Material | Firebase Hosting                 |
+| `webapp` | `apps/webapp`  | Angular 22 standalone + Material | Firebase Hosting                 |
 | `worker` | `apps/worker`  | Node, Hono, BigQuery→Firestore | Cloud Run (`--source`, buildpacks) |
 
 `@nx/angular` has no imports anywhere in this repo and generates nothing here — but it must stay a devDependency
@@ -73,30 +73,43 @@ regardless. `nx migrate` reads a package's `packageJsonUpdates` ladder only from
 with `nx add` does not backfill the skipped ladder — it must already be declared, at the version the workspace is
 actually on, before `nx migrate` runs. The price of keeping it is large and moves with every Nx bump.
 `@nx/angular` depends on `@nx/rspack`, which drags in `@rspack/binding-*` for **every** published target rather
-than the host's alone: at Nx 23 that is 10 platforms (`darwin-{arm64,x64}`, `linux-{x64,arm64}-{gnu,musl}`,
-`win32-{x64,ia32,arm64}-msvc`, `wasm32-wasi`), and two minor lines of rspack 1.x (`1.6.8` and `1.7.12`) coexist,
-so it lands as 20 store entries. `du -sch node_modules/.pnpm/@rspack+binding-*` reports ~850 MB, but that is the
-*logical* size — pnpm clones from the global store, so it overstates what a removal would actually reclaim. Before
-quoting any number in a decision about dropping the package, measure the **difference** between installs with and
-without the `package.json` line; the absolute figure above is not that difference.
+than the host's alone: at Nx 23.1.1 that is 12 platforms (`darwin-{arm64,x64}`, `linux-{x64,arm64}-{gnu,musl}`,
+`linux-riscv64-{gnu,musl}`, `win32-{x64,ia32,arm64}-msvc`, `wasm32-wasi`), and two rspack lines **across a major
+boundary** (`1.7.12` and `2.1.7`) coexist, so it lands as 22 entries. Count those out of `pnpm-lock.yaml`, not out
+of `node_modules/.pnpm`, which keeps entries from earlier installs and inflates both the count and any `du`. The
+binaries run to hundreds of megabytes, but a `du` total is the *logical* size — pnpm clones from the global store,
+so it overstates what a removal would reclaim. Before quoting any number in a decision about dropping the package,
+measure the **difference** between installs with and without the `package.json` line.
+
+`istanbul-lib-instrument` is the same shape for a different reason. Nothing here imports it and no target sets
+`codeCoverage`, but `@angular/build` demoted it from a plain dependency in v21 — where it was installed
+transitively — to an **optional** peer in v22, so it now vanishes unless the workspace declares it. The Karma
+builder loads it only when `--code-coverage` is passed, and throws `The 'istanbul-lib-instrument' package is
+required for code coverage but was not found` if it is missing. An optional peer produces no install-time
+warning, so nothing else signals the loss. `karma-coverage` is declared for the same capability; drop one and you
+must drop both.
 
 TypeScript's version is a separate trap: it looks unmanaged, but `@nx/workspace`'s own `packageJsonUpdates` owns
-it. Read the chain out of `node_modules/@nx/workspace/migrations.json` (`packageJsonUpdates`, package `typescript`)
-rather than deriving it from `@angular/compiler-cli`'s peer range; the peer range is only a lower bound the ladder
-happens to satisfy, not the ladder's own destination. At Nx 23 the chain is two rungs — `21.2.0` → `~5.8.2` and
-`21.5.0` → `~5.9.2` — and two independent filters decide whether either fires.
+it — until it doesn't. Read the chain out of `node_modules/@nx/workspace/migrations.json` (`packageJsonUpdates`,
+package `typescript`) first. At Nx 23.1.1 it is still two rungs — `21.2.0` → `~5.8.2` and `21.5.0` → `~5.9.2` —
+and two independent filters decide whether either fires.
 
 - **The migration window**, applied first: `filterPackageJsonUpdates` (`migrate.js:313`) drops any rung whose own
   version is below the *installed* version of the migrating package, or above the target. Both rungs sit at 21.x,
   so migrating `@nx/workspace` 22 → 23 never reaches them. A rung is reachable only during the migration that
   crosses it — the same mechanism that requires `@nx/angular` to be declared at the version the workspace is on.
 - **The `requires` gate**, checked second: `>=5.7.0 <5.8.0` and `>=5.8.0 <5.9.0` against the workspace's *current*
-  TypeScript, which is `5.9.3` — outside both.
+  TypeScript — now `6.0.3`, outside both.
 
 **So, after every `nx migrate`: read the `typescript` rungs out of the freshly installed
-`node_modules/@nx/workspace/migrations.json` and set `package.json`'s `typescript` by hand to the version the
-highest reachable rung names. Nothing sets it for you, and a skipped window is not a reason to assume it is
-current.** Do not reach for `--interactive` to collect the rungs: it is force-disabled whenever `isCI()` is true,
+`node_modules/@nx/workspace/migrations.json`. If a reachable rung names a version, set `package.json`'s
+`typescript` by hand to it — nothing sets it for you, and a skipped window is not a reason to assume the current
+value is right. If no rung reaches, the ladder is exhausted and the peer range of `@angular/compiler-cli` and
+`@angular/build` becomes the only remaining constraint; take the newest version inside it.** That is how this
+workspace reached `6.0.3`: Angular 22 requires `>=6.0 <6.1`, and no rung for TypeScript 6 exists anywhere in
+`@nx/*` or in Angular's own `ng-update` `packageGroup`. Confirm the ladder is exhausted before falling back — while
+a rung is still reachable the peer range is only a lower bound it happens to satisfy, not the ladder's
+destination. Do not reach for `--interactive` to collect the rungs: it is force-disabled whenever `isCI()` is true,
 hangs waiting on a real TTY otherwise, and forcing input through a pseudo-terminal produced actively wrong results
 (stopped mid-chain at an intermediate version, and answered an unrelated Nx Cloud telemetry consent prompt it
 happened to also raise). Nx 23 deprecates it outright — removal in v24 — in favour of `--include` (`required` /
@@ -200,6 +213,14 @@ Additionally:
   `angular.json` — project config lives in `apps/webapp/project.json`. `workspace.json` is **not** the project
   list: it names only `api`, `webapp`, and `worker`, while `golib` is discovered by Nx from
   `apps/api/go/project.json`.
+- **Two Angular 22 defaults were deferred, not decided.** v22 flipped them, and its migrations wrote the previous
+  behaviour out explicitly rather than adopting the new one; adopting either is a change in behaviour that does
+  not trace back to a dependency bump, so both were left as the migration produced them. (a) `app`, `preview`, and
+  `recent-usage` carry `ChangeDetectionStrategy.Eager` — the other eight components are already `OnPush`, and
+  `@angular-eslint/prefer-on-push-component-change-detection` stays enabled so new components are still checked;
+  the three exceptions are suppressed per line. (b) `app.config.ts` calls `provideHttpClient(withXhr())` because
+  v22 made `FetchBackend` the default. Neither can be validated by the 18 specs — switching the root component's
+  strategy changes traversal for the whole tree, so it needs a loaded page, not a unit test.
 - Tests: Go uses table tests plus `cupaloy` snapshots under `.snapshots/`; webapp uses Karma with
   `@testing-library/angular`.
 - `.npmrc` sets `shared-workspace-lockfile=false`, so `apps/worker/pnpm-lock.yaml` exists separately. It must stay

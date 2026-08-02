@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { delay, firstValueFrom, Subject, takeUntil } from 'rxjs';
@@ -28,6 +28,10 @@ interface PreviewPageParams {
   `,
   styleUrls: ['./preview.component.scss'],
   imports: [HeaderComponent, FooterComponent, ImagePreviewComponent, RecentUsageComponent],
+  // Angular 22 made OnPush the default and its migration wrote this out to preserve the previous behaviour.
+  // Switching to OnPush is a change in behaviour, not part of the upgrade, so it is deferred.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [PreviewState],
 })
 export class PreviewPageComponent implements OnInit, OnDestroy {
