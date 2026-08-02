@@ -62,7 +62,7 @@ Three deployables, one Nx workspace:
 
 | Project  | Path           | Stack                        | Deploy target                        |
 | -------- | -------------- | ---------------------------- | ------------------------------------ |
-| `api`    | `apps/api`     | Go 1.23, Gin, OpenTelemetry  | Cloud Run (image built by `ko`)      |
+| `api`    | `apps/api`     | Go 1.25, Gin, OpenTelemetry  | Cloud Run (image built by `ko`)      |
 | `webapp` | `apps/webapp`  | Angular 22 standalone + Material | Firebase Hosting                 |
 | `worker` | `apps/worker`  | Node, Hono, BigQuery→Firestore | Cloud Run (`--source`, buildpacks) |
 

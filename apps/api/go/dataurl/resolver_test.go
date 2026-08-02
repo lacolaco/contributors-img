@@ -19,7 +19,7 @@ func TestConvert(t *testing.T) {
 
 	ret, err := Convert(context.Background(), ts.URL, map[string]string{"s": "64"})
 	if err != nil {
-		t.Fatalf(err.Error())
+		t.Fatal(err)
 	}
 	cupaloy.SnapshotT(t, ret)
 }
