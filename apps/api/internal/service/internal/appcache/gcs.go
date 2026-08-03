@@ -129,10 +129,14 @@ func saveFile(bucket *storage.BucketHandle, c context.Context, name string, data
 	span.SetAttributes(attribute.String("cache.object.name", name))
 
 	w := bucket.Object(name).NewWriter(ctx)
-	defer w.Close()
 	w.ContentType = contentType
-	_, err := w.Write(data)
-	return err
+	if _, err := w.Write(data); err != nil {
+		w.Close()
+		return err
+	}
+	// Write only fills the writer's internal pipe. Whether the upload succeeded is
+	// reported by Close alone, so its error is the one that matters here.
+	return w.Close()
 }
 
 var _ model.FileHandle = &gcsFileHandle{}
