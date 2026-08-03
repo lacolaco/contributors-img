@@ -3,11 +3,11 @@ package app
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
 
 	"contrib.rocks/apps/api/go/compress"
 	"contrib.rocks/apps/api/go/env"
 	"contrib.rocks/apps/api/internal/api"
+	"contrib.rocks/apps/api/internal/apierror"
 	"contrib.rocks/apps/api/internal/config"
 	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/service"
@@ -37,7 +37,7 @@ func StartServer() error {
 	r.Use(config.Middleware(cfg))
 	r.Use(tracing.Middleware(cfg))
 	r.Use(logger.Middleware(cfg))
-	r.Use(errorHandler())
+	r.Use(apierror.Middleware())
 	r.Use(requestLogger())
 	r.Use(compress.Compress())
 
@@ -45,18 +45,6 @@ func StartServer() error {
 
 	fmt.Printf("Listening on http://localhost:%s\n", cfg.Port)
 	return r.Run(fmt.Sprintf(":%s", cfg.Port))
-}
-
-func errorHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Next()
-		err := c.Errors.Last()
-		if err == nil {
-			return
-		}
-		logger.LoggerFromContext(c.Request.Context()).Error(err.Error())
-		c.AbortWithStatusJSON(http.StatusInternalServerError, err.JSON())
-	}
 }
 
 func requestLogger() gin.HandlerFunc {

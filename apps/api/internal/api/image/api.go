@@ -2,6 +2,7 @@ package image
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -24,6 +25,12 @@ type ImageService interface {
 }
 
 type ContributorsService interface {
+	// GetContributors returns the repository's contributors.
+	//
+	// When the repository does not exist, the returned error must match
+	// *model.RepositoryNotFoundError under errors.As. Implementations may wrap it —
+	// the production one returns it inside a retry.Error — but must not replace it
+	// with an opaque error: Get maps that case to 404 and everything else to 500.
 	GetContributors(ctx context.Context, repo *model.Repository) (*model.RepositoryContributors, error)
 }
 
@@ -84,7 +91,9 @@ func (api *API) Get(c *gin.Context) {
 
 	// get data
 	data, err := api.cs.GetContributors(ctx, params.Repository.Object())
-	if notfound, ok := err.(*model.RepositoryNotFoundError); ok {
+	// retry-go wraps this in a retry.Error unless LastErrorOnly is set, so match through the wrapper.
+	var notfound *model.RepositoryNotFoundError
+	if errors.As(err, &notfound) {
 		log.Error(err.Error())
 		c.String(http.StatusNotFound, notfound.Error())
 		return
