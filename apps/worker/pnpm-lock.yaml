@@ -15,8 +15,8 @@ importers:
         specifier: 7.11.0
         version: 7.11.0
       '@hono/node-server':
-        specifier: 1.19.17
-        version: 1.19.17(hono@4.12.33)
+        specifier: 2.0.5
+        version: 2.0.5(hono@4.12.33)
       hono:
         specifier: 4.12.33
         version: 4.12.33
@@ -60,9 +60,9 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  '@hono/node-server@1.19.17':
-    resolution: {integrity: sha512-dSneS5qhiauZWGDCeK4o695Xd9nUNjviSZCMQrj10eetr8Uln1ucn6bbphOM6UynAMMtNIzZNSpL9vnASJwrPQ==}
-    engines: {node: '>=18.14.1'}
+  '@hono/node-server@2.0.5':
+    resolution: {integrity: sha512-yQFvDmyDo3y6rEOJZDUYPJ49DIKTPpIk4kGvm40xx4Ejne0Pu9a1+exxPN+C1UppWK/WGZX9F++/Xs231tE86g==}
+    engines: {node: '>=20'}
     peerDependencies:
       hono: ^4
 
@@ -438,6 +438,7 @@ packages:
 
   uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   webidl-conversions@3.0.1:
@@ -533,7 +534,7 @@ snapshots:
       protobufjs: 7.4.0
       yargs: 17.7.2
 
-  '@hono/node-server@1.19.17(hono@4.12.33)':
+  '@hono/node-server@2.0.5(hono@4.12.33)':
     dependencies:
       hono: 4.12.33
 
