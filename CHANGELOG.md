@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.1.4](https://github.com/lacolaco/contributors-img/compare/v1.1.3...v1.1.4) (2026-08-03)
+
+
+### Bug Fixes
+
+* **api:** return 404 for a missing repository instead of 500 ([#1701](https://github.com/lacolaco/contributors-img/issues/1701)) ([39b0ee8](https://github.com/lacolaco/contributors-img/commit/39b0ee8a9541662b8eed2753cc780dc3e94785db))
+* **ci:** build on a Go toolchain that includes the crypto/tls fix ([#1694](https://github.com/lacolaco/contributors-img/issues/1694)) ([712ac67](https://github.com/lacolaco/contributors-img/commit/712ac673df8a31ea003ca27d5c0a7344957a3cea))
+* **deps:** bump hono and @hono/node-server in worker to close their advisories ([#1695](https://github.com/lacolaco/contributors-img/issues/1695)) ([ab98c75](https://github.com/lacolaco/contributors-img/commit/ab98c75e7e39f3b72269bb21b0447ca1f064a551))
+* **deps:** close the two remaining Go module advisories ([#1693](https://github.com/lacolaco/contributors-img/issues/1693)) ([3edc101](https://github.com/lacolaco/contributors-img/commit/3edc101c9908e17ddee5c12eb00fd71d3c58223d))
+* **deps:** close two gaps in the nx update suppression ([#1687](https://github.com/lacolaco/contributors-img/issues/1687)) ([955512e](https://github.com/lacolaco/contributors-img/commit/955512edb1ebfd3e5e3344b5b72c19bf74f15e89))
+* **deps:** raise Go dependencies past the versions that close the alerts ([#1692](https://github.com/lacolaco/contributors-img/issues/1692)) ([5704d86](https://github.com/lacolaco/contributors-img/commit/5704d861ea189a4ead107c904cd74076c3e18b38))
+* **deps:** update dependency @hono/node-server to v2 [security] ([#1678](https://github.com/lacolaco/contributors-img/issues/1678)) ([b36ea39](https://github.com/lacolaco/contributors-img/commit/b36ea398f4b3f04138072bd64c2001430d6726e7))
+* **deps:** upgrade nx to 22.0.0 and let @nx/angular carry Angular to v20 ([#1686](https://github.com/lacolaco/contributors-img/issues/1686)) ([fccdf1c](https://github.com/lacolaco/contributors-img/commit/fccdf1c3c821de47bc99605c909323e3e4df2c6a))
+* **deps:** upgrade nx to 23.0.0 and let @nx/angular carry Angular to v21 ([#1690](https://github.com/lacolaco/contributors-img/issues/1690)) ([76eaeea](https://github.com/lacolaco/contributors-img/commit/76eaeea32de65fa5d5634f2a925cfbc3d5392399))
+* **deps:** upgrade nx to 23.1.1 and let @nx/angular carry Angular to v22 ([#1691](https://github.com/lacolaco/contributors-img/issues/1691)) ([a792920](https://github.com/lacolaco/contributors-img/commit/a792920c2204f73bdd1fc45070e448943e57df95))
+* run project format targets from the repo root ([#1688](https://github.com/lacolaco/contributors-img/issues/1688)) ([76e94c1](https://github.com/lacolaco/contributors-img/commit/76e94c1379a38416a1149ed57509ddb6163daf4d))
+
 ## [1.1.3](https://github.com/lacolaco/contributors-img/compare/v1.1.2...v1.1.3) (2025-04-25)
 
 
