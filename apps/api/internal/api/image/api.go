@@ -64,6 +64,7 @@ func (api *API) Get(c *gin.Context) {
 		attribute.String("/app/api/image/params/referer", params.Referer),
 		attribute.Int64("/app/api/image/params/max", int64(params.MaxCount)),
 		attribute.Int64("/app/api/image/params/columns", int64(params.Columns)),
+		attribute.Int64("/app/api/image/params/itemSize", int64(params.ItemSize)),
 	)
 	log = log.With(logger.Label("repository", string(params.Repository)),
 		logger.Label("referer", params.Referer))
@@ -76,6 +77,7 @@ func (api *API) Get(c *gin.Context) {
 	rendererOptions := &renderer.RendererOptions{
 		MaxCount: params.MaxCount,
 		Columns:  params.Columns,
+		ItemSize: params.ItemSize,
 	}
 
 	// get image
