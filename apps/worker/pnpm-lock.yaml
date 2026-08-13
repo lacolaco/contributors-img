@@ -15,8 +15,8 @@ importers:
         specifier: 7.11.0
         version: 7.11.0
       '@hono/node-server':
-        specifier: 2.0.5
-        version: 2.0.5(hono@4.12.33)
+        specifier: 2.0.10
+        version: 2.0.10(hono@4.12.33)
       hono:
         specifier: 4.12.33
         version: 4.12.33
@@ -60,8 +60,8 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  '@hono/node-server@2.0.5':
-    resolution: {integrity: sha512-yQFvDmyDo3y6rEOJZDUYPJ49DIKTPpIk4kGvm40xx4Ejne0Pu9a1+exxPN+C1UppWK/WGZX9F++/Xs231tE86g==}
+  '@hono/node-server@2.0.10':
+    resolution: {integrity: sha512-ZcnNVhKTmyDJeg0UlnZjvM73JBsTAuhrH/J4fjwGOw59PwOW51r4J+p6CsKZWXdKSme4MFqU62CZMOsdDrU4CA==}
     engines: {node: '>=20'}
     peerDependencies:
       hono: ^4
@@ -534,7 +534,7 @@ snapshots:
       protobufjs: 7.4.0
       yargs: 17.7.2
 
-  '@hono/node-server@2.0.5(hono@4.12.33)':
+  '@hono/node-server@2.0.10(hono@4.12.33)':
     dependencies:
       hono: 4.12.33
 
