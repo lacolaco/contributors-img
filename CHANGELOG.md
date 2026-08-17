@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.5](https://github.com/lacolaco/contributors-img/compare/v1.1.4...v1.1.5) (2026-08-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @hono/node-server to v2.0.10 [security] ([#1700](https://github.com/lacolaco/contributors-img/issues/1700)) ([59ee7eb](https://github.com/lacolaco/contributors-img/commit/59ee7ebc7b89afd410ea37cfb206bec893756305))
+* **deps:** update golang.org/x/exp digest to b88d891 ([#1697](https://github.com/lacolaco/contributors-img/issues/1697)) ([c0526c7](https://github.com/lacolaco/contributors-img/commit/c0526c7cb00cf867131b6ce2067426abaceb0056))
+
 ## [1.1.4](https://github.com/lacolaco/contributors-img/compare/v1.1.3...v1.1.4) (2026-08-03)
 
 
