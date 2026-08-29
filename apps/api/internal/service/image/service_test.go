@@ -2,10 +2,16 @@ package image
 
 import (
 	"context"
+	"errors"
+	"strings"
 	"testing"
 
 	"contrib.rocks/apps/api/go/model"
 	"contrib.rocks/apps/api/go/renderer"
+	"contrib.rocks/apps/api/internal/logger"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+	"go.uber.org/zap/zaptest/observer"
 )
 
 // mockCache is a simple implementation of appcache.AppCache for testing
@@ -121,4 +127,59 @@ func TestService_normalizeContributors(t *testing.T) {
 			}
 		}
 	})
+}
+
+// A cache write that fails must not fail the request. By the time Save runs the
+// image is already rendered, and the contributors it was rendered from cost
+// GitHub API quota to fetch; discarding all of that because GCS refused a write
+// turns a latency problem into an outage. The failure is logged instead, so it
+// stays visible without taking the response with it.
+func TestService_RenderImage_cacheSaveFailureIsNotFatal(t *testing.T) {
+	originalConverter := dataURLConverter
+	dataURLConverter = mockDataURLConverter
+	defer func() { dataURLConverter = originalConverter }()
+
+	var savedKey string
+	service := &Service{
+		cache: &mockCache{
+			saveFunc: func(_ context.Context, key string, _ []byte, _ string) error {
+				savedKey = key
+				return errors.New("googleapi: Error 403: quota exceeded")
+			},
+		},
+	}
+
+	data := &model.RepositoryContributors{
+		Repository:      &model.Repository{Owner: "test-owner", RepoName: "test-repo"},
+		StargazersCount: 100,
+		Contributors:    []*model.Contributor{{ID: 1, Login: "user1", AvatarURL: "https://avatar1.com"}},
+	}
+
+	core, logs := observer.New(zapcore.DebugLevel)
+	ctx := logger.ContextWithLogger(context.Background(), zap.New(core))
+
+	image, err := service.RenderImage(ctx, data, &renderer.RendererOptions{}, false)
+	if err != nil {
+		t.Fatalf("err = %v, want nil: a failed cache write must not fail the request", err)
+	}
+	if image == nil {
+		t.Fatal("image = nil, want the rendered image")
+	}
+	if image.Size() == 0 {
+		t.Fatal("image is empty, want rendered SVG bytes")
+	}
+	if savedKey == "" {
+		t.Fatal("Save was never called; the test did not exercise the failure path")
+	}
+
+	// Not failing the request is only half the contract. Dropping the log as well
+	// would restore the bug this change exists to remove: a write that never
+	// landed, reported nowhere.
+	errorLogs := logs.FilterLevelExact(zapcore.ErrorLevel).All()
+	if len(errorLogs) != 1 {
+		t.Fatalf("error logs = %d, want 1: the failure must still be recorded", len(errorLogs))
+	}
+	if !strings.Contains(errorLogs[0].Message, savedKey) {
+		t.Fatalf("log = %q, want it to name the cache key %q", errorLogs[0].Message, savedKey)
+	}
 }

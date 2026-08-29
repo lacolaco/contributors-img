@@ -51,9 +51,8 @@ func (s *Service) GetContributors(c context.Context, r *model.Repository) (*mode
 		return nil, err
 	}
 	// save cache
-	err = s.cache.SaveJSON(ctx, cacheKey, data)
-	if err != nil {
-		return nil, err
+	if err := s.cache.SaveJSON(ctx, cacheKey, data); err != nil {
+		cacheutil.LogCacheSaveFailure(ctx, "contributors-json", cacheKey, err)
 	}
 	return data, nil
 }
