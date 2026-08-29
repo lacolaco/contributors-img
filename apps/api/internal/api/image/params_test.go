@@ -15,6 +15,7 @@ func Test_GetImageParams_BindQuery_AllParams(t *testing.T) {
 	q.Set("repo", "angular/angular-ja")
 	q.Set("max", "100")
 	q.Set("columns", "12")
+	q.Set("itemSize", "64")
 	q.Set("anon", "1")
 	q.Set("preview", "1")
 	uri.RawQuery = q.Encode()
@@ -34,6 +35,9 @@ func Test_GetImageParams_BindQuery_AllParams(t *testing.T) {
 		t.Fatalf("Bound params: %v", params)
 	}
 	if params.Columns != 12 {
+		t.Fatalf("Bound params: %v", params)
+	}
+	if params.ItemSize != 64 {
 		t.Fatalf("Bound params: %v", params)
 	}
 	if !params.IncludeAnonymous {

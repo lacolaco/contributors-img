@@ -15,6 +15,8 @@ func normalizeRendererOptions(options *renderer.RendererOptions) *renderer.Rende
 	if options.Columns < 1 {
 		options.Columns = defaultColumns
 	}
-	options.ItemSize = defaultItemSize
+	if options.ItemSize < 1 {
+		options.ItemSize = defaultItemSize
+	}
 	return options
 }

@@ -15,6 +15,8 @@ import { Repository } from '../../../models/repository';
         <dd style="font-size: 14px; margin-inline-start: 2rem">Max contributor count (100 by default)</dd>
         <dt style="font-family: monospace; font-size: 14px">{{ 'columns={number}' }}</dt>
         <dd style="font-size: 14px; margin-inline-start: 2rem">Max columns (12 by default)</dd>
+        <dt style="font-family: monospace; font-size: 14px">{{ 'itemSize={number}' }}</dt>
+        <dd style="font-size: 14px; margin-inline-start: 2rem">Item size (64 by default)</dd>
         <dt style="font-family: monospace; font-size: 14px">{{ 'anon={0|1}' }}</dt>
         <dd style="font-size: 14px; margin-inline-start: 2rem">Include anonymous users (false by default)</dd>
       </dl>
