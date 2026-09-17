@@ -1,6 +1,6 @@
 module contrib.rocks
 
-go 1.25.12
+go 1.26.0
 
 require (
 	cloud.google.com/go/bigquery v1.77.0
@@ -16,7 +16,7 @@ require (
 	github.com/gin-gonic/gin v1.12.0
 	github.com/google/go-github/v69 v69.2.0
 	go.ajitem.com/zapdriver v1.5.3
-	golang.org/x/exp v0.0.0-20260727155853-b88d891fe743
+	golang.org/x/exp v0.0.0-20260908205506-85c1c2202aba
 	golang.org/x/oauth2 v0.36.0
 	google.golang.org/api v0.287.1
 )
@@ -64,10 +64,10 @@ require (
 	go.opentelemetry.io/otel/metric v1.44.0 // indirect
 	go.opentelemetry.io/otel/sdk/metric v1.44.0 // indirect
 	golang.org/x/arch v0.22.0 // indirect
-	golang.org/x/mod v0.38.0 // indirect
-	golang.org/x/telemetry v0.0.0-20260708182218-49f421fb7959 // indirect
+	golang.org/x/mod v0.41.0 // indirect
+	golang.org/x/telemetry v0.0.0-20260908163034-4bcc4b2ee518 // indirect
 	golang.org/x/time v0.15.0 // indirect
-	golang.org/x/tools v0.48.0 // indirect
+	golang.org/x/tools v0.50.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260630182238-925bb5da69e7 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260630182238-925bb5da69e7 // indirect
 )
@@ -108,11 +108,11 @@ require (
 	go.opentelemetry.io/otel/trace v1.44.0
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.28.0
-	golang.org/x/crypto v0.54.0 // indirect
-	golang.org/x/net v0.57.0 // indirect
-	golang.org/x/sync v0.22.0
-	golang.org/x/sys v0.47.0 // indirect
-	golang.org/x/text v0.40.0 // indirect
+	golang.org/x/crypto v0.57.0 // indirect
+	golang.org/x/net v0.59.0 // indirect
+	golang.org/x/sync v0.23.0
+	golang.org/x/sys v0.48.0 // indirect
+	golang.org/x/text v0.42.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 	google.golang.org/genproto v0.0.0-20260519071638-aa98bba5eb94 // indirect
 	google.golang.org/grpc v1.82.1 // indirect
