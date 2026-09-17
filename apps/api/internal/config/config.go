@@ -28,6 +28,12 @@ type Config struct {
 	googleCredentials *google.Credentials
 }
 
+// String leaves the token out. StartServer prints the Config at startup, and
+// that output is kept in Cloud Logging.
+func (c *Config) String() string {
+	return fmt.Sprintf("{Port:%s Env:%s CacheBucketName:%s ProjectID:%s}", c.Port, c.Env, c.CacheBucketName, c.ProjectID())
+}
+
 func (c *Config) GoogleCredentials() *google.Credentials {
 	return c.googleCredentials
 }
