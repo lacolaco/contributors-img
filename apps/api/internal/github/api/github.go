@@ -118,14 +118,21 @@ func GetErrorType(err error, resp *github.Response) ErrorType {
 	return ErrorTypeUnknown
 }
 
-// IsRetryableError checks if an error is retryable
+// IsRetryableError checks if an error is retryable.
+//
+// Rate limit errors (ErrorTypeRateLimit, ErrorTypeAbuseRateLimit) are
+// deliberately excluded. Retrying them by waiting for the rate limit reset
+// causes every request queued during the outage to fire again at the same
+// instant the limit resets, immediately re-exhausting it — a thundering-herd
+// loop. Returning the error immediately instead is cheap: once go-github's
+// client has seen a RateLimitError it refuses further network calls and
+// returns the same error locally until the reset time passes, so failing
+// fast here does not cost an extra request.
 func IsRetryableError(err error) bool {
 	errorType := GetErrorType(err, nil)
 	return errorType == ErrorTypeTimeout ||
 		errorType == ErrorTypeServer ||
-		errorType == ErrorTypeConnectionRefused ||
-		errorType == ErrorTypeRateLimit ||
-		errorType == ErrorTypeAbuseRateLimit
+		errorType == ErrorTypeConnectionRefused
 }
 
 // IsNotFoundError checks if an error is a not found error
@@ -133,26 +140,18 @@ func IsNotFoundError(err error, resp *github.Response) bool {
 	return GetErrorType(err, resp) == ErrorTypeNotFound
 }
 
-// GetRetryOptions returns standard retry options for GitHub API calls
+// GetRetryOptions returns standard retry options for GitHub API calls.
+//
+// There is no OnRetry hook waiting for a rate limit reset here — see the
+// comment on IsRetryableError. Rate limit errors never reach OnRetry because
+// RetryIf already rejects them; only timeout/5xx/connection-refused errors
+// get the backoff retry.
 func GetRetryOptions(ctx context.Context) []retry.Option {
 	return []retry.Option{
 		retry.Attempts(3),
 		retry.DelayType(retry.BackOffDelay),
 		retry.RetryIf(func(err error) bool {
 			return IsRetryableError(err)
-		}),
-		retry.OnRetry(func(n uint, err error) {
-			var rateLimitErr *github.RateLimitError
-			if errors.As(err, &rateLimitErr) && rateLimitErr.Rate.Reset.Time.After(time.Now()) {
-				waitTime := time.Until(rateLimitErr.Rate.Reset.Time)
-				if waitTime > 0 {
-					select {
-					case <-time.After(waitTime):
-					case <-ctx.Done():
-						return
-					}
-				}
-			}
 		}),
 		retry.Context(ctx),
 	}
@@ -191,5 +190,38 @@ func HandleRepositoryNotFoundError(err error, resp *github.Response, repo *model
 	if err != nil && IsNotFoundError(err, resp) {
 		return retry.Unrecoverable(&model.RepositoryNotFoundError{Repository: repo})
 	}
+	return err
+}
+
+// defaultRateLimitRetryAfter is used when the GitHub response does not carry
+// a usable reset/retry-after value (e.g. the reset time has already passed,
+// or an AbuseRateLimitError with no RetryAfter).
+const defaultRateLimitRetryAfter = 60 * time.Second
+
+// HandleRateLimitError converts a GitHub rate limit error (primary or
+// secondary/abuse) into a model.RateLimitedError and marks it unrecoverable,
+// since IsRetryableError already excludes these — retrying would only wait
+// for the same reset every other queued request is also waiting for. Callers
+// (the HTTP handler) use the domain error to answer with 503 and Retry-After
+// instead of depending on go-github's error types directly.
+func HandleRateLimitError(err error) error {
+	var rateLimitErr *github.RateLimitError
+	if errors.As(err, &rateLimitErr) {
+		retryAfter := time.Until(rateLimitErr.Rate.Reset.Time)
+		if retryAfter <= 0 {
+			retryAfter = defaultRateLimitRetryAfter
+		}
+		return retry.Unrecoverable(&model.RateLimitedError{RetryAfter: retryAfter})
+	}
+
+	var abuseErr *github.AbuseRateLimitError
+	if errors.As(err, &abuseErr) {
+		retryAfter := defaultRateLimitRetryAfter
+		if abuseErr.RetryAfter != nil && *abuseErr.RetryAfter > 0 {
+			retryAfter = *abuseErr.RetryAfter
+		}
+		return retry.Unrecoverable(&model.RateLimitedError{RetryAfter: retryAfter})
+	}
+
 	return err
 }

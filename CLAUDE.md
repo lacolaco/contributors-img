@@ -158,6 +158,14 @@ cache is load-bearing rather than an optimisation. Keep this in mind before addi
 Handlers depend on service *interfaces* declared in the consuming package (`api/image/api.go`), not on the
 concrete service structs. Wiring happens in `internal/service/services.go`.
 
+GitHub API rate limit errors (`*github.RateLimitError` / `*github.AbuseRateLimitError`) are never retried and
+never awaited — `internal/github/api.IsRetryableError` excludes them so queued requests don't all fire again the
+instant the limit resets. They surface to the handler as `*model.RateLimitedError` and the response is 503 with
+`Retry-After` and a matching `Cache-Control: public, max-age=<seconds>`, so that any cache in front of the API
+which honours it stops re-requesting the same repository while the limit is exhausted. Whether camo caches a 503
+has not been verified. `contributors.fetchAllContributors` also caps
+pagination at `maxContributorPages` (10 pages / 1000 contributors) for the same quota-conservation reason.
+
 ### Caching
 
 Both layers share one `AppCache` (GCS bucket in deployed environments, in-memory locally). Keys are built only in

@@ -28,9 +28,11 @@ type ContributorsService interface {
 	// GetContributors returns the repository's contributors.
 	//
 	// When the repository does not exist, the returned error must match
-	// *model.RepositoryNotFoundError under errors.As. Implementations may wrap it —
-	// the production one returns it inside a retry.Error — but must not replace it
-	// with an opaque error: Get maps that case to 404 and everything else to 500.
+	// *model.RepositoryNotFoundError under errors.As. When the GitHub API rate
+	// limit is exhausted, it must match *model.RateLimitedError instead.
+	// Implementations may wrap either — the production one returns them inside
+	// a retry.Error — but must not replace them with an opaque error: Get maps
+	// the first case to 404, the second to 503, and everything else to 500.
 	GetContributors(ctx context.Context, repo *model.Repository) (*model.RepositoryContributors, error)
 }
 
@@ -93,9 +95,14 @@ func (api *API) Get(c *gin.Context) {
 	data, err := api.cs.GetContributors(ctx, params.Repository.Object())
 	// retry-go wraps this in a retry.Error unless LastErrorOnly is set, so match through the wrapper.
 	var notfound *model.RepositoryNotFoundError
+	var rateLimited *model.RateLimitedError
 	if errors.As(err, &notfound) {
 		log.Error(err.Error())
 		c.String(http.StatusNotFound, notfound.Error())
+		return
+	} else if errors.As(err, &rateLimited) {
+		log.Warn(err.Error())
+		sendRateLimited(c, rateLimited)
 		return
 	} else if err != nil {
 		c.Error(err).SetType(gin.ErrorTypePublic)
@@ -110,6 +117,22 @@ func (api *API) Get(c *gin.Context) {
 	}
 	api.us.CollectUsage(ctx, data, params.Via)
 	sendImage(c, image)
+}
+
+// sendRateLimited answers a GitHub API rate limit with 503 rather than 500,
+// and caches the response for the same duration it asks the client to wait.
+// This endpoint is fetched by GitHub's camo proxy on behalf of every README
+// that embeds the image, so a cacheable error gives any cache in front of us
+// the chance to stop re-requesting the same repository while the rate limit
+// is still exhausted.
+func sendRateLimited(c *gin.Context, err *model.RateLimitedError) {
+	retryAfterSeconds := int(err.RetryAfter.Seconds())
+	if retryAfterSeconds <= 0 {
+		retryAfterSeconds = 60
+	}
+	c.Header("retry-after", fmt.Sprintf("%d", retryAfterSeconds))
+	c.Header("cache-control", fmt.Sprintf("public, max-age=%d", retryAfterSeconds))
+	c.String(http.StatusServiceUnavailable, err.Error())
 }
 
 func sendImage(c *gin.Context, image model.FileHandle) {
