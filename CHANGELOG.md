@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.2.0](https://github.com/lacolaco/contributors-img/compare/v1.1.4...v1.2.0) (2026-09-17)
+
+
+### Features
+
+* **api:** authenticate to GitHub as an App installation ([#1720](https://github.com/lacolaco/contributors-img/issues/1720)) ([9462a6d](https://github.com/lacolaco/contributors-img/commit/9462a6d24260bbb3a4bfe096d36f002cb4303371))
+
+
+### Bug Fixes
+
+* **api:** fail fast on GitHub rate limits and cap contributor paging ([#1721](https://github.com/lacolaco/contributors-img/issues/1721)) ([94276a2](https://github.com/lacolaco/contributors-img/commit/94276a298d141ac052ceb5053a2f6933aae7387c))
+* **api:** keep the GitHub token out of the startup config log ([#1722](https://github.com/lacolaco/contributors-img/issues/1722)) ([ab10a7b](https://github.com/lacolaco/contributors-img/commit/ab10a7b105469238c158e652e9a1a51563ad4eba))
+* **deps:** update dependency @hono/node-server to v2.0.10 [security] ([#1700](https://github.com/lacolaco/contributors-img/issues/1700)) ([59ee7eb](https://github.com/lacolaco/contributors-img/commit/59ee7ebc7b89afd410ea37cfb206bec893756305))
+* **deps:** update golang.org/x/exp digest to b88d891 ([#1697](https://github.com/lacolaco/contributors-img/issues/1697)) ([c0526c7](https://github.com/lacolaco/contributors-img/commit/c0526c7cb00cf867131b6ce2067426abaceb0056))
+
 ## [1.1.4](https://github.com/lacolaco/contributors-img/compare/v1.1.3...v1.1.4) (2026-08-03)
 
 
