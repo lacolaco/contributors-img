@@ -16,7 +16,7 @@ in each `apps/*/project.json`.
 ```bash
 pnpm install                      # required before any nx command
 
-pnpm nx serve api                 # Go API on :3333 (needs GITHUB_AUTH_TOKEN, see below)
+pnpm nx serve api                 # Go API on :3333 (needs GitHub auth config, see below)
 pnpm nx serve webapp              # Angular dev server, proxies /image and /api to :3333
 pnpm nx serve worker              # worker via tsx — also defaults to :3333, so set PORT to run it
                                   # alongside the API; its one route needs ADC + BigQuery access
@@ -48,10 +48,19 @@ The `worker` project's `test` and `lint` targets are `echo` stubs — it has no 
 
 ## Local setup for the API
 
-`config.Load` returns an error and the server exits if `GITHUB_AUTH_TOKEN` is unset. `main.go` calls
-`godotenv.Load()` and the `serve` target runs `go run .` with `cwd` = `apps/api`, so put the token in
-`apps/api/.env`. Verify `git check-ignore apps/api/.env` exits 0 before writing a real token into it — this is a
-GitHub credential, and a leaked one has to be revoked, not un-pushed.
+The API authenticates to the GitHub API either as a GitHub App installation or with a static personal access
+token. `config.Load` returns an error and the server exits unless one of the two is fully configured.
+
+- GitHub App: set `GITHUB_APP_ID`, `GITHUB_APP_INSTALLATION_ID` (both integers), and `GITHUB_APP_PRIVATE_KEY` (the
+  PEM-encoded private key, verbatim). All three must be set together — a partial set is treated as a
+  misconfiguration and `Load` errors rather than silently falling back. When all three are set, the App takes
+  priority even if `GITHUB_AUTH_TOKEN` is also set.
+- Static token fallback: if none of the three App variables are set, `GITHUB_AUTH_TOKEN` is used instead. This is
+  the normal path for local development, since registering a GitHub App is unnecessary friction for that.
+
+`main.go` calls `godotenv.Load()` and the `serve` target runs `go run .` with `cwd` = `apps/api`, so put whichever
+variables you use in `apps/api/.env`. Verify `git check-ignore apps/api/.env` exits 0 before writing a real token
+or private key into it — both are GitHub credentials, and a leaked one has to be revoked, not un-pushed.
 
 Without Google credentials **and** `CACHE_STORAGE_BUCKET`, `NewServicePack` falls back to an in-memory cache
 instead of GCS. That is the normal local configuration.

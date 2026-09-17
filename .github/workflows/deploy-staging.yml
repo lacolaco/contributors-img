@@ -42,13 +42,19 @@ jobs:
         id: 'build-api'
         run: echo "::set-output name=image::$(ko build ./apps/api)"
       - name: Deploy to Cloud Run (api)
+        env:
+          GH_APP_ID: ${{ secrets.GH_APP_ID }}
+          GH_APP_INSTALLATION_ID: ${{ secrets.GH_APP_INSTALLATION_ID }}
+          GH_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
         run: |
           gcloud --quiet beta run deploy ${{ vars.CLOUD_RUN_SERVICE_NAME_API }} \
           --image ${{ steps.build-api.outputs.image }} \
           --labels environment=staging \
           --service-account ${{ vars.CLOUD_RUN_SERVICE_ACCOUNT }} \
           --execution-environment gen1 --region us-central1 --platform managed --memory 128Mi --allow-unauthenticated \
-          --set-env-vars GITHUB_AUTH_TOKEN="${{ secrets.GH_AUTH_TOKEN }}" \
+          --set-env-vars "^@^GITHUB_APP_ID=${GH_APP_ID}" \
+          --set-env-vars "^@^GITHUB_APP_INSTALLATION_ID=${GH_APP_INSTALLATION_ID}" \
+          --set-env-vars "^@^GITHUB_APP_PRIVATE_KEY=${GH_APP_PRIVATE_KEY}" \
           --set-env-vars CACHE_STORAGE_BUCKET="${{ vars.APP_CACHE_BUCKET }}" \
           --set-env-vars APP_ENV="staging"
 

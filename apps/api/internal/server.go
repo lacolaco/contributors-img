@@ -30,7 +30,10 @@ func StartServer() error {
 	closeTracer := tracing.InitTraceProvider(cfg)
 	defer closeTracer()
 
-	sp := service.NewServicePack(cfg)
+	sp, err := service.NewServicePack(cfg)
+	if err != nil {
+		return fmt.Errorf("failed to create service pack: %s", err.Error())
+	}
 
 	r := gin.New()
 	r.Use(gin.Recovery())
