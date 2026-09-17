@@ -11,6 +11,7 @@ require (
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b
 	github.com/andybalholm/brotli v1.1.1
 	github.com/avast/retry-go/v4 v4.6.1
+	github.com/bradleyfalzon/ghinstallation/v2 v2.19.0
 	github.com/bradleyjkemp/cupaloy v2.3.0+incompatible
 	github.com/gin-gonic/gin v1.12.0
 	github.com/google/go-github/v69 v69.2.0
@@ -42,7 +43,9 @@ require (
 	github.com/gabriel-vasile/mimetype v1.4.12 // indirect
 	github.com/go-jose/go-jose/v4 v4.1.4 // indirect
 	github.com/goccy/go-yaml v1.19.2 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
 	github.com/google/flatbuffers v23.5.26+incompatible // indirect
+	github.com/google/go-github/v88 v88.0.0 // indirect
 	github.com/google/s2a-go v0.1.9 // indirect
 	github.com/klauspost/compress v1.17.6 // indirect
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
@@ -84,7 +87,7 @@ require (
 	github.com/go-playground/validator/v10 v10.30.1 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
-	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/google/go-querystring v1.2.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.17 // indirect
 	github.com/googleapis/gax-go/v2 v2.23.0 // indirect

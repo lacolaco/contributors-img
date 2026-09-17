@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"time"
 )
 
 // 'owner/repo'
@@ -30,6 +31,17 @@ type RepositoryNotFoundError struct {
 
 func (e *RepositoryNotFoundError) Error() string {
 	return "Repository not found: " + e.Repository.String()
+}
+
+// RateLimitedError is returned when the GitHub API rate limit is exhausted.
+// RetryAfter is how long the caller should wait before the limit is expected
+// to reset; callers use it to size a Retry-After / Cache-Control response.
+type RateLimitedError struct {
+	RetryAfter time.Duration
+}
+
+func (e *RateLimitedError) Error() string {
+	return fmt.Sprintf("GitHub API rate limit exceeded, retry after %s", e.RetryAfter)
 }
 
 func ValidateRepositoryName(s string) error {

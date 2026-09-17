@@ -3,10 +3,12 @@ package contributors
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -108,6 +110,44 @@ func Test_fetchRepositoryContributors(t *testing.T) {
 			t.Fatalf("expected RepositoryNotFoundError, got %T: %v", err, err)
 		}
 	})
+}
+
+// fetchAllContributors must stop after maxContributorPages even when the
+// server keeps advertising a NextPage, since each contributor costs one
+// avatar-fetch request at render time and an unbounded loop only burns
+// GitHub API quota for output nobody can render.
+func Test_fetchAllContributors_PageCap(t *testing.T) {
+	requestedPages := 0
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/repos/foo/bar/contributors" {
+			t.Fatalf("unexpected request to %s", r.URL.Path)
+		}
+		requestedPages++
+		page, err := strconv.Atoi(r.URL.Query().Get("page"))
+		if err != nil {
+			page = 1
+		}
+		w.Header().Set("Content-Type", "application/json")
+		// Always advertise a next page, as an endless repository would.
+		w.Header().Set("Link", fmt.Sprintf(`<https://example.com/repos/foo/bar/contributors?page=%d>; rel="next"`, page+1))
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(fmt.Sprintf(`[{"id": %d, "login": "user%d"}]`, page, page)))
+	})
+
+	ghclient, _ := setup(t, handler)
+	repository := &model.Repository{Owner: "foo", RepoName: "bar"}
+
+	contributors, err := fetchAllContributors(ghclient, context.Background(), repository)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if requestedPages != maxContributorPages {
+		t.Fatalf("expected %d requests, got %d", maxContributorPages, requestedPages)
+	}
+	if len(contributors) != maxContributorPages {
+		t.Fatalf("expected %d contributors, got %d", maxContributorPages, len(contributors))
+	}
 }
 
 func Test_buildRepositoryContributors(t *testing.T) {
@@ -336,14 +376,16 @@ func Test_isRetryableError(t *testing.T) {
 			expected: true,
 		},
 		{
+			// Rate limit errors are deliberately not retried — see the
+			// comment on api.IsRetryableError.
 			name:     "rate limit error",
 			err:      &github.RateLimitError{},
-			expected: true,
+			expected: false,
 		},
 		{
 			name:     "abuse rate limit error",
 			err:      &github.AbuseRateLimitError{},
-			expected: true,
+			expected: false,
 		},
 		{
 			name:     "not found error",
