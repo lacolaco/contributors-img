@@ -11,7 +11,7 @@ import (
 )
 
 // GitHubAppConfig holds the credentials needed to authenticate as a GitHub App
-// installation. All three fields must be set together; see resolveGitHubAuth.
+// installation. All three fields must be set together; see resolveGitHubApp.
 type GitHubAppConfig struct {
 	AppID          int64
 	InstallationID int64

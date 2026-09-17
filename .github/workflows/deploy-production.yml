@@ -67,6 +67,10 @@ jobs:
           GH_APP_INSTALLATION_ID: ${{ secrets.GH_APP_INSTALLATION_ID }}
           GH_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
         run: |
+          # gcloud accepts empty values, and the container would then exit at startup.
+          for v in GH_APP_ID GH_APP_INSTALLATION_ID GH_APP_PRIVATE_KEY; do
+            [ -n "${!v}" ] || { echo "::error::secret $v is not set"; exit 1; }
+          done
           gcloud --quiet beta run deploy ${{ vars.CLOUD_RUN_SERVICE_NAME_API }} \
           --image ${{ steps.build-api.outputs.image }} \
           --labels environment=production \

@@ -1,7 +1,9 @@
 package config
 
 import (
+	"fmt"
 	"os"
+	"strings"
 	"testing"
 
 	"contrib.rocks/apps/api/go/env"
@@ -196,4 +198,22 @@ func TestConfig_Load(t *testing.T) {
 			t.Fatalf("Expected project ID to be empty, got %s", config.ProjectID())
 		}
 	})
+}
+
+// StartServer prints the loaded Config with %+v at startup, which ends up in
+// Cloud Logging. The private key must never appear in that output.
+func TestConfig_FormatDoesNotLeakPrivateKey(t *testing.T) {
+	prepareEnv(t)
+	os.Setenv("GITHUB_APP_ID", "1")
+	os.Setenv("GITHUB_APP_INSTALLATION_ID", "2")
+	os.Setenv("GITHUB_APP_PRIVATE_KEY", "super-secret-pem")
+	config, err := Load()
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, format := range []string{"%v", "%+v", "%#v"} {
+		if out := fmt.Sprintf(format, config); strings.Contains(out, "super-secret-pem") {
+			t.Fatalf("%s leaks the private key: %s", format, out)
+		}
+	}
 }
