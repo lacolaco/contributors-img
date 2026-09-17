@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 
 	"contrib.rocks/apps/api/go/model"
 	"contrib.rocks/apps/api/go/renderer"
@@ -101,6 +102,45 @@ func Test_Get_RepositoryNotFound(t *testing.T) {
 			}
 			if !strings.Contains(w.Body.String(), tt.body) {
 				t.Fatalf("body = %q, want it to contain %q", w.Body.String(), tt.body)
+			}
+		})
+	}
+}
+
+// A rate-limited GitHub API must surface as 503 with Retry-After and a
+// matching Cache-Control, so that GitHub's camo proxy caches the failure
+// instead of re-requesting the same repository while the limit is still
+// exhausted. Like the not-found case, the error does not arrive bare: it is
+// wrapped the same way production wraps it, through retry.Do.
+func Test_Get_RateLimited(t *testing.T) {
+	rateLimited := &model.RateLimitedError{RetryAfter: 30 * time.Second}
+	wrapped := retry.Do(func() error { return retry.Unrecoverable(rateLimited) })
+	if wrapped == nil {
+		t.Fatal("retry.Do returned nil, expected the error it was given")
+	}
+
+	tests := []struct {
+		name string
+		err  error
+	}{
+		{"bare", rateLimited},
+		{"wrapped by retry.Do", wrapped},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			w := httptest.NewRecorder()
+			req, _ := http.NewRequest(http.MethodGet, "/image?repo=lacolaco/does-not-exist", nil)
+			newTestRouter(tt.err).ServeHTTP(w, req)
+
+			if w.Code != http.StatusServiceUnavailable {
+				t.Fatalf("status = %d, want %d (body: %s)", w.Code, http.StatusServiceUnavailable, w.Body.String())
+			}
+			if got := w.Header().Get("Retry-After"); got != "30" {
+				t.Fatalf("Retry-After = %q, want %q", got, "30")
+			}
+			if got := w.Header().Get("Cache-Control"); got != "public, max-age=30" {
+				t.Fatalf("Cache-Control = %q, want %q", got, "public, max-age=30")
 			}
 		})
 	}

@@ -8,6 +8,7 @@ import (
 
 	"contrib.rocks/apps/api/go/model"
 	"contrib.rocks/apps/api/internal/github/api"
+	"contrib.rocks/apps/api/internal/logger"
 	"contrib.rocks/apps/api/internal/tracing"
 	"github.com/google/go-github/v69/github"
 	"golang.org/x/sync/errgroup"
@@ -45,7 +46,10 @@ func fetchRepositoryContributors(client *github.Client, ctx context.Context, rep
 // リポジトリ情報を取得
 func fetchRepository(client *github.Client, ctx context.Context, repo *model.Repository) (*github.Repository, error) {
 	errorHandler := func(err error, resp *github.Response) error {
-		return api.HandleRepositoryNotFoundError(err, resp, repo)
+		if err := api.HandleRepositoryNotFoundError(err, resp, repo); err != nil {
+			return api.HandleRateLimitError(err)
+		}
+		return nil
 	}
 
 	repository, _, err := api.Call(ctx, func() (*github.Repository, *github.Response, error) {
@@ -55,6 +59,14 @@ func fetchRepository(client *github.Client, ctx context.Context, repo *model.Rep
 	return repository, err
 }
 
+// maxContributorPages caps how many pages fetchAllContributors will follow.
+// Each avatar is fetched and inlined one HTTP request at a time when the
+// image is rendered, so a repository with more than
+// maxContributorPages*PerPage contributors is impractical to render anyway —
+// letting the loop run unbounded only burns GitHub API quota for output that
+// is never usable.
+const maxContributorPages = 10
+
 // すべてのコントリビューター情報をページングしながら取得
 func fetchAllContributors(client *github.Client, ctx context.Context, repo *model.Repository) ([]*github.Contributor, error) {
 	var allContributors []*github.Contributor
@@ -63,9 +75,12 @@ func fetchAllContributors(client *github.Client, ctx context.Context, repo *mode
 		ListOptions: github.ListOptions{PerPage: 100},
 	}
 
-	for {
+	for page := 1; page <= maxContributorPages; page++ {
 		errorHandler := func(err error, resp *github.Response) error {
-			return api.HandleRepositoryNotFoundError(err, resp, repo)
+			if err := api.HandleRepositoryNotFoundError(err, resp, repo); err != nil {
+				return api.HandleRateLimitError(err)
+			}
+			return nil
 		}
 
 		contributors, resp, err := api.Call(ctx, func() ([]*github.Contributor, *github.Response, error) {
@@ -80,6 +95,12 @@ func fetchAllContributors(client *github.Client, ctx context.Context, repo *mode
 
 		// レスポンスからページング情報を取得
 		if resp == nil || resp.NextPage == 0 {
+			break
+		}
+		if page == maxContributorPages {
+			logger.LoggerFromContext(ctx).Warn(fmt.Sprintf(
+				"fetchAllContributors: reached the %d-page cap for %s, remaining contributors are dropped",
+				maxContributorPages, repo.String()))
 			break
 		}
 		options.Page = resp.NextPage
