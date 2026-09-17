@@ -60,7 +60,7 @@
     "@types/jasmine": "5.1.15",
     "@types/node": "22.20.1",
     "angular-eslint": "22.1.0",
-    "esbuild": "0.25.6",
+    "esbuild": "0.28.2",
     "eslint": "^9.28.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.31.0",
