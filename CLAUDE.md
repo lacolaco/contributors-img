@@ -200,6 +200,42 @@ the one `contributors-img` Firebase project; they differ in `firestoreRootCollec
 Environment separation here is by collection, not by project. `firebase/firestore.rules` makes all three
 collections world-readable and client-write-denied.
 
+### Usage log datasets (US and Tokyo)
+
+The `repository-usage` log group is exported to BigQuery twice. Both sinks live in the `contributors-img` project,
+use the same filter, and write date-sharded tables (`run_googleapis_com_stderr_YYYYMMDD`, no partitioned tables):
+
+```
+logName="projects/contributors-img/logs/repository-usage"
+OR labels.groupId="repository-usage"
+```
+
+| Sink                     | Dataset                                       | Location          | Purpose                                                                 |
+| ------------------------ | --------------------------------------------- | ----------------- | ----------------------------------------------------------------------- |
+| `repository-usage`       | `repository_usage`                            | `US`              | Original export. The worker's `weekly_repository_usage` reads this one. |
+| `repository-usage-tokyo` | `repository_usage_tokyo` (created 2026-10-02) | `asia-northeast1` | Same logs, joinable with other Tokyo datasets in one query.             |
+
+BigQuery cannot change a dataset's location, so the Tokyo dataset is a second export rather than a move. Leave the
+US dataset, its sink, and the worker's reference alone; nothing is migrated off them. The `request_log` dataset
+and `req2bq` sink are unrelated.
+
+The Tokyo sink's writer identity (`service-484218711641@gcp-sa-logging.iam.gserviceaccount.com`) holds `WRITER` on
+`repository_usage_tokyo`. It was created at 2026-10-02T02:55:49Z, and its first row landed at 02:57:54Z, so the
+Tokyo shard for 20261002 only holds rows from then on; every earlier shard was copied from the US dataset.
+
+History was copied with cross-region `bq cp`, one job per shard, not with a BigQuery Data Transfer
+`cross_region_copy` config: `bq mk --transfer_config` stops at an interactive OAuth consent (`version_info`), and
+the REST API requires either `version_info` or `service_account_name`. `-n` makes the copy skip a shard that already exists, so it
+cannot overwrite what the sink is writing:
+
+```bash
+yes y | bq cp -n --project_id=contributors-img \
+  contributors-img:repository_usage.<shard> contributors-img:repository_usage_tokyo.<shard>
+```
+
+Compare shards by row count from `__TABLES__` with `--maximum_bytes_billed`, per location (`--location=US` and
+`--location=asia-northeast1`). Views such as `weekly_repository_usage` are not tables and are not copied.
+
 ## Deployment
 
 - Push to `main` → `deploy-staging.yml` deploys all three to staging.
