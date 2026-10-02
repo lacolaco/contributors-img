@@ -225,7 +225,7 @@ Tokyo shard for 20261002 only holds rows from then on; every earlier shard was c
 
 History was copied with cross-region `bq cp`, one job per shard, not with a BigQuery Data Transfer
 `cross_region_copy` config: `bq mk --transfer_config` stops at an interactive OAuth consent (`version_info`), and
-the REST API refuses a user credential without it. `-n` makes the copy skip a shard that already exists, so it
+the REST API requires either `version_info` or `service_account_name`. `-n` makes the copy skip a shard that already exists, so it
 cannot overwrite what the sink is writing:
 
 ```bash
