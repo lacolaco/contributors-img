@@ -211,11 +211,12 @@ logName="projects/contributors-img/logs/repository-usage"
 OR labels.groupId="repository-usage"
 ```
 
-The same dataset holds the legacy shards `repository_usage_YYYYMMDD` (2021-10-17 to 2022-08-14) and the worker's
-`weekly_repository_usage` view. The worker's BigQuery client sets no job location; BigQuery infers
-`asia-northeast1` from the referenced dataset. The sink's writer identity
-(`service-484218711641@gcp-sa-logging.iam.gserviceaccount.com`) holds `WRITER` on the dataset. The `request_log`
-dataset and `req2bq` sink are unrelated.
+The same dataset holds the legacy shards `repository_usage_YYYYMMDD` and the worker's `weekly_repository_usage` view.
+Legacy rows run from 2021-10-17 to 2022-08-13 10:43 UTC; the `20220814` shard exists but is empty. The current format
+starts at 2022-08-13 05:23 UTC, so the two overlap for about five hours on 2022-08-13. The worker's BigQuery client sets
+no job location; BigQuery infers `asia-northeast1` from the referenced dataset. The sink's writer identity
+(`service-484218711641@gcp-sa-logging.iam.gserviceaccount.com`) holds `WRITER` on the dataset. The `request_log` dataset
+and `req2bq` sink are unrelated.
 
 Until 2026-10-03 `repository_usage` was a `US` dataset. BigQuery cannot change a dataset's location, so the move
 went through a temporary second export, `repository_usage_tokyo`: the US dataset and its sink were deleted,
