@@ -211,7 +211,7 @@ logName="projects/contributors-img/logs/repository-usage"
 OR labels.groupId="repository-usage"
 ```
 
-The same dataset holds the legacy shards `repository_usage_YYYYMMDD` (2021-10-17 to 2022-08-13) and the worker's
+The same dataset holds the legacy shards `repository_usage_YYYYMMDD` (2021-10-17 to 2022-08-14) and the worker's
 `weekly_repository_usage` view. The worker's BigQuery client sets no job location; BigQuery infers
 `asia-northeast1` from the referenced dataset. The sink's writer identity
 (`service-484218711641@gcp-sa-logging.iam.gserviceaccount.com`) holds `WRITER` on the dataset. The `request_log`
