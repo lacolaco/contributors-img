@@ -64,9 +64,8 @@ func (s *Service) RenderImage(c context.Context, data *model.RepositoryContribut
 
 	image := renderer.NewRenderer(options).Render(data)
 
-	err = s.cache.Save(c, cacheKey, image.Bytes(), image.ContentType())
-	if err != nil {
-		return nil, err
+	if err := s.cache.Save(ctx, cacheKey, image.Bytes(), image.ContentType()); err != nil {
+		cacheutil.LogCacheSaveFailure(ctx, "image", cacheKey, err)
 	}
 	return image, nil
 }
