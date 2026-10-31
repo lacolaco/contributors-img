@@ -80,15 +80,13 @@ regardless. `nx migrate` reads a package's `packageJsonUpdates` ladder only from
 `package.json`; if `@nx/angular` is missing, none of its Angular-version-lockstep entries run, and `@angular/material`,
 `@angular/cdk`, `zone.js`, and `angular-eslint` silently stop tracking `@angular/core`. Re-adding it after the fact
 with `nx add` does not backfill the skipped ladder — it must already be declared, at the version the workspace is
-actually on, before `nx migrate` runs. The price of keeping it is large and moves with every Nx bump.
-`@nx/angular` depends on `@nx/rspack`, which drags in `@rspack/binding-*` for **every** published target rather
-than the host's alone: at Nx 23.1.1 that is 12 platforms (`darwin-{arm64,x64}`, `linux-{x64,arm64}-{gnu,musl}`,
-`linux-riscv64-{gnu,musl}`, `win32-{x64,ia32,arm64}-msvc`, `wasm32-wasi`), and two rspack lines **across a major
-boundary** (`1.7.12` and `2.1.7`) coexist, so it lands as 22 entries. Count those out of `pnpm-lock.yaml`, not out
-of `node_modules/.pnpm`, which keeps entries from earlier installs and inflates both the count and any `du`. The
-binaries run to hundreds of megabytes, but a `du` total is the *logical* size — pnpm clones from the global store,
-so it overstates what a removal would reclaim. Before quoting any number in a decision about dropping the package,
-measure the **difference** between installs with and without the `package.json` line.
+actually on, before `nx migrate` runs. Its weight depends on the Nx version, so measure it rather than quoting an
+old number. At Nx 23.1.1 it depended on `@nx/rspack`, which dragged in `@rspack/binding-*` for every published
+target; at 23.2.1 `@nx/rspack`, `@nx/webpack` and `@nx/module-federation` are only optional peer dependencies of
+`@nx/angular`, and `pnpm-lock.yaml` holds no `@rspack/binding-*` entry. Count out of `pnpm-lock.yaml`, not out of
+`node_modules/.pnpm`, which keeps entries from earlier installs. A `du` total is the *logical* size — pnpm clones from
+the global store, so it overstates what a removal would reclaim. Before quoting any number in a decision about dropping
+the package, measure the **difference** between installs with and without the `package.json` line.
 
 `istanbul-lib-instrument` is the same shape for a different reason. Nothing here imports it and no target sets
 `codeCoverage`, but `@angular/build` demoted it from a plain dependency in v21 — where it was installed
@@ -100,7 +98,7 @@ must drop both.
 
 TypeScript's version is a separate trap: it looks unmanaged, but `@nx/workspace`'s own `packageJsonUpdates` owns
 it — until it doesn't. Read the chain out of `node_modules/@nx/workspace/migrations.json` (`packageJsonUpdates`,
-package `typescript`) first. At Nx 23.1.1 it is still two rungs — `21.2.0` → `~5.8.2` and `21.5.0` → `~5.9.2` —
+package `typescript`) first. At Nx 23.2.1 it is still two rungs — `21.2.0` → `~5.8.2` and `21.5.0` → `~5.9.2` —
 and two independent filters decide whether either fires.
 
 - **The migration window**, applied first: `filterPackageJsonUpdates` (`migrate.js:313`) drops any rung whose own
