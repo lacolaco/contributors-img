@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.2.1](https://github.com/lacolaco/contributors-img/compare/v1.2.0...v1.2.1) (2026-10-31)
+
+
+### Bug Fixes
+
+* **deps:** update Angular packages with security fixes ([#1737](https://github.com/lacolaco/contributors-img/issues/1737)) ([429fdc6](https://github.com/lacolaco/contributors-img/commit/429fdc640f54247a716b65f2386c3d81f7534e02))
+* **deps:** update dependency hono to v4.13.11 [security] ([#1660](https://github.com/lacolaco/contributors-img/issues/1660)) ([801ed33](https://github.com/lacolaco/contributors-img/commit/801ed338b228dc6baca87e565428254e066bed4b))
+* **deps:** update Go modules with security fixes ([#1735](https://github.com/lacolaco/contributors-img/issues/1735)) ([164d0b7](https://github.com/lacolaco/contributors-img/commit/164d0b75a0c6b2fdbe28918fc0a5bf087981ca28))
+* **deps:** update transitive dependencies with security fixes ([#1738](https://github.com/lacolaco/contributors-img/issues/1738)) ([669250a](https://github.com/lacolaco/contributors-img/commit/669250a80a5d35f68e7656f57f2dcfa7cf7f99ff))
+
 ## [1.2.0](https://github.com/lacolaco/contributors-img/compare/v1.1.4...v1.2.0) (2026-09-17)
 
 
