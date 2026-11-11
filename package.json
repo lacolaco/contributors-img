@@ -63,7 +63,7 @@
     "esbuild": "0.25.6",
     "eslint": "^9.28.0",
     "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-import": "2.32.0",
     "eslint-plugin-jsdoc": "50.6.9",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "firebase-tools": "14.2.0",
